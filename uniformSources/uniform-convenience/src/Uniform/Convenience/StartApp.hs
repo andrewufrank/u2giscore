@@ -9,12 +9,13 @@
 
 module Uniform.Convenience.StartApp(
     module Uniform.Convenience.StartApp
-    , module Uniform.Error
+    -- , module UniformBase
 --    , module Uniform.Strings
         )   where
 
 
-import           Uniform.Error
+import UniformBase
+-- import           Uniform.Error
 --import           Uniform.Strings
 
 
