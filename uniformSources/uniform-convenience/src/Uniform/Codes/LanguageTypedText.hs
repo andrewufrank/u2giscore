@@ -35,7 +35,7 @@ import UniformBase
 --            , RDFsubj, RDFproperty, Triple (..), mkTripleLang3, giveCode3)
 -- import Data.Aeson (ToJSON (..), (.=), object)
 import Uniform.Codes.LanguageCode
--- import Uniform.Json 
+import Uniform.Json 
 
 
 

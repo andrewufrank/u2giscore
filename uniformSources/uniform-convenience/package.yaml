@@ -29,7 +29,7 @@ dependencies:
 # - uniform-algebras
 # - uniform-fileio # for csv, which belongs someplace else
 # - uniform-time
-# - uniform-json  # another circle
+- uniform-json  # another circle
 # - uniform-time 
 - HTF
 # - test-invariant

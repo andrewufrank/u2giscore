@@ -34,6 +34,7 @@ module Uniform.Codes.LanguageCode (module Uniform.Codes.LanguageCode
 
 -- import           Safe
 import UniformBase
+import Uniform.Json
 -- import Uniform.FileIO
 -- import Uniform.Error  hiding ((</>), (<.>)) -- to allow export
 import Uniform.Test.Utils
