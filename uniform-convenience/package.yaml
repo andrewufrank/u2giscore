@@ -1,5 +1,5 @@
 name:         uniform-convenience
-version:      0.0.9.6
+version:      0.0.9.7
 license:      GPL
 license-file: GPL_3
 maintainer:   Andrew U. Frank <andrewufrank@gmail.com>
@@ -11,6 +11,7 @@ description: some convenience functions, which are not good algebras
     and debatable
     exports in multiple modules
     0.0.9.6 for cabal 8.10.4 may 2021
+    0.0.9.7 for   uniformBase-0.1.1
 
 extra-source-files:
 - README.md

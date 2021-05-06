@@ -4,12 +4,12 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 539665892556d39fddb0148bbbeab5737e81f7acb34383a55435506d8e0af2ec
+-- hash: 71c297b98356923f80d2cf0f0d5927b5345d697e580a13288ed05a03efe8fadc
 
 name:           uniform-convenience
-version:        0.0.9.6
+version:        0.0.9.7
 synopsis:       convenience functions
-description:    some convenience functions, which are not good algebras and debatable exports in multiple modules 0.0.9.6 for cabal 8.10.4 may 2021
+description:    some convenience functions, which are not good algebras and debatable exports in multiple modules 0.0.9.6 for cabal 8.10.4 may 2021 0.0.9.7 for   uniformBase-0.1.1
 category:       Uniform
 author:         Andrew Frank
 maintainer:     Andrew U. Frank <andrewufrank@gmail.com>
