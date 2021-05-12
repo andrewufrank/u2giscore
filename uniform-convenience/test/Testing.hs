@@ -11,17 +11,7 @@ module Main     where      -- must have Main (main) or Main where
 --import System.Exit
 
 import           Test.Framework
---import {-@ HTF_TESTS @-} ClosedClass
---import {-@ HTF_TESTS @-} OpenClass
---import {-@ HTF_TESTS @-} Lib.Tutorial1_test
---import {-@ HTF_TESTS @-} Lib.BlogExample_test
---import {-@ HTF_TESTS @-} Lib.ParseJsonCoreNLP_test
---import {-@ HTF_TESTS @-} Lib.CorefOnlyEdited_test
---import {-@ HTF_TESTS @-} Lib.CorefOnly_test
---import {-@ HTF_TESTS @-} Lib.Doc2ToDoc0_test
---import {-@ HTF_TESTS @-} Lib.ProduceNLPtriples2_test
--- import {-@ HTF_TESTS @-} Uniform.Test.TestHarness_test
-import {-@ HTF_TESTS @-} Uniform.Codes.LanguageCode_test
+-- import {-@ HTF_TESTS @-} Uniform.Codes.LanguageCode_test
 import {-@ HTF_TESTS @-}Uniform.Codes.LanguageTypedText_test
 -- import {-@ HTF_TESTS @-}Uniform.Convenience.Caps4german_test
 -- main =  do  -- the local tests only

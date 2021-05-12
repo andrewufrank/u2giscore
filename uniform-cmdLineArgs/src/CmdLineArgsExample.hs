@@ -1,20 +1,16 @@
-----------------------------------------------------------------------
+-------------------------------------------------------------------
 --
 -- Module      :   an example for a command line argument setup 
 --                  is a Main and starts with convenience
 -- for information see https://github.com/pcapriotti/optparse-applicative
 -- change the getAttr function to return Text
------------------------------------------------------------------------------
--- {-# OPTIONS_GHC -F -pgmF htfpp #-}
-
+--------------------------------------------------------------------
     {-# LANGUAGE
     MultiParamTypeClasses
     , TypeSynonymInstances
---    , FunctionalDependencies
     , FlexibleInstances
     , FlexibleContexts
     , ScopedTypeVariables
---    , UndecidableInstances
     , OverloadedStrings 
     , TypeFamilies
 
@@ -22,35 +18,15 @@
 
 module CmdLineArgsExample where
 
-
-
 import Test.Framework ( makeTestSuite, TestSuite )
 import UniformBase
--- import Uniform.Strings
---     ( s2t, t2s, putIOwords, showT, unlinesT, Text, Zeros(isZero) )
--- import Uniform.Zero ( Zeros(isZero) )
--- import Uniform.Error
--- import Uniform.StartApp
--- import Uniform.FileIO
---     ( homeDir2,
---       makeRelFileT,
---       Path,
---       Abs,
---       Dir,
---       File,
---       Filenames3(addFileName) )
--- --  import Uniform.Convenience.StartApp ( startProg )
--- import           Data.Semigroup                 ( (<>) )
--- import Options.Applicative.Builder
+import UniformBase
 import Uniform.CmdLineArgs  
--- import Options.Applicative ( Parser, execParser, helper )
 
--- programName = "CmdLineArgsExample.hs"
 progTitle = "example for command line argument processing" :: Text
 
 main :: IO ()
 main = startProg
---   programName
   progTitle
   (do
     inp :: Inputs <- parseArgs2input
@@ -63,6 +39,7 @@ main = startProg
       "dir relative to home"
     mainExample inp
   )
+  
 -- | the command line arguments raw 
 --  number of args must correspond in order and number with the 
 --  command arguments described in the parser
@@ -100,7 +77,7 @@ cmdArgs =
 
 -- | the arguments in the program usable format
 data Inputs = Inputs
-        { inFile1 :: Path Abs File
+        { inFile1 :: FilePath 
         , flag1 :: Text
         , switch1 :: Bool
         } deriving (Show, Read, Eq)
@@ -129,7 +106,7 @@ parseArgs2input filenameDefault t1 t2 = do
         then addFileName homeDir (makeRelFileT filenameDefault)
         else addFileName homeDir (makeRelFileT inFile1) :: Path Abs File
 
-  let inputs1 = Inputs { inFile1 = filename1
+  let inputs1 = Inputs { inFile1 = toFilePath filename1
                        , flag1   = s2t $ argFlag1 args1
                        , switch1 = argSwitch1 args1
                        }

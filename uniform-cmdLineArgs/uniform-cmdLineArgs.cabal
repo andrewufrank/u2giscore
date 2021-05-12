@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 04e8830a758f5225c371dfff0b20881d7224715fb1ea969f8b36e1153ece8334
+-- hash: 0fde78340e8c24d636734f8374075fb217784667e9d493716b4fb39a76688c71
 
 name:           uniform-cmdLineArgs
 version:        0.0.1.0
@@ -34,10 +34,6 @@ library
     , base >=4.7 && <5
     , monads-tf
     , optparse-applicative
-    , uniform-algebras
-    , uniform-error
-    , uniform-fileio
-    , uniform-strings
     , uniformBase
   default-language: Haskell2010
 
@@ -59,7 +55,6 @@ test-suite strings-test
     , test-invariant
     , uniform-algebras
     , uniform-cmdLineArgs
-    , uniform-error
     , uniform-fileio
     , uniform-strings
     , uniformBase

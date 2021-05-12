@@ -24,16 +24,9 @@ dependencies:
 - text
 - csv
 - iso639
-- uniformBase
-# - uniform-strings
-# - uniform-error
-# - uniform-algebras
-# - uniform-fileio # for csv, which belongs someplace else
-# - uniform-time
-- uniform-json  # another circle
-# - uniform-time 
+- uniformBase ==0.1.1
+- uniform-json   
 - HTF
-# - test-invariant
 
 library:
   source-dirs: src
@@ -63,6 +56,6 @@ tests:
     - HTF
     - test-invariant
     - quickcheck-text
-    # - uniform-strings
-    # - uniform-fileio
-    # - uniform-convenience
+    - uniform-convenience
+    
+

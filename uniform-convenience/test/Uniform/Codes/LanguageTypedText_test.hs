@@ -22,6 +22,7 @@ module Uniform.Codes.LanguageTypedText_test where
 import           Test.Framework
 import Uniform.Codes.LanguageCode 
 import Uniform.Codes.LanguageTypedText
+import UniformBase
 
 test_iszero = assertBool (isZero (zero :: LCtext ))
 
