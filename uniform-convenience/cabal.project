@@ -3,7 +3,7 @@ packages:
     ../../uBase/uniformBase/*.cabal
     --  ../../uBase/uniform-algebras/*.cabal
     --  ../../uBase/uniform-error/*.cabal
-    --  ../../uBase/uniform-fileio/*.cabal
+    ../../uBase/uniform-fileio/*.cabal
     --  ../../u4blog/uniformSources/uniform-json/*.cabal
     --  ../../uBase/uniform-strings/*.cabal
     --  ../../uBase/uniform-time/*.cabal

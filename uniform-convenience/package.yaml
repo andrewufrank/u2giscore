@@ -24,38 +24,40 @@ dependencies:
 # - text
 - csv
 - iso639
-- uniformBase  
+- uniformBase  ==0.1.1.1
+- uniform-fileio
 - uniform-json   
 - HTF # for the construction of TestHarness.hs
 
-library:
-  source-dirs: src
+# library:
+#   source-dirs: src
 
-# this is only a library, no directly executable
-# executables:
-#   primo-exe:
-#     main:                Testing.hs
-#     source-dirs:         app
-#     ghc-options:
-#     - -threaded
-#     - -rtsopts
-#     - -with-rtsopts=-N
-#     dependencies:
-#     - uniform-algebras
 
-tests:
-  convenience-test:
-    main:                Testing.hs
-    source-dirs:         test
+executables:
+  harness-exe:
+    main:                Main.hs
+    source-dirs:         app
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
     - uniformBase
-    - HTF
-    - test-invariant
-    - quickcheck-text
-    - uniform-convenience
+    # - uniform-convenience
+
+# tests:
+#   convenience-test:
+#     main:                Testing.hs
+#     source-dirs:         test
+#     ghc-options:
+#     - -threaded
+#     - -rtsopts
+#     - -with-rtsopts=-N
+#     dependencies:
+#     - uniformBase
+#     - HTF
+#     - test-invariant
+#     - quickcheck-text
+#     - uniform-convenience
     
 
