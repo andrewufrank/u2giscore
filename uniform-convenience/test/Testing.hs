@@ -1,8 +1,8 @@
------------------------------------------------------------------------------
+----------------------------------------------------------------------
 --
 -- Module      :   a test for HTF framework
 -- insert {-@ HTF_TESTS @-} for each import
------------------------------------------------------------------------------
+----------------------------------------------------------------------
 {-# OPTIONS_GHC -F -pgmF htfpp #-}
 
 module Main     where      -- must have Main (main) or Main where
@@ -11,7 +11,7 @@ module Main     where      -- must have Main (main) or Main where
 --import System.Exit
 
 import           Test.Framework
--- import {-@ HTF_TESTS @-} Uniform.Codes.LanguageCode_test
+import {-@ HTF_TESTS @-} Uniform.Codes.LanguageCode_test
 import {-@ HTF_TESTS @-}Uniform.Codes.LanguageTypedText_test
 -- import {-@ HTF_TESTS @-}Uniform.Convenience.Caps4german_test
 -- main =  do  -- the local tests only

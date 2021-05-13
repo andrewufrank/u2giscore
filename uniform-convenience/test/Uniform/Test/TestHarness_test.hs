@@ -13,6 +13,7 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE OverloadedStrings     #-}
 -- {-# LANGUAGE PackageImports        #-}
+{-# LANGUAGE StandaloneDeriving        #-}
 {-# LANGUAGE ScopedTypeVariables
 --        , BangPatterns
             , UndecidableInstances
@@ -32,7 +33,7 @@ import UniformBase
     ( Generic, Read, Text, Zeros, makeAbsDir, Path, Abs, Dir, showT )
 
 data Aby33 = Aby33 Int (Path Abs Dir)  deriving (Eq, Ord, Show)
-deriving instance Read Abby33 
+deriving instance Read Aby33 
 
 test_3   = do
     test1File prgname "test.test1" "test.test2" id3
@@ -62,12 +63,13 @@ fnt =   (makeAbsDir "/home/frank/Workspace8")
 as = (map (\i -> A2 (showT i) (showT (i+100)) i) [1..10])
 aby1   = Aby as fnt
 
-data Abx = Abx [A2] deriving (Eq, Ord, Show, Read, Generic, Zeros)
-data Aby = Aby [A2]  (Path Abs Dir)  deriving (Eq, Ord, Show, Read, Generic, Zeros)
+data Abx = Abx [A2] deriving (Eq, Ord, Show,  Generic, Zeros)
+data Aby = Aby [A2]  (Path Abs Dir)  deriving (Eq, Ord, Show, Generic, Zeros)
+-- deriving instance Read (Path Abs Dir)
 
 data A2 = A2 Text Text Int
         deriving (Eq, Ord, Show,  Generic, Zeros)
-deriving Read A2 
+deriving instance Read A2 
 
 --instance Zeros Abx where zero = Abx zero
 --instance Zeros Aby where zero = Aby zero fnt

@@ -1,10 +1,10 @@
 --{-# OPTIONS_GHC -F -pgmF htfpp #-}
-{-# LANGUAGE FlexibleContexts      #-}
-{-# LANGUAGE FlexibleInstances     #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings     #-}
-{-# LANGUAGE TypeSynonymInstances  #-}
-{-# LANGUAGE StandaloneDeriving  #-}
+-- {-# LANGUAGE FlexibleContexts      #-}
+-- {-# LANGUAGE FlexibleInstances     #-}
+-- {-# LANGUAGE MultiParamTypeClasses #-}
+-- {-# LANGUAGE OverloadedStrings     #-}
+-- {-# LANGUAGE TypeSynonymInstances  #-}
+-- {-# LANGUAGE StandaloneDeriving  #-}
  -- {-# OPTIONS -Wall #-}
 
 
@@ -16,12 +16,12 @@ module Uniform.Convenience.StartApp(
 
 
 import UniformBase
-import UniformBase (Path(..), Read(..))
+-- import UniformBase (Path(..), Read(..))
 -- import           Uniform.Error
 --import           Uniform.Strings
 -- import GHC.Read
 
--- -- data Aby = Aby44 Int  (Path Abs Dir)  deriving (Eq, Ord, Show, Read )
+data Aby44 = Aby44 Int  (Path Abs Dir)  deriving (Eq, Ord, Show, Read )
 -- data Aby = Aby44 Int  (Path Abs Dir)  deriving (Eq, Ord, Show )
 -- deriving instance Read (Path Abs Dir) 
     -- where readsPrec = undefined 

@@ -41,7 +41,7 @@ import Uniform.Json
 
 data LCtext = LCtext {ltxt :: Text
                         , llang :: LanguageCode
-                      } deriving (Read, Show, Eq, Ord, Generic, Zeros)
+                      } deriving (Read, Show, Eq, Ord,  Zeros)
 --instance Zeros LCtext where
 --    zero = LCtext "" NoLanguage
 instance NiceStrings LCtext where
