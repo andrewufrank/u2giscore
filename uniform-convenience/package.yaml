@@ -33,31 +33,31 @@ dependencies:
 #   source-dirs: src
 
 
-executables:
-  harness-exe:
-    main:                Main.hs
-    source-dirs:         app
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
-    dependencies:
-    - uniformBase
-    # - uniform-convenience
-
-# tests:
-#   convenience-test:
-#     main:                Testing.hs
-#     source-dirs:         test
+# executables:
+#   harness-exe:
+#     main:                Main.hs
+#     source-dirs:         app
 #     ghc-options:
 #     - -threaded
 #     - -rtsopts
 #     - -with-rtsopts=-N
 #     dependencies:
 #     - uniformBase
-#     - HTF
-#     - test-invariant
-#     - quickcheck-text
-#     - uniform-convenience
+#     # - uniform-convenience
+
+tests:
+  convenience-test:
+    main:                Testing.hs
+    source-dirs:         tests
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - uniformBase
+    - HTF
+    - test-invariant
+    - quickcheck-text
+    - uniform-convenience
     
 
