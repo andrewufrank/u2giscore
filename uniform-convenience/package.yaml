@@ -25,7 +25,7 @@ dependencies:
 - csv
 - iso639
 - uniformBase  ==0.1.1.1
-- uniform-fileio
+# - uniform-fileio
 - uniform-json   
 - HTF # for the construction of TestHarness.hs
 

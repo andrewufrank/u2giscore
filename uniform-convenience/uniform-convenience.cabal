@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: caf386dd0722c40c6ad87a72c77e76e32ca53024e295f5ed897df72317b5625e
+-- hash: 73b4cc6bb241d2b36938b43198c62dfae30d7e06908d3f923445e28c06fec516
 
 name:           uniform-convenience
 version:        0.0.9.7
@@ -33,7 +33,6 @@ executable harness-exe
     , base >=4.7 && <5
     , csv
     , iso639
-    , uniform-fileio
     , uniform-json
     , uniformBase
   default-language: Haskell2010
