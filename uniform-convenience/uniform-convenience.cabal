@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: fc09711ef5cb6d4254ad4417d57092d64637c580317dcccb9aa392d23f4c43e1
+-- hash: a8ee6932ea7af051ca525c8b7d0d7a73e7574290e38060b68c7f2f15970b471d
 
 name:           uniform-convenience
 version:        0.0.9.7
@@ -21,20 +21,26 @@ extra-source-files:
     README.md
     ChangeLog.md
 
-executable harness-exe
-  main-is: Main.hs
+library
+  exposed-modules:
+      Uniform.Codes.LanguageCode
+      Uniform.Codes.LanguageTypedText
+      Uniform.Convenience.DataVarious
+      Uniform.Convenience.ReadCSV
+      Uniform.Convenience.StartApp
+      Uniform.Test.TestHarness
+      Uniform.Test.Utils
   other-modules:
       Paths_uniform_convenience
   hs-source-dirs:
-      app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+      src
   build-depends:
       HTF
     , base >=4.7 && <5
     , csv
     , iso639
     , uniform-json
-    , uniformBase
+    , uniformBase ==0.1.2
   default-language: Haskell2010
 
 test-suite convenience-test
@@ -43,7 +49,6 @@ test-suite convenience-test
   other-modules:
       Uniform.Codes.LanguageCode_test
       Uniform.Codes.LanguageTypedText_test
-      Uniform.Codes.TestingConvenience
       Uniform.Test.TestHarness_test
       Paths_uniform_convenience
   hs-source-dirs:
