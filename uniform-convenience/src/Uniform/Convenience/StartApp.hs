@@ -2,7 +2,7 @@
 -- {-# LANGUAGE FlexibleContexts      #-}
 -- {-# LANGUAGE FlexibleInstances     #-}
 -- {-# LANGUAGE MultiParamTypeClasses #-}
--- {-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE OverloadedStrings     #-}
 -- {-# LANGUAGE TypeSynonymInstances  #-}
 -- {-# LANGUAGE StandaloneDeriving  #-}
  -- {-# OPTIONS -Wall #-}
@@ -21,7 +21,7 @@ import UniformBase
 --import           Uniform.Strings
 -- import GHC.Read
 
-data Aby44 = Aby44 Int  (Path Abs Dir)  deriving (Eq, Ord, Show, Read )
+-- data Aby44 = Aby44 Int  (Path Abs Dir)  deriving (Eq, Ord, Show, Read )
 -- data Aby = Aby44 Int  (Path Abs Dir)  deriving (Eq, Ord, Show )
 -- deriving instance Read (Path Abs Dir) 
     -- where readsPrec = undefined 

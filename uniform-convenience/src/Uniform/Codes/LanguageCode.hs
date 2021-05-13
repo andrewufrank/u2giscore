@@ -29,7 +29,6 @@
 
 module Uniform.Codes.LanguageCode (module Uniform.Codes.LanguageCode
     -- , module Uniform.Error
-
         )  where
 
 -- import           Safe

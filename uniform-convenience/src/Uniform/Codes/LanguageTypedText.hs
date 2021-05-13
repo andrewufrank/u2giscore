@@ -9,18 +9,22 @@
 -----------------------------------------------------------------------------
 --{-# OPTIONS_GHC -F -pgmF htfpp #-}
 
-{-# LANGUAGE FlexibleContexts    #-}
-{-# LANGUAGE FlexibleInstances   #-}
+-- {-# LANGUAGE FlexibleContexts    #-}
+-- {-# LANGUAGE FlexibleInstances   #-}
 {-# LANGUAGE OverloadedStrings   #-}
-{-# LANGUAGE ScopedTypeVariables, MultiParamTypeClasses
-    , DeriveGeneric
-    , GeneralizedNewtypeDeriving
-    , TypeFamilies
-    , DeriveAnyClass  #-}
+{-# LANGUAGE TypeFamilies   #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving   #-}
+{-# LANGUAGE DeriveAnyClass   #-}
+{-# LANGUAGE DeriveGeneric   #-}
+-- {-# LANGUAGE ScopedTypeVariables, MultiParamTypeClasses
+--     , DeriveGeneric
+--     , GeneralizedNewtypeDeriving
+--     , TypeFamilies
+--     , DeriveAnyClass  #-}
 {-# LANGUAGE RecordWildCards    #-}
-{-# OPTIONS_GHC -fno-warn-missing-methods #-}
-{-# OPTIONS_GHC -fno-warn-missing-signatures #-}
-{-# OPTIONS_GHC -w #-}
+-- {-# OPTIONS_GHC -fno-warn-missing-methods #-}
+-- {-# OPTIONS_GHC -fno-warn-missing-signatures #-}
+-- {-# OPTIONS_GHC -w #-}
 
 module Uniform.Codes.LanguageTypedText
     (module Uniform.Codes.LanguageTypedText
@@ -37,11 +41,11 @@ import UniformBase
 import Uniform.Codes.LanguageCode
 import Uniform.Json 
 
-
+import GHC.Generics
 
 data LCtext = LCtext {ltxt :: Text
                         , llang :: LanguageCode
-                      } deriving (Read, Show, Eq, Ord,  Zeros)
+                      } deriving (Read, Show, Eq, Ord, Generic,  Zeros)
 --instance Zeros LCtext where
 --    zero = LCtext "" NoLanguage
 instance NiceStrings LCtext where

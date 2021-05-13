@@ -29,16 +29,15 @@ module Uniform.Test.TestHarness_test   where
 
 import           Test.Framework
 import Uniform.Test.TestHarness
-import UniformBase
-    ( Generic, Read, Text, Zeros, makeAbsDir, Path, Abs, Dir, showT )
+import UniformBase 
 
-data Aby33 = Aby33 Int (Path Abs Dir)  deriving (Eq, Ord, Show)
-deriving instance Read Aby33 
+-- data Aby33 = Aby33 Int (Path Abs Dir)  deriving (Eq, Ord, Show)
+-- deriving instance Read Aby33 
 
-test_3   = do
-    test1File prgname "test.test1" "test.test2" id3
-test_4   = do
-    test1File prgname "test.test2" "test.test3" id4
+-- test_3   = do
+    -- test1File prgname "test.test1" "test.test2" id3
+-- test_4   = do
+    -- test1File prgname "test.test2" "test.test3" id4
 
 id3 :: Abx -> Abx
 id3 = const abx1
@@ -46,10 +45,10 @@ id3 = const abx1
 id4 :: Abx -> Abx
 id4 = id
 
-test_1   = do
-    test1File prgname "test.test1a" "test.test2a" id1
-test_2   = do
-    test1File prgname "test.test2a" "test.test3a" id2
+-- test_1   = do
+--     test1File prgname "test.test1a" "test.test2a" id1
+-- test_2   = do
+--     test1File prgname "test.test2a" "test.test3a" id2
 
 id1 :: Aby -> Aby
 id1 = const aby1
@@ -68,8 +67,8 @@ data Aby = Aby [A2]  (Path Abs Dir)  deriving (Eq, Ord, Show, Generic, Zeros)
 -- deriving instance Read (Path Abs Dir)
 
 data A2 = A2 Text Text Int
-        deriving (Eq, Ord, Show,  Generic, Zeros)
-deriving instance Read A2 
+        deriving (Eq, Ord, Show,  Read, Generic, Zeros)
+-- deriving instance Read A2 
 
 --instance Zeros Abx where zero = Abx zero
 --instance Zeros Aby where zero = Aby zero fnt
@@ -80,3 +79,13 @@ instance ShowTestHarness Aby where
 
 instance ShowTestHarness A2 where
 --    showTestH (A2 t1 t2  i ) = "A2 " ++ showTestH as
+
+-- test for read of Path 
+
+data C  = C Float  (Path Abs File)  deriving (Eq, Ord, Show, Read) 
+p = makeAbsFile "/home/testquarto" :: Path Abs File 
+c1 = C 1.1 p
+
+c2 = show c1 :: String 
+c3 = read c2 :: C 
+test_readPath = assertEqual  c1 c3

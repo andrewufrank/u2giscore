@@ -22,11 +22,11 @@ dependencies:
 # - monads-tf
 # - safe
 # - text
-# - csv
-# - iso639
+- csv
+- iso639
 - uniformBase  
-# - uniform-json   
-# - HTF
+- uniform-json   
+- HTF # for the construction of TestHarness.hs
 
 library:
   source-dirs: src
@@ -43,19 +43,19 @@ library:
 #     dependencies:
 #     - uniform-algebras
 
-# tests:
-#   convenience-test:
-#     main:                Testing.hs
-#     source-dirs:         test
-#     ghc-options:
-#     - -threaded
-#     - -rtsopts
-#     - -with-rtsopts=-N
-#     dependencies:
-#     - uniformBase
-#     - HTF
-#     - test-invariant
-#     - quickcheck-text
-#     - uniform-convenience
+tests:
+  convenience-test:
+    main:                Testing.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - uniformBase
+    - HTF
+    - test-invariant
+    - quickcheck-text
+    - uniform-convenience
     
 
