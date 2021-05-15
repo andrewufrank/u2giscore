@@ -26,8 +26,8 @@ import UniformBase
 -- deriving instance Read (Path Abs Dir) 
     -- where readsPrec = undefined 
 
-startProg :: Show a => Text -> Text -> ErrIO a -> IO ()
-startProg programName   progTitle mainProg = do  -- (mainProg prefsfilename gladefilename ) = do
+startProgWithTitle :: Show a => Text -> Text -> ErrIO a -> IO ()
+startProgWithTitle programName   progTitle mainProg = do  -- (mainProg prefsfilename gladefilename ) = do
 --        putIOwords ["the files to start with \n"
 --            ,"\n", "prefsfile", prefsfilename
 --            , "\ngladefile", gladefilename]
