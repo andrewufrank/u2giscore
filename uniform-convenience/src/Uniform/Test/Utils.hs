@@ -1,14 +1,11 @@
------------------------------------------------------------------------------
+-----------------------------------------------------------------------
 --
 -- Module      :  Uniform.TestHarness
 --
 -- | two functions to deal wtih tests which
 -- store data on disk
  -- interface must be in the wrapped Path, to allow the reading ??
------------------------------------------------------------------------------
--- {-# OPTIONS_GHC -F -pgmF htfpp #-}
-{-# LANGUAGE BangPatterns          #-}
---{-# LANGUAGE DeriveDataTypeable    #-}
+----------------------------------------------------------------------
 {-# LANGUAGE DoAndIfThenElse       #-}
 {-# LANGUAGE FlexibleContexts      #-}
 {-# LANGUAGE FlexibleInstances     #-}
@@ -33,21 +30,15 @@ module Uniform.Test.Utils (module Uniform.Test.Utils
 
         )  where
 
--- import           Safe
--- import           Test.Framework
-import UniformBase
--- import Uniform.Strings (ppShow )
--- import Uniform.FileIO (doesFileExist, getAppUserDataDir)
--- import qualified Path.IO as Path.IO (doesFileExist, getAppUserDataDir)
-        -- necessary for operations in IO
-import Text.Read
--- import Data.Time (UTCTime (..))
--- import Uniform.Time 
+import           UniformBase
+-- import- necessary for operations in IO
+import           Text.Read
+-- import Dniform.Time
 
--- operations are in IO not ErrIO, therefore here and not in fileio
+-- | operations are in IO not ErrIO, therefore here and not in fileio
 getLitTextTestDir ::  IO (Path Abs Dir)
 getLitTextTestDir  = getAppUserDataDir "LitTextTest"
--- operations are in IO not ErrIO, therefore here and not in fileio
+-- | operations are in IO not ErrIO, therefore here and not in fileio
 getLitTextTestDir2 :: Text -> IO (Path Abs Dir)
 getLitTextTestDir2 progName = getAppUserDataDir . t2s $ progName
 
@@ -80,29 +71,31 @@ checkResult testvardebug testDataDir resfile tt1 = do
         let fn = testDataDir </> resfile :: Path Abs File
         let fnx = testDataDir </> (resfile ++ "-failed" ) :: Path Abs File
         when testvardebug $
-            putIOwords ["\n\ncheckResult test ", s2t resfile, showT fn]
-
+            putIOwords ["\n\ncheckResult test "
+                    , s2t resfile, showT fn]
         fnotexist <- fmap not $ doesFileExist' fn
         when testvardebug $
-                putIOwords ["checkResult file not exist:  doesFileExist' = ", showT fnotexist]
+                putIOwords ["checkResult file not exist:  doesFileExist' = "
+                    , showT fnotexist]
 
         -- write result file, if not exist
         when  fnotexist $ do
-            writeFileOrCreate2 ( fn ) .s2t  $ showTestH tt1
-            putIOwords ["checkResult new result file written", showT fn
-                                , "length ", showT . length . showTestH $ tt1]
+            writeFileOrCreate2 fn .s2t  $ showTestH tt1
+            putIOwords ["checkResult new result file written"
+                , showT fn
+                , "length ", showT . length . showTestH $ tt1]
 
         -- write failed file
-        writeFileOrCreate2 ( fnx ) .s2t  $ showTestH tt1
+        writeFileOrCreate2 fnx .s2t  $ showTestH tt1
         when testvardebug $
-                putIOwords ["checkResult new faile file written", showT fn
-                            , "length ", showT . length . showTestH $ tt1]
+                putIOwords ["checkResult new faile file written"
+                    , showT fn
+                    , "length ", showT . length . showTestH $ tt1]
         -- a result file and a failed file exist
         checkResultAndDeleteFailedIfEqual testvardebug fn fnx
 
     `catchError` (\e -> do
         putIOwords ["catchError ", showT e]
-
         return  False
              )
 
@@ -125,9 +118,6 @@ checkResultAndDeleteFailedIfEqual testvardebug fn fnx  = do
     when testvardebug $
             putIOwords ["checkResultAndDeleteFailedIfEqual end"]
     return testres
-
-
-
 
 class ShowTestHarness t where
     showTestH :: Show t =>  t -> String
@@ -159,14 +149,14 @@ instance  ShowTestHarness Text where
     -- this is necessary that json files (and other with "") can be read
     showTestH = t2s
 --    readTestH = readNote "showTestHarness Text" . show
-    readTestH2 msg = readNote (  msg) . show
+    readTestH2 msg = readNote msg . show
     readTestH2e msg = readEither . show
 --
 instance  ShowTestHarness String where
     -- to avoid the additional "" added when show text
     showTestH = id
 --    readTestH = readNote "showTestHarness String " -- . show
-    readTestH2 msg = readNote (  msg) . show
+    readTestH2 msg = readNote msg . show
     readTestH2e msg = readEither . show
 
 instance  ShowTestHarness LazyByteString where
@@ -175,7 +165,7 @@ instance  ShowTestHarness LazyByteString where
     -- this is necessary that json files (and other with "") can be read
     showTestH = bb2s . bl2b
 --    readTestH = readNote "showTestHarness Text" . show
-    readTestH2 msg = readNote (  msg) . show
+    readTestH2 msg = readNote msg . show
     readTestH2e msg = readEither . show
 --
 --instance  ShowTestHarness () where

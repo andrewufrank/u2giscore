@@ -1,20 +1,5 @@
------------------------------------------------------------------------------
---
--- Module      :  Uniform.TestHarness
---
--- | functions to deal wtih tests which
--- store data on disk
--- naming test{Var}NFile{IO}
--- N gives the number of input files 0..2
--- IO is present when the function is -> ErrIO x
-
--- attention: the test result throws an exception HUnit.NN (caused by assertBool)
-
-
-
------------------------------------------------------------Utils.hs------------------
 {-# OPTIONS_GHC -F -pgmF htfpp #-}
--- is required to import the assertEqual used 
+-- is required to import the assertEqual used
 -- later here for testing.. Int
 {-# LANGUAGE BangPatterns          #-}
 --{-# LANGUAGE DeriveDataTypeable    #-}
@@ -32,6 +17,26 @@
 {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
     -- runErrorT is depreceiated but used in monads-tf
 {-# OPTIONS_GHC -w #-}
+----------------------------------------------------------------------
+--
+-- Module      :  Uniform.TestHarness
+--
+-- | functions to deal wtih tests which
+-- store data on disk
+-- naming test{Var}NFile{IO}
+-- N gives the number of input files 0..2
+-- IO is present when the function is -> ErrIO x
+
+-- arguments:
+-- progname :: Text -- the name of the program (gives .dir name for storage)
+-- a -- a Value of type a
+-- startfile, secfile,... -- the input files (absolute file path)
+-- resfile -- the file produced ( file path) for result in ~/.progname
+-- op -- the function to transform the values
+
+
+-- attention: the test result throws an exception HUnit.NN (caused by assertBool)
+-----------------------------------------------------------
 
 
 module Uniform.Test.TestHarness (module Uniform.Test.TestHarness
@@ -41,22 +46,23 @@ module Uniform.Test.TestHarness (module Uniform.Test.TestHarness
     , FilePath
     , getLitTextTestDir3
     , module Uniform.Test.Utils    -- for instances
-
         )  where
 
--- import           Safe
 import           Test.Framework
-import UniformBase
--- import Uniform.FileIO
--- import Uniform.Error  hiding ((</>), (<.>)) -- to allow export
-import Uniform.Test.Utils
+import           Uniform.Test.Utils
+import           UniformBase
 
 testvardebug =   False
 
--- cases with no IO
+-- -----------------------------------cases with no IO --------------
+--
+-- | run a test on a value a and put result b in file when apply op
 testVar0File :: (Zeros b, Eq b, Show b, Read b, ShowTestHarness b)
-            => Text -> a -> FilePath -> (a->  b) -> IO ()
--- | program name - file to run test on - name of result file - op 
+            => Text -- ^ name of test
+            -> a -- ^ input value
+            -> FilePath -- ^ resulting file
+            -> (a->  b) -- ^ test op
+            -> IO ()
 testVar0File progName  a resfile op = do
         when testvardebug $ putIOwords ["testVar0File read text "]
         r <- runErr $  sub progName  a resfile op
@@ -66,7 +72,7 @@ testVar0File progName  a resfile op = do
             testDataDir <- getLitTextTestDir3 progName
             let t1 = op a
             checkResult testvardebug testDataDir resfile t1
-
+-- | run a test on a value and a value taken from a file and put result in file when apply op
 testVar1File :: (Zeros b, Eq b, Show b, Read b, ShowTestHarness b
                 , Zeros c, Eq c, Show c, Read c, ShowTestHarness c)
             => Text -> a -> FilePath -> FilePath -> (a->  b -> c ) -> IO ()
@@ -99,6 +105,7 @@ testVar2File progName  a startfile secfile resfile op = do
             let t1 = op a (readTestH2 startfile f0) (readTestH2 secfile f2)
             checkResult testvardebug testDataDir resfile t1
 
+-- | take a value from a file and store result in result file when applying op
 test1File :: (Zeros b, Eq b, Show b, Read b, ShowTestHarness b
                 , Zeros c, Eq c, Show c, Read c, ShowTestHarness c)
             => Text ->  FilePath -> FilePath -> (b -> c ) -> IO ()
@@ -132,6 +139,8 @@ test2File progName  startfile secfile resfile op = do
             checkResult testvardebug testDataDir resfile t1
 
 ------ cases with IO
+
+-- | take a value from a file and store result in result file when applying IO op
 
 testVar0FileIO :: (Zeros b, Eq b, Show b, Read b, ShowTestHarness b)
             => Text -> a -> FilePath -> (a-> ErrIO b) -> IO ()

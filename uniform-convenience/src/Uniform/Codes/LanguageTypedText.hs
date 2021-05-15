@@ -1,61 +1,62 @@
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 -----------------------------------------------------------------------------
 --
 -- Module      :  Language Typed Text
 -- Copyright   :  andrew u frank -
 --
--- | a text type which has as a type paramter the language
-
-
 -----------------------------------------------------------------------------
 --{-# OPTIONS_GHC -F -pgmF htfpp #-}
-
 -- {-# LANGUAGE FlexibleContexts    #-}
 -- {-# LANGUAGE FlexibleInstances   #-}
-{-# LANGUAGE OverloadedStrings   #-}
-{-# LANGUAGE TypeFamilies   #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving   #-}
-{-# LANGUAGE DeriveAnyClass   #-}
-{-# LANGUAGE DeriveGeneric   #-}
+{-# LANGUAGE OverloadedStrings #-}
 -- {-# LANGUAGE ScopedTypeVariables, MultiParamTypeClasses
 --     , DeriveGeneric
 --     , GeneralizedNewtypeDeriving
 --     , TypeFamilies
 --     , DeriveAnyClass  #-}
-{-# LANGUAGE RecordWildCards    #-}
+{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE TypeFamilies #-}
+
 -- {-# OPTIONS_GHC -fno-warn-missing-methods #-}
 -- {-# OPTIONS_GHC -fno-warn-missing-signatures #-}
 -- {-# OPTIONS_GHC -w #-}
 
-module Uniform.Codes.LanguageTypedText
-    (module Uniform.Codes.LanguageTypedText
-    , module Uniform.Codes.LanguageCode
-
-    ) where
+-- | a text type which has as a type paramter the language
+module Uniform.Codes.LanguageTypedText (
+    module Uniform.Codes.LanguageTypedText,
+    module Uniform.Codes.LanguageCode,
+) where
 
 import UniformBase
+
 -- import Uniform.Zero (Zeros (..), Generic(..))
 -- import Uniform.Error -- (undef)
 --import Data.RDFext.Extension (LanguageCode (..)
 --            , RDFsubj, RDFproperty, Triple (..), mkTripleLang3, giveCode3)
 -- import Data.Aeson (ToJSON (..), (.=), object)
 import Uniform.Codes.LanguageCode
-import Uniform.Json 
+import Uniform.Json
 
 import GHC.Generics
 
-data LCtext = LCtext {ltxt :: Text
-                        , llang :: LanguageCode
-                      } deriving (Read, Show, Eq, Ord, Generic,  Zeros)
---instance Zeros LCtext where
+data LCtext = LCtext
+    { ltxt :: Text
+    , llang :: LanguageCode
+    }
+    deriving (Read, Show, Eq, Ord, Generic, Zeros)
+
+-- instance Zeros LCtext where
 --    zero = LCtext "" NoLanguage
 instance NiceStrings LCtext where
     shownice = shownice . ltxt
 
 instance ToJSON LCtext where
-    toJSON LCtext{..}   = object ["@language" .= giveCode3 llang, "@value" .= ltxt]
+    toJSON LCtext{..} = object ["@language" .= giveCode3 llang, "@value" .= ltxt]
 
 class LanguageCodedText l where
-    codeText  :: LanguageCode-> Text -> l
+    codeText :: LanguageCode -> Text -> l
     getText :: l -> Text
     setText :: Text -> l -> l
     do2text :: (Text -> Text) -> l -> l
@@ -65,6 +66,7 @@ class LanguageCodedText l where
     getLengthLC :: l -> Int
     notNullLC :: l -> Bool
     sameLanguageLC :: l -> l -> Bool
+
     mergeLC :: Text -> l -> l -> Maybe l
     -- ^ merge with the separator between
 
@@ -72,41 +74,49 @@ instance LanguageCodedText LCtext where
     codeText lc t = LCtext t lc
     setLanguageCode lc2 (LCtext t lc) = LCtext t lc2
     getText = ltxt
-    setText t l = l{ltxt=t}
+    setText t l = l{ltxt = t}
     getLanguageCode = llang
     getLengthLC = lengthChar . getText
     notNullLC = (0 /=) . getLengthLC
-    sameLanguageLC a b =  getLanguageCode a == getLanguageCode b
-    mergeLC sep a b = if sameLanguageLC a b
-        then Just $ a {ltxt = getText a <> sep <> getText b}
-        else Nothing
-
+    sameLanguageLC a b = getLanguageCode a == getLanguageCode b
+    mergeLC sep a b =
+        if sameLanguageLC a b
+            then Just $ a{ltxt = getText a <> sep <> getText b}
+            else Nothing
 
 --mkTripleLang33 :: RDFsubj -> RDFproperty -> LCtext -> Triple
 --mkTripleLang33 o p lctext = mkTripleLang3 (getLanguageCode lctext) o p (getText lctext)
 
-
------------ manipulation of LCtext 
--- instance Zeros (LF LCtext) where 
+----------- manipulation of LCtext
+-- instance Zeros (LF LCtext) where
 --     -- type LF LCtext = LCtext
---     zero = codeText NoLanguage zero 
+--     zero = codeText NoLanguage zero
 
-instance ListForms LCtext where 
+instance ListForms LCtext where
     type LF LCtext = Text -- likely wrong?
-instance Monoid LCtext  where 
-        mempty = zero 
-instance Semigroup LCtext 
+    mkOne = undef "instance ListForms LCtext mkOne"
+instance Monoid LCtext where
+    mempty =  zero 
+instance Semigroup LCtext where
+    a@(LCtext t1 l1) <> b@(LCtext t2 l2  ) =
+         if l1 == l2 
+             then LCtext  (t1 <> t2) l1  
+             else errorT ["addition of language text of different languages", showT a, showT b ]
 
-instance CharChains LCtext where 
-    null' = null' . getText   
+instance CharChains LCtext where
+    null' = null' . getText
     trim' = do2text trim'
-    lengthChar = lengthChar . getText 
-    isPrefixOf' t = isPrefixOf' (getText t) . getText 
-    stripPrefix' t s = maybe Nothing (\x -> Just $ do2text (const x) s) res 
-        where res = stripPrefix' (getText t) $ getText s
-        -- unlines' = 
-    -- stripPrefix' pre lct = do 
-    --                 t2 <- stripPrefix' pre (getText lct)
-    --                 return $ codeText (getLanguageCode lct) t2 
-    -- requires for the prefix a code lang text 
+    lengthChar = lengthChar . getText
+    isPrefixOf' t = isPrefixOf' (getText t) . getText
+    stripPrefix' t s = (\x -> Just $ do2text (const x) s) =<< res
+      where
+        res = stripPrefix' (getText t) $ getText s
+    toString = t2s . ltxt 
+    mknull = zero 
 
+
+-- unlines' =
+-- stripPrefix' pre lct = do
+--                 t2 <- stripPrefix' pre (getText lct)
+--                 return $ codeText (getLanguageCode lct) t2
+-- requires for the prefix a code lang text
