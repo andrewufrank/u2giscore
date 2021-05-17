@@ -138,29 +138,6 @@ class ShowTestHarness t where
 --                either (throwErrorT) id $ readEither ("readTestH2 no parse " <> msg)
 
 
-class Print a where
-  makeString :: a -> String
-
-data Name = NString | NText | NShow
-type family Choose a where
-  Choose [Char] = 'NString
-  Choose Text = 'NText
-  Choose _ = 'NShow
-
-class Print' (n :: Name) a where
-  makeString' :: proxy n -> a -> String
-
-instance (Choose a ~ n, Print' n a) => Print a where
-  makeString = makeString' (Proxy :: Proxy n)
-
-instance a ~ String => Print' 'NString a where
-  makeString' _ = id
-
-instance a ~ Text => Print' 'NText a where
-  makeString' _ = unpack
-
-instance Show a => Print' 'NShow a where
-  makeString' _ = show
 --instance (Show t , ShowTestHarness t) => ShowTestHarness [t] where
 --
 --    showTestH t =   ppShow t run
