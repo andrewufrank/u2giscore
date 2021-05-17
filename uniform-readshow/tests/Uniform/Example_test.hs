@@ -23,10 +23,10 @@
 module Uniform.Example_test where
 
 import           Test.Framework
-import           Uniform.Strings hiding ((</>), (<.>), (<|>))
+import           UniformBase
 import           Uniform.Example 
 
-import Control.Exception
+-- import Control.Exception
 
 test_null = assertEqual "a" "a"
 

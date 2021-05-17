@@ -40,7 +40,7 @@ library:
 
 executables:
   example-exe:
-    main:                readShow.hs
+    main:                readShowMain.hs
     source-dirs:         app
 #
 
@@ -52,7 +52,8 @@ tests:
         dependencies:  
             - uniformBase
             - HTF
-            - test-invariant
-            - quickcheck-text
-            - uniform-convenience
+            - uniform-readshow
+            # - test-invariant
+            # - quickcheck-text
+            # - uniform-convenience
         buildable: True

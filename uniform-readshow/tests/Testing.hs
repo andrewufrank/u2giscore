@@ -23,7 +23,7 @@ module Main     where
 
 import Test.Framework
 import Uniform.Example 
-import Uniform.Strings
+import UniformBase
 -- import Uniform.Error 
 import  {-@ HTF_TESTS @-} Uniform.Example_test 
 
