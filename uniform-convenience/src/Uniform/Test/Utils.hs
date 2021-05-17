@@ -34,8 +34,6 @@ module Uniform.Test.Utils (module Uniform.Test.Utils
 
 import           UniformBase
 -- import- necessary for operations in IO
-import Data.Proxy
-import Data.Text(unpack)
 import           Text.Read
 import UniformBase
 

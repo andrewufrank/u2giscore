@@ -1,0 +1,54 @@
+name: uniform-example
+version: 0.0.1.0
+
+build-type: Simple
+license: GPL
+license-file: GPL_3
+maintainer: Andrew U. Frank <andrewufrank@gmail.com>
+author: Andrew Frank
+copyright:    2021 Andrew U. Frank
+category: Example
+synopsis: Example
+description: Example
+
+# source-repository: head
+#     type: git
+#     location: https://github.com/andrewufrank/uniform-example.git
+
+extra-source-files:
+    - README.md
+    - ChangeLog.md
+
+dependencies:
+    - base  
+    - uniformBase
+    # - monads-tf
+    # - exceptions
+    # - safe
+    # - uniform-strings
+    # - HTF
+    # - uniform-algebras
+    # - uniform-strings
+    # - uniform-error 
+
+library:
+    source-dirs: src
+
+executables:
+  example-exe:
+    main:                exampleMain.hs
+    source-dirs:         app
+#
+
+tests: 
+    tests_example:
+        main: Testing.hs
+        source-dirs: tests
+        # type:       exitcode-stdio-1.0
+        dependencies:  
+            - uniformBase
+            - HTF
+            - test-invariant
+            - quickcheck-text
+            - uniform-convenience
+        buildable: True
