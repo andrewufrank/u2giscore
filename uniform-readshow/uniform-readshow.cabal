@@ -34,7 +34,7 @@ library
   default-language: Haskell2010
 
 executable example-exe
-  main-is: readShow.hs
+  main-is: readShowMain.hs
   other-modules:
       Paths_uniform_readshow
   hs-source-dirs:
