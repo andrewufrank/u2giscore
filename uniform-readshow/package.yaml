@@ -1,4 +1,4 @@
-name: uniform-example
+name: uniform-readshow
 version: 0.0.1.0
 
 build-type: Simple
@@ -7,9 +7,13 @@ license-file: GPL_3
 maintainer: Andrew U. Frank <andrewufrank@gmail.com>
 author: Andrew Frank
 copyright:    2021 Andrew U. Frank
-category: Example
-synopsis: Example
-description: Example
+category: Uniform
+synopsis: a uniform set of instances for read and show 
+description: | 
+    There are a few data types for which `read . show = id` 
+    is not achieved: UTC, Path. 
+    There are also cases, where the added quotation marks are problematic because the content shown contains quotation marks (e.g. JSON)
+
 
 # source-repository: head
 #     type: git
@@ -36,7 +40,7 @@ library:
 
 executables:
   example-exe:
-    main:                exampleMain.hs
+    main:                readShow.hs
     source-dirs:         app
 #
 
