@@ -42,5 +42,5 @@ module Uniform.CmdLineArgs (
 ) where
 
 import Options.Applicative
-import Options.Applicative.Builder
+import Options.Applicative.Builder()
 import UniformBase

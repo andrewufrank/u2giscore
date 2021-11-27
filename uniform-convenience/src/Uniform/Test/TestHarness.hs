@@ -77,7 +77,7 @@ testVar1File :: (Zeros b, Eq b, Show b, Read b, ShowTestHarness b
                 , Zeros c, Eq c, Show c, Read c, ShowTestHarness c)
             => Text -> a -> FilePath -> FilePath -> (a->  b -> c ) -> IO ()
 testVar1File progName  a startfile resfile op = do
-        when testvardebug $ putIOwords ["testVar0File read text "]
+        when testvardebug $ putIOwords ["testVar1File read text "]
         r <- runErr $  sub progName  a startfile resfile op
         assertEqual (Right True) r
     where
@@ -94,7 +94,7 @@ testVar2File :: (Zeros b, Eq b, Show b, Read b, ShowTestHarness b
             => Text -> a -> FilePath -> FilePath -> FilePath
                     -> (a->  b -> c -> d ) -> IO ()
 testVar2File progName  a startfile secfile resfile op = do
-        when testvardebug $ putIOwords ["testVar0File read text "]
+        when testvardebug $ putIOwords ["testVar2File read text "]
         r <- runErr $  sub progName  a startfile secfile resfile op
         assertEqual (Right True) r
     where
@@ -110,7 +110,7 @@ test1File :: (Zeros b, Eq b, Show b, Read b, ShowTestHarness b
                 , Zeros c, Eq c, Show c, Read c, ShowTestHarness c)
             => Text ->  FilePath -> FilePath -> (b -> c ) -> IO ()
 test1File progName  startfile resfile op = do
-        when testvardebug $ putIOwords ["testVar0File read text "]
+        when testvardebug $ putIOwords ["test1File read text "]
         r <- runErr $  sub progName   startfile resfile op
         assertEqual (Right True) r
     where
@@ -127,7 +127,7 @@ test2File :: (Zeros b, Eq b, Show b, Read b, ShowTestHarness b
             => Text ->  FilePath -> FilePath -> FilePath
                     -> ( b -> c -> d ) -> IO ()
 test2File progName  startfile secfile resfile op = do
-        when testvardebug $ putIOwords ["testVar0File read text "]
+        when testvardebug $ putIOwords ["test2File read text "]
         r <- runErr $  sub progName  startfile secfile resfile op
         assertEqual (Right True) r
     where
@@ -158,7 +158,7 @@ testVar1FileIO :: (Zeros b, Eq b, Show b, Read b, ShowTestHarness b
                 , Zeros c, Eq c, Show c, Read c, ShowTestHarness c)
             => Text -> a -> FilePath -> FilePath -> (a->  b -> ErrIO c) -> IO ()
 testVar1FileIO progName  a startfile resfile op = do
-        when testvardebug $ putIOwords ["testVar0FileIO read text "]
+        when testvardebug $ putIOwords ["testVar1FileIO read text "]
         r <- runErr $  sub progName  a startfile resfile op
         assertEqual (Right True) r
     where
@@ -175,7 +175,7 @@ testVar2FileIO :: (Zeros b, Eq b, Show b, Read b, ShowTestHarness b
             => Text -> a -> FilePath -> FilePath -> FilePath
                     -> (a->  b -> c -> ErrIO d) -> IO ()
 testVar2FileIO progName  a startfile secfile resfile op = do
-        when testvardebug $ putIOwords ["testVar0FileIO read text "]
+        when testvardebug $ putIOwords ["testVar2FileIO read text "]
         r <- runErr $  sub progName  a startfile secfile resfile op
         assertEqual (Right True) r
     where
@@ -190,7 +190,7 @@ test1FileIO :: (Zeros b, Eq b, Show b, Read b, ShowTestHarness b
                 , Zeros c, Eq c, Show c, Read c, ShowTestHarness c)
             => Text ->  FilePath -> FilePath -> (b -> ErrIO c) -> IO ()
 test1FileIO progName  startfile resfile op = do
-        when testvardebug $ putIOwords ["testVar0FileIO read text "]
+        when testvardebug $ putIOwords ["test1FileIO read text "]
         r <- runErr $  sub progName   startfile resfile op
         assertEqual (Right True) r
     where
@@ -207,7 +207,7 @@ test2FileIO :: (Zeros b, Eq b, Show b, Read b, ShowTestHarness b
             => Text ->  FilePath -> FilePath -> FilePath
                     -> ( b -> c -> ErrIO d) -> IO ()
 test2FileIO progName  startfile secfile resfile op = do
-        when testvardebug $ putIOwords ["testVar0FileIO read text "]
+        when testvardebug $ putIOwords ["test2FileIO read text "]
         r <- runErr $  sub progName  startfile secfile resfile op
         assertEqual (Right True) r
     where
@@ -226,7 +226,7 @@ test3FileIO :: (Zeros b, Eq b, Show b, Read b, ShowTestHarness b
             => Text ->  FilePath -> FilePath -> FilePath -> FilePath
                     -> ( b -> c -> d -> ErrIO r) -> IO ()
 test3FileIO progName  startfile secfile thrdfile resfile op = do
-        when testvardebug $ putIOwords ["testVar0FileIO read text "]
+        when testvardebug $ putIOwords ["test3FileIO read text "]
         r <- runErr $  sub progName  startfile secfile resfile op
         assertEqual (Right True) r
     where

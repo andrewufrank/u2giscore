@@ -26,6 +26,7 @@ extra-source-files:
 dependencies:
     - base  
     - uniformBase
+    - text # remove if not used later
     # - monads-tf
     # - exceptions
     # - safe

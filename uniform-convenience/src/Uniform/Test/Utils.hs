@@ -39,7 +39,7 @@ import UniformBase
 
 -- | operations are in IO not ErrIO, therefore here and not in fileio
 getLitTextTestDir ::  IO (Path Abs Dir)
-getLitTextTestDir  = getAppUserDataDir "LitTextTest"
+getLitTextTestDir  = getAppUserDataDir "TestHarness"
 -- | operations are in IO not ErrIO, therefore here and not in fileio
 getLitTextTestDir2 :: Text -> IO (Path Abs Dir)
 getLitTextTestDir2 progName = getAppUserDataDir . t2s $ progName

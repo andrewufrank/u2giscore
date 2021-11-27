@@ -28,6 +28,12 @@ import           Uniform.Example
 
 -- import Control.Exception
 
+-- problematic cases to check 
+
+s = "abc" :: String 
+t = "def" :: Text 
+
+
 test_null = assertEqual "a" "a"
 
 
