@@ -1,0 +1,9 @@
+packages: 
+    *.cabal
+--    ../../uBase/uniformBase/*.cabal
+--    ../../uBase/uniform-fileio/*.cabal
+--    ../../uBase/uniform-strings/*.cabal
+    --  ../../uBase/uniform-strings/*.cabal
+    --  ../../uBase/uniform-time/*.cabal
+
+--    ../../u4blog/uniform-json/*.cabal
