@@ -37,7 +37,7 @@ import UniformBase
 --            , RDFsubj, RDFproperty, Triple (..), mkTripleLang3, giveCode3)
 -- import Data.Aeson (ToJSON (..), (.=), object)
 import Uniform.Codes.LanguageCode
-import Uniform.Json
+-- import Uniform.Json
 
 import GHC.Generics
 
@@ -52,8 +52,8 @@ data LCtext = LCtext
 instance NiceStrings LCtext where
     shownice = shownice . ltxt
 
-instance ToJSON LCtext where
-    toJSON LCtext{..} = object ["@language" .= giveCode3 llang, "@value" .= ltxt]
+-- instance ToJSON LCtext where
+--     toJSON LCtext{..} = object ["@language" .= giveCode3 llang, "@value" .= ltxt]
 
 class LanguageCodedText l where
     codeText :: LanguageCode -> Text -> l
