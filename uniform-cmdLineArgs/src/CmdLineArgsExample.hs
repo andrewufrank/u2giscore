@@ -18,7 +18,7 @@
 
 module CmdLineArgsExample where
 
-import Test.Framework ( makeTestSuite, TestSuite )
+-- import Test.Framework ( makeTestSuite, TestSuite )
 import UniformBase
 import UniformBase
 import Uniform.CmdLineArgs  

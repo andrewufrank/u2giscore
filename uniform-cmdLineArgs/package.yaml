@@ -10,6 +10,8 @@ synopsis:     a convenient handling of command line arguments
 description: | 
   deals with the command line arguments and fills with decent defaults
 
+  needs cabal install HTF to load htfpp
+
 
 extra-source-files:
 - README.md
@@ -19,7 +21,7 @@ dependencies:
 - base >= 4.7 && < 5
 - monads-tf
 - uniformBase >=0.1.3
-- HTF
+# - HTF
 - optparse-applicative
 # # - test-invariant
 
