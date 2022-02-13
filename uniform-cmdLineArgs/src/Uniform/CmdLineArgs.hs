@@ -44,3 +44,8 @@ module Uniform.CmdLineArgs (
 import Options.Applicative
 import Options.Applicative.Builder()
 import UniformBase
+
+-- opts :: ParserInfo a
+opts2 :: Parser a -> Text -> Text -> ParserInfo a
+opts2 cmdArgs t1 t2 = info (helper <*> cmdArgs)
+              (fullDesc <> (progDesc . t2s $ t1) <> (header . t2s $ t2))

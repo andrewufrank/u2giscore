@@ -7,6 +7,7 @@
 -- {-# LANGUAGE StandaloneDeriving  #-}
  -- {-# OPTIONS -Wall #-}
 
+startProg is now in error - sufficient!
 
 module Uniform.StartApp(
     module Uniform.StartApp
