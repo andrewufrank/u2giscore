@@ -38,7 +38,7 @@ readCSV fileName = do
   let csv2 = parseCSV (toShortFilePath fileName1) input
   -- filename is used only for error messages...
   case csv2 of
-    Left e -> throwErrorT [s2t . show $ e]
+    Left e -> throwErrorT . s2t . show $ e
     Right f -> return f
 
 handleError csv1 = putStrLn "not a CSV"
