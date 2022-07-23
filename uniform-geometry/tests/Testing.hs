@@ -22,8 +22,8 @@ module Main     where
 
 
 import Test.Framework
-import {-@ HTF_TESTS @-} Uniform.Pretty_test
-import Uniform.Strings
+import {-@ HTF_TESTS @-} Uniform.Geometry_test
+import UniformBase
 
 main = do
     putIOwords ["HTF Testing uniform-pretty test"]

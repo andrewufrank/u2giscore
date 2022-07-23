@@ -41,18 +41,18 @@ executables:
     dependencies: 
     - uniform-geometry
 
-# tests:
-#   webserver-test:
-#     main:                Testing.hs
-#     source-dirs:         tests
-#     dependencies:
-#     # - uniform-algebras
-#     - HTF
-#     - quickcheck-text
-#     # - uniform-strings
-#     # - uniform-http
-#     - uniformBase
-#     - uniform-watch
+tests:
+  test1:
+    main:                Testing.hs
+    source-dirs:         tests
+    dependencies:
+    - uniform-geometry
+    - HTF
+    - quickcheck-text
+    # - uniform-strings
+    # - uniform-http
+    - uniformBase
+    # - uniform-watch
 
 
 #     exposed-modules:
