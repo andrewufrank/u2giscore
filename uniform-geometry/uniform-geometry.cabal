@@ -22,12 +22,29 @@ extra-source-files:
 library
   exposed-modules:
       ExampleMain
+      Uniform.Point
+  other-modules:
+      Paths_uniform_geometry
+  hs-source-dirs:
+      src
+      ./
+  build-depends:
+      base >=4.7 && <5
+    , lens
+    , linear
+    , uniformBase >=0.1.3
+  default-language: Haskell2010
+
+executable ex1
+  main-is: ExampleMain.hs
   other-modules:
       Paths_uniform_geometry
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , lens
+    , linear
+    , uniform-geometry
     , uniformBase >=0.1.3
-    , vector-space
   default-language: Haskell2010

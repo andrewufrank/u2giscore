@@ -21,7 +21,7 @@ module ExampleMain     where
 
  
 import UniformBase
-
+import Uniform.Point
 
 main =
   startProg
@@ -33,5 +33,11 @@ main =
         start NoticeLevel0 sitefn
     )
 
+p1 = Point2d 1 (V2 1 1):: P2
+
 start debug fn = do 
+    let p1v2 =  p1 ^. v2 
+    putIOwords ["piv2", showT p1v2]
+    putIOwords ["piv2", showT p1v2]
+    putIOwords ["point2d zero", showT (zero::P2)]
     return ()

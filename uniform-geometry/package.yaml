@@ -25,11 +25,21 @@ dependencies:
  
 - uniformBase >=0.1.3
 
-- vector-space
+# - vector-space
+- linear
+- lens
 
 library:
-  source-dirs: src
+  source-dirs: 
+  - src
+  - "."
 
+executables: 
+  ex1: 
+    main:   ExampleMain.hs
+    source-dirs:  src
+    dependencies: 
+    - uniform-geometry
 
 # tests:
 #   webserver-test:
