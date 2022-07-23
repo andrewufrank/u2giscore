@@ -1,0 +1,33 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.35.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           uniform-geometry
+version:        0.0.1.1
+synopsis:       uniform wrapper for geometry functions
+description:    a few basic data types and functions
+                  0.0.1.1 for cabal
+category:       Geometry, Uniform
+author:         Andrew Frank
+maintainer:     Andrew U. Frank <andrewufrank@gmail.com>
+license:        GPL
+license-file:   GPL_3
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+library
+  exposed-modules:
+      ExampleMain
+  other-modules:
+      Paths_uniform_geometry
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , uniformBase >=0.1.3
+    , vector-space
+  default-language: Haskell2010
