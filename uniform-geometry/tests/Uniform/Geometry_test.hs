@@ -31,7 +31,11 @@ import Control.Exception
 
 p1 = Point2d 1 (V2 1 1):: P2
 
-test_p1 = assertEqual "Point2d {_id = 1, _v2 = V2 1.0 1.0}" (showT p1)
+test_p1 = assertEqual "Point2d {_p2id = 1, _v2 = V2 1.0 1.0}" (showT p1)
 
-test_v2zero = assertEqual "Point2d {_id = 0, _v2 = V2 0.0 0.0}" (showT (zero::P2))
+test_v2zero = assertEqual "Point2d {_p2id = 0, _v2 = V2 0.0 0.0}" (showT (zero::P2))
+
+test_id = assertEqual (1::Int) (p1 ^. p2id)
+test_v2xy = assertEqual (V2 1.0 1.0) ((p1 ^. v2 . _xy))
+test_v2y = assertEqual (1.0) ((p1 ^. v2 . _y))
 
