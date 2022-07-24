@@ -7,6 +7,7 @@ packages:
 --    ../uniform-strings/*.cabal
 --    ../uniform-time/*.cabal
 
+        ../../fromOthersExperiments/qhull
 -- Disregard all upper bounds when dependency solving
 allow-newer: all 
  

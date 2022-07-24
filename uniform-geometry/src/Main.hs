@@ -24,6 +24,7 @@ import UniformBase
 import Uniform.Point
 import Uniform.PointData 
 
+import Delaunay.Delaunay
 main =
   startProg
     (unwords' ["Uniform.Geometry", "the test for geometry"])
@@ -36,11 +37,20 @@ main =
 
 p1 = Point2d 1 (V2 1 1):: P2
 
+fourDouble :: [[Double]]
+fourDouble = map p2_tup fourP2 
+
+delaunayResult = delaunay fourDouble False False Nothing
+
 start :: MonadIO m => p1 -> p2 -> m ()
 start debug fn = do 
     let p1v2 =  p1 ^. v2 
     putIOwords ["piv2", showT p1v2]
     putIOwords ["piv2", showT p1v2]
     putIOwords ["point2d zero", showT (zero::P2)]
-    putIOwords ["point2d two", showT (twoP2)]
+    putIOwords ["point2d two", showT (fourP2)]
+    putIOwords ["point2d two", showT (fourDouble)]
+    res <- liftIO $ delaunay fourDouble False False Nothing
+
+    putIOwords ["point2d two", showT res]
     return ()

@@ -28,6 +28,7 @@ dependencies:
 # - vector-space
 - linear
 - lens
+- qhull
 
 library:
   source-dirs: 
