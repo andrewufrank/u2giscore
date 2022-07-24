@@ -47,6 +47,10 @@ twoT = [(0,0,11), (1.5, 1.5, 12), (0,2,13), (2,0,14)]
 
 tup2P2 :: (Double, Double, Int) -> P2 
 tup2P2 (x,y,i)= Point2d i (V2 x y)
+p2_tup_id :: P2 -> (Double, Double, Int)
+p2_tup_id p7 = (p7 ^. v2._x, p7 ^. v2._y, p7 ^. p2id)
+    -- with pattern matching simpler?
+-- p2_tup_id (Point2d i (V2 x y)) = (x,y,i)
 
 twoP2 :: [P2]
 twoP2 = map tup2P2 twoT 
