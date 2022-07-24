@@ -36,7 +36,7 @@ library:
 
 executables: 
   ex1: 
-    main:   ExampleMain.hs
+    main:   Main.hs
     source-dirs:  src
     dependencies: 
     - uniform-geometry

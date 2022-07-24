@@ -21,8 +21,9 @@ extra-source-files:
 
 library
   exposed-modules:
-      ExampleMain
+      Main
       Uniform.Point
+      Uniform.PointData
   other-modules:
       Paths_uniform_geometry
   hs-source-dirs:
@@ -36,7 +37,7 @@ library
   default-language: Haskell2010
 
 executable ex1
-  main-is: ExampleMain.hs
+  main-is: Main.hs
   other-modules:
       Paths_uniform_geometry
   hs-source-dirs:

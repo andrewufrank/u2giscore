@@ -15,13 +15,14 @@
 
     #-}
 
-module ExampleMain     where
+module Main     where
 
 
 
  
 import UniformBase
 import Uniform.Point
+import Uniform.PointData 
 
 main =
   startProg
@@ -35,9 +36,11 @@ main =
 
 p1 = Point2d 1 (V2 1 1):: P2
 
+start :: MonadIO m => p1 -> p2 -> m ()
 start debug fn = do 
     let p1v2 =  p1 ^. v2 
     putIOwords ["piv2", showT p1v2]
     putIOwords ["piv2", showT p1v2]
     putIOwords ["point2d zero", showT (zero::P2)]
+    putIOwords ["point2d two", showT (twoP2)]
     return ()
