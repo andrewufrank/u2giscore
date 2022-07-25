@@ -5,7 +5,7 @@
 :set -fno-warn-missing-signatures
 :set -fno-warn-orphans
 :set -isrc
-:set -itests
+--:set -itests
 :set -i.stack-work/dist/x86_64-linux-tinfo6/Cabal-2.4.0.1/build/autogen/
 :load tests/Testing.hs
 --test:=ssgTest

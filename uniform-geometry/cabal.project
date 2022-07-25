@@ -7,7 +7,10 @@ packages:
 --    ../uniform-strings/*.cabal
 --    ../uniform-time/*.cabal
 
-        ../../fromOthersExperiments/qhull
+       ../../fromOthersExperiments/qhull/*.cabal
+--    ../../qhullSplit/qhull/*.cabal 
+
 -- Disregard all upper bounds when dependency solving
-allow-newer: all 
+
+allow-newer: toysolver:base 
  

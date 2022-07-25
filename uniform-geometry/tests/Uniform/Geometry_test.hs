@@ -22,7 +22,7 @@
 
 module Uniform.Geometry_test where
 
-import           Test.Framework
+-- import           Test.Framework
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
 import   Uniform.Point
 import Uniform.PointData

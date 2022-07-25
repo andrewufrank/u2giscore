@@ -33,6 +33,8 @@ module Uniform.PointData
 
 import UniformBase
 import Uniform.Point
+import qualified Data.Map as Map 
+
 -- import Vector
 import Linear.V2
 import qualified Linear.Vector as Lin
@@ -59,12 +61,17 @@ p2_tup_id p7 = (p7 ^. v2._x, p7 ^. v2._y, p7 ^. p2id)
     -- with pattern matching simpler?
 -- p2_tup_id (Point2d i (V2 x y)) = (x,y,i)
 
-p2_tup :: P2 -> [Double]
-p2_tup (Point2d i (V2 x y)) = [x, y]
+p2_tup :: P2 -> (Int, [Double])
+p2_tup (Point2d i (V2 x y)) =(i, [x, y])
 
 
 fiveP2 :: [P2]
 fiveP2 = map tup2P2 fivePoints 
+
+fiveD = map (snd . p2_tup) fiveP2
+
+fivemap :: Map.Map Int [Double]
+fivemap = Map.fromList . fmap p2_tup $ fiveP2
 
 
 

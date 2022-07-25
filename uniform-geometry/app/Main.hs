@@ -25,6 +25,8 @@ import Uniform.Point
 import Uniform.PointData 
 
 import Delaunay.Delaunay
+import Voronoi2D
+
 main =
   startProg
     (unwords' ["Uniform.Geometry", "the test for geometry"])
@@ -38,7 +40,7 @@ main =
 p1 = Point2d 1 (V2 1 1):: P2
 
 fourDouble :: [[Double]]
-fourDouble = map p2_tup fourP2 
+fourDouble = map (snd . p2_tup) fourP2 
 
 delaunayResult = delaunay fourDouble False False Nothing
 
@@ -51,6 +53,12 @@ start debug fn = do
     putIOwords ["point2d two", showT (fourP2)]
     putIOwords ["point2d two", showT (fourDouble)]
     res <- liftIO $ delaunay fourDouble False False Nothing
-
     putIOwords ["point2d two", showT res]
+    res2 <- liftIO $ delaunay fourDouble True False Nothing
+    -- with point at infinity -- no difference observable
+    putIOwords ["point2d two", showT res2]
+    let resVor1 = voronoi2 res
+    putIOwords ["voronoi from res", showT resVor1]
+    -- putIOwords ["voronoi from res", showT voronoi1]
+    liftIO $ prettyShowVoronoi2 resVor1 Nothing 
     return ()
