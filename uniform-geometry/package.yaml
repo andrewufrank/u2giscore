@@ -35,7 +35,7 @@ dependencies:
 library:
   source-dirs: 
   - src
-  - "."
+ 
 
 executable: 
   # ex1: 

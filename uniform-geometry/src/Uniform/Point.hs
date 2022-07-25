@@ -47,5 +47,5 @@ instance (Zeros a, Num a) => Zeros (V2 a) where zero = Lin.zero
 instance Zeros Double where zero = 0.0
 makeLenses ''Point2d
 
-type P2 = Point2d Int Double
+type P2 = Point2d Integer Double
 

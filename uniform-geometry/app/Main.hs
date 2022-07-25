@@ -26,6 +26,7 @@ import Uniform.PointData
 
 import Delaunay.Delaunay
 import Voronoi2D
+import Uniform.Delaunay  
 
 main =
   startProg
@@ -61,4 +62,10 @@ start debug fn = do
     putIOwords ["voronoi from res", showT resVor1]
     -- putIOwords ["voronoi from res", showT voronoi1]
     liftIO $ prettyShowVoronoi2 resVor1 Nothing 
+    -- building the triples
+    putIOwords ["five name", showT node_name_five]
+    putIOwords ["four name", showT node_name_four]
+    putIOwords ["four x", showT node_x_four]
+    putIOwords ["four y", showT node_y_four]
+    putIOwords ["four name x y", showT $ zip3 node_name_four node_x_four node_y_four]
     return ()

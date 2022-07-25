@@ -46,22 +46,35 @@ import qualified Linear.Vector as Lin
 import Control.Lens 
 import GHC.Generics
 
-type NodeID = Int 
+type NodeID = Integer 
 type NodeName = Text 
+type Coord = Double
 
-p2_node_name :: Int -> P2 -> (NodeID, NodeName)
+p2_node_name :: Integer -> P2 -> (NodeID, NodeName)
 p2_node_name i p = (i, showT $ p ^. p2id)
 type Node_Name = (NodeID, NodeName)
 
-p2s_node_name :: Int -> [P2] -> [Node_Name]
+p2s_node_name :: NodeID -> [P2] -> [Node_Name]
 p2s_node_name off1 p2s = zipWith p2_node_name [off1 ..] p2s
 node_name_five :: [Node_Name]
 node_name_five = p2s_node_name 50 fiveP2
--- node_name_four = 
+node_name_four = p2s_node_name 40 fourP2
 
-type NodeX = Double  
+p2_node_x :: NodeID -> P2 -> (NodeID, Coord)
+p2_node_x i p = (i,    p ^. v2._x)
+p2s_node_x :: NodeID -> [P2] -> [(NodeID, Coord)]
+p2s_node_x off1 p2s = zipWith p2_node_x [off1 ..] p2s
+node_x_four :: [(NodeID, Coord)]
+node_x_four = p2s_node_x 40 fourP2
+
+
+
+
+-- type NodeX = Double  
 -- type P2_X = (NodeID, NodeX)
-p2_node_x i p = (i, p ^. v2._x)
+p2_node_y i p = (i, p ^. v2._y)
+p2s_node_y off1 p2s = zipWith p2_node_y [off1 ..] p2s
+node_y_four = p2s_node_y 40 fourP2
 
 -- -- import           Uniform.Strings hiding ((</>), (<.>), S)
 
