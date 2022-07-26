@@ -37,7 +37,7 @@ test_p1 = assertEqual "Point2d {_p2id = 1, _v2 = V2 1.0 2.0}" (showT p1)
 test_v2zero = assertEqual "Point2d {_p2id = 0, _v2 = V2 0.0 0.0}" (showT (zero::P2))
 
 test_id :: IO ()
-test_id = assertEqual (1::Int) (p1 ^. p2id)
+test_id = assertEqual (1::Integer) (p1 ^. p2id)
 test_v2xy :: IO ()
 test_v2xy = assertEqual (V2 1.0 2.0) ((p1 ^. v2 . _xy))
 test_v2y :: IO ()

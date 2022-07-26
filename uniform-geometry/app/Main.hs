@@ -26,7 +26,16 @@ import Uniform.PointData
 
 import Delaunay.Delaunay
 import Voronoi2D
-import Uniform.Delaunay  
+import Uniform.Delaunay 
+import Uniform.DelaunayTiles
+
+import qualified Data.IntMap.Strict  as IM
+import           Text.Show.Pretty
+import Control.Lens 
+import           Delaunay
+
+import Delaunay.Types
+import Qhull.Types
 
 main =
   startProg
@@ -47,25 +56,38 @@ delaunayResult = delaunay fourDouble False False Nothing
 
 start :: MonadIO m => p1 -> p2 -> m ()
 start debug fn = do 
-    let p1v2 =  p1 ^. v2 
-    putIOwords ["piv2", showT p1v2]
-    putIOwords ["piv2", showT p1v2]
-    putIOwords ["point2d zero", showT (zero::P2)]
-    putIOwords ["point2d two", showT (fourP2)]
-    putIOwords ["point2d two", showT (fourDouble)]
-    res <- liftIO $ delaunay fourDouble False False Nothing
-    putIOwords ["point2d two", showT res]
-    res2 <- liftIO $ delaunay fourDouble True False Nothing
-    -- with point at infinity -- no difference observable
-    putIOwords ["point2d two", showT res2]
-    let resVor1 = voronoi2 res
-    putIOwords ["voronoi from res", showT resVor1]
-    -- putIOwords ["voronoi from res", showT voronoi1]
-    liftIO $ prettyShowVoronoi2 resVor1 Nothing 
-    -- building the triples
-    putIOwords ["five name", showT node_name_five]
-    putIOwords ["four name", showT node_name_four]
-    putIOwords ["four x", showT node_x_four]
-    putIOwords ["four y", showT node_y_four]
-    putIOwords ["four name x y", showT $ zip3 node_name_four node_x_four node_y_four]
+    -- let p1v2 =  p1 ^. v2 
+    -- putIOwords ["piv2", showT p1v2]
+    -- putIOwords ["piv2", showT p1v2]
+    -- putIOwords ["point2d zero", showT (zero::P2)]
+    -- putIOwords ["point2d two", showT (fourP2)]
+    -- putIOwords ["point2d two", showT (fourDouble)]
+    res4 <- liftIO $ delaunay fourDouble False False Nothing
+    putIOwords ["point2d two", showT res4, "\n"]
+    -- -- res4x <- liftIO $ delaunay fourDouble True False Nothing
+    -- -- -- with point at infinity -- no difference observable
+    -- -- putIOwords ["point2d two", showT res4x]
+    -- -- let resVor1 = voronoi2 res4
+    -- -- putIOwords ["voronoi from res", showT resVor1]
+    -- -- -- putIOwords ["voronoi from res", showT voronoi1]
+    -- -- liftIO $ prettyShowVoronoi2 resVor1 Nothing 
+    -- -- -- building the triples
+    -- putIOwords ["five name", showT node_name_five]
+    -- putIOwords ["four name", showT node_name_four]
+    -- putIOwords ["four x", showT node_x_four]
+    -- putIOwords ["four y", showT node_y_four]
+    -- putIOwords ["four name x y", showT $ zip3 node_name_four node_x_four node_y_four]
+
+    let vs4 = vertices res4
+    -- let vs4 = IM.elems $ _vertices res4 :: [[Double]]
+    liftIO $ pPrint vs4
+    liftIO $ putIOwords ["vs4", showT vs4]
+    putIOwords ["tiles res4\n", showT $ tiles2 res4]
+    putIOwords ["no_tiles res4\n", showT $ no_tiles res4]
+    putIOwords ["circum2 res4\n", showT $ center res4]
+    putIOwords ["surface res4\n", showT $ surface res4]
+    putIOwords ["toporiented res4\n", showT $ toporiented res4]
+    putIOwords ["\n edges \n", showT $ edges res4]
+    putIOwords ["tilefaces1 \n", showT $ tilefacets1 res4]
+    putIOwords ["length1 \n", showT $ length1 res4]
     return ()
