@@ -99,7 +99,17 @@ edges tess = Prelude.map fromPair $ H.keys $ _edges tess
 tilefacets1 :: Tesselation -> [TileFacet]
 tilefacets1 tess = IM.elems $ _tilefacets tess 
 
+length1 :: Tesselation -> [Double]
 length1  = map (_volume' . _subsimplex) . tilefacets1   
+
+simplex3 = map ( _subsimplex) . tilefacets1 
+
+-- vertices3 :: Tesselation -> [ [Double]]
+vertices3 = map IM.elems . map _vertices' . simplex3
+-- startNode = map ((Map.!0)) . IM.elems .  nodes3facet
+
+start3 = map (!! 0) . vertices3
+end3 = map (!! 1) . vertices3
 --   let edges = Prelude.map fromPair $ H.keys $ _edges dtesseract
  
 

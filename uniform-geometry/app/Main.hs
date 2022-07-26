@@ -90,4 +90,8 @@ start debug fn = do
     putIOwords ["\n edges \n", showT $ edges res4]
     putIOwords ["tilefaces1 \n", showT $ tilefacets1 res4]
     putIOwords ["length1 \n", showT $ length1 res4]
+    putIOwords ["simplex3 \n", showT $ simplex3 res4]
+    putIOwords ["vertices3 \n", showT $ vertices3 res4]
+    putIOwords ["start3 \n", showT $ start3 res4]
+    putIOwords ["end3 \n", showT $ end3 res4]
     return ()
