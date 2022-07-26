@@ -94,4 +94,5 @@ start debug fn = do
     putIOwords ["vertices3 \n", showT $ vertices3 res4]
     putIOwords ["start3 \n", showT $ start3 res4]
     putIOwords ["end3 \n", showT $ end3 res4]
+    putIOwords ["facetof3 \n", showT $ facetof3 res4]
     return ()
