@@ -30,13 +30,13 @@
 
 
 module Uniform.DelaunayTiles 
-    -- ( module Uniform.Delaunay
-    -- , module Uniform.DelaunayTiles
-    -- , module Uniform.PointData
-    -- , module Uniform.Point
-    -- , module Linear.V2
-    -- , module Control.Lens
-    --     ) 
+    ( module Uniform.Delaunay
+    , module Uniform.DelaunayTiles
+    , module Uniform.PointData
+    , module Uniform.Point
+    , module Linear.V2
+    , module Control.Lens
+        ) 
          where
 
 import UniformBase
@@ -108,11 +108,11 @@ simplex3 = map ( _subsimplex) . tilefacets1
 vertices3 = map IM.assocs . map _vertices' . simplex3
 -- startNode = map ((Map.!0)) . IM.elems .  nodes3facet
 
-start3 = map fst . map (!! 0) . vertices3
-end3 = map fst . map (!! 1) . vertices3
+start3 :: Tesselation -> [Integer]
+start3 = map toInteger . map fst . map (!! 0) . vertices3
+end3 = map toInteger . map fst . map (!! 1) . vertices3
 
-facetof3 :: Tesselation -> [[IM.Key]]
-facetof3 = map IS.elems . map (_facetOf ) . tilefacets1 
+facetof3 = map (map toInteger) . map IS.elems . map (_facetOf ) . tilefacets1 
 --   let edges = Prelude.map fromPair $ H.keys $ _edges dtesseract
  
 

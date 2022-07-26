@@ -28,6 +28,7 @@ import Delaunay.Delaunay
 import Voronoi2D
 import Uniform.Delaunay 
 import Uniform.DelaunayTiles
+import Uniform.DelaunayTriples
 
 import qualified Data.IntMap.Strict  as IM
 import           Text.Show.Pretty
@@ -61,7 +62,7 @@ start debug fn = do
     -- putIOwords ["piv2", showT p1v2]
     -- putIOwords ["point2d zero", showT (zero::P2)]
     -- putIOwords ["point2d two", showT (fourP2)]
-    -- putIOwords ["point2d two", showT (fourDouble)]
+    putIOwords ["point2d two", showT (fourDouble)]
     res4 <- liftIO $ delaunay fourDouble False False Nothing
     putIOwords ["point2d two", showT res4, "\n"]
     -- -- res4x <- liftIO $ delaunay fourDouble True False Nothing

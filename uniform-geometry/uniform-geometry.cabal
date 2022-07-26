@@ -23,6 +23,7 @@ library
   exposed-modules:
       Uniform.Delaunay
       Uniform.DelaunayTiles
+      Uniform.DelaunayTriples
       Uniform.Point
       Uniform.PointData
   other-modules:
