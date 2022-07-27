@@ -60,6 +60,7 @@ import qualified Data.IntSet as IS
 import qualified Data.IntMap.Strict  as IM
 
 import           Data.HashMap.Strict.InsOrd as H hiding (map)
+import Language.Haskell.TH.Lens (_Overlapping)
 
 
 newtype HqID = Hq Integer 
@@ -102,18 +103,34 @@ trip_hq_length:: Integer -> [Double] -> [(HqID, Double)]
 -- input is length3 (the length of the HALF)
 trip_hq_length offs ss = zip (map Hq [offs, offs+2 ..]) (map (/2) ss)
 
-trip_hq_face :: Integer -> [[Integer]] -> [(HqID, FaceID)]
--- input is facetof3 -- take the first first 
-trip_hq_face offs ss = zip (map Hq [offs, offs+2 ..]) (map F . map (!!0) $ ss)
 
 trip_hq_node2 :: Integer -> [Integer] -> [(HqID, NodeID)]
--- input is start3
+-- input is end3
 trip_hq_node2 offs ss = zip (map Hq [offs+1, offs+3 ..]) (map N ss)
 
 trip_hq_length2:: Integer -> [Double] -> [(HqID, Double)]
 -- input is length3 (the length of the HALF)
-trip_hq_length2 offs ss = zip (map Hq [offs, offs+2 ..]) (map (/2) ss)
+trip_hq_length2 offs ss = zip (map Hq [offs+1, offs+3 ..]) (map (/2) ss)
 
-trip_hq_face2 :: Integer -> [[Integer]] -> [(HqID, FaceID)]
--- input is facetof3 -- take the first first 
-trip_hq_face2 offs ss = zip (map Hq [offs, offs+2 ..]) (map F . map (!!0) $ ss)
+-- hq to face 
+-- test wether the center is left or right of edge
+-- i.e. test area start - end - center >0
+
+
+face_nodeLists :: Tesselation -> [[Integer]]
+face_nodeLists tess = map (map fromIntegral) .  map IM.keys . map _vertices' . -- 
+                  map _simplex .   tiles2 $ tess
+
+face_nodeLists_topo tess= zip  (face_nodeLists tess) (toporiented  tess)
+
+face_nodeLists_oriented (ls_topos) = map face_nodeList_oriented
+face_nodeList_oriented (l, topo) = if topo then l else reverse l
+
+
+-- trip_hq_face :: Integer -> [[Integer]] -> [(HqID, FaceID)]
+-- -- input is facetof3 --  start -- face right of start-end 
+-- trip_hq_face offs ss = zip (map Hq [offs, offs+2 ..]) (map F . map (!!0) $ ss)
+
+-- trip_hq_face2 :: Integer -> [[Integer]] -> [(HqID, FaceID)]
+-- -- input is facetof3 -- end -- face left of start-end
+-- trip_hq_face2 offs ss = zip (map Hq [offs+1, offs+3 ..]) (map F . map (!!0) $ ss)
