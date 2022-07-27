@@ -66,6 +66,9 @@ import Language.Haskell.TH.Lens (_Overlapping)
 newtype HqID = Hq Integer 
     deriving (Show, Read, Ord, Eq, Generic, Zeros, Enum)
 
+-- offset 
+-- must be the same for N, F, HQ 
+
 --- nodes 
 
 trip_node_name :: Integer -> Integer -> [Text]-> [(NodeID, Text)]
@@ -115,16 +118,26 @@ trip_hq_length2 offs ss = zip (map Hq [offs+1, offs+3 ..]) (map (/2) ss)
 -- hq to face 
 -- test wether the center is left or right of edge
 -- i.e. test area start - end - center >0
+trip_hqs_faces :: Integer -> Tesselation -> [[_]]
+trip_hqs_faces offs tess = zipWith (trip_hq_faces tiles1) [offs, offs+2 ..] tilefacets1
+    where 
+            tiles1 :: [Tile]
+            tiles1 = IM.elems . _tiles $ tess 
+            tilefacets1  :: [TileFacet]
+            tilefacets1 = IM.elems . _tilefacets $ tess
 
 
-face_nodeLists :: Tesselation -> [[Integer]]
-face_nodeLists tess = map (map fromIntegral) .  map IM.keys . map _vertices' . -- 
-                  map _simplex .   tiles2 $ tess
-
-face_nodeLists_topo tess= zip  (face_nodeLists tess) (toporiented  tess)
-
-face_nodeLists_oriented (ls_topos) = map face_nodeList_oriented
-face_nodeList_oriented (l, topo) = if topo then l else reverse l
+-- | process one tileface 
+trip_hq_faces :: [Tile] -> Integer -> TileFacet -> [[_]]
+-- process one tilefacet and decide for each face where to put
+trip_hq_faces tiles thisoffs  tft = [starthq, endhq]
+    where 
+        vertices1 ::  [(IM.Key, [Double])]
+        vertices1 =   IM.assocs .  _vertices' .  _subsimplex $ tft
+        (startid, startxy) =  (!!0)  vertices1 
+        (endid, endxy) =  vertices1 !! 1
+        starthq = (Hq thisoffs, N . toInteger $ startid)
+        endhq = (Hq thisoffs +1, N . toInteger $ endid)
 
 
 -- trip_hq_face :: Integer -> [[Integer]] -> [(HqID, FaceID)]
@@ -134,3 +147,6 @@ face_nodeList_oriented (l, topo) = if topo then l else reverse l
 -- trip_hq_face2 :: Integer -> [[Integer]] -> [(HqID, FaceID)]
 -- -- input is facetof3 -- end -- face left of start-end
 -- trip_hq_face2 offs ss = zip (map Hq [offs+1, offs+3 ..]) (map F . map (!!0) $ ss)
+
+-- a start to find it with searching in the edge list of a face.
+-- abandoned because too complicated. 
