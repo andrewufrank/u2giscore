@@ -118,7 +118,7 @@ trip_hq_length2 offs ss = zip (map Hq [offs+1, offs+3 ..]) (map (/2) ss)
 -- hq to face 
 -- test wether the center is left or right of edge
 -- i.e. test area start - end - center >0
-trip_hqs_faces :: Integer -> Tesselation -> [[_]]
+-- trip_hqs_faces :: Integer -> Tesselation -> [[_]]
 trip_hqs_faces offs tess = zipWith (trip_hq_faces tiles1) [offs, offs+2 ..] tilefacets1
     where 
             tiles1 :: [Tile]
@@ -128,17 +128,27 @@ trip_hqs_faces offs tess = zipWith (trip_hq_faces tiles1) [offs, offs+2 ..] tile
 
 
 -- | process one tileface 
-trip_hq_faces :: [Tile] -> Integer -> TileFacet -> [[_]]
+-- trip_hq_faces :: [Tile] -> Integer -> TileFacet -> _
 -- process one tilefacet and decide for each face where to put
-trip_hq_faces tiles thisoffs  tft = [starthq, endhq]
+trip_hq_faces tiles thisoffs  tft = ([starthq, endhq])
     where 
         vertices1 ::  [(IM.Key, [Double])]
         vertices1 =   IM.assocs .  _vertices' .  _subsimplex $ tft
         (startid, startxy) =  (!!0)  vertices1 
         (endid, endxy) =  vertices1 !! 1
         starthq = (Hq thisoffs, N . toInteger $ startid)
-        endhq = (Hq thisoffs +1, N . toInteger $ endid)
+        endhq = (Hq (thisoffs +1), N . toInteger $ endid)
+        twinhqS =  (Hq thisoffs, Hq (thisoffs +1))
+        twinhqT =  (Hq (thisoffs+1), Hq thisoffs)
 
+        facetofs1 :: [Int] -- the list of faces
+        facetofs1 =   IS.elems . _facetOf  $ tft
+
+        centerxy i = _circumcenter . _simplex . (!! i)  $ tiles 
+        centers = map centerxy facetofs1
+        -- ccws = 
+            -- test the center to determine which side 
+            -- add to the correct hq 
 
 -- trip_hq_face :: Integer -> [[Integer]] -> [(HqID, FaceID)]
 -- -- input is facetof3 --  start -- face right of start-end 
