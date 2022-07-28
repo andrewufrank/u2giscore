@@ -38,8 +38,8 @@ module Uniform.Delaunay
         )  where
 
 import UniformBase
-import Uniform.Point
-import Uniform.PointData
+import Uniform.Point2d
+import Uniform.Point2dData
 import qualified Data.Map as Map 
 
 -- import Vector

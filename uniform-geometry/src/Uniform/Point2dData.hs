@@ -24,15 +24,15 @@
 {-# OPTIONS_GHC -w #-}
 
 
-module Uniform.PointData 
-    ( module Uniform.PointData
-    , module Uniform.Point
+module Uniform.Point2dData 
+    ( module Uniform.Point2dData
+    , module Uniform.Point2d
     , module Linear.V2
     , module Control.Lens
         )  where
 
 import UniformBase
-import Uniform.Point
+import Uniform.Point2d
 import qualified Data.Map as Map 
 
 -- import Vector

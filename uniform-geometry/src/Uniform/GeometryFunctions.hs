@@ -38,7 +38,7 @@ module Uniform.GeometryFunctions
          where
 
 import UniformBase
-import Uniform.Point 
+import Uniform.Point2d 
 -- import Vector
 import Linear.V2
 import qualified Linear.Vector as Lin
@@ -50,9 +50,3 @@ import Data.Ext
 import qualified Data.Geometry.Point as HP 
 
 ccw_test a b c = HP.CCW == H.ccw (toHPoint a) (toHPoint b) (toHPoint c)
-
-class ToHPoint2 a where 
-    toHPoint :: a -> H.Point 2 Double
-
-instance ToHPoint2 (V2 Double) where 
-    toHPoint = v2toHPoint 

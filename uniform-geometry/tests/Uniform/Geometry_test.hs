@@ -24,11 +24,11 @@ module Uniform.Geometry_test where
 
 import           Test.Framework
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
-import   Uniform.Point
-import Uniform.PointData
+-- import   Uniform.Point
+import Uniform.Point2dData
 import UniformBase
 
-import Control.Exception
+-- import Control.Exception
 import Uniform.GeometryFunctions
 -- import qualified Data.Geometry.Point as HP 
 
@@ -55,3 +55,5 @@ fiveV2 = map p2toV2 fiveP2
 test_ccw_t1 :: IO ()
 test_ccw_t1 = assertBool (ccw_test (fiveV2 !! 0) (fiveV2 !! 1) (fiveV2 !! 2))
 test_ccw_t2 = assertEqual False (ccw_test (fiveV2 !! 1) (fiveV2 !! 0) (fiveV2 !! 2))
+test_ccw_t1a = assertBool (ccw_test (fiveP2 !! 0) (fiveP2 !! 1) (fiveP2 !! 2))
+test_ccw_t3 = assertBool (ccw_test  ([0,0]::[Double]) ([5,0]::[Double]) ([10,10]::[Double]))

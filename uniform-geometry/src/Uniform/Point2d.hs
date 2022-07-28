@@ -1,7 +1,8 @@
 -----------------------------------------------------------------------------
 --
--- Module      :  Uniform.Point
+-- Module      :  Uniform.Point2d
 -- | Poind2d with ID and V2 for coordinates
+--          and conversions 
 -----------------------------------------------------------------------------
 {-# LANGUAGE BangPatterns          #-}
 {-# LANGUAGE DoAndIfThenElse       #-}
@@ -28,7 +29,7 @@
 {-# OPTIONS_GHC -w #-}
 
 
-module Uniform.Point 
+module Uniform.Point2d 
     ( module Uniform.Point
     , module Linear.V2
     , module Control.Lens
@@ -46,6 +47,9 @@ import qualified Data.Geometry as H
 import Data.Ext
 
 -- import           Uniform.Strings hiding ((</>), (<.>), S)
+
+
+-----------------------
 
 -- | a 2d point (constructed from V2 from Linear) with a name
 data Point2d i v = Point2d {_p2id:: i, _v2:: V2 v}
@@ -73,3 +77,22 @@ fromList2V2 [x,y] = V2 x y
 v2toHPoint (V2 x y) = H.Point2 x y  
 v2toHPoint' (V2 x y) = H.Point2 x y :+ () 
 
+--------------------------
+-- | conversion to H.Point (without a point name)
+-- needs instances for all Point types considered 
+class ToHPoint2 a where 
+    toHPoint :: a -> H.Point 2 Double
+
+instance ToHPoint2 (V2 Double) where 
+    toHPoint = v2toHPoint 
+instance ToHPoint2 (P2) where 
+    toHPoint = v2toHPoint  . p2toV2
+instance ToHPoint2 [Double] where 
+    toHPoint = v2toHPoint  . fromList2V2
+
+-- conversion to V2 
+class ToV2 a where 
+    toV2 :: a -> V2 Double 
+
+instance ToV2 [Double] where 
+    toV2 = fromList2V2 

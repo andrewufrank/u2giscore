@@ -25,8 +25,8 @@ library
       Uniform.DelaunayTiles
       Uniform.DelaunayTriples
       Uniform.GeometryFunctions
-      Uniform.Point
-      Uniform.PointData
+      Uniform.Point2d
+      Uniform.Point2dData
   other-modules:
       Paths_uniform_geometry
   hs-source-dirs:
