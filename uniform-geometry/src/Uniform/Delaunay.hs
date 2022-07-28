@@ -31,8 +31,8 @@
 
 module Uniform.Delaunay 
     ( module Uniform.Delaunay
-    , module Uniform.PointData
-    , module Uniform.Point
+    , module Uniform.Point2dData
+    , module Uniform.Point2d
     , module Linear.V2
     , module Control.Lens
         )  where

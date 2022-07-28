@@ -24,7 +24,7 @@ module Uniform.Geometry_test where
 
 import           Test.Framework
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
--- import   Uniform.Point
+-- import   Uniform.Point2d
 import Uniform.Point2dData
 import UniformBase
 

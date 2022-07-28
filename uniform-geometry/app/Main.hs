@@ -21,8 +21,8 @@ module Main     where
 
  
 import UniformBase
-import Uniform.Point
-import Uniform.PointData 
+import Uniform.Point2d
+import Uniform.Point2dData 
 
 import Delaunay.Delaunay
 import Voronoi2D

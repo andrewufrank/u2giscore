@@ -30,7 +30,7 @@
 
 module Uniform.GeometryFunctions
     ( module Uniform.GeometryFunctions
-    , module Uniform.Point
+    , module Uniform.Point2d
     , module Linear.V2
     , module Control.Lens
     , P2

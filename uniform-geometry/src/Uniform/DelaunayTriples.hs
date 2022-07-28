@@ -32,16 +32,17 @@
 module Uniform.DelaunayTriples
     -- ( module Uniform.Delaunay
     -- , module Uniform.DelaunayTiles
-    -- , module Uniform.PointData
-    -- , module Uniform.Point
+    -- , module Uniform.Point2dData
+    -- , module Uniform.Point2d
     -- , module Linear.V2
     -- , module Control.Lens
     --     ) 
          where
 
 import UniformBase
-import Uniform.Point
-import Uniform.PointData
+import Uniform.Point2d
+import Uniform.Point2dData
+import Uniform.GeometryFunctions
 import qualified Data.Map as Map 
 import Uniform.Delaunay
 import Uniform.DelaunayTiles
@@ -119,7 +120,7 @@ trip_hq_length2 offs ss = zip (map Hq [offs+1, offs+3 ..]) (map (/2) ss)
 -- test wether the center is left or right of edge
 -- i.e. test area start - end - center >0
 -- trip_hqs_faces :: Integer -> Tesselation -> [[_]]
-trip_hqs_faces offs tess = zipWith (trip_hq_faces tiles1) [offs, offs+2 ..] tilefacets1
+trip_hqs_faces offs tess = zipWith (trip_hq_faces tiles1 offs) [offs, offs+2 ..] tilefacets1
     where 
             tiles1 :: [Tile]
             tiles1 = IM.elems . _tiles $ tess 
@@ -130,7 +131,7 @@ trip_hqs_faces offs tess = zipWith (trip_hq_faces tiles1) [offs, offs+2 ..] tile
 -- | process one tileface 
 -- trip_hq_faces :: [Tile] -> Integer -> TileFacet -> _
 -- process one tilefacet and decide for each face where to put
-trip_hq_faces tiles thisoffs  tft = ([starthq, endhq])
+trip_hq_faces tiles tilesoffs thisoffs  tft = ([starthq, endhq])
     where 
         vertices1 ::  [(IM.Key, [Double])]
         vertices1 =   IM.assocs .  _vertices' .  _subsimplex $ tft
@@ -142,13 +143,19 @@ trip_hq_faces tiles thisoffs  tft = ([starthq, endhq])
         twinhqT =  (Hq (thisoffs+1), Hq thisoffs)
 
         facetofs1 :: [Int] -- the list of faces
-        facetofs1 =   IS.elems . _facetOf  $ tft
+        facetofs1 =    IS.elems . _facetOf  $ tft
 
         centerxy i = _circumcenter . _simplex . (!! i)  $ tiles 
         centers = map centerxy facetofs1
-        -- ccws = 
+        ccws = map  (ccw_test startxy endxy) centers
             -- test the center to determine which side 
             -- add to the correct hq 
+        facehqs = zipWith facehq ccws (map toInteger facetofs1)
+
+        facehq :: Bool -> Integer -> (HqID, FaceID)
+        facehq bool1 fid = 
+            if bool1 then (Hq thisoffs, F (tilesoffs + fid))
+                        else (Hq (thisoffs +1), F (tilesoffs + fid))
 
 -- trip_hq_face :: Integer -> [[Integer]] -> [(HqID, FaceID)]
 -- -- input is facetof3 --  start -- face right of start-end 

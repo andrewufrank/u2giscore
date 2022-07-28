@@ -32,16 +32,16 @@
 module Uniform.DelaunayTiles 
     ( module Uniform.Delaunay
     , module Uniform.DelaunayTiles
-    , module Uniform.PointData
-    , module Uniform.Point
+    , module Uniform.Point2dData
+    , module Uniform.Point2d
     , module Linear.V2
     , module Control.Lens
         ) 
          where
 
 import UniformBase
-import Uniform.Point
-import Uniform.PointData
+import Uniform.Point2d
+import Uniform.Point2dData
 import qualified Data.Map as Map 
 import Uniform.Delaunay
 

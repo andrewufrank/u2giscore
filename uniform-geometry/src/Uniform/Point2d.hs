@@ -30,7 +30,7 @@
 
 
 module Uniform.Point2d 
-    ( module Uniform.Point
+    ( module Uniform.Point2d
     , module Linear.V2
     , module Control.Lens
     , P2
@@ -60,7 +60,7 @@ instance Zeros Double where zero = 0.0
 makeLenses ''Point2d
 
 type P2 = Point2d Integer Double
-
+type List2 a = [a]
 -------------- the conversion to the Hgeometry point
 -- from P2 to H.Point
 p2toHPoint :: Point2d Integer Double -> H.Point 2 Double :+ Integer 
@@ -87,12 +87,14 @@ instance ToHPoint2 (V2 Double) where
     toHPoint = v2toHPoint 
 instance ToHPoint2 (P2) where 
     toHPoint = v2toHPoint  . p2toV2
-instance ToHPoint2 [Double] where 
-    toHPoint = v2toHPoint  . fromList2V2
+-- instance ToHPoint2 [Double] where 
+--     toHPoint = v2toHPoint  . fromList2V2
+instance (ToV2 a) => ToHPoint2 a where 
+    toHPoint = v2toHPoint  . toV2
 
 -- conversion to V2 
 class ToV2 a where 
     toV2 :: a -> V2 Double 
 
-instance ToV2 [Double] where 
+instance ToV2 (List2 Double) where 
     toV2 = fromList2V2 

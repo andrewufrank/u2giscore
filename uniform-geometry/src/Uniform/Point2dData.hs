@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 --
--- Module      :  Uniform.Point
+-- Module      :  Uniform.Point2d
 -- | Poind2d with ID and V2 for coordinates
 -----------------------------------------------------------------------------
 {-# LANGUAGE BangPatterns          #-}
