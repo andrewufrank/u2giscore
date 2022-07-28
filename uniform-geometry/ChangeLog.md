@@ -12,4 +12,8 @@ Journal of work in uniform-geometry
 - problems reported
     moved executable to app
     move Uniform to src
-    
+0.0.1.2
+- export delaunay2 with list of V2 
+
+- problems 
+    - :l app/Main.hs in .ghci not working?

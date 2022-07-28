@@ -109,8 +109,8 @@ vertices3 =  map IM.assocs . map _vertices' . simplex3
 -- startNode = map ((Map.!0)) . IM.elems .  nodes3facet
 
 -- start3 :: Tesselation -> [Integer]
-start3 =   map (!! 0) .  vertices3
-end3 =   map (!! 1) . vertices3
+start3 =   map toInteger . map fst . map (!! 0) .  vertices3
+end3 =  map toInteger . map fst . map (!! 1) . vertices3
 
 facetof3 = map (map toInteger) . map IS.elems . map (_facetOf ) . tilefacets1 
 --   let edges = Prelude.map fromPair $ H.keys $ _edges dtesseract

@@ -94,6 +94,7 @@ trip_y idType offs  xs = zip (map idType [offs .. ]) (map (!!1) xs)
 trip_surface :: Integer  -> [Double] -> [(FaceID, Coord)]
 -- inpur is surface
 trip_surface offs xs = zip (map F [offs .. ]) ( xs) 
+trip_surface2 offs = trip_surface offs . surface 
 
 -- could add a name
 
@@ -103,20 +104,25 @@ trip_hq_node :: Integer -> [Integer] -> [(HqID, NodeID)]
 -- input is start3
 trip_hq_node offs ss = zip (map Hq [offs, offs+2 ..]) (map N ss)
 
+trip_hq_nodeX offs = trip_hq_node offs . start3
+
 trip_hq_length:: Integer -> [Double] -> [(HqID, Double)]
 -- input is length3 (the length of the HALF)
 trip_hq_length offs ss = zip (map Hq [offs, offs+2 ..]) (map (/2) ss)
+trip_hq_lengthX offs  = trip_hq_length offs . length1
 
 
 trip_hq_node2 :: Integer -> [Integer] -> [(HqID, NodeID)]
 -- input is end3
 trip_hq_node2 offs ss = zip (map Hq [offs+1, offs+3 ..]) (map N ss)
+trip_hq_node2X offs = trip_hq_node2 offs . end3
 
 trip_hq_length2:: Integer -> [Double] -> [(HqID, Double)]
 -- input is length3 (the length of the HALF)
 trip_hq_length2 offs ss = zip (map Hq [offs+1, offs+3 ..]) (map (/2) ss)
+trip_hq_length2X offs = trip_hq_length2 offs . length1 
 
--- hq to face 
+-- hq to face - function to convert Tesselation to list of triples for the HalfQuads
 -- test wether the center is left or right of edge
 -- i.e. test area start - end - center >0
 -- trip_hqs_faces :: Integer -> Tesselation -> [[_]]
@@ -168,10 +174,40 @@ trip_hq_faces tiles tilesoffs thisoffs  tft = ([starthq, endhq], [twinhqS,twinhq
 -- a start to find it with searching in the edge list of a face.
 -- abandoned because too complicated. 
 
+
+delaunay2 v2s = delaunay (map v2toList2 v2s) False False Nothing 
+-- ^ calling delaunay with a list of V2
+
+
+fourV2 = map p2toV2 fourP2 
+
 mainDelaunayTriples :: ErrIO ()
 mainDelaunayTriples = do 
     putIOwords ["\nmainDelaunayTriples\n"]
     -- putIOwords ["\nthe hq for faces\n", showT ]
-    res4 <- liftIO $ delaunay (map (v2toList2 . p2toV2) $ fourP2) False False Nothing
+    res4 <- liftIO $ delaunay2 fourV2 
+    -- res4 <- liftIO $ delaunay (map (v2toList2 . p2toV2) $ fourP2) False False Nothing
+    let hqf = trip_surface2 400 res4
+    putIOwords ["\nfaces res4\n", showT hqf]
+    -- let hqnn = trip_node_name offs ct ts = zip (map N [offs .. offs+ct]) ts
+    -- not used, no names, would require removing ct (count)
+    -- let hqn = trip_hq_nodeX 400 res4
+    -- let hqn2 = trip_hq_node2X 400 res4
+    let hqnx = trip_x N 400 (vertices res4)
+    let hqny = trip_y N 400 (vertices res4)
+    putIOwords ["\nnode hqs for res4\n", showT hqnx, showT hqny]
+    let hqfx = trip_x F 400 (center res4)
+    let hqfy = trip_y F 400 (center res4)
+    putIOwords ["\ncenter hqs for res4\n", showT hqfx, showT hqfy]
+
+    let hqlength = trip_hq_lengthX 400 res4
+    let hqlength2 = trip_hq_length2X 400 res4
+    putIOwords ["\nhqs length for res4\n", showT hqlength, showT hqlength2]
+
     let hqs = trip_hqs_faces 400 res4
     putIOwords ["\nall the face hqs for res4\n", showT hqs]
+
+
+-- triplePerLine2 :: (Show a, Show b) => [[(a,b)]] -> Text
+-- triplePerLine2 = unlines' . map (unlines' .map   ( unlines'.   map showT)) 
+-- not working on hqs, not a list before changed to sum type
