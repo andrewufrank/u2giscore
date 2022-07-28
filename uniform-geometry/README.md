@@ -1,5 +1,19 @@
 a uniform method to access geometry functions
 
+The goal of the package is first to provide a uniform interface to 
+functions for geometric operations in two dimensions (2D).
+An extension to three dimensions (3D) or n dimension is possible.
+
+Experience shows that geometry packages use, among other variations making use difficult,  different representations for points. This packages uses `V2` from `Linear.Algebra` (from hackage `linear`) for the interface. 
+
+Functions to convert to other formats are included and are used internally to access useful code. The package starts as interface to other packages and explains the long list of dependencies. 
+
+Formats considered intially
+- Point from `hgeometry` 
+- the formats used in `qhull`
+- Point2d, a wrapper around V2 to include a point name (similar to `Point :+`)
+
+
 uniform means:
 - same functions with identical semantics independent of representation
 - all functions are total (or become so using Maybe or Either)

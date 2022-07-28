@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 --
--- Module      :  Uniform.Point
+-- Module      :  Uniform.GeometryFunctions
 -- | Poind2d with ID and V2 for coordinates
 -----------------------------------------------------------------------------
 {-# LANGUAGE BangPatterns          #-}
@@ -28,14 +28,17 @@
 {-# OPTIONS_GHC -w #-}
 
 
-module Uniform.Point 
-    ( module Uniform.Point
+module Uniform.GeometryFunctions
+    ( module Uniform.GeometryFunctions
+    , module Uniform.Point
     , module Linear.V2
     , module Control.Lens
     , P2
-        )  where
+        ) 
+         where
 
 import UniformBase
+import Uniform.Point 
 -- import Vector
 import Linear.V2
 import qualified Linear.Vector as Lin
@@ -44,32 +47,12 @@ import GHC.Generics
 
 import qualified Data.Geometry as H
 import Data.Ext
+import qualified Data.Geometry.Point as HP 
 
--- import           Uniform.Strings hiding ((</>), (<.>), S)
+ccw_test a b c = HP.CCW == H.ccw (toHPoint a) (toHPoint b) (toHPoint c)
 
--- | a 2d point (constructed from V2 from Linear) with a name
-data Point2d i v = Point2d {_p2id:: i, _v2:: V2 v}
-    deriving (Show, Read, Ord, Eq, Generic)
-instance (Zeros i, Zeros v, Num v) => Zeros (Point2d i v) where zero = Point2d zero zero 
-instance (Zeros a, Num a) => Zeros (V2 a) where zero = Lin.zero 
-instance Zeros Double where zero = 0.0
-makeLenses ''Point2d
+class ToHPoint2 a where 
+    toHPoint :: a -> H.Point 2 Double
 
-type P2 = Point2d Integer Double
-
--------------- the conversion to the Hgeometry point
--- from P2 to H.Point
-p2toHPoint :: Point2d Integer Double -> H.Point 2 Double :+ Integer 
-p2toHPoint (Point2d i (V2 x y)) = H.Point2 x y :+ i
-
--- from P to V2 
-p2toV2 p = p ^. v2 
-
--- from [Double] to V2 
-fromList2V2 :: [Double] -> V2 Double
-fromList2V2 [x,y] = V2 x y 
-
--- fromV2 to HPoint 
-v2toHPoint (V2 x y) = H.Point2 x y  
-v2toHPoint' (V2 x y) = H.Point2 x y :+ () 
-
+instance ToHPoint2 (V2 Double) where 
+    toHPoint = v2toHPoint 

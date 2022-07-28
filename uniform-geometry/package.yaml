@@ -34,6 +34,18 @@ dependencies:
 - insert-ordered-containers
 - pretty-show 
 
+# for hgeometry
+- hgeometry 
+- hgeometry-combinatorial
+# - linear
+- data-clist
+# - aeson-pretty
+- vector 
+# - array                    >= 0.5
+#  - lens
+# - semigroups
+- vector-circular
+
 
 library:
   source-dirs: 

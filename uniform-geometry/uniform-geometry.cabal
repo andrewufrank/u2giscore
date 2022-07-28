@@ -24,6 +24,7 @@ library
       Uniform.Delaunay
       Uniform.DelaunayTiles
       Uniform.DelaunayTriples
+      Uniform.GeometryFunctions
       Uniform.Point
       Uniform.PointData
   other-modules:
@@ -33,13 +34,18 @@ library
   build-depends:
       base >=4.7 && <5
     , containers
+    , data-clist
+    , hgeometry
+    , hgeometry-combinatorial
     , insert-ordered-containers
     , lens
     , linear
     , pretty-show
     , qhull ==0.1.0.3
     , uniformBase >=0.1.3
+    , vector
     , vector-algorithms
+    , vector-circular
   default-language: Haskell2010
 
 executable uniform-geometry
@@ -51,6 +57,9 @@ executable uniform-geometry
   build-depends:
       base >=4.7 && <5
     , containers
+    , data-clist
+    , hgeometry
+    , hgeometry-combinatorial
     , insert-ordered-containers
     , lens
     , linear
@@ -58,7 +67,9 @@ executable uniform-geometry
     , qhull ==0.1.0.3
     , uniform-geometry
     , uniformBase >=0.1.3
+    , vector
     , vector-algorithms
+    , vector-circular
   default-language: Haskell2010
 
 test-suite test1
@@ -73,6 +84,9 @@ test-suite test1
       HTF
     , base >=4.7 && <5
     , containers
+    , data-clist
+    , hgeometry
+    , hgeometry-combinatorial
     , insert-ordered-containers
     , lens
     , linear
@@ -81,5 +95,7 @@ test-suite test1
     , quickcheck-text
     , uniform-geometry
     , uniformBase
+    , vector
     , vector-algorithms
+    , vector-circular
   default-language: Haskell2010

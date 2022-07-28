@@ -29,6 +29,8 @@ import Uniform.PointData
 import UniformBase
 
 import Control.Exception
+import Uniform.GeometryFunctions
+-- import qualified Data.Geometry.Point as HP 
 
 p1 = Point2d 1 (V2 1 2):: P2
 
@@ -46,3 +48,10 @@ test_v2y = assertEqual (2.0) ((p1 ^. v2 . _y))
 test_toP2 :: IO ()
 test_toP2 = assertEqual p1 (tup2P2 . p2_tup_id $ p1)
 -- use inverse test 
+
+-- for tests five points 
+fiveV2 = map p2toV2 fiveP2
+
+test_ccw_t1 :: IO ()
+test_ccw_t1 = assertBool (ccw_test (fiveV2 !! 0) (fiveV2 !! 1) (fiveV2 !! 2))
+test_ccw_t2 = assertEqual False (ccw_test (fiveV2 !! 1) (fiveV2 !! 0) (fiveV2 !! 2))

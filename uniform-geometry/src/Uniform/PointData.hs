@@ -72,7 +72,7 @@ fiveP2 = map tup2P2 fivePoints
 
 fiveD = map (snd . p2_tup) fiveP2
 
-fivemap :: Map.Map Integer [Double]
+fivemap :: Map.Map Integer [Double]-- 
 fivemap = Map.fromList . fmap p2_tup $ fiveP2
 
 
