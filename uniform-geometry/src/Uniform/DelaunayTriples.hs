@@ -131,7 +131,7 @@ trip_hqs_faces offs tess = zipWith (trip_hq_faces tiles1 offs) [offs, offs+2 ..]
 -- | process one tileface 
 -- trip_hq_faces :: [Tile] -> Integer -> TileFacet -> _
 -- process one tilefacet and decide for each face where to put
-trip_hq_faces tiles tilesoffs thisoffs  tft = ([starthq, endhq])
+trip_hq_faces tiles tilesoffs thisoffs  tft = ([starthq, endhq], [twinhqS,twinhqT], facehqs)
     where 
         vertices1 ::  [(IM.Key, [Double])]
         vertices1 =   IM.assocs .  _vertices' .  _subsimplex $ tft

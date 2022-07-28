@@ -96,4 +96,7 @@ start debug fn = do
     putIOwords ["start3 \n", showT $ start3 res4]
     putIOwords ["end3 \n", showT $ end3 res4]
     putIOwords ["facetof3 \n", showT $ facetof3 res4]
+
+    let hqs = trip_hqs_faces 400 res4
+    putIOwords ["\nall the face hqs for res4\n", showT hqs]
     return ()
