@@ -47,7 +47,9 @@ import Linear.V2
 import qualified Linear.Vector as Lin
 import Control.Lens 
 import GHC.Generics
+import Delaunay
 import Delaunay.Types
+import GHC.Base (Alternative(many))
 
 
 -- ----------------------------for nodes 
@@ -77,6 +79,24 @@ node_x_four :: [(NodeID, Coord)]
 node_x_four = p2s_node_x 40 fourP2
 node_y_four = p2s_node_y 40 fourP2
 
+mainDelaunay :: ErrIO ()
+mainDelaunay = do 
+    putIOwords ["point2d two", showT (fourP2)]
+    res4 <- liftIO $ delaunay (map (v2toList2 . p2toV2) $ fourP2) False False Nothing
+    putIOwords ["point2d two", showT res4, "\n"]
+    -- -- res4x <- liftIO $ delaunay fourDouble True False Nothing
+    -- -- -- with point at infinity -- no difference observable
+    -- -- putIOwords ["point2d two", showT res4x]
+    -- -- let resVor1 = voronoi2 res4
+    -- -- putIOwords ["voronoi from res", showT resVor1]
+    -- -- -- putIOwords ["voronoi from res", showT voronoi1]
+    -- -- liftIO $ prettyShowVoronoi2 resVor1 Nothing 
+    -- -- -- building the triples
+    putIOwords ["five name", showT node_name_five]
+    putIOwords ["four name", showT node_name_four]
+    -- putIOwords ["four x", showT node_x_four]
+    -- putIOwords ["four y", showT node_y_four]
+    putIOwords ["four name x y", showT $ zip3 node_name_four node_x_four node_y_four]    
 
 
 

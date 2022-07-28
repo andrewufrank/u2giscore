@@ -115,6 +115,28 @@ end3 =   map (!! 1) . vertices3
 facetof3 = map (map toInteger) . map IS.elems . map (_facetOf ) . tilefacets1 
 --   let edges = Prelude.map fromPair $ H.keys $ _edges dtesseract
  
+mainDelaunayTiles :: ErrIO ()
+mainDelaunayTiles = do 
+    putIOwords ["mainDelaunayTiles ", showT (fourP2)]
+    res4 <- liftIO $ delaunay (map (v2toList2 . p2toV2) $ fourP2) False False Nothing
+    putIOwords ["point2d two", showT res4, "\n"]  
+
+    -- let vs4 = IM.elems $ _vertices res4 :: [[Double]]
+    -- liftIO $ pPrint vs4
+    -- putIOwords ["vs4", showT vs4]
+    putIOwords ["tiles res4\n", showT $ tiles2 res4]
+    putIOwords ["no_tiles res4\n", showT $ no_tiles res4]
+    putIOwords ["circum2 res4\n", showT $ center res4]
+    putIOwords ["surface res4\n", showT $ surface res4]
+    putIOwords ["toporiented res4\n", showT $ toporiented res4]
+    putIOwords ["\n edges \n", showT $ edges res4]
+    putIOwords ["tilefaces1 \n", showT $ tilefacets1 res4]
+    putIOwords ["length1 \n", showT $ length1 res4]
+    putIOwords ["simplex3 \n", showT $ simplex3 res4]
+    putIOwords ["vertices3 \n", showT $ vertices3 res4]
+    putIOwords ["start3 \n", showT $ start3 res4]
+    putIOwords ["end3 \n", showT $ end3 res4]
+    putIOwords ["facetof3 \n", showT $ facetof3 res4]    
 
 {-
 tess = Tesselation {_sites = fromList [(0,Site {_point = [0.0,0.0], _neighsitesIds = fromList [1,2,3], _neighfacetsIds = fromList [1,2,4], _neightilesIds = fromList [0,1]}),(1,Site {_point = [1.5,1.5], _neighsitesIds = fromList [0,2,3], _neighfacetsIds = fromList [0,2,3], _neightilesIds = fromList [0,1]}),(2,Site {_point = [0.0,2.0], _neighsitesIds = fromList [0,1], _neighfacetsIds = fromList [3,4], _neightilesIds = fromList [1]}),(3,Site {_point = [2.0,0.0], _neighsitesIds = fromList [0,1], _neighfacetsIds = fromList [0,1], _neightilesIds = fromList [0]})], 

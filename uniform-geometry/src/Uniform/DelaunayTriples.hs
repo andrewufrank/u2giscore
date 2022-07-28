@@ -167,3 +167,11 @@ trip_hq_faces tiles tilesoffs thisoffs  tft = ([starthq, endhq], [twinhqS,twinhq
 
 -- a start to find it with searching in the edge list of a face.
 -- abandoned because too complicated. 
+
+mainDelaunayTriples :: ErrIO ()
+mainDelaunayTriples = do 
+    putIOwords ["\nmainDelaunayTriples\n"]
+    -- putIOwords ["\nthe hq for faces\n", showT ]
+    res4 <- liftIO $ delaunay (map (v2toList2 . p2toV2) $ fourP2) False False Nothing
+    let hqs = trip_hqs_faces 400 res4
+    putIOwords ["\nall the face hqs for res4\n", showT hqs]

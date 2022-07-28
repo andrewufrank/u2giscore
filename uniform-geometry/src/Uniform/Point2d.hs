@@ -69,6 +69,8 @@ p2toHPoint (Point2d i (V2 x y)) = H.Point2 x y :+ i
 -- from P to V2 
 p2toV2 p = p ^. v2 
 
+v2toList2 (V2 x y) = [x,y]
+
 -- from [Double] to V2 
 fromList2V2 :: [Double] -> V2 Double
 fromList2V2 [x,y] = V2 x y 

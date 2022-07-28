@@ -45,16 +45,15 @@ import GHC.Generics
 
 instance Zeros Integer where zero = 0
 
--- fourP :: [PtTuple Int]
-fourPoints :: [(Double, Double, Integer)]
+fourTup3 :: [(Double, Double, Integer)]
 -- points to form two triangles
-fourPoints = [(0,0,11), (1.5, 1.5, 12), (0,2,13), (2,0,14)]
+fourTup3 = [(0,0,11), (1.5, 1.5, 12), (0,2,13), (2,0,14)]
 
 fivePoints :: [(Double, Double, Integer)]
 -- to form 3 triangles
 fivePoints = [(0,0,21), (3,0,22), (4,2,23), (3,5,24),(0,3,25)]
 
-fourP2 = map tup2P2 fourPoints
+fourP2 = map tup2P2 fourTup3 :: [P2]
 
 tup2P2 :: (Double, Double, Integer) -> P2 
 tup2P2 (x,y,i)= Point2d i (V2 x y)
@@ -76,13 +75,8 @@ fivemap :: Map.Map Integer [Double]--
 fivemap = Map.fromList . fmap p2_tup $ fiveP2
 
 
-
--- data Point2d i v = Point2d {_p2id:: i, _v2:: V2 v}
---     deriving (Show, Read, Ord, Eq, Generic)
--- instance (Zeros i, Zeros v, Num v) => Zeros (Point2d i v) where zero = Point2d zero zero 
--- instance (Zeros a, Num a) => Zeros (V2 a) where zero = Lin.zero 
--- instance Zeros Double where zero = 0.0
--- makeLenses ''Point2d
-
--- type P2 = Point2d Int Double
-
+mainPoint2dData :: ErrIO () 
+mainPoint2dData = do 
+    putIOwords ["point2d zero", showT (zero::P2)]
+    putIOwords ["point2d two", showT (fourP2)]
+    putIOwords ["point2d two", showT (fourTup3)]
