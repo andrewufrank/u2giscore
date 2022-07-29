@@ -37,6 +37,7 @@ module Uniform.DelaunayTriples
     , module Uniform.Point2d
     , module Linear.V2
     , module Control.Lens
+    , Tesselation  
         ) 
          where
 
@@ -56,6 +57,7 @@ import Delaunay
   
 
 import Delaunay.Types
+import Delaunay
 import Qhull.Types
 -- import qualified Data.Map as Ix
 import qualified Data.IntSet as IS
@@ -67,6 +69,8 @@ import Language.Haskell.TH.Lens (_Overlapping)
 
 newtype HqID = Hq Integer 
     deriving (Show, Read, Ord, Eq, Generic, Zeros, Enum)
+unHqID (Hq i) = i
+
 
 -- offset 
 -- must be the same for N, F, HQ 
@@ -117,17 +121,20 @@ trip_hq_lengthX offs  = trip_hq_length offs . length1
 trip_hq_node2 :: Integer -> [Integer] -> [(HqID, NodeID)]
 -- input is end3
 trip_hq_node2 offs ss = zip (map Hq [offs+1, offs+3 ..]) (map N ss)
+trip_hq_node2X :: Integer -> Tesselation -> [(HqID, NodeID)]
 trip_hq_node2X offs = trip_hq_node2 offs . end3
 
 trip_hq_length2:: Integer -> [Double] -> [(HqID, Double)]
 -- input is length3 (the length of the HALF)
 trip_hq_length2 offs ss = zip (map Hq [offs+1, offs+3 ..]) (map (/2) ss)
+trip_hq_length2X :: Integer -> Tesselation -> [(HqID, Double)]
 trip_hq_length2X offs = trip_hq_length2 offs . length1 
 
 -- hq to face - function to convert Tesselation to list of triples for the HalfQuads
 -- test wether the center is left or right of edge
 -- i.e. test area start - end - center >0
 -- trip_hqs_faces :: Integer -> Tesselation -> [[_]]
+trip_hqs_faces :: Integer -> Tesselation -> [([(HqID, NodeID)], [(HqID, HqID)], [(HqID, FaceID)])]
 trip_hqs_faces offs tess = zipWith (trip_hq_faces tiles1 offs) [offs, offs+2 ..] tilefacets1
     where 
             tiles1 :: [Tile]
