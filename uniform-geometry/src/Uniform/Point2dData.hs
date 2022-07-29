@@ -56,14 +56,14 @@ fivePoints = [(0,0,21), (3,0,22), (4,2,23), (3,5,24),(0,3,25)]
 fourP2 = map tup2P2 fourTup3 :: [P2]
 
 tup2P2 :: (Double, Double, Integer) -> P2 
-tup2P2 (x,y,i)= Point2d i (V2 x y)
+tup2P2 (x,y,i)= P2d i (V2 x y)
 p2_tup_id :: P2 -> (Double, Double, Integer)
 p2_tup_id p7 = (p7 ^. v2._x, p7 ^. v2._y, p7 ^. p2id)
     -- with pattern matching simpler?
 -- p2_tup_id (Point2d i (V2 x y)) = (x,y,i)
 
 p2_tup :: P2 -> (Integer, [Double])
-p2_tup (Point2d i (V2 x y)) =(i, [x, y])
+p2_tup (P2d i (V2 x y)) =(i, [x, y])
 
 
 fiveP2 :: [P2]

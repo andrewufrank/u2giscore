@@ -52,19 +52,19 @@ import Data.Ext
 -----------------------
 
 -- | a 2d point (constructed from V2 from Linear) with a name
-data Point2d i v = Point2d {_p2id:: i, _v2:: V2 v}
+data P2d i v = P2d {_p2id:: i, _v2:: V2 v}
     deriving (Show, Read, Ord, Eq, Generic)
-instance (Zeros i, Zeros v, Num v) => Zeros (Point2d i v) where zero = Point2d zero zero 
+instance (Zeros i, Zeros v, Num v) => Zeros (P2d i v) where zero = P2d zero zero 
 instance (Zeros a, Num a) => Zeros (V2 a) where zero = Lin.zero 
 instance Zeros Double where zero = 0.0
-makeLenses ''Point2d
+makeLenses ''P2d
 
-type P2 = Point2d Integer Double
+type P2 = P2d Integer Double
 type List2 a = [a]
 -------------- the conversion to the Hgeometry point
 -- from P2 to H.Point
-p2toHPoint :: Point2d Integer Double -> H.Point 2 Double :+ Integer 
-p2toHPoint (Point2d i (V2 x y)) = H.Point2 x y :+ i
+p2toHPoint :: P2d Integer Double -> H.Point 2 Double :+ Integer 
+p2toHPoint (P2d i (V2 x y)) = H.Point2 x y :+ i
 
 -- from P to V2 
 p2toV2 p = p ^. v2 

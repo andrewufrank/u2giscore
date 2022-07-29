@@ -32,7 +32,7 @@ import UniformBase
 import Uniform.GeometryFunctions
 -- import qualified Data.Geometry.Point as HP 
 
-p1 = Point2d 1 (V2 1 2):: P2
+p1 = P2d 1 (V2 1 2):: P2
 
 test_p1 = assertEqual "Point2d {_p2id = 1, _v2 = V2 1.0 2.0}" (showT p1)
 
