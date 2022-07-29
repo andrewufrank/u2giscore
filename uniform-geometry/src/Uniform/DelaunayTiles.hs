@@ -70,6 +70,7 @@ vertices tess = IM.elems $ _vertices tess
 ----------- -----------------------for faces 
 newtype FaceID = F Integer 
     deriving (Show, Read, Ord, Eq, Generic, Zeros, Enum)
+unFaceID (F i) = i 
 type Length = Double 
 type Surface = Double  
 

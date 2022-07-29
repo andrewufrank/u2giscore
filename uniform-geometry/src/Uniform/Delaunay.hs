@@ -55,6 +55,7 @@ import GHC.Base (Alternative(many))
 -- ----------------------------for nodes 
 newtype NodeID = N Integer 
     deriving (Show, Read, Ord, Eq, Generic, Zeros, Enum)
+unNodeID (N i) = i
 type NodeName = Text 
 type Coord = Double
 

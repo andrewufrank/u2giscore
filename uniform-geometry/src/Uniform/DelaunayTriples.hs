@@ -30,13 +30,14 @@
 
 
 module Uniform.DelaunayTriples
-    -- ( module Uniform.Delaunay
-    -- , module Uniform.DelaunayTiles
-    -- , module Uniform.Point2dData
-    -- , module Uniform.Point2d
-    -- , module Linear.V2
-    -- , module Control.Lens
-    --     ) 
+    ( module Uniform.DelaunayTriples
+    , module Uniform.Delaunay
+    , module Uniform.DelaunayTiles
+    , module Uniform.Point2dData
+    , module Uniform.Point2d
+    , module Linear.V2
+    , module Control.Lens
+        ) 
          where
 
 import UniformBase
@@ -81,19 +82,20 @@ trip_node_name :: Integer -> Integer -> [Text]-> [(NodeID, Text)]
 
 trip_node_name offs ct ts = zip (map N [offs .. offs+ct]) ts 
 
-trip_x :: (Integer -> a) -> Integer ->  [[Double]]-> [(a, Coord)]
+trip_xy :: (Integer -> a) -> Integer ->  [[Double]]-> [(a, [Coord])]
 -- |input is vertices (for nodes) or center (for faces)
-trip_x idType offs xs = zip (map idType [offs .. ]) (map (!!0) xs) 
+trip_xy idType offs xs = zip (map idType [offs .. ]) ( xs) 
 
-trip_y :: (Integer -> a) -> Integer  -> [[Double]]-> [(a, Coord)]
--- inpur is vertices (for nodes) or center (for faces)
+-- trip_y :: (Integer -> a) -> Integer  -> [[Double]]-> [(a, Coord)]
+-- -- inpur is vertices (for nodes) or center (for faces)
 
-trip_y idType offs  xs = zip (map idType [offs .. ]) (map (!!1) xs) 
+-- trip_y idType offs  xs = zip (map idType [offs .. ]) (map (!!1) xs) 
 
 --- faces 
-trip_surface :: Integer  -> [Double] -> [(FaceID, Coord)]
+trip_surface :: Integer  -> [Double] -> [(FaceID, Double)]
 -- inpur is surface
 trip_surface offs xs = zip (map F [offs .. ]) ( xs) 
+trip_surface2 :: Integer -> Tesselation -> [(FaceID, Double)]
 trip_surface2 offs = trip_surface offs . surface 
 
 -- could add a name
@@ -193,12 +195,12 @@ mainDelaunayTriples = do
     -- not used, no names, would require removing ct (count)
     -- let hqn = trip_hq_nodeX 400 res4
     -- let hqn2 = trip_hq_node2X 400 res4
-    let hqnx = trip_x N 400 (vertices res4)
-    let hqny = trip_y N 400 (vertices res4)
-    putIOwords ["\nnode hqs for res4\n", showT hqnx, showT hqny]
-    let hqfx = trip_x F 400 (center res4)
-    let hqfy = trip_y F 400 (center res4)
-    putIOwords ["\ncenter hqs for res4\n", showT hqfx, showT hqfy]
+    let hqnxy = trip_xy N 400 (vertices res4)
+    -- let hqny = trip_y N 400 (vertices res4)
+    putIOwords ["\nnode hqs for res4\n", showT hqnxy]
+    let hqfxy = trip_xy F 400 (center res4)
+    -- let hqfy = trip_y F 400 (center res4)
+    putIOwords ["\ncenter hqs for res4\n", showT hqfxy]
 
     let hqlength = trip_hq_lengthX 400 res4
     let hqlength2 = trip_hq_length2X 400 res4

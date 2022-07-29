@@ -29,7 +29,7 @@ dependencies:
 # - vector-space
 - linear
 - lens
-- qhull==0.1.0.3
+- qhull ==0.1.0.3
 - vector-algorithms # not needed for lts 18.28 ==0.8.0.3 # -- to force qhull
 - insert-ordered-containers
 - pretty-show 

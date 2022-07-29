@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           uniform-geometry
-version:        0.0.1.1
+version:        0.0.1.2
 synopsis:       uniform wrapper for geometry functions
 description:    a few basic data types and functions
                   0.0.1.1 for cabal
