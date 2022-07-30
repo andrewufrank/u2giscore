@@ -27,10 +27,10 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
     -- runErrorT is  but used in monads-tf
 {-# OPTIONS_GHC -w #-}
-{-# HLINT ignore "Redundant $" #-}
-{-# HLINT ignore "Use map once" #-}
-{-# HLINT ignore "Use newtype instead of data" #-}
-{-# HLINT ignore "Use fewer imports" #-}
+-- {-# HLINT ignore "Redundant $" #-}
+-- {-# HLINT ignore "Use map once" #-}
+-- {-# HLINT ignore "Use newtype instead of data" #-}
+-- {-# HLINT ignore "Use fewer imports" #-}
 
 
 module Uniform.TesselationHalfQuads
@@ -59,53 +59,51 @@ import Uniform.DelaunayTriples
 import Linear.V2
 import qualified Linear.Vector as Lin
 import Control.Lens 
-import GHC.Generics
+-- import GHC.Generics
   
-import Uniform.Point2d
 import Delaunay.Types
 import Delaunay
-import Qhull.Types
+-- import Qhull.Types
 -- import qualified Data.Map as Ix
 import qualified Data.IntSet as IS
 import qualified Data.IntMap.Strict  as IM
-import           Data.HashMap.Strict.InsOrd as H hiding (map)
+-- import           Data.HashMap.Strict.InsOrd as H hiding (map)
 import Language.Haskell.TH.Lens (_Overlapping)
 -- import Uniform.TesselationHalfQuads (TesselationHQ(_HQs))
 
-{- Original 
-        data Tesselation = Tesselation {
-            _sites      :: IndexMap Site
-        , _tiles      :: IntMap Tile
-        , _tilefacets :: IntMap TileFacet
-        , _edges'     :: EdgeMap
-} deriving Show
--}
+
+-- | a data structure to represent a tesselation (and its dual)
+-- with Nodes and Faces (dual to each other)
+-- and half of quad edges (see Guibas & stolfi)
 data NodeHQ = NodeHQ V2d
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 data FaceHQ = FaceHQ {circumcenter ::V2d} deriving (Show, Read, Ord, Eq, Generic, Zeros)
+
+
+
 data HQ = HQ 
-    { node:: Int
-    , face::Maybe Int
-    , twin::Int
-    , halflength :: Double}
+    { node:: Int    -- ^ end of hq (start or end of edge)
+    , face::Maybe Int -- ^ face right of the hq
+    , twin::Int     -- the other hq for the edge
+    , halflength :: Double  -- the half of the length of the edge
+    } 
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
 data TesselationHQ = TesselationHQ {
           _Nodes      :: [NodeHQ]
         , _Faces      :: [FaceHQ]
-        , _HQsA        :: [HQ]      -- ^ the tileface starting 
-        -- , _HQsB        :: [HQ]      -- ^ the tileface ending
-        
-        -- , _edges'     :: EdgeMap
+        , _HQs       :: [HQ]      -- ^ the tileface starting and ending, alternating
         } deriving Show
 
+-- | conversion of the Tesselation data structure from qhull to the HQ form
+-- all indices are local
 toHq1 :: Tesselation -> TesselationHQ
 toHq1 t = TesselationHQ 
     { _Nodes = map (NodeHQ . toV2 . _point)  
         . IM.elems . _sites $ t
     , _Faces = map (FaceHQ .   toV2 .  _circumcenter .   _simplex ) ts
            
-    , _HQsA = zipWith (\tf i -> 
+    , _HQs = zipWith (\tf i -> 
             HQ {node =  (!!0) . IM.keys . _vertices'  . _subsimplex $ tf
                 , face = testSide tf ts  (start tf) (end tf)
                 , twin =  tfCount + i   
@@ -113,13 +111,10 @@ toHq1 t = TesselationHQ
             }  ) tfs [0..]
             ++ zipWith (\tf i -> 
             HQ {node =  (!!1) . IM.keys . _vertices'  . _subsimplex $ tf
-                , face = Nothing
+                , face = testSide tf ts  (end tf) (start tf) 
                 , twin =    i   
                 , halflength = (/2) . _volume' . _subsimplex $ tf
-            }
-            -- HQ 1 2 3 0.0
-                    ) tfs [0..]
-
+            } ) tfs [0..]
     }
         where 
             tfs :: [TileFacet]
@@ -134,9 +129,14 @@ toHq1 t = TesselationHQ
 
 -- test for each face mentioned in a tilefacet on which side it is 
 -- true - startHQ,
--- for second hq swtich star and  
+-- for second hq swtich start and  end
+-- returns the tile to the right of the hq (in the direction of the hq)
+-- Nothing if none 
+
 testSide :: TileFacet -> [Tile] -> [Double] -> [Double]->  Maybe Int 
 testSide tft tiles startxy endxy = listToMaybe . catMaybes $ res
+            -- assumes that center is on one (but noth both) sides
+            -- possible numerical issue
     where 
         facetofs1 :: [Int] -- the list of faces
         facetofs1 =    IS.elems . _facetOf  $ tft
@@ -155,12 +155,8 @@ testSide tft tiles startxy endxy = listToMaybe . catMaybes $ res
 mainHQ :: ErrIO ()
 mainHQ = do 
     putIOwords ["the conversion to a tesselation As Half-Quads"]
-    tess4 <- liftIO $ delaunay (map (v2toList2 . p2toV2) $ fourP2) False False Nothing
+    tess4 <- liftIO $ delaunay (map (v2toList2 . p2toV2) fourP2) False False Nothing
     putIOwords ["the given tesselation", showT tess4]
     putIOwords ["point2d two\n", showT (toHq1 tess4), "\n"]
     -- putIOwords ["point2d two", showT tess4, "\n"]
 
-{- 
-tess :: Tesselation
-tess = read $ Tesselation {_sites = fromList [(0,Site {_point = [0.0,0.0], _neighsitesIds = fromList [1,2,3], _neighfacetsIds = fromList [1,2,4], _neightilesIds = fromList [0,1]}),(1,Site {_point = [1.5,1.5], _neighsitesIds = fromList [0,2,3], _neighfacetsIds = fromList [0,2,3], _neightilesIds = fromList [0,1]}),(2,Site {_point = [0.0,2.0], _neighsitesIds = fromList [0,1], _neighfacetsIds = fromList [3,4], _neightilesIds = fromList [1]}),(3,Site {_point = [2.0,0.0], _neighsitesIds = fromList [0,1], _neighfacetsIds = fromList [0,1], _neightilesIds = fromList [0]})], _tiles = fromList [(0,Tile {_simplex = Simplex {_vertices' = fromList [(0,[0.0,0.0]),(1,[1.5,1.5]),(3,[2.0,0.0])], _circumcenter = [1.0,0.5], _circumradius = 1.118033988749895, _volume' = 1.5}, _neighborsIds = fromList [1], _facetsIds = fromList [0,1,2], _family' = None, _toporiented = False}),(1,Tile {_simplex = Simplex {_vertices' = fromList [(0,[0.0,0.0]),(1,[1.5,1.5]),(2,[0.0,2.0])], _circumcenter = [0.5,1.0], _circumradius = 1.118033988749895, _volume' = 1.5}, _neighborsIds = fromList [0], _facetsIds = fromList [2,3,4], _family' = None, _toporiented = True})], _tilefacets = fromList [(0,TileFacet {_subsimplex = Simplex {_vertices' = fromList [(1,[1.5,1.5]),(3,[2.0,0.0])], _circumcenter = [1.75,0.75], _circumradius = 0.7905694150420949, _volume' = 1.5811388300841898}, _facetOf = fromList [0], _normal' = [0.9486832980505138,0.31622776601683794], _offset' = 1.8973665961010275}),(1,TileFacet {_subsimplex = Simplex {_vertices' = fromList [(0,[0.0,0.0]),(3,[2.0,0.0])], _circumcenter = [1.0,0.0], _circumradius = 1.0, _volume' = 2.0}, _facetOf = fromList [0], _normal' = [0.0,-1.0], _offset' = 0.0}),(2,TileFacet {_subsimplex = Simplex {_vertices' = fromList [(0,[0.0,0.0]),(1,[1.5,1.5])], _circumcenter = [0.75,0.75], _circumradius = 1.0606601717798212, _volume' = 2.1213203435596424}, _facetOf = fromList [0,1], _normal' = [0.7071067811865476,-0.7071067811865476], _offset' = 0.0}),(3,TileFacet {_subsimplex = Simplex {_vertices' = fromList [(1,[1.5,1.5]),(2,[0.0,2.0])], _circumcenter = [0.75,1.75], _circumradius = 0.7905694150420949, _volume' = 1.5811388300841898}, _facetOf = fromList [1], _normal' = [0.31622776601683794,0.9486832980505138], _offset' = -1.8973665961010275}),(4,TileFacet {_subsimplex = Simplex {_vertices' = fromList [(0,[0.0,0.0]),(2,[0.0,2.0])], _circumcenter = [0.0,1.0], _circumradius = 1.0, _volume' = 2.0}, _facetOf = fromList [1], _normal' = [-1.0,0.0], _offset' = 0.0})], _edges' = fromList [(Pair 0 1,([0.0,0.0],[1.5,1.5])),(Pair 0 2,([0.0,0.0],[0.0,2.0])),(Pair 0 3,([0.0,0.0],[2.0,0.0])),(Pair 1 2,([1.5,1.5],[0.0,2.0])),(Pair 1 3,([1.5,1.5],[2.0,0.0]))]} 
--}

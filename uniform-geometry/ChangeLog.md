@@ -17,5 +17,6 @@ Journal of work in uniform-geometry
 
 0.0.1.3
 - produce a tesselation data structure with the data for the half quad 
+    much simpler code!
 - problems 
     - :l app/Main.hs in .ghci not working?

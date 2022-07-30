@@ -2,6 +2,7 @@
 --
 -- Module      :  Uniform.Point2d
 -- | Poind2d with ID and V2 for coordinates
+-- used for testing
 -----------------------------------------------------------------------------
 {-# LANGUAGE BangPatterns          #-}
 {-# LANGUAGE DoAndIfThenElse       #-}
@@ -39,11 +40,10 @@ import qualified Data.Map as Map
 import Linear.V2
 import qualified Linear.Vector as Lin
 import Control.Lens 
-import GHC.Generics
+-- import GHC.Generics
 
 -- import           Uniform.Strings hiding ((</>), (<.>), S)
 
-instance Zeros Integer where zero = 0
 
 fourTup3 :: [(Double, Double, Integer)]
 -- points to form two triangles
