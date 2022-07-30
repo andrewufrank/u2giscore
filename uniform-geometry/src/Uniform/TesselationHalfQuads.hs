@@ -103,11 +103,11 @@ toHq1 :: Tesselation -> TesselationHQ
 toHq1 t = TesselationHQ 
     { _Nodes = map (NodeHQ . toV2 . _point)  
         . IM.elems . _sites $ t
-    , _Faces = map (FaceHQ .   toV2 .  _circumcenter .   _simplex )
-         . IM.elems . _tiles $ t 
+    , _Faces = map (FaceHQ .   toV2 .  _circumcenter .   _simplex ) ts
+           
     , _HQsA = zipWith (\tf i -> 
             HQ {node =  (!!0) . IM.keys . _vertices'  . _subsimplex $ tf
-                , face = Nothing
+                , face = testSide tf ts  (start tf) (end tf)
                 , twin =  tfCount + i   
                 , halflength = (/2) . _volume' . _subsimplex $ tf
             }  ) tfs [0..]
@@ -125,6 +125,32 @@ toHq1 t = TesselationHQ
             tfs :: [TileFacet]
             tfs =  IM.elems . _tilefacets $ t
             tfCount = length tfs 
+            ts :: [Tile]
+            ts = IM.elems . _tiles $ t
+            start tf =  (!!0) . vertices1x $ tf
+            end tf =  (!!1) . vertices1x $ tf
+            vertices1x :: TileFacet -> [([Double])]
+            vertices1x tf = IM.elems . _vertices' . _subsimplex $ tf 
+
+-- test for each face mentioned in a tilefacet on which side it is 
+-- true - startHQ,
+-- for second hq swtich star and  
+testSide :: TileFacet -> [Tile] -> [Double] -> [Double]->  Maybe Int 
+testSide tft tiles startxy endxy = listToMaybe . catMaybes $ res
+    where 
+        facetofs1 :: [Int] -- the list of faces
+        facetofs1 =    IS.elems . _facetOf  $ tft
+        centerxy i = _circumcenter . _simplex . (!! i)  $ tiles 
+        centers = map centerxy facetofs1
+        -- vertices1 ::  [(IM.Key, [Double])]
+        -- vertices1 =   IM.assocs .  _vertices' .  _subsimplex $ tft
+        -- (startid, startxy) =  (!!0)  vertices1 
+        -- (endid, endxy) =  vertices1 !! 1
+        ccws = map  (ccw_test startxy endxy) centers
+            -- test the center to determine which side of face 
+        res = zipWith (\b i -> if b then Just i else Nothing) ccws facetofs1
+
+
 
 mainHQ :: ErrIO ()
 mainHQ = do 
