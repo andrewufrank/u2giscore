@@ -33,7 +33,7 @@ module Uniform.Point2d
     ( module Uniform.Point2d
     , module Linear.V2
     , module Control.Lens
-    , P2
+    , P2, V2d
         )  where
 
 import UniformBase

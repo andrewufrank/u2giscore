@@ -69,8 +69,11 @@ import qualified Data.IntSet as IS
 import qualified Data.IntMap.Strict  as IM
 -- import           Data.HashMap.Strict.InsOrd as H hiding (map)
 import Language.Haskell.TH.Lens (_Overlapping)
--- import Uniform.TesselationHalfQuads (TesselationHQ(_HQs))
 
+delaunay2 v2s = delaunay (map v2toList2 v2s) False False Nothing 
+-- ^ calling delaunay with a list of V2
+
+fourV2 = map p2toV2 fourP2 
 
 -- | a data structure to represent a tesselation (and its dual)
 -- with Nodes and Faces (dual to each other)
