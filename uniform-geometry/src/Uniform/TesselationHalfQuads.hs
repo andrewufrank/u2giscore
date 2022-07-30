@@ -35,10 +35,10 @@
 
 module Uniform.TesselationHalfQuads
     ( module Uniform.TesselationHalfQuads
-    , module Uniform.DelaunayTriples
-    , module Uniform.DelaunayTriples
-    , module Uniform.Delaunay
-    , module Uniform.DelaunayTiles
+    -- , module Uniform.DelaunayTriples
+    -- , module Uniform.DelaunayTriples
+    -- , module Uniform.Delaunay
+    -- , module Uniform.DelaunayTiles
     , module Uniform.Point2dData
     , module Uniform.Point2d
     , module Linear.V2
@@ -52,9 +52,9 @@ import Uniform.Point2d
 import Uniform.Point2dData
 import Uniform.GeometryFunctions
 import qualified Data.Map as Map 
-import Uniform.Delaunay
-import Uniform.DelaunayTiles
-import Uniform.DelaunayTriples
+-- import Uniform.Delaunay
+-- import Uniform.DelaunayTiles
+-- import Uniform.DelaunayTriples
 -- import Vector
 import Linear.V2
 import qualified Linear.Vector as Lin

@@ -21,9 +21,6 @@ extra-source-files:
 
 library
   exposed-modules:
-      Uniform.Delaunay
-      Uniform.DelaunayTiles
-      Uniform.DelaunayTriples
       Uniform.GeometryFunctions
       Uniform.Point2d
       Uniform.Point2dData
