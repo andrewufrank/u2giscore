@@ -29,6 +29,7 @@ import Voronoi2D
 import Uniform.Delaunay 
 import Uniform.DelaunayTiles
 import Uniform.DelaunayTriples
+import Uniform.TesselationHalfQuads 
 
 import qualified Data.IntMap.Strict  as IM
 import           Text.Show.Pretty
@@ -52,11 +53,11 @@ main =
 
 main2 :: ErrIO () 
 main2 = do 
-    mainPoint2dData
-    mainDelaunay
-    mainDelaunayTiles
-    mainDelaunayTriples
-
+    -- mainPoint2dData
+    -- mainDelaunay
+    -- mainDelaunayTiles
+    -- mainDelaunayTriples
+    mainHQ
     
 -- p1 = Point2d 1 (V2 1 1):: P2
 

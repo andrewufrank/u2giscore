@@ -15,5 +15,7 @@ Journal of work in uniform-geometry
 0.0.1.2
 - export delaunay2 with list of V2 
 
+0.0.1.3
+- produce a tesselation data structure with the data for the half quad 
 - problems 
     - :l app/Main.hs in .ghci not working?
