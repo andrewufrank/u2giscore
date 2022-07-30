@@ -27,6 +27,10 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
     -- runErrorT is  but used in monads-tf
 {-# OPTIONS_GHC -w #-}
+{-# HLINT ignore "Redundant $" #-}
+{-# HLINT ignore "Use map once" #-}
+{-# HLINT ignore "Use newtype instead of data" #-}
+{-# HLINT ignore "Use fewer imports" #-}
 
 
 module Uniform.TesselationHalfQuads
@@ -57,7 +61,7 @@ import qualified Linear.Vector as Lin
 import Control.Lens 
 import GHC.Generics
   
-
+import Uniform.Point2d
 import Delaunay.Types
 import Delaunay
 import Qhull.Types
@@ -66,12 +70,58 @@ import qualified Data.IntSet as IS
 import qualified Data.IntMap.Strict  as IM
 import           Data.HashMap.Strict.InsOrd as H hiding (map)
 import Language.Haskell.TH.Lens (_Overlapping)
+-- import Uniform.TesselationHalfQuads (TesselationHQ(_HQs))
 
+{- Original 
+        data Tesselation = Tesselation {
+            _sites      :: IndexMap Site
+        , _tiles      :: IntMap Tile
+        , _tilefacets :: IntMap TileFacet
+        , _edges'     :: EdgeMap
+} deriving Show
+-}
+data NodeHQ = NodeHQ V2d
+    deriving (Show, Read, Ord, Eq, Generic, Zeros)
+data FaceHQ = FaceHQ {circumcenter ::V2d} deriving (Show, Read, Ord, Eq, Generic, Zeros)
+data HQ = HQ 
+    { node:: Int
+    , face::Int
+    , twin::Int
+    , halflength :: Double}
+    deriving (Show, Read, Ord, Eq, Generic, Zeros)
+
+data TesselationHQ = TesselationHQ {
+          _Nodes      :: [NodeHQ]
+        , _Faces      :: [FaceHQ]
+        , _HQsA        :: [HQ]      -- ^ the tileface starting 
+        
+        -- , _edges'     :: EdgeMap
+        } deriving Show
+
+toHq1 :: Tesselation -> TesselationHQ
+toHq1 t = TesselationHQ 
+    { _Nodes = map (NodeHQ . toV2 . _point)  
+        . IM.elems . _sites $ t
+    , _Faces = map (FaceHQ .   toV2 .  _circumcenter .   _simplex )
+         . IM.elems . _tiles $ t 
+    , _HQsA = map (
+            -- HQ {node = (!!0) . IM.keys . _vertices'  . _subsimplex }  
+            -- HQ {halflength = (/2) . _volume' . _subsimplex} 
+            \x -> HQ 1 2 3 0.0
+                    ) tfs
+
+    }
+        where 
+            tfs :: [TileFacet]
+            tfs =  IM.elems . _tilefacets $ t
 
 mainHQ :: ErrIO ()
 mainHQ = do 
     putIOwords ["the conversion to a tesselation As Half-Quads"]
-    putIOwords ["the given tesselation", showT tess]
+    tess4 <- liftIO $ delaunay (map (v2toList2 . p2toV2) $ fourP2) False False Nothing
+    putIOwords ["the given tesselation", showT tess4]
+    putIOwords ["point2d two\n", showT (toHq1 tess4), "\n"]
+    -- putIOwords ["point2d two", showT tess4, "\n"]
 
 {- 
 tess :: Tesselation

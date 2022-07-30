@@ -61,6 +61,8 @@ makeLenses ''P2d
 
 type P2 = P2d Integer Double
 type List2 a = [a]
+type V2d = V2 Double 
+
 -------------- the conversion to the Hgeometry point
 -- from P2 to H.Point
 p2toHPoint :: P2d Integer Double -> H.Point 2 Double :+ Integer 
