@@ -85,7 +85,7 @@ data NodeHQ = NodeHQ V2d
 data FaceHQ = FaceHQ {circumcenter ::V2d} deriving (Show, Read, Ord, Eq, Generic, Zeros)
 data HQ = HQ 
     { node:: Int
-    , face::Int
+    , face::Maybe Int
     , twin::Int
     , halflength :: Double}
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
@@ -94,6 +94,7 @@ data TesselationHQ = TesselationHQ {
           _Nodes      :: [NodeHQ]
         , _Faces      :: [FaceHQ]
         , _HQsA        :: [HQ]      -- ^ the tileface starting 
+        -- , _HQsB        :: [HQ]      -- ^ the tileface ending
         
         -- , _edges'     :: EdgeMap
         } deriving Show
@@ -104,16 +105,26 @@ toHq1 t = TesselationHQ
         . IM.elems . _sites $ t
     , _Faces = map (FaceHQ .   toV2 .  _circumcenter .   _simplex )
          . IM.elems . _tiles $ t 
-    , _HQsA = map (
-            -- HQ {node = (!!0) . IM.keys . _vertices'  . _subsimplex }  
-            -- HQ {halflength = (/2) . _volume' . _subsimplex} 
-            \x -> HQ 1 2 3 0.0
-                    ) tfs
+    , _HQsA = zipWith (\tf i -> 
+            HQ {node =  (!!0) . IM.keys . _vertices'  . _subsimplex $ tf
+                , face = Nothing
+                , twin =  tfCount + i   
+                , halflength = (/2) . _volume' . _subsimplex $ tf
+            }  ) tfs [0..]
+            ++ zipWith (\tf i -> 
+            HQ {node =  (!!1) . IM.keys . _vertices'  . _subsimplex $ tf
+                , face = Nothing
+                , twin =    i   
+                , halflength = (/2) . _volume' . _subsimplex $ tf
+            }
+            -- HQ 1 2 3 0.0
+                    ) tfs [0..]
 
     }
         where 
             tfs :: [TileFacet]
             tfs =  IM.elems . _tilefacets $ t
+            tfCount = length tfs 
 
 mainHQ :: ErrIO ()
 mainHQ = do 
