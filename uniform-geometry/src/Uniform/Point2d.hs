@@ -80,14 +80,16 @@ v2toList2 (V2 x y) = [x,y]
 fromList2V2 :: [Double] -> V2 Double
 fromList2V2 [x,y] = V2 x y 
 
--- fromV2 to HPoint 
-v2toHPoint :: V2 r -> H.Point 2 r
-v2toHPoint (V2 x y) = H.Point2 x y 
+-- -- fromV2 to HPoint 
+-- v2toHPoint :: V2 r -> H.Point 2 r
+-- v2toHPoint (V2 x y) = H.Point2 x y 
 
--- | conversion to keep the name  
-v2toHPoint' :: V2 r -> H.Point 2 r :+ ()
-v2toHPoint' (V2 x y) = H.Point2 x y :+ () 
+-- -- | conversion to keep the name  
+-- v2toHPoint' :: V2 r -> H.Point 2 r :+ ()
+-- v2toHPoint' (V2 x y) = H.Point2 x y :+ () 
 
+instance  (Show a)=> NiceStrings (V2 a) where 
+    shownice (V2 x y) = "(" <> showT x <> "/" <> showT y <> ")"
 --------------------------
 -- | conversion to H.Point (without a point name)
 -- needs instances for all Point types considered 
@@ -96,13 +98,22 @@ class ToHPoint2 a where
     toHPoint :: a -> H.Point 2 Double
 
 instance ToHPoint2 (V2 Double) where 
-    toHPoint = v2toHPoint 
-instance ToHPoint2 (P2) where 
-    toHPoint = v2toHPoint  . p2toV2
+    toHPoint (V2 x y) = H.Point2 x y 
+    -- = v2toHPoint 
+        -- | conversion to set the name  ()
+-- v2toHPoint' :: V2 r -> H.Point 2 r :+ ()
+-- v2toHPoint' (V2 x y) = H.Point2 x y :+ () 
+
+-- instance ToHPoint2 (P2) where 
+--     toHPoint = v2toHPoint  . p2toV2
 -- instance ToHPoint2 [Double] where 
+    -- not required, done via v2
 --     toHPoint = v2toHPoint  . fromList2V2
-instance (ToV2 a) => ToHPoint2 a where 
-    toHPoint = v2toHPoint  . toV2
+
+-- creates undecidable instances 
+instance (ToV2 (List2 Double)) => ToHPoint2 (List2 Double) where 
+    toHPoint = toHPoint  . toV2
+
 
 -- conversion to V2 
 class ToV2 a where 
@@ -110,3 +121,5 @@ class ToV2 a where
 
 instance ToV2 (List2 Double) where 
     toV2 = fromList2V2 
+instance ToV2 (P2) where 
+    toV2 = p2toV2 

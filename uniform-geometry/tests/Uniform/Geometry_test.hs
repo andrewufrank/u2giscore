@@ -22,7 +22,7 @@
 
 module Uniform.Geometry_test where
 
-import           Test.Framework
+import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
 -- import   Uniform.Point2d
 import Uniform.Point2dData
@@ -50,6 +50,7 @@ test_toP2 = assertEqual p1 (tup2P2 . p2_tup_id $ p1)
 -- use inverse test 
 
 -- for tests five points 
+fiveV2 = [V2d]
 fiveV2 = map p2toV2 fiveP2
 
 test_ccw_t1 :: IO ()
@@ -57,3 +58,5 @@ test_ccw_t1 = assertBool (ccw_test (fiveV2 !! 0) (fiveV2 !! 1) (fiveV2 !! 2))
 test_ccw_t2 = assertEqual False (ccw_test (fiveV2 !! 1) (fiveV2 !! 0) (fiveV2 !! 2))
 test_ccw_t1a = assertBool (ccw_test (fiveP2 !! 0) (fiveP2 !! 1) (fiveP2 !! 2))
 test_ccw_t3 = assertBool (ccw_test  ([0,0]::[Double]) ([5,0]::[Double]) ([10,10]::[Double]))
+
+test_scale1 = assertEqual (zero::V2d) (scale 4 (V2 1 2))
