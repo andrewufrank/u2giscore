@@ -85,8 +85,9 @@ replOne rs (a,b) =  zip (repeat a) r
             -- r :: [o]
             r = (map snd .  filter ((b==).fst) $ rs) 
 
--- compRel :: (Eq o) =>  Rel o -> Rel o ->  Rel o
+compRel :: (Eq o) =>  Rel o -> Rel o ->  Rel o
 -- | compose relations r2 . r1 i.e. (B -> C) . (A -> B)
+-- or: r1;r2 
 compRel r2 r1 = concat $ map (replOne r2)  r1 
 
 -- compRel :: (Show o, Eq o) =>  Rel o -> Rel o -> (Rel o, Rel o, Rel o) 
@@ -97,22 +98,24 @@ compRel r2 r1 = concat $ map (replOne r2)  r1
 --         b_ab = map snd ab 
 --         bc' = findMany bc b_ab
 
-
+semicolon :: (Eq o) =>  Rel o -> Rel o ->  Rel o
+-- | an alternative name for composition of relations, with reverse order (wrt '.')
+r1 `semicolon` r2 = compRel r2 r1 
 
 out13 :: (a, b1, b2) -> (a, b2)
 out13 (a,b,c) = (a,c)
 
 -- example data 
 
-r1 = [(0, 10), (1,11), (0,12)]
-r2 = [(20,0), (21,2), (20,1), (24,1)]
-r2sd = map snd r2 
+-- r1 = [(0, 10), (1,11), (0,12)]
+-- r2 = [(20,0), (21,2), (20,1), (24,1)]
+-- r2sd = map snd r2 
 
-t1 = compRel (converseRel r1) (compRel r1 r2) == r2
-r1r2 = nub (compRel r1 r2)
-r1_r1r2 = nub $ compRel (converseRel r1) (compRel r1 r2)
--- compare with r2 , dropped (21,2)
--- not quite, but nearly 
+-- t1 = compRel (converseRel r1) (compRel r1 r2) == r2
+-- r1r2 = nub (compRel r1 r2)
+-- r1_r1r2 = nub $ compRel (converseRel r1) (compRel r1 r2)
+-- -- compare with r2 , dropped (21,2)
+-- -- not quite, but nearly 
 
 
 

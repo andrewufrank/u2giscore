@@ -34,6 +34,8 @@ import Uniform.TripleRels
 
 -- import  qualified         Algebra.Laws             as Law
 import           Test.Framework
+import Data.List ( nub ) 
+
 -- import           Test.Invariant           as Rule  
 -- import Test.QuickCheck --  (arbitraryBoundedEnum)
 
@@ -148,21 +150,16 @@ r2s = [(SS (SK 0),(SS (SK 19))),((SS (SK 1)),(SS (SK 18)))]
 
 test_converse =  assertEqual [(SS (SK 19), SS (SK 0)), (SS (SK 18), SS (SK 1))](converseRel r2s)
 
--- test_findOneNothing =  assertEqual [] (findOne r1 (SS (SK 2)))
--- test_findOneSK0 =  assertEqual [(SS (SK 1), SS (SK 2))] (findOne r1 (SS (SK 1)))
+r1 = [(0, 10), (1,11), (0,12)]
+r2 = [(20,0), (21,2), (20,1), (24,1)]
 
--- test_findMany = assertEqual [(SS (SK 1), SS (SK 2))] (findMany r1 [(SS (SK 1))])
+test_snd = assertEqual [0, 2, 1, 1] (map snd r2) 
 
--- test_findMany2 = assertEqual  [(SS (SK 1), SS (SK 0)), (SS (SK 1), SS (SK 2)),
---  (SS (SK 0), SS (SK 1))] (findMany r2 [(SS(SK 1)), (SS(SK 0))])
---  -- tested that a rel gives in the answer multiple lines
+test_compRel = assertEqual [(20, 0), (20, 0), (20, 1), (24, 1)] (compRel (converseRel r1) (compRel r1 r2))
+--  nearly == r2
+-- r1r2 = nub (compRel r1 r2)
+test_compRel2 = assertEqual [(20, 0), (20, 1), (24, 1)] (nub $ compRel (converseRel r1) (compRel r1 r2))
+-- compare with r2 , dropped (21,2)
+-- not quite, but nearly 
 
--- (ab, bc',ac) = compRel r2 r1
-
-
--- page2 :: ErrIO () 
--- page2  = do 
---     putIOwords ["from comp rel"]
---     putIOwords ["r1\n", showlong r1]
---     putIOwords ["r2\n", showlong r2]
---     putIOwords ["ab\n", showlong ab, "\nbc'\n", showlong bc' ]
+test_semicolon = assertEqual (compRel r1 r2) (r2 `semicolon` r1)
