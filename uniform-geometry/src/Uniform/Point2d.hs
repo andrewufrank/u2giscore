@@ -104,8 +104,8 @@ instance ToHPoint2 (V2 Double) where
 -- v2toHPoint' :: V2 r -> H.Point 2 r :+ ()
 -- v2toHPoint' (V2 x y) = H.Point2 x y :+ () 
 
--- instance ToHPoint2 (P2) where 
---     toHPoint = v2toHPoint  . p2toV2
+instance ToHPoint2 (P2) where 
+    toHPoint = toHPoint . p2toV2 -- v2toHPoint  . p2toV2
 -- instance ToHPoint2 [Double] where 
     -- not required, done via v2
 --     toHPoint = v2toHPoint  . fromList2V2

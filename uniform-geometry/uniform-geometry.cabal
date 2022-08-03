@@ -30,7 +30,8 @@ library
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      HTF
+    , base >=4.7 && <5
     , containers
     , data-clist
     , hgeometry
@@ -53,7 +54,8 @@ executable uniform-geometry
   hs-source-dirs:
       app
   build-depends:
-      base >=4.7 && <5
+      HTF
+    , base >=4.7 && <5
     , containers
     , data-clist
     , hgeometry

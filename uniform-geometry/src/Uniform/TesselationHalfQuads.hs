@@ -96,7 +96,7 @@ data TesselationHQ = TesselationHQ {
           _Nodes      :: [NodeHQ]
         , _Faces      :: [FaceHQ]
         , _HQs       :: [HQ]      -- ^ the tileface starting and ending, alternating
-        } deriving Show
+        } deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
 -- | conversion of the Tesselation data structure from qhull to the HQ form
 -- all indices are local

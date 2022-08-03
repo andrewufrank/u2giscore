@@ -6,7 +6,7 @@
 :set -fno-warn-orphans
 :set -isrc
 :set -iapp
---:set -itests
+@REM --:set -itests
 :set -i.stack-work/dist/x86_64-linux-tinfo6/Cabal-2.4.0.1/build/autogen/
 --:load tests/Testing.hs
 :load app/Main.hs
