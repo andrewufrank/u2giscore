@@ -146,7 +146,7 @@ test_getRel = assertEqual [(SS (SK 0), SS (SK 1)), (SS (SK 1), SS (SK 2))] (getR
 r1s = getRel v2a F 
 r2s = [(SS (SK 0),(SS (SK 19))),((SS (SK 1)),(SS (SK 18)))]
 
-test_converse =  assertEqual [(SS (SK 1), SS (SK 0)), (SS (SK 2), SS (SK 1))] (converseRel r1s)
+test_converse =  assertEqual [(SS (SK 19), SS (SK 0)), (SS (SK 18), SS (SK 1))](converseRel r2s)
 
 -- test_findOneNothing =  assertEqual [] (findOne r1 (SS (SK 2)))
 -- test_findOneSK0 =  assertEqual [(SS (SK 1), SS (SK 2))] (findOne r1 (SS (SK 1)))

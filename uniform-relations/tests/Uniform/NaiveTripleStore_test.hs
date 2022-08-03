@@ -39,6 +39,15 @@ import           Test.Framework
 data TestRel = T1 | T2 deriving (Show, Read, Ord, Eq)
 type Triple4test = (Key, TestRel, ValueSum) -- deriving (Show, Read, Ord, Eq)
 
+data Key = Key Text 
+    deriving (Show, Read, Ord, Eq, Generic, Zeros)
+mkkey = Key  
+data Value = Val Text 
+    deriving (Show, Read, Ord, Eq, Generic, Zeros)
+
+mktext = Val
+type ValueSum = Value
+
 ts0, ts1 :: [Triple4test]
 ts0 = tsempty
 ts1 = tsinsert (k1,r1,v1) ts0
@@ -70,8 +79,8 @@ test_insert = assertEqual (concat'["[", res1, "]"] ) (showT ts1)
 test_batch_insert = assertEqual (concat'["[", res2, ",", res1, "]"])
     (showT . tsbatch [Ins t2] $ ts1)
 res1 :: Text
-res1 = "(Key \"t1\",T1,VT (Value \"label1\"))"
-res2 = "(Key \"t2\",T1,VT (Value \"label2\"))"
+res1 = "(Key \"t1\",T1,Val \"label1\")"
+res2 = "(Key \"t2\",T1,Val \"label2\")"
 res21 = concat'["[", res2, ",", res1, "]"]
 
 test_batch_insert21 = assertEqual (concat'["[", res2, ",", res1, "]"])
