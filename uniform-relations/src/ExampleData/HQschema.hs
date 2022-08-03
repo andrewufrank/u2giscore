@@ -32,7 +32,7 @@ import Uniform.Point2dData
 import UniformBase
 
 -- import Control.Exception
-import Uniform.GeometryFunctions
+-- import Uniform.GeometryFunctions
 -- import Uniform.GeometryTest (fiveV2)
 -- import qualified Data.Geometry.Point as HP 
 
@@ -56,9 +56,11 @@ data TesselationHQ = TesselationHQ {
         } deriving Show
 
 -}
-data ObjTess = NodeTag Node | EdgeTag Edge | FaceTag Face
-    | HQTag HqType
-    | PointTag (Point2d) 
+data ObjTess = NodeTag Node 
+    | EdgeTag Edge 
+    | FaceTag Face
+    | HQTag Hq
+    | PointTag Point2d 
     | LengthTag   Length  
     -- | AreaTag Area 
     -- | CostTag Cost 
@@ -70,38 +72,48 @@ instance Zeros ObjTess where zero = ZZpoint
 -- | the sum type for the relation names
 data MorphTess = 
     -- Stag S | Ttag T | 
-    TwinTag Twin| XYtag XY | DistTag Distant
-    | CenterTag Center | SurfacedTag Surfaced   
-    | HqNodeTag HqNode | HqFaceTag HqFace 
+    TwinTag Twin
+    | XYtag XY 
+    | DistTag Distant
+    -- | CenterTag Center | SurfacedTag Surfaced   
+    | HqNodeTag HqNode 
+    | HqFaceTag HqFace 
         -- | SCosttag SC 
         -- | TCcosttag TC -- probably never used, cost of incoming edge?
         -- | NamedTag
-        | ZZm 
+    | ZZm 
     deriving (Show, Read, Ord, Eq, Generic )
 instance Zeros MorphTess  where zero = ZZm
 
-data NodeType i =  Node i deriving (Show, Read, Ord, Eq, Generic)
+-- data NodeType i =  Node i deriving (Show, Read, Ord, Eq, Generic)
 instance Zeros Node  where zero = Node 0
-data EdgeType c = Edge c deriving (Show, Read, Ord, Eq, Generic)
+-- data EdgeType c = Edge c deriving (Show, Read, Ord, Eq, Generic)
 instance Zeros Edge where zero = Edge 0
 
-data HqType = Hq Int  
-    deriving (Show, Read, Ord, Eq, Generic)
+-- data HqType = Hq Int  
+--     deriving (Show, Read, Ord, Eq, Generic)
 -- the obj for the half-quad edge, derived by the two node ids from hgeometry, but just a simple int as id
-instance Zeros HqType where zero = Hq 0
+instance Zeros Hq where zero = Hq 0
 
-data FaceType = Face Int  
-    deriving (Show, Read, Ord, Eq, Generic)
+-- data FaceType = Face Int  
+    -- deriving (Show, Read, Ord, Eq, Generic)
 -- the id for the half-quad edge, derived by the two node ids from hgeometry, but just a simple int as id
 instance Zeros Face where zero = Face 0
 
 
 -- type NodeID = Text
 
-type Node = NodeType Int
-type Edge = EdgeType Int
-type Face = FaceType 
-type Hq = HqType 
+newtype Node = Node  Int
+    deriving (Show, Read, Ord, Eq, Generic)
+newtype Edge = Edge Int
+    deriving (Show, Read, Ord, Eq, Generic)
+
+newtype Face = Face Int
+    deriving (Show, Read, Ord, Eq, Generic)
+
+newtype Hq = Hq Int 
+    deriving (Show, Read, Ord, Eq, Generic)
+
 
 data Length = Length Double  
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
@@ -118,7 +130,7 @@ fromV2toP2d (V2 x y) = Point2d x y
 -- constants for the tags (some have an argument, some not)
 xyMorph :: MorphTess
 xyMorph = XYtag XY 
-distanceMorph :: MorphTess
+-- distanceMorph :: MorphTess
 distanceMorph = DistTag Distant 
 -- sMorph :: MorphTess
 -- -- sMorph = Stag S 
@@ -128,8 +140,8 @@ twinMorph = TwinTag Twin
 -- scMorph = SCosttag SC
 -- tcMorph = TCcosttag TC
 -- namedMorph = NamedTag 
-centerMorph = CenterTag 
-surfacedMorph = SurfacedTag Surfaced
+-- centerMorph = CenterTag 
+-- surfacedMorph = SurfacedTag Surfaced
 hqNodeMorph = HqNodeTag HqNode
 hqFaceMorph = HqFaceTag HqFace
 
@@ -148,17 +160,18 @@ data HqNode = HqNode
 data HqFace = HqFace 
     deriving (Show, Read, Ord, Eq, Generic)
 
-data S = S  deriving (Show, Read, Ord, Eq, Generic)
+-- data S = S  deriving (Show, Read, Ord, Eq, Generic)
 -- | the start node of an edge
-data SC = SC  deriving (Show, Read, Ord, Eq, Generic)
+-- data SC = SC  deriving (Show, Read, Ord, Eq, Generic)
 -- | the cost of the edge in direction towards s (reverse)
-data T = T  deriving (Show, Read, Ord, Eq, Generic)
+-- data T = T  deriving (Show, Read, Ord, Eq, Generic)
 -- | the end node of an edge 
 data Twin = Twin deriving (Show, Read, Ord, Eq, Generic)
 -- | the twin HQ
-data TC = TC  deriving (Show, Read, Ord, Eq, Generic)
+-- data TC = TC  deriving (Show, Read, Ord, Eq, Generic)
 -- | the cost of the edge in direction towards t (forward)
-data TesselationHQtriples = TesselationHQtriples 
+
+data TessHQtriples = TessHQtriples 
     { _NodesTrip :: [StoreTessElement]
     , _FacesTrip :: [StoreTessElement]
     , _HQtrips   :: [StoreTessElement]

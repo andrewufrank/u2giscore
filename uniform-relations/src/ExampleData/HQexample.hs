@@ -26,12 +26,12 @@ module ExampleData.HQexample where
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
 -- import   Uniform.Point2d
 import UniformBase
-import Uniform.Point2dData
+-- import Uniform.Point2dData
 import ExampleData.HQschema
 
 -- import Control.Exception
-import Uniform.GeometryFunctions
-import Uniform.Point2d
+-- import Uniform.GeometryFunctions
+-- import Uniform.Point2d
 import Uniform.TesselationHalfQuads
 
 import Uniform.TripleStore
@@ -68,7 +68,7 @@ makeTripNode :: Int -> NodeHQ -> StoreTessElement
 -- -- note: the Face is the dual of the Node 
 makeTripNode  i (NodeHQ v2x) = (NodeTag . Node $ i, xyMorph, PointTag . fromV2toP2d $ v2x)
 
-getAllTrips :: TesselationHQtriples -> [StoreTessElement]
+getAllTrips :: TessHQtriples -> [StoreTessElement]
 getAllTrips hqt = concat [_NodesTrip hqt, _FacesTrip hqt, _HQtrips hqt]
 
 makeTripFace :: Int -> FaceHQ -> StoreTessElement
@@ -89,8 +89,8 @@ makeTripHq offset i hq = catMaybes [hqnode, hqface, hqtwin, hqhalflength]
         hqhalflength = Just $ (hqid, distanceMorph, LengthTag . Length . halflength $ hq) 
 
 
-hqToTrip :: Int -> TesselationHQ ->  TesselationHQtriples
-hqToTrip offset teshq  = TesselationHQtriples
+hqToTrip :: Int -> TesselationHQ ->  TessHQtriples
+hqToTrip offset teshq  = TessHQtriples
     { _NodesTrip = zipWith (makeTripNode) [offset ..] (_Nodes teshq) 
     , _FacesTrip = zipWith (makeTripFace) [offset ..] (_Faces teshq)
     , _HQtrips   = concat $ zipWith (makeTripHq offset)   [offset ..] (_HQs teshq)
@@ -106,11 +106,56 @@ cat401 ts = catStoreBatch (map wrapIns ts) $ cat400
 
 mainMakeTess :: ErrIO () 
 mainMakeTess = do 
-    putIOwords ["\nmainDelaunayTriples\n"]
+    putIOwords ["\nmainDelaunayTriples Tess\n"]
     -- putIOwords ["\nthe hq for faces\n", showT ]
     tess <- liftIO $ delaunay2 fourV2    
     let trips = hqToTrip 400 . toHq1 $ tess 
     -- putIOwords ["triples produces\n", showT trips]
     let res = cat401 (getAllTrips trips) 
-    putIOwords ["triple store  produced\n", shownice res]
+    putIOwords ["Tess triple store  produced\n", shownice res]
     return ()
+
+tess :: CatStore ObjTess MorphTess
+tess = CatStoreK [
+    (NodeTag (Node 400),XYtag XY,PointTag (Point2d 0.0 0.0)),
+    (NodeTag (Node 401),XYtag XY,PointTag (Point2d 1.5 1.5)),
+    (NodeTag (Node 402),XYtag XY,PointTag (Point2d 0.0 2.0)),
+    (NodeTag (Node 403),XYtag XY,PointTag (Point2d 2.0 0.0)),
+    (FaceTag (Face 400),XYtag XY,PointTag (Point2d 1.0 0.5)),
+    (FaceTag (Face 401),XYtag XY,PointTag (Point2d 0.5 1.0)),
+    (HQTag (Hq 400),HqNodeTag HqNode,NodeTag (Node 401)),
+    (HQTag (Hq 400),TwinTag Twin,HQTag (Hq 405)),
+    (HQTag (Hq 400),DistTag Distant,LengthTag (Length 0.7905694150420949)),
+    (HQTag (Hq 401),HqNodeTag HqNode,NodeTag (Node 400)),
+    (HQTag (Hq 401),HqFaceTag HqFace,FaceTag (Face 400)),
+    (HQTag (Hq 401),TwinTag Twin,HQTag (Hq 406)),
+    (HQTag (Hq 401),DistTag Distant,LengthTag (Length 1.0)),
+    (HQTag (Hq 402),HqNodeTag HqNode,NodeTag (Node 400)),
+    (HQTag (Hq 402),HqFaceTag HqFace,FaceTag (Face 401)),
+    (HQTag (Hq 402),TwinTag Twin,HQTag (Hq 407)),
+    (HQTag (Hq 402),DistTag Distant,LengthTag (Length 1.0606601717798212)),
+    (HQTag (Hq 403),HqNodeTag HqNode,NodeTag (Node 401)),
+    (HQTag (Hq 403),HqFaceTag HqFace,FaceTag (Face 401)),
+    (HQTag (Hq 403),TwinTag Twin,HQTag (Hq 408)),
+    (HQTag (Hq 403),DistTag Distant,LengthTag (Length 0.7905694150420949)),
+    (HQTag (Hq 404),HqNodeTag HqNode,NodeTag (Node 400)),
+    (HQTag (Hq 404),TwinTag Twin,HQTag (Hq 409)),
+    (HQTag (Hq 404),DistTag Distant,LengthTag (Length 1.0)),
+    (HQTag (Hq 405),HqNodeTag HqNode,NodeTag (Node 403)),
+    (HQTag (Hq 405),HqFaceTag HqFace,FaceTag (Face 400)),
+    (HQTag (Hq 405),TwinTag Twin,HQTag (Hq 400)),
+    (HQTag (Hq 405),DistTag Distant,LengthTag (Length 0.7905694150420949)),
+    (HQTag (Hq 406),HqNodeTag HqNode,NodeTag (Node 403)),
+    (HQTag (Hq 406),TwinTag Twin,HQTag (Hq 401)),
+    (HQTag (Hq 406),DistTag Distant,LengthTag (Length 1.0)),
+    (HQTag (Hq 407),HqNodeTag HqNode,NodeTag (Node 401)),
+    (HQTag (Hq 407),HqFaceTag HqFace,FaceTag (Face 400)),
+    (HQTag (Hq 407),TwinTag Twin,HQTag (Hq 402)),
+    (HQTag (Hq 407),DistTag Distant,LengthTag (Length 1.0606601717798212)),
+    (HQTag (Hq 408),HqNodeTag HqNode,NodeTag (Node 402)),
+    (HQTag (Hq 408),TwinTag Twin,HQTag (Hq 403)),
+    (HQTag (Hq 408),DistTag Distant,LengthTag (Length 0.7905694150420949)),
+    (HQTag (Hq 409),HqNodeTag HqNode,NodeTag (Node 402)),
+    (HQTag (Hq 409),HqFaceTag HqFace,FaceTag (Face 401)),
+    (HQTag (Hq 409),TwinTag Twin,HQTag (Hq 404)),
+    (HQTag (Hq 409),DistTag Distant,LengthTag (Length 1.0))]
