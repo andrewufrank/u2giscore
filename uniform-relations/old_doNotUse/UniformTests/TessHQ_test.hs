@@ -74,4 +74,4 @@ catstoreTess = CatStoreK  [(NodeTag (Node 400),XYtag XY,PointTag (Point2d 0.0 0.
     (HQTag (Hq 409),HqNodeTag HqNode,NodeTag (Node 402)),
     (HQTag (Hq 409),HqFaceTag HqFace,FaceTag (Face 401)),
     (HQTag (Hq 409),TwinTag Twin,HQTag (Hq 404)),
-    (HQTag (Hq 409),DistTag Distant,LengthTag (Length 1.0))] :: CatStorePoint
+    (HQTag (Hq 409),DistTag Distant,LengthTag (Length 1.0))] :: CatStoreTess
