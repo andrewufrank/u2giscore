@@ -75,6 +75,7 @@ test-suite test1
   main-is: Testing.hs
   other-modules:
       Uniform.Geometry_test
+      Uniform.TessHQ_test
       Paths_uniform_geometry
   hs-source-dirs:
       tests
