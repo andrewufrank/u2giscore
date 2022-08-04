@@ -172,3 +172,12 @@ instance ToDD V2d where
     todd = v2_dd
 instance ToDD (Pnv2) where 
     todd = pnv2d_dd
+
+-- conversion to (x,y)for gloss 
+class ToGloss a where 
+    togloss :: a -> (Double,Double)
+
+instance ToGloss V2d where 
+    togloss (V2 x y) = (x,y)
+instance ToGloss (Pnv2) where 
+    togloss (Pnv2d i (V2 x y)) = (x,y)
