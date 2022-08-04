@@ -71,7 +71,7 @@ type CPoint o m =  (o,m,o)  -- a relation line (m - is predicate (aka morph), o 
 newtype CatStore o m = CatStoreK [CPoint o m] 
                      deriving (Show, Read, Eq)
 
-instance (Show o, Show m) =>  NiceStrings (CatStore o m) where shownice (CatStoreK oms) = (s2t "\nCatStore\n") <> (showlong) oms
+instance (Show o, Show m) =>  NiceStrings (CatStore o m) where shownice (CatStoreK oms) = (s2t "\nCatStoreK [\n") <> (showlong) oms <> "\n\t]"
 
 -- instance (Show a, Show b, Show c) => NiceStrings (a,b,c) where 
 --             showNice a = showT a 

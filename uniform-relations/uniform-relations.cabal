@@ -22,7 +22,8 @@ extra-source-files:
 
 library
   exposed-modules:
-      ExampleData.HQexample
+      ExampleData.HQexampleLong
+      ExampleData.HQexampleShort
       ExampleData.HQschemaLong
       ExampleData.HQschemaShort
       Uniform.NaiveTripleStore

@@ -20,14 +20,14 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module ExampleData.HQexample where
+module ExampleData.HQexampleLong where
 
 -- import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
 -- import   Uniform.Point2d
 import UniformBase
 -- import Uniform.Point2dData
-import ExampleData.HQschemaShort
+import ExampleData.HQschemaLong
 
 -- import Control.Exception
 -- import Uniform.GeometryFunctions
@@ -62,27 +62,27 @@ data TesselationHQ = TesselationHQ {
 -}
 
 
-makeTripNode :: Int -> NodeHQ -> StoreTessElement
+makeTripNode :: Int -> NodeHQ -> StoreTessLongElement
 -- -- | convert trip_xy   hqnx,   
 -- -- a is NodeID or FaceID (for center )
 -- -- note: the Face is the dual of the Node 
 makeTripNode  i (NodeHQ v2x) = (NodeTag . Node $ i, xyMorph, PointTag . fromV2toP2d $ v2x)
 
-getAllTrips :: TessHQtriples -> [StoreTessElement]
+getAllTrips :: TessHQtriples -> [StoreTessLongElement]
 getAllTrips hqt = concat [_NodesTrip hqt, _FacesTrip hqt, _HQtrips hqt]
 
-makeTripFace :: Int -> FaceHQ -> StoreTessElement
+makeTripFace :: Int -> FaceHQ -> StoreTessLongElement
 -- ^ convert to trip; contains only circumcenter
 -- dual to node 
 makeTripFace  i fhq = (FaceTag . Face $ i, xyMorph, PointTag . fromV2toP2d . circumcenter $ fhq)
 
 
-makeTripHq :: Int -> Int -> HQ -> [StoreTessElement]
--- convert the HQ data to StoreTessElements
+makeTripHq :: Int -> Int -> HQ -> [StoreTessLongElement]
+-- convert the HQ data to StoreTessLongElements
 makeTripHq offset i hq = catMaybes [hqnode, hqface, hqtwin, hqhalflength]
     where
         hqid = HQTag . Hq $ i 
-        hqnode, hqface, hqtwin, hqhalflength :: Maybe StoreTessElement
+        hqnode, hqface, hqtwin, hqhalflength :: Maybe StoreTessLongElement
         hqnode = Just $ (hqid, hqNodeMorph, NodeTag . Node   . (+offset) . node $ hq)
         hqface = fmap  (\fi -> (hqid, hqFaceMorph, FaceTag . Face  . (+offset) $ fi)) (face hq)
         hqtwin = Just $ (hqid, twinMorph, HQTag . Hq  . (+offset) . twin $ hq)
@@ -96,26 +96,26 @@ hqToTrip offset teshq  = TessHQtriples
     , _HQtrips   = concat $ zipWith (makeTripHq offset)   [offset ..] (_HQs teshq)
     } 
 
-type CatStoreTess = CatStore ObjTess MorphTess
+type CatStoreTessLong = CatStore ObjTessLong MorphTessLong
 
-cat400 :: CatStoreTess
+cat400 :: CatStoreTessLong
 cat400 = catStoreEmpty
--- cat401 :: CatStore ObjPoint MorphTess
-cat401 :: [(StoreTessElement)] -> CatStoreTess
+-- cat401 :: CatStore ObjPoint MorphTessLong
+cat401 :: [(StoreTessLongElement)] -> CatStoreTessLong
 cat401 ts = catStoreBatch (map wrapIns ts) $ cat400
 
-mainMakeTess :: ErrIO () 
-mainMakeTess = do 
-    putIOwords ["\nmainDelaunayTriples Tess\n"]
+mainMakeTessLong :: ErrIO () 
+mainMakeTessLong = do 
+    putIOwords ["\nmainDelaunayTriples TessLong\n"]
     -- putIOwords ["\nthe hq for faces\n", showT ]
     tess <- liftIO $ delaunay2 fourV2    
     let trips = hqToTrip 400 . toHq1 $ tess 
     -- putIOwords ["triples produces\n", showT trips]
     let res = cat401 (getAllTrips trips) 
-    putIOwords ["Tess triple store  produced\n", shownice res]
+    putIOwords ["TessLong triple store  produced\n", shownice res]
     return ()
 
-tess :: CatStore ObjTess MorphTess
+tess :: CatStore ObjTessLong MorphTessLong
 tess = CatStoreK [
     (NodeTag (Node 400),XYtag XY,PointTag (Point2d 0.0 0.0)),
     (NodeTag (Node 401),XYtag XY,PointTag (Point2d 1.5 1.5)),

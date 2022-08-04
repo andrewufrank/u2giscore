@@ -24,7 +24,8 @@ import UniformBase
 import Uniform.NaiveTripleStore 
 import Uniform.TripleStore
 import Uniform.TripleRels
-import ExampleData.HQexample
+import ExampleData.HQexampleLong
+import ExampleData.HQexampleShort
 
 -- import Uniform.Point2d
 -- import Uniform.Point2dData 
@@ -63,7 +64,8 @@ main2 = do
     -- mainDelaunayTiles
     -- mainDelaunayTriples
     -- mainHQ
-    mainMakeTess
+    mainMakeTessLong
+    mainMakeTessShort
     return () 
     
 -- p1 = Point2d 1 (V2 1 1):: P2

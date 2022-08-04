@@ -56,7 +56,7 @@ data TesselationHQ = TesselationHQ {
         } deriving Show
 
 -}
-data ObjTess = NodeTag Node 
+data ObjTessLong = NodeTag Node 
     | EdgeTag Edge 
     | FaceTag Face
     | HQTag Hq
@@ -67,10 +67,11 @@ data ObjTess = NodeTag Node
     -- | NameTag Name
     | ZZpoint
     deriving (Show, Read, Ord, Eq, Generic)
-instance Zeros ObjTess where zero = ZZpoint
+instance Zeros ObjTessLong where zero = ZZpoint
+instance NiceStrings ObjTessLong
 
 -- | the sum type for the relation names
-data MorphTess = 
+data MorphTessLong = 
     -- Stag S | Ttag T | 
     TwinTag Twin
     | XYtag XY 
@@ -83,7 +84,8 @@ data MorphTess =
         -- | NamedTag
     | ZZm 
     deriving (Show, Read, Ord, Eq, Generic )
-instance Zeros MorphTess  where zero = ZZm
+instance Zeros MorphTessLong  where zero = ZZm
+instance NiceStrings MorphTessLong
 
 -- data NodeType i =  Node i deriving (Show, Read, Ord, Eq, Generic)
 instance Zeros Node  where zero = Node 0
@@ -128,7 +130,7 @@ fromV2toP2d (V2 x y) = Point2d x y
 
 
 -- constants for the tags (some have an argument, some not)
-xyMorph :: MorphTess
+xyMorph :: MorphTessLong
 xyMorph = XYtag XY 
 -- distanceMorph :: MorphTess
 distanceMorph = DistTag Distant 
@@ -172,12 +174,12 @@ data Twin = Twin deriving (Show, Read, Ord, Eq, Generic)
 -- | the cost of the edge in direction towards t (forward)
 
 data TessHQtriples = TessHQtriples 
-    { _NodesTrip :: [StoreTessElement]
-    , _FacesTrip :: [StoreTessElement]
-    , _HQtrips   :: [StoreTessElement]
+    { _NodesTrip :: [StoreTessLongElement]
+    , _FacesTrip :: [StoreTessLongElement]
+    , _HQtrips   :: [StoreTessLongElement]
     }
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
-type StoreTessElement = (ObjTess, MorphTess, ObjTess)
+type StoreTessLongElement = (ObjTessLong, MorphTessLong, ObjTessLong)
 
 
