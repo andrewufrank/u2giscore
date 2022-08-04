@@ -33,13 +33,13 @@ import ExampleData.HQschemaShort
 -- import Uniform.GeometryFunctions
 -- import Uniform.Point2d
 import Uniform.TesselationHalfQuads
-    ( delaunay2,
-      fourV2,
-      toHq1,
-      FaceHQ(circumcenter),
-      HQ(node, face, twin, halflength),
-      NodeHQ(..),
-      TesselationHQ(_Nodes, _Faces, _HQs) )
+    -- ( delaunay2,
+    --   fourV2,
+    --   toHq1, toPnv2,
+    --   FaceHQ(circumcenter),
+    --   HQ(node, face, twin, halflength),
+    --   NodeHQ(..),
+    --   TesselationHQ(_Nodes, _Faces, _HQs) )
 
 import Uniform.TripleStore
 import Uniform.NaiveTripleStore
@@ -73,7 +73,7 @@ makeTripNode :: Int -> NodeHQ -> StoreTessShortElement
 -- -- | convert trip_xy   hqnx,   
 -- -- a is NodeID or FaceID (for center )
 -- -- note: the Face is the dual of the Node 
-makeTripNode  i (NodeHQ v2x) = ( Node $ i, XY, toPnv $ v2x)
+makeTripNode  i (NodeHQ v2x) = ( Node $ i, XY, PointTag . toPnv2 $ v2x)
 
 getAllTrips :: TessShortHQtriples -> [StoreTessShortElement]
 getAllTrips hqt = concat [_NodesTrip hqt, _FacesTrip hqt, _HQtrips hqt]
@@ -81,7 +81,7 @@ getAllTrips hqt = concat [_NodesTrip hqt, _FacesTrip hqt, _HQtrips hqt]
 makeTripFace :: Int -> FaceHQ -> StoreTessShortElement
 -- ^ convert to trip; contains only circumcenter
 -- dual to node 
-makeTripFace  i fhq = (  Face $ i, XY, PointTag . toPnv . circumcenter $ fhq)
+makeTripFace  i fhq = (  Face $ i, XY, PointTag . toPnv2 . circumcenter $ fhq)
 
 
 makeTripHq :: Int -> Int -> HQ -> [StoreTessShortElement]
@@ -122,14 +122,13 @@ mainMakeTessShort = do
     putIOwords ["tessShort triple store  produced\n", shownice res]
     return ()
 
-tessShort :: CatStore ObjTessShort MorphTessShort
-tessShort = CatStoreK [
-        (Node 400,XY,PointTag (Point2d 0.0 0.0)),
-        (Node 401,XY,PointTag (Point2d 1.5 1.5)),
-        (Node 402,XY,PointTag (Point2d 0.0 2.0)),
-        (Node 403,XY,PointTag (Point2d 2.0 0.0)),
-        (Face 400,XY,PointTag (Point2d 1.0 0.5)),
-        (Face 401,XY,PointTag (Point2d 0.5 1.0)),
+tessShort  = CatStoreK [
+        (Node 400,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 0.0 0.0})),
+        (Node 401,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 1.5 1.5})),
+        (Node 402,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 0.0 2.0})),
+        (Node 403,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 2.0 0.0})),
+        (Face 400,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 1.0 0.5})),
+        (Face 401,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 0.5 1.0})),
         (HalfQuad 400,HqNode,Node 401),
         (HalfQuad 400,Twin,HalfQuad 405),
         (HalfQuad 400,Dist,LengthTag (Length 0.7905694150420949)),
@@ -166,4 +165,4 @@ tessShort = CatStoreK [
         (HalfQuad 409,HqFace,Face 401),
         (HalfQuad 409,Twin,HalfQuad 404),
         (HalfQuad 409,Dist,LengthTag (Length 1.0))
-    ]
+        ]

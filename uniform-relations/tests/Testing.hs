@@ -22,13 +22,13 @@ module Main     where
 
 
 import Test.Framework
-import {-@ HTF_TESTS @-} Uniform.NaiveTripleStore_test
-import {-@ HTF_TESTS @-} Uniform.TripleRels_test
-import {-@ HTF_TESTS @-} ExampleData.HQfaces_test
+-- import {-@ HTF_TESTS @-} Uniform.NaiveTripleStore_test
+-- import {-@ HTF_TESTS @-} Uniform.TripleRels_test
+import {-@ HTF_TESTS @-} ExampleHQ.HQfaces_test
 import UniformBase
 
 main = do
-    putIOwords ["HTF Testing uniform-pretty test"]
+    putIOwords ["HTF Testing uniform-relations test"]
     r <- htfMainWithArgs ["--quiet"] htf_importedTests
     putIOwords ["HTF end \n", showT r]
     
