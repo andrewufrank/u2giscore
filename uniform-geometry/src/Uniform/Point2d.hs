@@ -79,17 +79,11 @@ pnv2d_v2 p = p ^. v2
 
 
 -------------- the conversions
+type GlossPoint = (Double,Double)
 
 -- from P2 to H.Point -- Hgeometry point
 p2_HPoint :: Pnv2d Text Double -> H.Point 2 Double :+ Text 
 p2_HPoint (Pnv2d i (V2 x y)) = H.Point2 x y :+ i
-
--- data Point2d = Point2d Double Double 
---     deriving (Show, Read, Ord, Eq, Generic, Zeros)
--- -- | used in Schema, the data type to represent 2 coordinate pairs 
--- instance NiceStrings Point2d
-
-
 
 v2_dd :: V2 a -> [a]
 v2_dd (V2 x y) = [x,y]
@@ -103,23 +97,6 @@ dd_v2 [x,y] = V2 x y
 
 ddn_pnv2d (x,y,i)= Pnv2d i (V2 x y)
 pnv2d_ddn (Pnv2d i (V2 x y) )= (x,y,i)
--- pnv2d_dd (Pnv2d i (V2 x y) )= [x,y]
-
-
--- v2_point2d :: V2d -> Point2d 
--- v2_point2d (V2 x y) = Point2d x y 
-
-
--- point2d_v2 :: Point2d -> V2d 
--- point2d_v2 (Point2d x y) = V2 x y 
-
--- -- fromV2 to HPoint 
--- v2toHPoint :: V2 r -> H.Point 2 r
--- v2toHPoint (V2 x y) = H.Point2 x y 
-
--- -- | conversion to keep the name  
--- v2toHPoint' :: V2 r -> H.Point 2 r :+ ()
--- v2toHPoint' (V2 x y) = H.Point2 x y :+ () 
 
 instance  (Show a)=> NiceStrings (V2 a) where 
     shownice (V2 x y) = "(" <> showT x <> "/" <> showT y <> ")"
@@ -133,11 +110,7 @@ class ToHPoint2 a where
 
 instance ToHPoint2 (V2 Double) where 
     toHPoint (V2 x y) = H.Point2 x y 
---     -- = v2toHPoint 
---         -- | conversion to set the name  ()
--- -- v2toHPoint' :: V2 r -> H.Point 2 r :+ ()
--- -- v2toHPoint' (V2 x y) = H.Point2 x y :+ () 
-
+ 
 instance ToHPoint2 (Pnv2) where 
     toHPointTextName = p2_HPoint
     toHPoint = toHPoint . pnv2d_v2 
@@ -145,17 +118,6 @@ instance ToHPoint2 (Pnv2) where
 instance ToHPoint2 [Double] where 
     toHPoint = toHPoint . dd_v2
     
-    -- toHPoint (Pnv2d i (V2 x y))= H.Point2 x y :+ i
-
--- instance ToHPoint2 V2 where 
---     -- not required, done via v2
---     toHPoint = toHPoint . dd_v2
-
--- -- creates undecidable instances 
--- instance (ToV2 (List2 Double)) => ToHPoint2 (List2 Double) where 
---     toHPoint = toHPoint  . toV2
-
-
 -- conversion to V2 
 class ToV2 a where 
     toV2 :: a -> V2 Double 
@@ -175,9 +137,18 @@ instance ToDD (Pnv2) where
 
 -- conversion to (x,y)for gloss 
 class ToGloss a where 
-    togloss :: a -> (Double,Double)
+    toGloss :: a -> (Double,Double)
 
 instance ToGloss V2d where 
-    togloss (V2 x y) = (x,y)
+    toGloss (V2 x y) = (x,y)
 instance ToGloss (Pnv2) where 
-    togloss (Pnv2d i (V2 x y)) = (x,y)
+    toGloss (Pnv2d i (V2 x y)) = (x,y)
+
+-- conversion to Pnv2
+class ToPnv2 a where 
+    toPnv2 :: a -> Pnv2
+
+instance ToPnv2 GlossPoint where 
+    toPnv2 (x,y) = Pnv2d zero (V2 x y)  
+instance ToPnv2 (V2d) where 
+    toPnv2  v  = Pnv2d zero v

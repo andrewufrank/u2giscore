@@ -73,7 +73,7 @@ makeTripNode :: Int -> NodeHQ -> StoreTessShortElement
 -- -- | convert trip_xy   hqnx,   
 -- -- a is NodeID or FaceID (for center )
 -- -- note: the Face is the dual of the Node 
-makeTripNode  i (NodeHQ v2x) = ( Node $ i, XY, PointTag . fromV2toP2d $ v2x)
+makeTripNode  i (NodeHQ v2x) = ( Node $ i, XY, toPnv $ v2x)
 
 getAllTrips :: TessShortHQtriples -> [StoreTessShortElement]
 getAllTrips hqt = concat [_NodesTrip hqt, _FacesTrip hqt, _HQtrips hqt]
@@ -81,7 +81,7 @@ getAllTrips hqt = concat [_NodesTrip hqt, _FacesTrip hqt, _HQtrips hqt]
 makeTripFace :: Int -> FaceHQ -> StoreTessShortElement
 -- ^ convert to trip; contains only circumcenter
 -- dual to node 
-makeTripFace  i fhq = (  Face $ i, XY, PointTag . fromV2toP2d . circumcenter $ fhq)
+makeTripFace  i fhq = (  Face $ i, XY, PointTag . toPnv . circumcenter $ fhq)
 
 
 makeTripHq :: Int -> Int -> HQ -> [StoreTessShortElement]
