@@ -27,7 +27,7 @@ module ExampleData.HQexample where
 -- import   Uniform.Point2d
 import UniformBase
 -- import Uniform.Point2dData
-import ExampleData.HQschema
+import ExampleData.HQschemaShort
 
 -- import Control.Exception
 -- import Uniform.GeometryFunctions

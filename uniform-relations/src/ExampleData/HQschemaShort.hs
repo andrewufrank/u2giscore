@@ -23,7 +23,7 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module ExampleData.HQschema where
+module ExampleData.HQschemaShort where
 
 -- import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
