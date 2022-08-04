@@ -128,6 +128,8 @@ instance NiceStrings Point2d where shownice = showT
 fromV2toP2d :: V2d -> Point2d 
 fromV2toP2d (V2 x y) = Point2d x y 
 
+p2dToV2 :: Point2d -> V2d 
+p2dToV2 (Point2d x y) = V2 x y 
 
 -- constants for the tags (some have an argument, some not)
 xyMorph :: MorphTessLong

@@ -76,6 +76,19 @@ data ObjTessShort = Node IDtype
 instance Zeros ObjTessShort where zero = ZZpoint
 instance NiceStrings ObjTessShort
 
+unPointTag :: ObjTessShort -> Point2d
+unPointTag (PointTag t) = t 
+unPointTag x = errorT ["unNodeTag - not a Node", showT x]
+-- unCostTag :: ObjTessShort -> Cost
+-- unCostTag (CostTag t) = t 
+-- unCostTag x = errorT ["unCostTag -  not a Cost", showT x]
+unLengthTag :: ObjTessShort -> Length
+unLengthTag (LengthTag t) = t 
+unLengthTag x = errorT ["unLengthTag - not a Length", showT x]
+
+-- p2dToV2 :: Point2d -> V2d 
+-- p2dToV2 (Point2d x y) = V2 x y 
+
 -- | the sum type for the relation names
 data MorphTessShort = 
     -- Stag S | Ttag T | 
@@ -127,13 +140,6 @@ data Length = Length Double
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 instance NiceStrings Length   
 
-data Point2d = Point2d Double Double 
-    deriving (Show, Read, Ord, Eq, Generic, Zeros)
--- | to replace Point2, the data type to represent all 2 coordinate pairs 
-instance NiceStrings Point2d   
-
-fromV2toP2d :: V2d -> Point2d 
-fromV2toP2d (V2 x y) = Point2d x y 
 
 
 -- -- constants for the tags (some have an argument, some not)

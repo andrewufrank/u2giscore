@@ -70,10 +70,10 @@ import qualified Data.IntMap.Strict  as IM
 -- import           Data.HashMap.Strict.InsOrd as H hiding (map)
 import Language.Haskell.TH.Lens (_Overlapping)
 
-delaunay2 v2s = delaunay (map v2toList2 v2s) False False Nothing 
+delaunay2 v2s = delaunay (map v2_dd v2s) False False Nothing 
 -- ^ calling delaunay with a list of V2
 
-fourV2 = map p2toV2 fourP2 
+fourV2 = map point2d_v2 fourPoint2d 
 
 -- | a data structure to represent a tesselation (and its dual)
 -- with Nodes and Faces (dual to each other)
@@ -102,9 +102,9 @@ data TesselationHQ = TesselationHQ {
 -- all indices are local
 toHq1 :: Tesselation -> TesselationHQ
 toHq1 t = TesselationHQ 
-    { _Nodes = map (NodeHQ . toV2 . _point)  
+    { _Nodes = map (NodeHQ . dd_v2   . _point)  
         . IM.elems . _sites $ t
-    , _Faces = map (FaceHQ .   toV2 .  _circumcenter .   _simplex ) ts
+    , _Faces = map (FaceHQ .   dd_v2 .  _circumcenter .   _simplex ) ts
            
     , _HQs = zipWith (\tf i -> 
             HQ {node =  (!!0) . IM.keys . _vertices'  . _subsimplex $ tf
@@ -158,7 +158,7 @@ testSide tft tiles startxy endxy = listToMaybe . catMaybes $ res
 mainHQ :: ErrIO ()
 mainHQ = do 
     putIOwords ["the conversion to a tesselation As Half-Quads"]
-    tess4 <- liftIO $ delaunay (map (v2toList2 . p2toV2) fourP2) False False Nothing
+    tess4 <- liftIO $ delaunay (map (v2_dd . point2d_v2) fourPoint2d) False False Nothing
     putIOwords ["the given tesselation", showT tess4]
     putIOwords ["point2d two\n", showT (toHq1 tess4), "\n"]
     -- putIOwords ["point2d two", showT tess4, "\n"]

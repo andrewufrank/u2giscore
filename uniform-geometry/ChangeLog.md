@@ -18,5 +18,16 @@ Journal of work in uniform-geometry
 0.0.1.3
 - produce a tesselation data structure with the data for the half quad 
     much simpler code!
+
+0.0.1.4
+- restructure point2d
+    - two points used always: V2 and Point2d (with name and V2 coords)
+    - points used in other packages 
+        - hgeometry HPoint (with names or without)
+        - qhull [Double]
+        - gloss/glut (x,y)
+        - linear V2
+        conversion using instances to convert
+        
 - problems 
     - :l app/Main.hs in .ghci not automatically loaded

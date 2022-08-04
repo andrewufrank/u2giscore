@@ -33,7 +33,7 @@ module Uniform.GeometryFunctions
     , module Uniform.Point2d
     , module Linear.V2
     , module Control.Lens
-    , P2
+    , Point2d
         ) 
          where
 

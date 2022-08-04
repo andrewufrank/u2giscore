@@ -49,34 +49,34 @@ fourTup3 :: [(Double, Double, Integer)]
 -- points to form two triangles
 fourTup3 = [(0,0,11), (1.5, 1.5, 12), (0,2,13), (2,0,14)]
 
-fivePoints :: [(Double, Double, Integer)]
+fiveTup3 :: [(Double, Double, Integer)]
 -- to form 3 triangles
-fivePoints = [(0,0,21), (3,0,22), (4,2,23), (3,5,24),(0,3,25)]
+fiveTup3 = [(0,0,21), (3,0,22), (4,2,23), (3,5,24),(0,3,25)]
 
-fourP2 = map tup2P2 fourTup3 :: [P2]
+fourPoint2d = map (pnv2d_point2d . ddn_pnv2d) fourTup3 :: [Point2d]
 
-tup2P2 :: (Double, Double, Integer) -> P2 
-tup2P2 (x,y,i)= P2d i (V2 x y)
-p2_tup_id :: P2 -> (Double, Double, Integer)
-p2_tup_id p7 = (p7 ^. v2._x, p7 ^. v2._y, p7 ^. p2id)
+-- tup2P2 :: (Double, Double, Integer) -> Point2d 
+-- tup2P2 (x,y,i)= P2d i (V2 x y)
+-- p2_tup_id :: Point2d -> (Double, Double, Integer)
+-- p2_tup_id p7 = (p7 ^. v2._x, p7 ^. v2._y, p7 ^. p2id)
     -- with pattern matching simpler?
 -- p2_tup_id (Point2d i (V2 x y)) = (x,y,i)
 
-p2_tup :: P2 -> (Integer, [Double])
-p2_tup (P2d i (V2 x y)) =(i, [x, y])
+-- p2_tup :: Point2d -> (Integer, [Double])
+-- p2_tup (P2d i (V2 x y)) =(i, [x, y])
 
 
-fiveP2 :: [P2]
-fiveP2 = map tup2P2 fivePoints 
+fivePoint2d :: [Point2d]
+fivePoint2d = map (pnv2d_point2d . ddn_pnv2d) fiveTup3 
 
-fiveD = map (snd . p2_tup) fiveP2
+-- fiveD = map (ddn_dd) fiveP2
 
-fivemap :: Map.Map Integer [Double]-- 
-fivemap = Map.fromList . fmap p2_tup $ fiveP2
+-- fivemap :: Map.Map Integer [Double]-- 
+-- fivemap = Map.fromList . fmap p2d_dd $ fiveP2
 
 
 mainPoint2dData :: ErrIO () 
 mainPoint2dData = do 
-    putIOwords ["point2d zero", showT (zero::P2)]
-    putIOwords ["point2d two", showT (fourP2)]
-    putIOwords ["point2d two", showT (fourTup3)]
+    putIOwords ["point2d zero", showT (zero::Point2d)]
+    putIOwords ["point2d fourPoint2d", showT (fourPoint2d)]
+    putIOwords ["point2d fivePoint2d", showT (fivePoint2d)]
