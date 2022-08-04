@@ -27,6 +27,7 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
     -- runErrorT is  but used in monads-tf
 {-# OPTIONS_GHC -w #-}
+{-# HLINT ignore "Use newtype instead of data" #-}
 -- {-# HLINT ignore "Redundant $" #-}
 -- {-# HLINT ignore "Use map once" #-}
 -- {-# HLINT ignore "Use newtype instead of data" #-}
@@ -73,7 +74,7 @@ import Language.Haskell.TH.Lens (_Overlapping)
 delaunay2 v2s = delaunay (map v2_dd v2s) False False Nothing 
 -- ^ calling delaunay with a list of V2
 
-fourV2 = map point2d_v2 fourPoint2d 
+fourV2 = map _v2   fourPnv2d 
 
 -- | a data structure to represent a tesselation (and its dual)
 -- with Nodes and Faces (dual to each other)
@@ -158,7 +159,7 @@ testSide tft tiles startxy endxy = listToMaybe . catMaybes $ res
 mainHQ :: ErrIO ()
 mainHQ = do 
     putIOwords ["the conversion to a tesselation As Half-Quads"]
-    tess4 <- liftIO $ delaunay (map (v2_dd . point2d_v2) fourPoint2d) False False Nothing
+    tess4 <- liftIO $ delaunay (map (todd ) fourPnv2d) False False Nothing
     putIOwords ["the given tesselation", showT tess4]
     putIOwords ["point2d two\n", showT (toHq1 tess4), "\n"]
     -- putIOwords ["point2d two", showT tess4, "\n"]

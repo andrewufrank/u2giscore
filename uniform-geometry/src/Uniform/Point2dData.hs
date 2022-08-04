@@ -53,7 +53,7 @@ fiveTup3 :: [(Double, Double, Integer)]
 -- to form 3 triangles
 fiveTup3 = [(0,0,21), (3,0,22), (4,2,23), (3,5,24),(0,3,25)]
 
-fourPoint2d = map (pnv2d_point2d . ddn_pnv2d) fourTup3 :: [Point2d]
+fourPnv2d = map (ddn_pnv2d . third3 showT) fourTup3 :: [Pnv2]
 
 -- tup2P2 :: (Double, Double, Integer) -> Point2d 
 -- tup2P2 (x,y,i)= P2d i (V2 x y)
@@ -66,8 +66,8 @@ fourPoint2d = map (pnv2d_point2d . ddn_pnv2d) fourTup3 :: [Point2d]
 -- p2_tup (P2d i (V2 x y)) =(i, [x, y])
 
 
-fivePoint2d :: [Point2d]
-fivePoint2d = map (pnv2d_point2d . ddn_pnv2d) fiveTup3 
+fivePnv2d :: [Pnv2]
+fivePnv2d = map (ddn_pnv2d . third3 showT)  fiveTup3 
 
 -- fiveD = map (ddn_dd) fiveP2
 
@@ -77,6 +77,6 @@ fivePoint2d = map (pnv2d_point2d . ddn_pnv2d) fiveTup3
 
 mainPoint2dData :: ErrIO () 
 mainPoint2dData = do 
-    putIOwords ["point2d zero", showT (zero::Point2d)]
-    putIOwords ["point2d fourPoint2d", showT (fourPoint2d)]
-    putIOwords ["point2d fivePoint2d", showT (fivePoint2d)]
+    putIOwords ["point2d zero", showT (zero::Pnv2)]
+    putIOwords ["point2d fourPoint2d", showT (fourPnv2d)]
+    putIOwords ["point2d fivePoint2d", showT (fivePnv2d)]
