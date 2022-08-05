@@ -26,13 +26,13 @@ module ExampleData.HQexampleShort where
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
 -- import   Uniform.Point2d
 import UniformBase
--- import Uniform.Point2dData
+import Uniform.Point2dData
 import ExampleData.HQschemaShort
-
 -- import Control.Exception
 -- import Uniform.GeometryFunctions
 -- import Uniform.Point2d
 import Uniform.TesselationHalfQuads
+    
     -- ( delaunay2,
     --   fourV2,
     --   toHq1, toPnv2,
@@ -40,7 +40,7 @@ import Uniform.TesselationHalfQuads
     --   HQ(node, face, twin, halflength),
     --   NodeHQ(..),
     --   TesselationHQ(_Nodes, _Faces, _HQs) )
-
+-- import Uniform.GeometryTest(fiveV2, fourV2)
 import Uniform.TripleStore
 import Uniform.NaiveTripleStore
 
@@ -105,24 +105,30 @@ hqToTrip offset teshq  = TessShortHQtriples
 
 type CatStoreTessShort = CatStore ObjTessShort MorphTessShort
 
-cat400 :: CatStoreTessShort
-cat400 = catStoreEmpty
+-- cat400 :: CatStoreTessShort
+-- cat400 = catStoreEmpty
 -- cat401 :: CatStore ObjPoint MorphTessShort
-cat401 :: [(StoreTessShortElement)] -> CatStoreTessShort
-cat401 ts = catStoreBatch (map wrapIns ts) $ cat400
+intoCat :: [(StoreTessShortElement)] -> CatStoreTessShort
+intoCat ts = catStoreBatch (map wrapIns ts) $ catStoreEmpty -- cat400
 
 mainMakeTessShort :: ErrIO () 
 mainMakeTessShort = do 
     putIOwords ["\nmainDelaunayTriples TessShort\n"]
     -- putIOwords ["\nthe hq for faces\n", showT ]
-    tessShort <- liftIO $ delaunay2 fourV2    
-    let trips = hqToTrip 400 . toHq1 $ tessShort 
+    tessShort4 <- liftIO $ delaunay2 fourV2    
+    let trips4 = hqToTrip 400 . toHq1 $ tessShort4 
     -- putIOwords ["triples produces\n", showT trips]
-    let res = cat401 (getAllTrips trips) 
-    putIOwords ["tessShort triple store  produced\n", shownice res]
+    let res4 = intoCat (getAllTrips trips4) 
+    putIOwords ["tessShort triple store  produced\n", shownice res4]
+
+    tessShort5 <- liftIO $ delaunay2 fiveV2    
+    let trips5 = hqToTrip 500 . toHq1 $ tessShort5 
+    -- putIOwords ["triples produces\n", showT trips]
+    let res5 = intoCat (getAllTrips trips5) 
+    putIOwords ["tessShort triple store  produced\n", shownice res5]
     return ()
 
-tessShort  = CatStoreK [
+tessShort4  = CatStoreK [
         (Node 400,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 0.0 0.0})),
         (Node 401,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 1.5 1.5})),
         (Node 402,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 0.0 2.0})),
@@ -166,3 +172,63 @@ tessShort  = CatStoreK [
         (HalfQuad 409,Twin,HalfQuad 404),
         (HalfQuad 409,Dist,LengthTag (Length 1.0))
         ]
+```tessShort5 = CatStoreK [
+    (Node 500,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 0.0 0.0})),
+    (Node 501,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 3.0 0.0})),
+    (Node 502,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 4.0 2.0})),
+    (Node 503,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 3.0 5.0})),
+    (Node 504,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 0.0 3.0})),
+    (Face 500,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 2.1363636363636362 3.0454545454545454})),
+    (Face 501,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 1.5 1.5})),
+    (Face 502,XY,PointTag (Pnv2d {_p2id = "", _v2 = V2 1.8333333333333335 1.8333333333333333})),
+    (HalfQuad 500,HqNode,Node 503),
+    (HalfQuad 500,HqFace,Face 500),
+    (HalfQuad 500,Twin,HalfQuad 507),
+    (HalfQuad 500,Dist,LengthTag (Length 1.8027756377319946)),
+    (HalfQuad 501,HqNode,Node 502),
+    (HalfQuad 501,HqFace,Face 502),
+    (HalfQuad 501,Twin,HalfQuad 508),
+    (HalfQuad 501,Dist,LengthTag (Length 2.0615528128088303)),
+    (HalfQuad 502,HqNode,Node 502),
+    (HalfQuad 502,HqFace,Face 500),
+    (HalfQuad 502,Twin,HalfQuad 509),
+    (HalfQuad 502,Dist,LengthTag (Length 1.5811388300841898)),
+    (HalfQuad 503,HqNode,Node 501),
+    (HalfQuad 503,Twin,HalfQuad 510),
+    (HalfQuad 503,Dist,LengthTag (Length 2.1213203435596424)),
+    (HalfQuad 504,HqNode,Node 500),
+    (HalfQuad 504,Twin,HalfQuad 511),
+    (HalfQuad 504,Dist,LengthTag (Length 1.5)),
+    (HalfQuad 505,HqNode,Node 500),
+    (HalfQuad 505,HqFace,Face 501),
+    (HalfQuad 505,Twin,HalfQuad 512),
+    (HalfQuad 505,Dist,LengthTag (Length 1.5)),
+    (HalfQuad 506,HqNode,Node 501),
+    (HalfQuad 506,HqFace,Face 502),
+    (HalfQuad 506,Twin,HalfQuad 513),
+    (HalfQuad 506,Dist,LengthTag (Length 1.118033988749895)),
+    (HalfQuad 507,HqNode,Node 504),
+    (HalfQuad 507,Twin,HalfQuad 500),
+    (HalfQuad 507,Dist,LengthTag (Length 1.8027756377319946)),
+    (HalfQuad 508,HqNode,Node 504),
+    (HalfQuad 508,HqFace,Face 500),
+    (HalfQuad 508,Twin,HalfQuad 501),
+    (HalfQuad 508,Dist,LengthTag (Length 2.0615528128088303)),
+    (HalfQuad 509,HqNode,Node 503),
+    (HalfQuad 509,Twin,HalfQuad 502),
+    (HalfQuad 509,Dist,LengthTag (Length 1.5811388300841898)),
+    (HalfQuad 510,HqNode,Node 504),
+    (HalfQuad 510,HqFace,Face 502),
+    (HalfQuad 510,Twin,HalfQuad 503),
+    (HalfQuad 510,Dist,LengthTag (Length 2.1213203435596424)),
+    (HalfQuad 511,HqNode,Node 504),
+    (HalfQuad 511,HqFace,Face 501),
+    (HalfQuad 511,Twin,HalfQuad 504),
+    (HalfQuad 511,Dist,LengthTag (Length 1.5)),
+    (HalfQuad 512,HqNode,Node 501),
+    (HalfQuad 512,Twin,HalfQuad 505),
+    (HalfQuad 512,Dist,LengthTag (Length 1.5)),
+    (HalfQuad 513,HqNode,Node 502),
+    (HalfQuad 513,Twin,HalfQuad 506),
+    (HalfQuad 513,Dist,LengthTag (Length 1.118033988749895))
+            ]```

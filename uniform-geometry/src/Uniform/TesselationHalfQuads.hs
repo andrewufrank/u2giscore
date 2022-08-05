@@ -74,7 +74,7 @@ import Language.Haskell.TH.Lens (_Overlapping)
 delaunay2 v2s = delaunay (map v2_dd v2s) False False Nothing 
 -- ^ calling delaunay with a list of V2
 
-fourV2 = map _v2   fourPnv2d 
+-- fourV2 = map _v2   fourPnv2d 
 
 -- | a data structure to represent a tesselation (and its dual)
 -- with Nodes and Faces (dual to each other)

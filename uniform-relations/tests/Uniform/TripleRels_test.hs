@@ -44,10 +44,10 @@ import Data.List ( nub )
 data Morph = F | T  | Null  -- for storing a graph S =s,t> T 
     deriving (Show, Read, Ord, Eq, Generic)
 instance Zeros Morph where zero = Null
-instance NiceStrings Morph 
+instance NiceStrings Morph where shownice = showT
 data Obj = SS Int | TT Int | ZZ 
     deriving (Show, Read, Ord, Eq, Generic)
-instance NiceStrings Obj  
+instance NiceStrings Obj where shownice = showT 
 
 instance Zeros Obj where zero = ZZ
 

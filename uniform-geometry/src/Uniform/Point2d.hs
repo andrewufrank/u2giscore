@@ -71,6 +71,9 @@ data Pnv2d i v = Pnv2d {_p2id:: i, _v2:: V2 v}
 instance (Zeros i, Zeros v, Num v) => Zeros (Pnv2d i v) where zero = Pnv2d zero zero 
 
 instance (Zeros a, Num a) => Zeros (V2 a) where zero = Lin.zero 
+instance (Show i, Show v) => NiceStrings (Pnv2d i v) where
+    showNice p =  unwords'   ["Pnv2d (", showT . _p2id $ p, " ", showT . _v2 $ p, ")"] 
+
 makeLenses ''Pnv2d
 
 -- from P2d to V2 - drops the name, no inverse
@@ -96,6 +99,7 @@ dd_v2 :: [Double] -> V2 Double
 dd_v2 [x,y] = V2 x y 
 
 ddn_pnv2d (x,y,i)= Pnv2d i (V2 x y)
+ddn_v2 (x,y,i)=  (V2 x y)
 pnv2d_ddn (Pnv2d i (V2 x y) )= (x,y,i)
 
 instance  (Show a)=> NiceStrings (V2 a) where 

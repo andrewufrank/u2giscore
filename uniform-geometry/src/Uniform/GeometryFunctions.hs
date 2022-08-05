@@ -51,7 +51,10 @@ import Data.Ext
 import qualified Data.Geometry.Point as HP 
 
 ccw_test :: (ToHPoint2 a1, ToHPoint2 a2, ToHPoint2 a3) => a1 -> a2 -> a3 -> Bool
-ccw_test a b c = HP.CCW == H.ccw (toHPoint a) (toHPoint b) (toHPoint c)
+-- | test for ccw, not include collinear case  
+-- collinear case causes problems when extracting the faces in 
+    -- constructing the HalfQuads
+ccw_test a b c = HP.CW /= H.ccw (toHPoint a) (toHPoint b) (toHPoint c)
 
 scale :: Num a => a -> V2 a -> V2 a 
 scale = (*^)

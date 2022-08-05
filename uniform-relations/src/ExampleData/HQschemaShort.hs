@@ -48,6 +48,10 @@ data ObjTessShort = Node IDtype
     deriving (Show, Read, Ord, Eq, Generic)
 instance Zeros ObjTessShort where zero = ZZpoint
 instance NiceStrings ObjTessShort
+    -- where shownice = showT
+    -- would need a shownice for pointTag to propagate the shownice to the inside data 
+-- instance NiceStrings Pnv2 where 
+--     shownice = showT 
 
 unPointTag :: ObjTessShort -> Pnv2
 unPointTag (PointTag t) = t 
@@ -78,6 +82,7 @@ data MorphTessShort =
     deriving (Show, Read, Ord, Eq, Generic )
 instance Zeros MorphTessShort  where zero = ZZm
 instance NiceStrings MorphTessShort
+    -- where shownice = showT  
 
 
 

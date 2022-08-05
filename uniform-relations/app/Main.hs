@@ -26,6 +26,7 @@ import Uniform.TripleStore
 import Uniform.TripleRels
 import ExampleData.HQexampleLong
 import ExampleData.HQexampleShort
+import ExampleData.HQfaces_test
 
 -- import Uniform.Point2d
 -- import Uniform.Point2dData 
@@ -64,8 +65,9 @@ main2 = do
     -- mainDelaunayTiles
     -- mainDelaunayTriples
     -- mainHQ
-    mainMakeTessLong
-    mainMakeTessShort
+    -- mainMakeTessLong
+    -- mainMakeTessShort
+    pageHQfaces_test
     return () 
     
 -- p1 = Point2d 1 (V2 1 1):: P2

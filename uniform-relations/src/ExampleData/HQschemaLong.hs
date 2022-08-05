@@ -85,7 +85,8 @@ data MorphTessLong =
     | ZZm 
     deriving (Show, Read, Ord, Eq, Generic )
 instance Zeros MorphTessLong  where zero = ZZm
-instance NiceStrings MorphTessLong
+instance NiceStrings MorphTessLong 
+
 
 -- data NodeType i =  Node i deriving (Show, Read, Ord, Eq, Generic)
 instance Zeros Node  where zero = Node 0

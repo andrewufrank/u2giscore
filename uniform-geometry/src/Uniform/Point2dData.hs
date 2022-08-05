@@ -30,6 +30,7 @@ module Uniform.Point2dData
     , module Uniform.Point2d
     , module Linear.V2
     , module Control.Lens
+    , fourV2, fiveV2
         )  where
 
 import UniformBase
@@ -54,7 +55,9 @@ fiveTup3 :: [(Double, Double, Integer)]
 fiveTup3 = [(0,0,21), (3,0,22), (4,2,23), (3,5,24),(0,3,25)]
 
 fourPnv2d = map (ddn_pnv2d . third3 showT) fourTup3 :: [Pnv2]
-
+-- for tests five points 
+fourV2 :: [V2d]
+fourV2 = map pnv2d_v2 fourPnv2d
 -- tup2P2 :: (Double, Double, Integer) -> Point2d 
 -- tup2P2 (x,y,i)= P2d i (V2 x y)
 -- p2_tup_id :: Point2d -> (Double, Double, Integer)
@@ -69,8 +72,12 @@ fourPnv2d = map (ddn_pnv2d . third3 showT) fourTup3 :: [Pnv2]
 fivePnv2d :: [Pnv2]
 fivePnv2d = map (ddn_pnv2d . third3 showT)  fiveTup3 
 
+-- for tests five points 
+fiveV2 :: [V2d]
+fiveV2 = map pnv2d_v2 fivePnv2d
 -- fiveD = map (ddn_dd) fiveP2
-
+fiveV2_31 = map ddn_v2 [(0,0,21), (3.1,0,22), (4,2,23), (3,5,24),(0,3,25)]
+-- five less regular, no gleichschenklig dreieck 
 -- fivemap :: Map.Map Integer [Double]-- 
 -- fivemap = Map.fromList . fmap p2d_dd $ fiveP2
 

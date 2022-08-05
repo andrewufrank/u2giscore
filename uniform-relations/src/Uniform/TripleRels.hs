@@ -69,7 +69,8 @@ import UniformBase (NiceStrings)
 
 type Rel o = [](o,o)
 
--- instance ShowNice (Rel o) where 
+
+-- instance NiceStrings   (Rel o) where 
 --     showlong r = intersperse 
 
 getRel :: (Eq m )=> CatStore o m -> m -> Rel o
