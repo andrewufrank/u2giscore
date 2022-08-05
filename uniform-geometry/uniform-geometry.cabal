@@ -78,6 +78,7 @@ test-suite test1
   other-modules:
       Uniform.Geometry_test
       Uniform.TessHQ_test
+      Uniform.TessVoronoi_test
       Paths_uniform_geometry
   hs-source-dirs:
       tests

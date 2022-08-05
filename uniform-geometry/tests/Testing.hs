@@ -22,8 +22,9 @@ module Main     where
 
 
 import Test.Framework
-import {-@ HTF_TESTS @-} Uniform.Geometry_test
+-- import {-@ HTF_TESTS @-} Uniform.Geometry_test
 import {-@ HTF_TESTS @-} Uniform.TessHQ_test
+import {-@ HTF_TESTS @-} Uniform.TessVoronoi_test
 import UniformBase
 
 main = do

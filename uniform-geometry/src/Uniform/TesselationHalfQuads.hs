@@ -64,6 +64,7 @@ import Control.Lens
   
 import Delaunay.Types
 import Delaunay
+import Voronoi2D
 -- import Qhull.Types
 -- import qualified Data.Map as Ix
 import qualified Data.IntSet as IS
@@ -74,6 +75,7 @@ import Language.Haskell.TH.Lens (_Overlapping)
 delaunay2 v2s = delaunay (map v2_dd v2s) False False Nothing 
 -- ^ calling delaunay with a list of V2
 
+voronoi2d tess = voronoi2 tess
 -- fourV2 = map _v2   fourPnv2d 
 
 -- | a data structure to represent a tesselation (and its dual)
