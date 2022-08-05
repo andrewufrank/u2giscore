@@ -29,5 +29,13 @@ Journal of work in uniform-geometry
         - linear V2
         conversion using instances to convert
         
+    The information about faces left/right is removed when the qhull C code result is converted to haskell (using sorted sets and lists)
+    The difficulty cannot be overcome by testing with coordinaes, as 
+    the circumcenter of the triangle (delaunay) can be on the edge and the decision is arbitrary. Consistency cannot be reconstructed!
+
+0.0.1.5 trying again with hgeometry
+
+
+
 - problems 
     - :l app/Main.hs in .ghci not automatically loaded

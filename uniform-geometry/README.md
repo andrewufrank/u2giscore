@@ -10,7 +10,7 @@ Functions to convert to other formats are included and are used internally to ac
 
 Formats considered intially
 - Point from `hgeometry` 
-- the formats used in `qhull`
+- the formats used in `qhull` (given up, as information about order of nodes, edges and faces is not preserved in haskell when taken from c code)
 - Point2d, a wrapper around V2 to include a point name (similar to `Point :+` and with a similar convention to work with `'` versions of functions)
 
 

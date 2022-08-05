@@ -1,5 +1,5 @@
 name: uniform-geometry
-version: 0.0.1.4
+version: 0.0.1.5
 # cabal-version: >=1.22
 # build-type: Simple
 license: GPL
@@ -29,10 +29,10 @@ dependencies:
 # - vector-space
 - linear
 - lens
-- qhull ==0.1.0.3
-- vector-algorithms # not needed for lts 18.28 ==0.8.0.3 # -- to force qhull
-- insert-ordered-containers
-- pretty-show 
+# - qhull ==0.1.0.3
+# - vector-algorithms # not needed for lts 18.28 ==0.8.0.3 # -- to force qhull
+# - insert-ordered-containers
+# - pretty-show 
 
 # for hgeometry
 - hgeometry 

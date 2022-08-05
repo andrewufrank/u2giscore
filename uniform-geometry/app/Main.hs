@@ -25,19 +25,19 @@ import Uniform.Point2d
 import Uniform.Point2dData 
 
 -- import Delaunay.Delaunay
-import Voronoi2D
+-- import Voronoi2D
 -- import Uniform.Delaunay 
 -- import Uniform.DelaunayTiles
 -- import Uniform.DelaunayTriples
 import Uniform.TesselationHalfQuads 
 
-import qualified Data.IntMap.Strict  as IM
-import           Text.Show.Pretty
-import Control.Lens 
-import           Delaunay
+-- import qualified Data.IntMap.Strict  as IM
+-- import           Text.Show.Pretty
+-- import Control.Lens 
+-- import           Delaunay
 
 -- import Delaunay.Types
-import Qhull.Types
+-- import Qhull.Types
 
 main =
   startProg
