@@ -49,6 +49,18 @@ import GHC.Generics
 import qualified Data.Geometry as H
 import Data.Ext
 import qualified Data.Geometry.Point as HP 
+import qualified Data.List.NonEmpty as NE 
+import Algorithms.Geometry.DelaunayTriangulation.Types
+import Algorithms.Geometry.DelaunayTriangulation.Naive
+
+delaunay2 v2s =  delaunayTriangulation (NE.fromList . map ext . map toHPoint $ v2s)
+-- -- ^ calling delaunay with a list of V2
+    -- delaunayTriangulation :: (Ord r, Fractional r) => NonEmpty (Point 2 r :+ p) -> Triangulation p r 
+planarSubdiv2  = toPlanarSubdivision
+-- voronoi2d tess = voronoi2 tess
+-- -- fourV2 = map _v2   fourPnv2d 
+
+planeGraph2 = toPlaneGraph
 
 ccw_test :: (ToHPoint2 a1, ToHPoint2 a2, ToHPoint2 a3) => a1 -> a2 -> a3 -> Bool
 -- | test for ccw, not include collinear case  

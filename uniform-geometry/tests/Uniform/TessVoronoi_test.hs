@@ -32,19 +32,20 @@ import Uniform.TesselationHalfQuads
 import Uniform.GeometryFunctions
 -- import qualified Data.Geometry.Point as HP 
 
-mainMakeTess v2s= do 
-    putIOwords ["\nmainDelaunayTriples\n"]
-    -- putIOwords ["\nthe hq for faces\n", showT ]
-    tess <-   delaunay2 v2s 
-    let vor = voronoi2d tess
-    putIOwords ["\nthe tess\n", showT tess]
-    putIOwords ["\nthe voronoi\n", showT vor]
 
-    return  vor 
+-- mainMakeTess v2s= do 
+--     putIOwords ["\nmainDelaunayTriples\n"]
+--     -- putIOwords ["\nthe hq for faces\n", showT ]
+--     let tess =  delaunay2 v2s 
+--     -- let vor = voronoi2d tess
+--     putIOwords ["\nthe tess\n", showT tess]
+--     -- putIOwords ["\nthe voronoi\n", showT vor]
 
-test_toHqFour = (do 
-                res <- mainMakeTess fourV2
-                assertEqual [] res )
+--     return  tess 
+
+-- test_toHqFour = (do 
+--                 res <- mainMakeTess fourV2
+--                 assertEqual "" (showT res) )
 -- test_toHqFive = (do 
 --                 res <- mainMakeTess fiveV2
 --                 assertEqual tripsResfive res )
