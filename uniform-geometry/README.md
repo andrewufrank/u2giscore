@@ -12,6 +12,8 @@ Generally, a package for geometry easily usable for others should:
 - use simple, standard Haskell types in the interface (i.e. for input and output) which allow `read . show`; lenses (and similar devices) for more comfortable access, and more performant data storage methods are welcome, but should not be mandatory to understand when reading the result data. Such advanced features beyond _everyday_ Haskell add an additional burden to learn to use a package and provide notoriously difficult to understand error messages (which Haskell is anyhow well known for). 
 - indicate clearly special cases, which the functions are not ready do handle (e.g. collinear points in input for a Delaunay triangulation, points which lead to isoceles, etc.).
 
+- make sure that all information required in results are directly accessible (e.g. order of points, left/right of faces). 
+
 `uniform-geometry` provides a compact but minimal format to represent triangulations as plane graphs with their dual (i.e. Delaunay triangulations and Voronoi subdivisions) using ideas from Guibas and Stolfi with using only references by identifiers. It is a simple step from a RDF (triple). 
 
 Functions to convert to other formats are included and are used internally to access useful code. The package starts as interface to other packages and explains the long list of dependencies. 

@@ -5,7 +5,7 @@
 -- conversion to other formats as far as necessary 
 -- done with classes 
 --          and conversions general conversions
------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 {-# LANGUAGE BangPatterns          #-}
 {-# LANGUAGE DoAndIfThenElse       #-}
 {-# LANGUAGE FlexibleContexts      #-}
