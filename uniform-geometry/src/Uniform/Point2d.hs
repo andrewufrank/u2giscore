@@ -35,7 +35,7 @@ module Uniform.Point2d
     ( module Uniform.Point2d
     , module Linear.V2
     , module Control.Lens
-    , Pnv2, V2d
+    , Pnt2, V2d
     -- , Point2d
     -- other conversions
     , ddn_pnv2d
@@ -59,25 +59,25 @@ instance Zeros Double where zero = 0.0
 
 -----------------------  the two "uniform" types
 -- types specialized for Double
-type Pnv2 = Pnv2d Text Double -- often pnv2d_   -- change later to better name
+type Pnt2 = Pnt2d Text Double -- often pnv2d_   -- change later to better name
 -- type List2 a = [a]      -- ofte dd_
 type V2d = V2 Double  -- from linear V2
 
 
 
 -- | a 2d point (constructed from V2 from Linear) with a name
-data Pnv2d i v = Pnv2d {_p2id:: i, _v2:: V2 v}
+data Pnt2d i v = Pnt2d {_p2id:: i, _v2:: V2 v}
     deriving (Show, Read, Ord, Eq, Generic)
-instance (Zeros i, Zeros v, Num v) => Zeros (Pnv2d i v) where zero = Pnv2d zero zero 
+instance (Zeros i, Zeros v, Num v) => Zeros (Pnt2d i v) where zero = Pnt2d zero zero 
 
 instance (Zeros a, Num a) => Zeros (V2 a) where zero = Lin.zero 
-instance (Show i, Show v) => NiceStrings (Pnv2d i v) where
-    showNice p =  unwords'   ["Pnv2d (", showT . _p2id $ p, " ", showT . _v2 $ p, ")"] 
+instance (Show i, Show v) => NiceStrings (Pnt2d i v) where
+    showNice p =  unwords'   ["Pnt2d (", showT . _p2id $ p, " ", showT . _v2 $ p, ")"] 
 
-makeLenses ''Pnv2d
+makeLenses ''Pnt2d
 
 -- from P2d to V2 - drops the name, no inverse
-pnv2d_v2 :: Pnv2d i v -> V2 v
+pnv2d_v2 :: Pnt2d i v -> V2 v
 pnv2d_v2 p = p ^. v2 
 
 
@@ -85,8 +85,8 @@ pnv2d_v2 p = p ^. v2
 type GlossPoint = (Double,Double)
 
 -- from P2 to H.Point -- Hgeometry point
-p2_HPoint :: Pnv2d Text Double -> H.Point 2 Double :+ Text 
-p2_HPoint (Pnv2d i (V2 x y)) = H.Point2 x y :+ i
+p2_HPoint :: Pnt2d Text Double -> H.Point 2 Double :+ Text 
+p2_HPoint (Pnt2d i (V2 x y)) = H.Point2 x y :+ i
 
 v2_dd :: V2 a -> [a]
 v2_dd (V2 x y) = [x,y]
@@ -98,9 +98,9 @@ pnv2d_dd= v2_dd . pnv2d_v2  -- drops name
 dd_v2 :: [Double] -> V2 Double
 dd_v2 [x,y] = V2 x y 
 
-ddn_pnv2d (x,y,i)= Pnv2d i (V2 x y)
+ddn_pnv2d (x,y,i)= Pnt2d i (V2 x y)
 ddn_v2 (x,y,i)=  (V2 x y)
-pnv2d_ddn (Pnv2d i (V2 x y) )= (x,y,i)
+pnv2d_ddn (Pnt2d i (V2 x y) )= (x,y,i)
 
 instance  (Show a)=> NiceStrings (V2 a) where 
     shownice (V2 x y) = "(" <> showT x <> "/" <> showT y <> ")"
@@ -115,7 +115,7 @@ class ToHPoint2 a where
 instance ToHPoint2 (V2 Double) where 
     toHPoint (V2 x y) = H.Point2 x y 
  
-instance ToHPoint2 (Pnv2) where 
+instance ToHPoint2 (Pnt2) where 
     toHPointTextName = p2_HPoint
     toHPoint = toHPoint . pnv2d_v2 
     
@@ -128,7 +128,7 @@ class ToV2 a where
 
 instance ToV2 [Double] where 
     toV2 = dd_v2
-instance ToV2 (Pnv2) where 
+instance ToV2 (Pnt2) where 
     toV2 p = (_v2 p)
 -- conversion to [Double] for hgeometry 
 class ToDD a where 
@@ -136,7 +136,7 @@ class ToDD a where
 
 instance ToDD V2d where 
     todd = v2_dd
-instance ToDD (Pnv2) where 
+instance ToDD (Pnt2) where 
     todd = pnv2d_dd
 
 -- conversion to (x,y)for gloss 
@@ -145,14 +145,14 @@ class ToGloss a where
 
 instance ToGloss V2d where 
     toGloss (V2 x y) = (x,y)
-instance ToGloss (Pnv2) where 
-    toGloss (Pnv2d i (V2 x y)) = (x,y)
+instance ToGloss (Pnt2) where 
+    toGloss (Pnt2d i (V2 x y)) = (x,y)
 
--- conversion to Pnv2
+-- conversion to Pnt2
 class ToPnv2 a where 
-    toPnv2 :: a -> Pnv2
+    toPnv2 :: a -> Pnt2
 
 instance ToPnv2 GlossPoint where 
-    toPnv2 (x,y) = Pnv2d zero (V2 x y)  
+    toPnv2 (x,y) = Pnt2d zero (V2 x y)  
 instance ToPnv2 (V2d) where 
-    toPnv2  v  = Pnv2d zero v
+    toPnv2  v  = Pnt2d zero v

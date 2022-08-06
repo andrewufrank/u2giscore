@@ -64,13 +64,13 @@ fiveTup3iso :: [(Double, Double, Integer)]
 -- form an isoceles triangle (0,0),(0,3), (3,0)
 fiveTup3iso = [(0,0,21), (3,0,22), (4,2,23), (3,5,24),(0,3,25)]
 
-fourPnv2d = map (ddn_pnv2d . third3 showT) fourTup3 :: [Pnv2]
+fourPnv2d = map (ddn_pnv2d . third3 showT) fourTup3 :: [Pnt2]
 -- for tests five points 
 fourV2 :: [V2d]
 fourV2 = map (pnv2d_v2 . ddn_pnv2d . third3 showT)  fourTup3
 fourV2coll = map (pnv2d_v2 . ddn_pnv2d . third3 showT)  fourTup3coll
 
-fivePnv2d :: [Pnv2]
+fivePnv2d :: [Pnt2]
 fivePnv2d = map (ddn_pnv2d . third3 showT)  fiveTup3 
 
 -- for tests five points 
@@ -87,6 +87,6 @@ fiveV2_31 = map ddn_v2 [(0,0,21), (3.1,0,22), (4,2,23), (3,5,24),(0,3,25)]
 
 mainPoint2dData :: ErrIO () 
 mainPoint2dData = do 
-    putIOwords ["point2d zero", showT (zero::Pnv2)]
+    putIOwords ["point2d zero", showT (zero::Pnt2)]
     putIOwords ["point2d fourPoint2d", showT (fourPnv2d)]
     putIOwords ["point2d fivePoint2d", showT (fivePnv2d)]
