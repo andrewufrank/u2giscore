@@ -39,6 +39,7 @@ module Uniform.GeometryFunctions
 
 import UniformBase
 import Uniform.Point2d 
+import Uniform.Point2dData
 -- import Vector
 import Linear.V2
 import Linear.Vector 
@@ -53,7 +54,8 @@ import qualified Data.List.NonEmpty as NE
 import Algorithms.Geometry.DelaunayTriangulation.Types
 import Algorithms.Geometry.DelaunayTriangulation.Naive
 
-delaunay2 pnt2s =  delaunayTriangulation (NE.fromList $  map toHPointText  pnt2s)
+delaunay2 pnt2s =  delaunayTriangulation (NE.fromList $  map toHPointInt  pnt2s)
+-- maps to HPoint whatever the type of name 
 -- -- ^ calling delaunay with a list of V2
     -- delaunayTriangulation :: (Ord r, Fractional r) => NonEmpty (Point 2 r :+ p) -> Triangulation p r 
 planarSubdiv2  = toPlanarSubdivision

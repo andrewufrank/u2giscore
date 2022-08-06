@@ -111,15 +111,22 @@ instance  (Show a)=> NiceStrings (V2 a) where
 -- or conversion to V2 
 class ToHPoint2 a where 
     toHPoint :: a -> H.Point 2 Double  
+    -- toHPointWithID  :: a i d-> H.Point 2 Double :+ i
     toHPointText  :: a -> H.Point 2 Double :+ Text
+    -- toHPointText = ext . toHPoint
     toHPointInt  :: a -> H.Point 2 Double :+ Int
 
 instance ToHPoint2 (V2 Double) where 
     toHPoint (V2 x y) = H.Point2 x y 
  
 instance ToHPoint2 (Pnt2) where 
-    toHPointText  = p2_HPoint
-    toHPoint = toHPoint . pnt2d_v2 
+    toHPointText (Pnt2d i (V2 x y)) =H.Point2 x y :+ ( i)
+    toHPointInt (Pnt2d i (V2 x y)) = H.Point2 x y :+ ((read . t2s $ i) :: Int)
+    toHPoint (Pnt2d i (V2 x y)) = H.Point2 x y  
+
+instance ToHPoint2 (Pnt2int) where 
+    toHPointInt  = p2_HPoint
+    toHPoint = toHPoint . pnt2d_v2  -- cancels number 
     
 instance ToHPoint2 [Double] where 
     toHPoint = toHPoint . dd_v2

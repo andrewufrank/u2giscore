@@ -74,6 +74,7 @@ fourV2coll = map (pnt2d_v2 . ddn_pnt2d . third3 showT)  fourTup3coll
 
 fivePnt2d :: [Pnt2]
 fivePnt2d = map (ddn_pnt2d . third3 showT)  fiveTup3 
+fivePnt2dint = map (ddn_pnt2d . third3 fromInteger)  fiveTup3 
 -- | test points with names
 
 -- for tests five points 

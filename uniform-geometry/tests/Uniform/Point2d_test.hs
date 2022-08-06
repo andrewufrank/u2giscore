@@ -33,6 +33,7 @@ import UniformBase
 
 -- import Control.Exception
 import Uniform.GeometryFunctions
+import Uniform.Point2d 
 -- import qualified Data.Geometry.Point as HP 
 
 p1 = Pnt2d "A" (V2 1 2):: Pnt2
@@ -41,6 +42,15 @@ test_p1 = assertEqual "Pnt2d {_p2id = \"A\", _v2 = V2 1.0 2.0}" (showT p1)
 
 test_v2zero = assertEqual "Pnt2d {_p2id = \"\", _v2 = V2 0.0 0.0}" (showT (zero::Pnt2))
 
-test_HPointText = assertEqual "Pnt2d {_p2id = \"11\", _v2 = V2 0.0 0.0}" (show . head $ fourPnt2d)
-test_HPointInt = assertEqual "Pnt2d {_p2id = 11, _v2 = V2 0.0 0.0}" (show . head $ fourPnt2dInt)
-test_HPoint = assertEqual "V2 0.0 0.0" (show . head $ fourV2)
+test_HPointText = assertEqual "Point2 0.0 0.0 :+ \"11\"" (showT . toHPointText
+ . head $ fourPnt2d)
+test_HPointInt = assertEqual "Point2 0.0 0.0 :+ 11" (showT . toHPointInt . head $ fourPnt2dInt)
+test_HPoint_V2 = assertEqual "Point2 0.0 0.0" (showT . toHPoint . head $ fourV2)
+
+-- i think the following could be reasonably defaults - but I see not how 
+-- to pass the type info 
+test_HPoint_Pnt2d_def = assertEqual "Point2 0.0 0.0" (showT . toHPoint . head $ fourPnt2d)
+test_HPoint_Pnt2d_toInt = assertEqual "Point2 0.0 0.0 :+ 11" (showT . toHPointInt . head $ fourPnt2d)
+test_HPoint_V2_toText = assertEqual "Point2 0.0 0.0 :+ \"11\"" (showT . toHPointText . head $ fourPnt2d)
+
+test_HPoint = assertEqual "V2 0.0 0.0" (showT . head $ fourV2)
