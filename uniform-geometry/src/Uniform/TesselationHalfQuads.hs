@@ -76,7 +76,7 @@ import Control.Lens
 -- -- ^ calling delaunay with a list of V2
 
 -- voronoi2d tess = voronoi2 tess
--- -- fourV2 = map _v2   fourPnv2d 
+-- -- fourV2 = map _v2   fourPnt2d 
 
 -- | a data structure to represent a tesselation (and its dual)
 -- with Nodes and Faces (dual to each other)
@@ -161,7 +161,7 @@ toHq1 t = TesselationHQ zero
 mainHQ :: ErrIO ()
 mainHQ = do 
     putIOwords ["the conversion to a tesselation As Half-Quads"]
-    -- tess4 <- liftIO $ delaunay (map (todd ) fourPnv2d) False False Nothing
+    -- tess4 <- liftIO $ delaunay (map (todd ) fourPnt2d) False False Nothing
     -- putIOwords ["the given tesselation", showT tess4]
     -- putIOwords ["point2d two\n", showT (toHq1 tess4), "\n"]
     -- putIOwords ["point2d two", showT tess4, "\n"]

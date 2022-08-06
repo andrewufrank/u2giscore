@@ -69,6 +69,7 @@ test-suite test1
   main-is: Testing.hs
   other-modules:
       Uniform.Geometry_test
+      Uniform.Point2d_test
       Uniform.TessHQ_test
       Uniform.TessVoronoi_test
       Paths_uniform_geometry

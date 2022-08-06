@@ -63,7 +63,8 @@ type Pnt2 = Pnt2d Text Double -- often pnt2d_   -- change later to better name
 -- type List2 a = [a]      -- ofte dd_
 type V2d = V2 Double  -- from linear V2
 
-
+type Pnt2int = Pnt2d Int Double
+-- a special type for input in hgeometry delaunay 
 
 -- | a 2d point (constructed from V2 from Linear) with a name
 data Pnt2d i v = Pnt2d {_p2id:: i, _v2:: V2 v}
@@ -85,7 +86,7 @@ pnt2d_v2 p = p ^. v2
 type GlossPoint = (Double,Double)
 
 -- from P2 to H.Point -- Hgeometry point
-p2_HPoint :: Pnt2d Text Double -> H.Point 2 Double :+ Text 
+p2_HPoint :: Pnt2d a Double -> H.Point 2 Double :+ a 
 p2_HPoint (Pnt2d i (V2 x y)) = H.Point2 x y :+ i
 
 v2_dd :: V2 a -> [a]
@@ -110,18 +111,20 @@ instance  (Show a)=> NiceStrings (V2 a) where
 -- or conversion to V2 
 class ToHPoint2 a where 
     toHPoint :: a -> H.Point 2 Double  
-    toHPointTextName :: a -> H.Point 2 Double :+ Text
+    toHPointText  :: a -> H.Point 2 Double :+ Text
+    toHPointInt  :: a -> H.Point 2 Double :+ Int
 
 instance ToHPoint2 (V2 Double) where 
     toHPoint (V2 x y) = H.Point2 x y 
  
 instance ToHPoint2 (Pnt2) where 
-    toHPointTextName = p2_HPoint
+    toHPointText  = p2_HPoint
     toHPoint = toHPoint . pnt2d_v2 
     
 instance ToHPoint2 [Double] where 
     toHPoint = toHPoint . dd_v2
-    
+
+        
 -- conversion to V2 
 class ToV2 a where 
     toV2 :: a -> V2 Double 
@@ -150,9 +153,9 @@ instance ToGloss (Pnt2) where
 
 -- conversion to Pnt2
 class ToPnt2 a where 
-    toPnv2 :: a -> Pnt2
+    toPnt2 :: a -> Pnt2
 
 instance ToPnt2 GlossPoint where 
-    toPnv2 (x,y) = Pnt2d zero (V2 x y)  
+    toPnt2 (x,y) = Pnt2d zero (V2 x y)  
 instance ToPnt2 (V2d) where 
-    toPnv2  v  = Pnt2d zero v
+    toPnt2  v  = Pnt2d zero v

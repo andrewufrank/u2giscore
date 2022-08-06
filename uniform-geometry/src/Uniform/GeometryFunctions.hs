@@ -53,12 +53,12 @@ import qualified Data.List.NonEmpty as NE
 import Algorithms.Geometry.DelaunayTriangulation.Types
 import Algorithms.Geometry.DelaunayTriangulation.Naive
 
-delaunay2 v2s =  delaunayTriangulation (NE.fromList . map ext . map toHPoint $ v2s)
+delaunay2 pnt2s =  delaunayTriangulation (NE.fromList $  map toHPointText  pnt2s)
 -- -- ^ calling delaunay with a list of V2
     -- delaunayTriangulation :: (Ord r, Fractional r) => NonEmpty (Point 2 r :+ p) -> Triangulation p r 
 planarSubdiv2  = toPlanarSubdivision
 -- voronoi2d tess = voronoi2 tess
--- -- fourV2 = map _v2   fourPnv2d 
+-- -- fourV2 = map _v2   fourPnt2d 
 
 planeGraph2 = toPlaneGraph
 

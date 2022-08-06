@@ -35,6 +35,7 @@ import Uniform.TesselationHalfQuads
 import Uniform.GeometryFunctions
 import Algorithms.Geometry.DelaunayTriangulation.Types
 import Algorithms.Geometry.DelaunayTriangulation.Naive
+import Data.Ext
 import Data.PlaneGraph
 import qualified Data.PlaneGraph as Plane
 import qualified Data.Vector as Vec
@@ -62,16 +63,16 @@ import qualified Data.Vector as Vec
 -- --                 assertEqual tripsResfive_31 res )
 
 -- to test that delaunay works as before 
-test_delaunay4 = assertEqual triangulationFour (showT . delaunay2 $ fourV2)
-test_delaunay5 = assertEqual triangulationFive (showT . delaunay2 $ fiveV2)
+test_delaunay4 = assertEqual triangulationFour (showT . delaunay2 $ fourPnt2d)
+test_delaunay5 = assertEqual triangulationFive (showT . delaunay2 $ fivePnt2d)
 
 -- test thta planarSubdiv and planeGraph works as before 
-test_planar1 = assertEqual planarSubdi2Four (showT . planarSubdiv2 . delaunay2 $ fourV2)
-test_planeGraph1 = assertEqual planeGraph2Four (showT . planeGraph2   . delaunay2 $ fourV2)
+test_planar1 = assertEqual planarSubdi2Four (showT . planarSubdiv2 . delaunay2 $ fourPnt2d)
+test_planeGraph1 = assertEqual planeGraph2Four (showT . planeGraph2   . delaunay2 $ fourPnt2d)
 
-planeGraphFour = planeGraph2 . delaunay2 $ fourV2 
-planarSubdivFour = planarSubdiv2   . delaunay2 $ fourV2 
-planarSubdivFive = planarSubdiv2   . delaunay2 $ fiveV2 
+planeGraphFour = planeGraph2 . delaunay2 $ fourPnt2d 
+planarSubdivFour = planarSubdiv2   . delaunay2 $ fourPnt2d 
+planarSubdivFive = planarSubdiv2   . delaunay2 $ fourPnt2d 
 
 verticesFour = vertices   planeGraphFour --planarSubdivFour
 vFourList = Vec.toList verticesFour

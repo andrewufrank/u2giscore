@@ -22,7 +22,7 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module Uniform.Geometry_test where
+module Uniform.Point2d_test where
 
 import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
@@ -41,25 +41,6 @@ test_p1 = assertEqual "Pnt2d {_p2id = \"A\", _v2 = V2 1.0 2.0}" (showT p1)
 
 test_v2zero = assertEqual "Pnt2d {_p2id = \"\", _v2 = V2 0.0 0.0}" (showT (zero::Pnt2))
 
-test_id :: IO ()
-test_id = assertEqual ("A"::Text) (p1 ^. p2id)
-test_v2xy :: IO ()
-test_v2xy = assertEqual (V2 1.0 2.0) ((p1 ^. v2 . _xy))
-test_v2y :: IO ()
-test_v2y = assertEqual (2.0) ((p1 ^. v2 . _y))
-
-test_toP2 :: IO ()
-test_toP2 = assertEqual p1 (ddn_pnt2d . pnt2d_ddn $ p1)
--- use inverse test 
-
--- for tests five points 
--- fiveV2 :: [V2d]
--- fiveV2 = map pnt2d_v2 fivePnt2d
-
-test_ccw_t1 :: IO ()
-test_ccw_t1 = assertBool (ccw_test (fiveV2 !! 0) (fiveV2 !! 1) (fiveV2 !! 2))
-test_ccw_t2 = assertEqual False (ccw_test (fiveV2 !! 1) (fiveV2 !! 0) (fiveV2 !! 2))
-test_ccw_t1a = assertBool (ccw_test (fivePnt2d !! 0) (fivePnt2d !! 1) (fivePnt2d !! 2))
--- test_ccw_t3 = assertBool (ccw_test  ([0,0]::[Double]) ([5,0]::[Double]) ([10,10]::[Double]))
-
-test_scale1 = assertEqual (V2 4.0 8.0::V2d) (scale 4 (V2 1 2))
+test_HPointText = assertEqual "Pnt2d {_p2id = \"11\", _v2 = V2 0.0 0.0}" (show . head $ fourPnt2d)
+test_HPointInt = assertEqual "Pnt2d {_p2id = 11, _v2 = V2 0.0 0.0}" (show . head $ fourPnt2dInt)
+test_HPoint = assertEqual "V2 0.0 0.0" (show . head $ fourV2)
