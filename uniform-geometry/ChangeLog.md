@@ -35,7 +35,9 @@ Journal of work in uniform-geometry
 
 0.0.1.5 trying again with hgeometry
 
+the problem is using lenses and hiding the non-lense access functions (constructors) combined with Vector which are more efficient than lists (but tricky to use)
 
+missing center for circumcircle, lengths and surface. 
 
 - problems 
     - :l app/Main.hs in .ghci not automatically loaded
