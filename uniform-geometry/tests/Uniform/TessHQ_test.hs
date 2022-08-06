@@ -61,9 +61,11 @@ import qualified Data.Vector as Vec
 -- --                 res <- mainMakeTess fiveV2_31
 -- --                 assertEqual tripsResfive_31 res )
 
+-- to test that delaunay works as before 
 test_delaunay4 = assertEqual triangulationFour (showT . delaunay2 $ fourV2)
 test_delaunay5 = assertEqual triangulationFive (showT . delaunay2 $ fiveV2)
 
+-- test thta planarSubdiv and planeGraph works as before 
 test_planar1 = assertEqual planarSubdi2Four (showT . planarSubdiv2 . delaunay2 $ fourV2)
 test_planeGraph1 = assertEqual planeGraph2Four (showT . planeGraph2   . delaunay2 $ fourV2)
 
@@ -120,7 +122,7 @@ vertexDataFour = "[(VertexId 0,VertexData {_location = Point2 0.0 0.0, _vData = 
 
 triangulationFour = "Triangulation {_vertexIds = fromList [(Point2 0.0 0.0,0),(Point2 0.0 2.0,2),(Point2 1.5 1.5,1),(Point2 2.0 0.0,3)], _positions = [Point2 0.0 0.0 :+ (),Point2 1.5 1.5 :+ (),Point2 0.0 2.0 :+ (),Point2 2.0 0.0 :+ ()], _neighbours = [fromList [2,1,3],fromList [3,0,2],fromList [1,0],fromList [0,1]]}"
 
-triangulationFive = "Triangulation {_vertexIds = fromList [(Point2 0.0 0.0,0),(Point2 0.0 3.0,4),(Point2 3.0 0.0,1),(Point2 3.0 5.0,3),(Point2 4.0 2.0,2)], _positions = [Point2 0.0 0.0 :+ (),Point2 3.0 0.0 :+ (),Point2 4.0 2.0 :+ (),Point2 3.0 5.0 :+ (),Point2 0.0 3.0 :+ ()], _neighbours = [fromList [4,1],fromList [0,4,2],fromList [1,4,3],fromList [2,4],fromList [2,1,0,3]]}"
+triangulationFive = "Triangulation {_vertexIds = fromList [(Point2 0.0 0.0,0),(Point2 0.0 3.0,4),(Point2 2.0 0.0,1),(Point2 3.0 5.0,3),(Point2 4.0 2.0,2)], _positions = [Point2 0.0 0.0 :+ (),Point2 2.0 0.0 :+ (),Point2 4.0 2.0 :+ (),Point2 3.0 5.0 :+ (),Point2 0.0 3.0 :+ ()], _neighbours = [fromList [4,1],fromList [0,4,2],fromList [1,4,3],fromList [2,4],fromList [2,1,0,3]]}"
 
 planarSubdi2Four = "PlanarSubdivision {_components = [PlaneGraph {_graph = PlanarGraph embedding = Permutation {_orbits = [[Dart (Arc 0) +1,Dart (Arc 1) +1,Dart (Arc 2) +1],[Dart (Arc 3) +1,Dart (Arc 4) +1,Dart (Arc 2) -1],[Dart (Arc 4) -1,Dart (Arc 0) -1],[Dart (Arc 1) -1,Dart (Arc 3) -1]], _indexes = [(0,0),(2,1),(0,1),(3,0),(0,2),(1,2),(1,0),(3,1),(1,1),(2,0)]} , vertexData = [VertexData {_location = Point2 0.0 0.0, _vData = VertexId 0},VertexData {_location = Point2 1.5 1.5, _vData = VertexId 1},VertexData {_location = Point2 0.0 2.0, _vData = VertexId 2},VertexData {_location = Point2 2.0 0.0, _vData = VertexId 3}] , rawDartData = [Dart (Arc 0) +1,Dart (Arc 0) -1,Dart (Arc 1) +1,Dart (Arc 1) -1,Dart (Arc 2) +1,Dart (Arc 2) -1,Dart (Arc 3) +1,Dart (Arc 3) -1,Dart (Arc 4) +1,Dart (Arc 4) -1] , faceData = [FaceId 1,FaceId 0,FaceId 2]}], _rawVertexData = [Raw {_compId = ComponentId {unCI = 0}, _idxVal = VertexId 0, _dataVal = ()},Raw {_compId = ComponentId {unCI = 0}, _idxVal = VertexId 1, _dataVal = ()},Raw {_compId = ComponentId {unCI = 0}, _idxVal = VertexId 2, _dataVal = ()},Raw {_compId = ComponentId {unCI = 0}, _idxVal = VertexId 3, _dataVal = ()}], _rawDartData = [Raw {_compId = ComponentId {unCI = 0}, _idxVal = Dart (Arc 0) +1, _dataVal = ()},Raw {_compId = ComponentId {unCI = 0}, _idxVal = Dart (Arc 0) -1, _dataVal = ()},Raw {_compId = ComponentId {unCI = 0}, _idxVal = Dart (Arc 1) +1, _dataVal = ()},Raw {_compId = ComponentId {unCI = 0}, _idxVal = Dart (Arc 1) -1, _dataVal = ()},Raw {_compId = ComponentId {unCI = 0}, _idxVal = Dart (Arc 2) +1, _dataVal = ()},Raw {_compId = ComponentId {unCI = 0}, _idxVal = Dart (Arc 2) -1, _dataVal = ()},Raw {_compId = ComponentId {unCI = 0}, _idxVal = Dart (Arc 3) +1, _dataVal = ()},Raw {_compId = ComponentId {unCI = 0}, _idxVal = Dart (Arc 3) -1, _dataVal = ()},Raw {_compId = ComponentId {unCI = 0}, _idxVal = Dart (Arc 4) +1, _dataVal = ()},Raw {_compId = ComponentId {unCI = 0}, _idxVal = Dart (Arc 4) -1, _dataVal = ()}], _rawFaceData = [RawFace {_faceIdx = Nothing, _faceDataVal = FaceData {_holes = fromList [Dart (Arc 0) +1], _fData = ()}},RawFace {_faceIdx = Just (ComponentId {unCI = 0},FaceId 0), _faceDataVal = FaceData {_holes = fromList [], _fData = ()}},RawFace {_faceIdx = Just (ComponentId {unCI = 0},FaceId 2), _faceDataVal = FaceData {_holes = fromList [], _fData = ()}}]}"
 
