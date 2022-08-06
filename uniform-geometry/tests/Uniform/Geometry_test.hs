@@ -49,12 +49,12 @@ test_v2y :: IO ()
 test_v2y = assertEqual (2.0) ((p1 ^. v2 . _y))
 
 test_toP2 :: IO ()
-test_toP2 = assertEqual p1 (ddn_pnv2d . pnv2d_ddn $ p1)
+test_toP2 = assertEqual p1 (ddn_pnt2d . pnt2d_ddn $ p1)
 -- use inverse test 
 
 -- for tests five points 
 -- fiveV2 :: [V2d]
--- fiveV2 = map pnv2d_v2 fivePnv2d
+-- fiveV2 = map pnt2d_v2 fivePnv2d
 
 test_ccw_t1 :: IO ()
 test_ccw_t1 = assertBool (ccw_test (fiveV2 !! 0) (fiveV2 !! 1) (fiveV2 !! 2))

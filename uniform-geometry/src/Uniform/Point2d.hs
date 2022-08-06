@@ -38,7 +38,7 @@ module Uniform.Point2d
     , Pnt2, V2d
     -- , Point2d
     -- other conversions
-    , ddn_pnv2d
+    , ddn_pnt2d
         )  where
 
 import UniformBase
@@ -59,7 +59,7 @@ instance Zeros Double where zero = 0.0
 
 -----------------------  the two "uniform" types
 -- types specialized for Double
-type Pnt2 = Pnt2d Text Double -- often pnv2d_   -- change later to better name
+type Pnt2 = Pnt2d Text Double -- often pnt2d_   -- change later to better name
 -- type List2 a = [a]      -- ofte dd_
 type V2d = V2 Double  -- from linear V2
 
@@ -77,8 +77,8 @@ instance (Show i, Show v) => NiceStrings (Pnt2d i v) where
 makeLenses ''Pnt2d
 
 -- from P2d to V2 - drops the name, no inverse
-pnv2d_v2 :: Pnt2d i v -> V2 v
-pnv2d_v2 p = p ^. v2 
+pnt2d_v2 :: Pnt2d i v -> V2 v
+pnt2d_v2 p = p ^. v2 
 
 
 -------------- the conversions
@@ -91,16 +91,16 @@ p2_HPoint (Pnt2d i (V2 x y)) = H.Point2 x y :+ i
 v2_dd :: V2 a -> [a]
 v2_dd (V2 x y) = [x,y]
 
-pnv2d_dd= v2_dd . pnv2d_v2  -- drops name
--- pnv2d_point2d= v2_point2d . pnv2d_v2  -- drops name
+pnt2d_dd= v2_dd . pnt2d_v2  -- drops name
+-- pnt2d_point2d= v2_point2d . pnt2d_v2  -- drops name
 
 -- from [Double] to V2 
 dd_v2 :: [Double] -> V2 Double
 dd_v2 [x,y] = V2 x y 
 
-ddn_pnv2d (x,y,i)= Pnt2d i (V2 x y)
+ddn_pnt2d (x,y,i)= Pnt2d i (V2 x y)
 ddn_v2 (x,y,i)=  (V2 x y)
-pnv2d_ddn (Pnt2d i (V2 x y) )= (x,y,i)
+pnt2d_ddn (Pnt2d i (V2 x y) )= (x,y,i)
 
 instance  (Show a)=> NiceStrings (V2 a) where 
     shownice (V2 x y) = "(" <> showT x <> "/" <> showT y <> ")"
@@ -117,7 +117,7 @@ instance ToHPoint2 (V2 Double) where
  
 instance ToHPoint2 (Pnt2) where 
     toHPointTextName = p2_HPoint
-    toHPoint = toHPoint . pnv2d_v2 
+    toHPoint = toHPoint . pnt2d_v2 
     
 instance ToHPoint2 [Double] where 
     toHPoint = toHPoint . dd_v2
@@ -137,7 +137,7 @@ class ToDD a where
 instance ToDD V2d where 
     todd = v2_dd
 instance ToDD (Pnt2) where 
-    todd = pnv2d_dd
+    todd = pnt2d_dd
 
 -- conversion to (x,y)for gloss 
 class ToGloss a where 
@@ -149,10 +149,10 @@ instance ToGloss (Pnt2) where
     toGloss (Pnt2d i (V2 x y)) = (x,y)
 
 -- conversion to Pnt2
-class ToPnv2 a where 
+class ToPnt2 a where 
     toPnv2 :: a -> Pnt2
 
-instance ToPnv2 GlossPoint where 
+instance ToPnt2 GlossPoint where 
     toPnv2 (x,y) = Pnt2d zero (V2 x y)  
-instance ToPnv2 (V2d) where 
+instance ToPnt2 (V2d) where 
     toPnv2  v  = Pnt2d zero v
