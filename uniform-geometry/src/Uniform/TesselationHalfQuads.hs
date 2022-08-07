@@ -135,5 +135,23 @@ mainHQ = do
     let tess41 = delaunay2 fourPnt2d
     putIOwords ["the returned tesselation", showT tess41]
     putIOwords ["point2d two\n", showT (toHq1 tess41), "\n"]
-    -- putIOwords ["point2d two", showT tess4, "\n"]
+    putIOwords ["list \nid, dart,      tail,     head,      left,    right \n", showT . controlList $ tess41, "\n"]
 
+-- controlList :: Triangulation Text Double  -> [(Dart, vertexId, vertexId,  faceid, faceid)]
+
+instance (Show a, Show b, Show c, Show d, Show e) => NiceStrings (a,b,c,d,e) where 
+    showlong (a,b,c,d,e) = concat' ["(", showT a, "\n", showT b,"\n",
+                    showT c, "\n", showT d, "\n", showT e,    "\n)"]
+
+
+
+controlList tess = map oneDart darts 
+    where 
+        pg = toPlaneGraph tess 
+        darts = Vec.toList . darts' $  pg
+        oneDart d = ( fromEnum d, d
+            , tailOf d pg
+            , headOf d pg
+            , leftFace d pg 
+            , rightFace d pg
+             )
