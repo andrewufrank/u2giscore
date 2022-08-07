@@ -9,7 +9,13 @@ Experience shows that geometry packages use, among other variations making use d
 Generally, a package for geometry easily usable for others should:
 
 - allow input and output for a _point with identifier_ format, in order to connect the results with the input;
-- use simple, standard Haskell types in the interface (i.e. for input and output) which allow `read . show`; lenses (and similar devices) for more comfortable access, and more performant data storage methods are welcome, but should not be mandatory to understand when reading the result data. Such advanced features beyond _everyday_ Haskell add an additional burden to learn to use a package and provide notoriously difficult to understand error messages (which Haskell is anyhow well known for). 
+- use simple, standard Haskell types in the interface (i.e. for input and output) which allow `read . show`; 
+    - lenses (and similar devices) for more comfortable access, 
+    - pattern synonyms, etc. and 
+    - more performant data storage methods (`Vec`, `NonEmptyList`, `IndexList`, `Sets`, etc. etc. ) 
+    are welcome, but should not be mandatory to understand when reading the result data. Such advanced features beyond _everyday_ Haskell add an additional burden to learn to use a package and provide notoriously difficult to understand error messages (which Haskell is anyhow well known for). 
+- avoid clever tricks (e.g. `Data.Ext` to add information to a type) but just defined the necessary data types (and make their constructors available),
+
 - indicate clearly special cases, which the functions are not ready do handle (e.g. collinear points in input for a Delaunay triangulation, points which lead to isoceles, etc.).
 
 - make sure that all information required in results are directly accessible (e.g. order of points, left/right of faces). 

@@ -161,6 +161,8 @@ instance ToGloss (Pnt2) where
 -- conversion to Pnt2
 class ToPnt2 a where 
     toPnt2 :: a -> Pnt2
+-- instance ToPnt2 (H.Point2 Double Int) where
+hpointToPnt2 (H.Point2 x y :+ i) = Pnt2d i (V2 x y)
 
 instance ToPnt2 GlossPoint where 
     toPnt2 (x,y) = Pnt2d zero (V2 x y)  
