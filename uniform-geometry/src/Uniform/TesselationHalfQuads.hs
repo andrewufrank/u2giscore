@@ -147,19 +147,27 @@ mainHQ = do
 
 -- controlList :: Triangulation Text Double  -> [(Dart, vertexId, vertexId,  faceid, faceid)]
 
-instance (Show a, Show b, Show c, Show d, Show e) => NiceStrings (a,b,c,d,e) where 
-    showlong (a,b,c,d,e) = concat' ["(", showT a, "\n", showT b,"\n",
-                    showT c, "\n", showT d, "\n", showT e,    "\n)"]
-
+-- instance (Show a, Show b, Show c, Show d, Show e, Show f) => NiceStrings (a,b,c,d,e, f) where 
+--     showlong (a,b,c,d,e,f) = "(" <> showT a <> "\n" <> showT b <>"\n" <>
+--                     showT c <> "\n" <> showT d <> "\n" <> showT e <> "\n" <> showT f <>   "\n)" 
+-- produces loop
 
 
 controlList tess = map oneDart darts 
     where 
         pg = toPlaneGraph tess 
         darts = Vec.toList . darts' $  pg
-        oneDart d = ( fromEnum d, d
+        oneDart d = ( fromEnum d
+            , d
             , tailOf d pg
             , headOf d pg
             , leftFace d pg 
             , rightFace d pg
              )
+-- to get the face xy coord (i.e. the face as a node in the dual)
+
+tess9 = delaunay2 fourPnt2d
+pg9 = toPlaneGraph tess9
+ps9 = toPlanarSubdivision tess9
+dualpg =  pg9 ^. pg9
+dualpg' = pg9 ^. ps9
