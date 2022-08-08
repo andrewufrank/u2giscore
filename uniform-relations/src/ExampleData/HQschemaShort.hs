@@ -77,7 +77,8 @@ data MorphTessShort =
     | Dist  
     -- | CenterTag Center | SurfacedTag Surfaced   
     | HqNode  
-    | HqFace  
+    | HqFace 
+    | NextHq
         -- | SCosttag SC 
         -- | TCcosttag TC -- probably never used, cost of incoming edge?
         -- | NamedTag

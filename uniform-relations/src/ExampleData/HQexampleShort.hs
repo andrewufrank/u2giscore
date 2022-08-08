@@ -35,19 +35,19 @@ import ExampleData.HQschemaShort
 import Uniform.TesselationHalfQuads
     
     -- ( delaunay2,
-    --   fourV2,
+    --   fourPnt2d,
     --   toHq1, toPnv2,
     --   FaceHQ(circumcenter),
     --   HQ(node, face, twin, halflength),
     --   NodeHQ(..),
     --   TesselationHQ(_Nodes, _Faces, _HQs) )
--- import Uniform.GeometryTest(fiveV2, fourV2)
+-- import Uniform.GeometryTest(fivePnt2d, fourPnt2d)
 import Uniform.TripleStore
 import Uniform.Point2d
 import Uniform.TesselationHalfQuads
 import Uniform.NaiveTripleStore
 
--- import Uniform.GeometryTest (fiveV2)
+-- import Uniform.GeometryTest (fivePnt2d)
 -- import qualified Data.Geometry.Point as HP 
 
 {- 
@@ -71,6 +71,7 @@ data TesselationHQ = TesselationHQ {
 
 -}
 
+--- Make tirples 
 
 makeTripNode :: Int -> NodeHQ -> StoreTessShortElement
 -- -- | convert trip_xy   hqnx,   
@@ -91,6 +92,8 @@ makeTripFace  i (FaceHQ j) =    (  Face $ i, XY,  zero)
         -- compute later and fill 
 
 
+-- sub: make triples for HQ 
+
 makeTripHq :: Int -> Int -> HQdataHQ -> [StoreTessShortElement]
 -- convert the HQ data to StoreTessShortElements
 makeTripHq offset i hq = catMaybes [hqnode,  hqface, hqtwin, hqhalflength]
@@ -98,8 +101,10 @@ makeTripHq offset i hq = catMaybes [hqnode,  hqface, hqtwin, hqhalflength]
         hqid =   HalfQuad $ i 
         hqnode, hqface, hqtwin, hqhalflength :: Maybe StoreTessShortElement
         hqnode = Just $ (hqid, HqNode,  Node   . (+offset) . hq_node $ hq)
-        hqface = Nothing -- while incenter not known 
-            -- fmap  (\fi -> (hqid, HqFace,   Face  . (+offset) $ fi)) (hq_face hq)
+        hqface =   fmap  (\fi -> (hqid, HqFace,   Face  . (+offset) $ fi)) (Just . hq_face  $ hq)
+        -- in qhull is outerface = Nothing
+        -- in hgeometry is outerface just one of the faces
+        hqnext =  (hqid, NextHq,   HalfQuad  . (+offset) . hq_orbitNext $   hq)        
         hqtwin = Just $ (hqid, Twin, HalfQuad  . (+offset) . hq_twin $ hq)
         hqhalflength = Nothing 
             -- Just $ (hqid, Dist, LengthTag . Length . halflength $ hq) 
@@ -128,15 +133,15 @@ mainMakeTessShort :: ErrIO ()
 mainMakeTessShort = do 
     putIOwords ["\nmainDelaunayTriples TessShort\n"]
     -- putIOwords ["\nthe hq for faces\n", showT ]
-    -- tessShort4 <- liftIO $ delaunay2 fourV2    
-    let tessShort4 = delaunay2 fourV2
+    -- tessShort4 <- liftIO $ delaunay2 fourPnt2d    
+    let tessShort4 = delaunay2 fourPnt2d
     let trips4 = hqToTrip 400 . toHq1 $ tessShort4 
     -- putIOwords ["triples produces\n", showT trips]
     let res4 = intoCat (getAllTrips trips4) 
     putIOwords ["tessShort triple store  produced\n", shownice res4]
 
-    -- tessShort5 <- liftIO $ delaunay2 fiveV2  
-    let tessShort5 = delaunay2 fiveV2  
+    -- tessShort5 <- liftIO $ delaunay2 fivePnt2d  
+    let tessShort5 = delaunay2 fivePnt2d  
     let trips5 = hqToTrip 500 . toHq1 $ tessShort5 
     -- putIOwords ["triples produces\n", showT trips]
     let res5 = intoCat (getAllTrips trips5) 

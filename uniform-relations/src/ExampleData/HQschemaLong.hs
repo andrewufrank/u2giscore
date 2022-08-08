@@ -33,7 +33,7 @@ import UniformBase
 
 -- import Control.Exception
 -- import Uniform.GeometryFunctions
--- import Uniform.GeometryTest (fiveV2)
+-- import Uniform.GeometryTest (fivePnt2d)
 -- import qualified Data.Geometry.Point as HP 
 
 {- 

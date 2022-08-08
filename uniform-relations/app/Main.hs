@@ -24,7 +24,7 @@ import UniformBase
 import Uniform.NaiveTripleStore 
 import Uniform.TripleStore
 import Uniform.TripleRels
-import ExampleData.HQexampleLong
+-- import ExampleData.HQexampleLong
 import ExampleData.HQexampleShort
 import ExampleData.HQfaces_test
 
@@ -67,6 +67,7 @@ main2 = do
     -- mainHQ
     -- mainMakeTessLong
     -- mainMakeTessShort
+    mainMakeTessShort
     pageHQfaces_test
     return () 
     

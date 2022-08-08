@@ -35,7 +35,7 @@ import Uniform.Point2d
 import Uniform.Point2dData
 import Uniform.TesselationHalfQuads
     -- ( delaunay2,
-    --   fourV2, fiveV2,
+    --   fourPnt2d, fivePnt2d,
     --   toHq1,
     --   FaceHQ(circumcenter),
     --   HQ(node, face, twin, halflength),
@@ -55,7 +55,7 @@ import Uniform.TripleRels
 
 --- example code  -- Minimal Schema
 
-tessShort4 = makeCatFrom fourV2
+tessShort4 = makeCatFrom fourPnt2d
 
 hqface :: Rel ObjTessShort
 hqface = getRel tessShort4 HqFace 
@@ -102,17 +102,18 @@ pointsD400 = map ( (scale 20) . toV2 .  unPointTag . snd) pointsDualFace400
 
 pageHQfaces_test :: ErrIO ()
 pageHQfaces_test = do
+    putIOwords ["the tests for relations after storing four and five points"]
     -- mainMakeTessShort
 
-    -- tessShort4 <- liftIO $ delaunay2 fourV2    
-    -- let tessShort4 = delaunay2 fourV2
+    -- tessShort4 <- liftIO $ delaunay2 fourPnt2d    
+    -- let tessShort4 = delaunay2 fourPnt2d
 
     -- putIOwords ["\n [pageTriple4cat"]
     -- putIOwords ["pointsF400", shownice pointsF400]
     -- putIOwords ["pointsF401", shownice pointsF401]
     -- putIOwords ["pointsD400", shownice pointsD400]
 
-    -- let tessShort5 = delaunay2 fiveV2  
+    -- let tessShort5 = delaunay2 fivePnt2d  
 
     -- putIOwords ["pointsF500_2\n", shownice $ pointsF500_2 tessShort5]
     -- putIOwords ["pointsF501_2\n", shownice $ pointsF501_2 tessShort5]

@@ -37,7 +37,7 @@ import Uniform.TesselationHalfQuads
 import Uniform.TripleStore
 import Uniform.NaiveTripleStore
 
--- import Uniform.GeometryTest (fiveV2)
+-- import Uniform.GeometryTest (fivePnt2d)
 -- import qualified Data.Geometry.Point as HP 
 
 {- 
@@ -111,8 +111,8 @@ mainMakeTessLong :: ErrIO ()
 mainMakeTessLong = do 
     putIOwords ["\nmainDelaunayTriples TessLong\n"]
     -- putIOwords ["\nthe hq for faces\n", showT ]
-    -- tess <- liftIO $ delaunay2 fourV2 
-    let tess = delaunay2 fourV2   
+    -- tess <- liftIO $ delaunay2 fourPnt2d 
+    let tess = delaunay2 fourPnt2d   
     let trips = hqToTrip 400 . toHq1 $ tess 
     -- putIOwords ["triples produces\n", showT trips]
     let res = cat401 (getAllTrips trips) 
