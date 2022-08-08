@@ -80,6 +80,16 @@ distance b c =  (Metric.distance (toV2 b) (toV2 c))
 
 -- scale s (V2 x y) = (V2 (s*x) (s*y))
 
+circumCenter :: (ToGloss a) => a -> a -> a -> a 
+circumCenter a b c = fromGloss 
+        $ circumCenterGloss (toGloss a) (toGloss b) (toGloss c)
+
+circumCenterGloss :: GlossPoint -> GlossPoint -> GlossPoint -> GlossPoint
+circumCenterGloss (ax, ay) (bx, by) (cx, cy)
+            =  (((ay**2+ax**2)*(by-cy)+(by**2+bx**2)*(cy-ay)+(cy**2+cx**2)*(ay-by))/d,
+                ((ay**2+ax**2)*(cx-bx)+(by**2+bx**2)*(ax-cx)+(cy**2+cx**2)*(bx-ax))/d)
+        where d = 2*(ax*(by-cy)+bx*(cy-ay)+cx*(ay-by))
+
 -- circumCenter :: Point -> Point -> Point -> Point
 -- > circumCenter (ax, ay) (bx, by) (cx, cy)
 -- >     =  (((ay**2+ax**2)*(by-cy)+(by**2+bx**2)*(cy-ay)+(cy**2+cx**2)*(ay-by))/d,

@@ -155,9 +155,12 @@ instance ToDD (Pnt2) where
 -- conversion to (x,y)for gloss 
 class ToGloss a where 
     toGloss :: a -> (Double,Double)
+    fromGloss :: (Double,Double) -> a 
 
 instance ToGloss V2d where 
     toGloss (V2 x y) = (x,y)
+    fromGloss (x,y) = V2 x y 
+    
 instance ToGloss (Pnt2) where 
     toGloss (Pnt2d i (V2 x y)) = (x,y)
 
