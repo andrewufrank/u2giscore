@@ -166,8 +166,8 @@ controlList tess = map oneDart darts
              )
 -- to get the face xy coord (i.e. the face as a node in the dual)
 
-tess9 = delaunay2 fourPnt2d
-pg9 = toPlaneGraph tess9
-ps9 = toPlanarSubdivision tess9
-dualpg =  pg9 ^. pg9
-dualpg' = pg9 ^. ps9
+-- tess9 = delaunay2 fourPnt2d
+-- pg9 = toPlaneGraph tess9
+-- ps9 = toPlanarSubdivision tess9
+-- dualpg =  pg9 ^. pg9
+-- dualpg' = pg9 ^. ps9
