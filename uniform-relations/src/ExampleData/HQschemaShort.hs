@@ -30,6 +30,7 @@
 module ExampleData.HQschemaShort where
 
 import Uniform.Point2dData
+import Uniform.Point2d
 import UniformBase
 
 
@@ -39,7 +40,7 @@ data ObjTessShort = Node IDtype
     | Edge IDtype 
     | Face IDtype
     | HalfQuad IDtype             -- HQ is defined in TesselationHQ
-    | PointTag Pnv2
+    | PointTag Pnt2
     | LengthTag   Length  
     -- | AreaTag Area 
     -- | CostTag Cost 
@@ -53,7 +54,7 @@ instance NiceStrings ObjTessShort
 -- instance NiceStrings Pnv2 where 
 --     shownice = showT 
 
-unPointTag :: ObjTessShort -> Pnv2
+unPointTag :: ObjTessShort -> Pnt2
 unPointTag (PointTag t) = t 
 unPointTag x = errorT ["unNodeTag - not a Node", showT x]
 -- unCostTag :: ObjTessShort -> Cost

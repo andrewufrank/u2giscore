@@ -3,3 +3,6 @@ Journal of work in uniform-relations
 - extract the triple store and the relatios handling code and bring it to a separate package
 - order:
     -- NaiveTripleStore 
+
+    
+0.0.1.1 building for hgeometry 

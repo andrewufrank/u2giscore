@@ -66,7 +66,10 @@ makeTripNode :: Int -> NodeHQ -> StoreTessLongElement
 -- -- | convert trip_xy   hqnx,   
 -- -- a is NodeID or FaceID (for center )
 -- -- note: the Face is the dual of the Node 
-makeTripNode  i (NodeHQ v2x) = (NodeTag . Node $ i, xyMorph, PointTag . fromV2toP2d $ v2x)
+makeTripNode  i (NodeHQ _ pnt) = (NodeTag . Node $ i, xyMorph
+            , PointTag  (Pnt2d (_p2id  pnt) (_v2 pnt)))
+-- does not use the nodeIdn which is only for checking
+-- data NodeHQ = NodeHQ {nodeIdn :: Int, refId :: Pnt2int} -- was V2d but should contain name of point
 
 getAllTrips :: TessHQtriples -> [StoreTessLongElement]
 getAllTrips hqt = concat [_NodesTrip hqt, _FacesTrip hqt, _HQtrips hqt]
@@ -77,7 +80,7 @@ makeTripFace :: Int -> FaceHQ -> StoreTessLongElement
 makeTripFace  i fhq = (FaceTag . Face $ i, xyMorph, PointTag . fromV2toP2d . circumcenter $ fhq)
 
 
-makeTripHq :: Int -> Int -> HQ -> [StoreTessLongElement]
+makeTripHq :: Int -> Int -> HQdataHQ -> [StoreTessLongElement]
 -- convert the HQ data to StoreTessLongElements
 makeTripHq offset i hq = catMaybes [hqnode, hqface, hqtwin, hqhalflength]
     where
