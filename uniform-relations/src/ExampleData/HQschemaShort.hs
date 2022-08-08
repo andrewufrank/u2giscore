@@ -23,6 +23,8 @@
 {-# LANGUAGE UndecidableInstances  #-}
 {-# LANGUAGE DeriveGeneric  #-}
 {-# LANGUAGE DeriveAnyClass  #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use newtype instead of data" #-}
 
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
@@ -89,7 +91,8 @@ instance NiceStrings MorphTessShort
 
 data Length = Length Double  
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
-instance NiceStrings Length   
+instance NiceStrings Length where
+--   showNice = showT   
 
 
 

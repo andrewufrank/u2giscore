@@ -30,7 +30,7 @@ import UniformBase
 import ExampleData.HQschemaLong
 
 -- import Control.Exception
--- import Uniform.GeometryFunctions
+import Uniform.GeometryFunctions
 -- import Uniform.Point2d
 import Uniform.TesselationHalfQuads
 
@@ -111,7 +111,8 @@ mainMakeTessLong :: ErrIO ()
 mainMakeTessLong = do 
     putIOwords ["\nmainDelaunayTriples TessLong\n"]
     -- putIOwords ["\nthe hq for faces\n", showT ]
-    tess <- liftIO $ delaunay2 fourV2    
+    -- tess <- liftIO $ delaunay2 fourV2 
+    let tess = delaunay2 fourV2   
     let trips = hqToTrip 400 . toHq1 $ tess 
     -- putIOwords ["triples produces\n", showT trips]
     let res = cat401 (getAllTrips trips) 

@@ -55,6 +55,8 @@ import Uniform.TripleRels
 
 --- example code  -- Minimal Schema
 
+tessShort4 = makeCatFrom fourV2
+
 hqface :: Rel ObjTessShort
 hqface = getRel tessShort4 HqFace 
 hqnode = getRel tessShort4 HqNode
@@ -102,14 +104,24 @@ pageHQfaces_test :: ErrIO ()
 pageHQfaces_test = do
     -- mainMakeTessShort
 
-    putIOwords ["\n [pageTriple4cat"]
-    putIOwords ["pointsF400", shownice pointsF400]
-    putIOwords ["pointsF401", shownice pointsF401]
-    putIOwords ["pointsD400", shownice pointsD400]
-    putIOwords ["pointsF500_2\n", shownice $ pointsF500_2 tessShort5]
-    putIOwords ["pointsF501_2\n", shownice $ pointsF501_2 tessShort5]
-    putIOwords ["pointsF502_2\n", shownice $ pointsF502_2 tessShort5]
-    putIOwords ["pointsF503_2\n", shownice $ pointsF503_2 tessShort5]
+    -- tessShort4 <- liftIO $ delaunay2 fourV2    
+    -- let tessShort4 = delaunay2 fourV2
+
+    -- putIOwords ["\n [pageTriple4cat"]
+    -- putIOwords ["pointsF400", shownice pointsF400]
+    -- putIOwords ["pointsF401", shownice pointsF401]
+    -- putIOwords ["pointsD400", shownice pointsD400]
+
+    -- let tessShort5 = delaunay2 fiveV2  
+
+    -- putIOwords ["pointsF500_2\n", shownice $ pointsF500_2 tessShort5]
+    -- putIOwords ["pointsF501_2\n", shownice $ pointsF501_2 tessShort5]
+    -- putIOwords ["pointsF502_2\n", shownice $ pointsF502_2 tessShort5]
+    -- putIOwords ["pointsF503_2\n", shownice $ pointsF503_2 tessShort5]
+    return () 
+
+    
+    -- old 
     -- putIOwords ["tessShort5", shownice $   tessShort5]
     -- putIOwords ["hqfacet", shownice $ hqfacet tessShort5]
     -- putIOwords ["hqfacet", shownice hqface]
