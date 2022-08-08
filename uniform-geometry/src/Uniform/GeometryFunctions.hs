@@ -74,5 +74,22 @@ scale :: Num a => a -> V2 a -> V2 a
 scale = (*^)
 -- scale s (V2 x y) = (V2 (s*x) (s*y))
 
+-- circumCenter :: Point -> Point -> Point -> Point
+-- > circumCenter (ax, ay) (bx, by) (cx, cy)
+-- >     =  (((ay**2+ax**2)*(by-cy)+(by**2+bx**2)*(cy-ay)+(cy**2+cx**2)*(ay-by))/d,
+-- >        ((ay**2+ax**2)*(cx-bx)+(by**2+bx**2)*(ax-cx)+(cy**2+cx**2)*(bx-ax))/d)
+-- >        where d = 2*(ax*(by-cy)+bx*(cy-ay)+cx*(ay-by))
+
+-- incenter:
+-- float x1 = 2, x2 = 1, x3 = 3;
+--     float y1 = 2, y2 = 1, y3 = 1;
+--     float a = 2, b = 1, c = 1;
+ 
+--     // Formula to calculate in-center
+--     float x = (a * x1 + b *
+--                    x2 + c * x3) / (a + b + c);
+--     float y = (a * y1 + b *
+--                    y2 + c * y3) / (a + b + c);
+
 a33 :: V2 Double
 a33 = V2 3 6 
