@@ -70,11 +70,12 @@ data NodeHQ = NodeHQ {nodeIdn :: Int, refId :: Pnt2int} -- was V2d but should co
 data FaceHQ = FaceHQ {faceId:: Int} deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
 data HQdataHQ = HQdataHQ
-    { dart_node:: Int    -- ^ end of hq (start or end of edge)
-    , dart_face:: Int -- ^ face right of the hq, 0 when outerFace
-    , dart_twin::Int     -- the other hq for the edge
-    , dart_orbitNext :: Int
-    , dart_id :: Int
+    { hq_node:: Int    -- ^ end of hq (start or end of edge)
+    , hq_other :: Int  -- ^ the other end of the hq
+    , hq_face:: Int -- ^ face right of the hq, 0 when outerFace
+    , hq_twin::Int     -- the other hq for the edge
+    , hq_orbitNext :: Int
+    , hq_id :: Int
     -- , halflength :: Double  -- the half of the length of the edge
     }  deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
@@ -114,13 +115,20 @@ tohqdatahq tess14 = map (tohqdataOne pg2) (map toEnum [0 .. (numD - 1)])
             numD = Subdiv.numDarts . planarSubdiv2 $ tess14
 
 tohqdataOne pg2 d = HQdataHQ
-    { dart_node =  (_unVertexId  . (`headOf` pg2) $ d)
-    , dart_face =  (_unVertexId . _unFaceId  . (`rightFace` pg2) $ d)
+    { hq_node =  (_unVertexId  . (`headOf` pg2) $ d)
+    , hq_other =  (_unVertexId  . (`tailOf` pg2) $ d)   -- not used 
+    , hq_face =  (_unVertexId . _unFaceId  . (`rightFace` pg2) $ d)
     -- always, 0 is outer face?
-    , dart_twin = fromEnum . Dart.twin $ d
-    , dart_orbitNext =  fromEnum . (`nextEdge` pg2)  $ d
-    , dart_id = fromEnum d
+    , hq_twin = fromEnum . Dart.twin $ d
+    , hq_orbitNext =  fromEnum . (`nextEdge` pg2)  $ d
+    , hq_id = fromEnum d
     }
+-- hq_node:: Int    -- ^ end of hq (start or end of edge)
+--     , hq_other :: Int  -- ^ the other end of the hq
+--     , hq_face:: Int -- ^ face right of the hq, 0 when outerFace
+--     , hq_twin::Int     -- the other hq for the edge
+--     , hq_orbitNext :: Int
+--     , hq_id 
 
 toHq1 tess11 = TesselationHQ
     { _Nodes = hqnodes1 tess11
@@ -135,7 +143,7 @@ mainHQ = do
     let tess41 = delaunay2 fourPnt2d
     putIOwords ["the returned tesselation", showT tess41]
     putIOwords ["point2d two\n", showT (toHq1 tess41), "\n"]
-    putIOwords ["list \nid, dart,      tail,     head,      left,    right \n", showT . controlList $ tess41, "\n"]
+    putIOwords ["list \nid, dart,          tail,      head,      left,    right \n", showT . controlList $ tess41, "\n"]
 
 -- controlList :: Triangulation Text Double  -> [(Dart, vertexId, vertexId,  faceid, faceid)]
 

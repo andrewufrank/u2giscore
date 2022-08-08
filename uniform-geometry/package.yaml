@@ -52,8 +52,8 @@ library:
   - src
  
 
-executable: 
-  # ex1: 
+executables: 
+  exec: 
     main:   Main.hs
     source-dirs:  app
     dependencies: 
