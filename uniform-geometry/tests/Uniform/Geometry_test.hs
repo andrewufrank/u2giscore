@@ -65,3 +65,13 @@ test_ccw_t1a = assertBool (ccw_test (fivePnt2d !! 0) (fivePnt2d !! 1) (fivePnt2d
 test_scale1 = assertEqual (V2 4.0 8.0::V2d) (scale 4 (V2 1 2))
 
 test-distance = assertEqual 0 (distance (fiveV2 !! 0) (fiveV2 !! 1))
+
+test_incenter = assertEqual (V2 2 1.5) (incenter (V2 2 2) (V2 1 1) (V2 3 1))
+test_incenter2 = assertEqual (V2 2.5 2.83) (incenter (V2 3 3) (V2 1 2) (V2 2 2))
+-- Input: A(2, 2), B(1, 1), C(3, 1) 
+--         and AB = 2, BC = 1, AC = 1
+-- Output: (2, 1.5)
+
+-- Input: A(3, 3), B(1, 2), C(2, 2) 
+--         and AB = 3, BC = 2, AC = 2
+-- Output: (2.5, 2.83)

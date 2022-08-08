@@ -101,9 +101,15 @@ pointsF401 = map ( (scale 20) . toV2 .  unPointTag . snd) pointsFace401
 pointsD400 = map ( (scale 20) . toV2 .  unPointTag . snd) pointsDualFace400 
 
 tess44short = makeCatFrom fourPnt2d 
+getrel = getRel tess44short  -- similar to monadic??
+
+point1s = (getrel HqNode) .&. (getrel XY)
+point2s = (getrel Twin) .&. (getrel HqNode) .&. (getrel XY)
+dist12 = zipWith distance (map (unPointTag . snd) point1s) 
+        (map (unPointTag . snd) point2s)
 
 -- compLength = map distance a 
-
+-- run in repl with runErr pageHQfaces_test 
 pageHQfaces_test :: ErrIO ()
 pageHQfaces_test = do
     putIOwords ["the tests for relations after storing four and five points"]
@@ -130,56 +136,8 @@ pageHQfaces_test = do
 
     let ds = map (uncurry distance) . map (cross (unPointTag, unPointTag) ) $     start_end 
     putIOwords ["the distances ", showT ds]
+    putIOwords ["the distances2 ", showT dist12]
 
 
-    -- let hqtwinNode = (converseRel hqtwinhq) .&.  nodeXY
-    -- putIOwords ["hqtwinNode", showlong hqtwinNode]
-    -- let hqtwinXY = (converseRel hqtwinhq) .&.  nodeXY
-    -- putIOwords ["hqtwinXY", showlong hqtwinXY]
-
-
-    -- let hqtwinNode = hqtwinhq .&. tess44short
-    -- putIOwords ["hqtwin", showlong hqtwinNode]
-    -- mainMakeTessShort
-
-    -- tessShort4 <- liftIO $ delaunay2 fourPnt2d    
-    -- let tessShort4 = delaunay2 fourPnt2d
-
-    -- putIOwords ["\n [pageTriple4cat"]
-    -- putIOwords ["pointsF400", shownice pointsF400]
-    -- putIOwords ["pointsF401", shownice pointsF401]
-    -- putIOwords ["pointsD400", shownice pointsD400]
-
-    -- let tessShort5 = delaunay2 fivePnt2d  
-
-    -- putIOwords ["pointsF500_2\n", shownice $ pointsF500_2 tessShort5]
-    -- putIOwords ["pointsF501_2\n", shownice $ pointsF501_2 tessShort5]
-    -- putIOwords ["pointsF502_2\n", shownice $ pointsF502_2 tessShort5]
-    -- putIOwords ["pointsF503_2\n", shownice $ pointsF503_2 tessShort5]
+  
     return () 
-
-    
-    -- old 
-    -- putIOwords ["tessShort5", shownice $   tessShort5]
-    -- putIOwords ["hqfacet", shownice $ hqfacet tessShort5]
-    -- putIOwords ["hqfacet", shownice hqface]
-    -- putIOwords ["hqnodet\n", showlong $ hqnodet tessShort5]
-    -- putIOwords ["xyPointt\n", showlong $ xyPointt tessShort5]
-    -- putIOwords ["facePoint2t\n", showT $ facePoint2t tessShort5]
---    putIOwords ["pointsF501_2", shownice $ pointsF501_2 tessShort5]
---    putIOwords ["pointsF501_2", shownice $ pointsF501_2 tessShort5]
---    putIOwords ["pointsF501_2", shownice $ pointsF501_2 tessShort5]
---     putIOwords ["ts one", showT x1]
-
-    -- putIOwords ["CatStore empty", shownice v0]
-    -- putIOwords ["CatStore v1 with cp1", shownice v1]
-    -- putIOwords ["CatStore v2 added cp2, deleted cp1", shownice v2]
-    -- putIOwords ["CatStore a1x added batch cp1 cp2", shownice a1x]
-    -- putIOwords ["CatStore  a2x", shownice a2x]
-    -- putIOwords ["CatStore  v2a", shownice v2a]
-    -- page2
-
-test_x1 = do
-        res <- runErr $  pageHQfaces_test 
-                -- return True
-        assertEqual (Right ()) res  -- does not produce output
