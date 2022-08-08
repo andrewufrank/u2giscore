@@ -100,9 +100,46 @@ pointsF400 = map ( (scale 20) . toV2 .  unPointTag . snd) pointsFace400
 pointsF401 = map ( (scale 20) . toV2 .  unPointTag . snd) pointsFace401 
 pointsD400 = map ( (scale 20) . toV2 .  unPointTag . snd) pointsDualFace400 
 
+tess44short = makeCatFrom fourPnt2d 
+
+-- compLength = map distance a 
+
 pageHQfaces_test :: ErrIO ()
 pageHQfaces_test = do
     putIOwords ["the tests for relations after storing four and five points"]
+    putIOwords ["tess44short\n", showlong tess44short, "\n"    ]
+    let hqNodeRel = getRel tess44short HqNode
+    putIOwords ["([hqNodeRel])\n", showlong hqNodeRel]
+    let nodeXY =   (getRel tess44short XY)
+    putIOwords ["([nodeXY])\n", showlong nodeXY]
+    let hqHqNodeXY =  hqNodeRel .&.nodeXY
+    putIOwords ["([hqHqNodeXY]) the quad with the coord of its node\n", showlong hqHqNodeXY]
+    -- here ok the hq headnode 
+    
+    let hqtwinhq = (getRel tess44short Twin)    
+    putIOwords ["hqtwinhq the quad with its twin \n", showlong hqtwinhq]
+    -- let hqtwinhqConv = converseRel   hqtwinhq 
+    -- putIOwords ["hqtwinhqConv twin hq left \n", showlong hqtwinhqConv]
+    let hqtwinhqNode = hqtwinhq  .&. (getRel tess44short HqNode) 
+    putIOwords ["hqtwinhqNode\n", showlong hqtwinhqNode]
+    let hqtwinhqNodeXY = hqtwinhqNode .&. nodeXY 
+    putIOwords ["hqtwinhqNodeXY the coords of the other end\n", showlong hqtwinhqNodeXY]
+    
+    let start_end = zip (map snd hqHqNodeXY) (map snd hqtwinhqNodeXY)
+    putIOwords ["start_end the points", showlong start_end]
+
+    let ds = map (uncurry distance) . map (cross (unPointTag, unPointTag) ) $     start_end 
+    putIOwords ["the distances ", showT ds]
+
+
+    -- let hqtwinNode = (converseRel hqtwinhq) .&.  nodeXY
+    -- putIOwords ["hqtwinNode", showlong hqtwinNode]
+    -- let hqtwinXY = (converseRel hqtwinhq) .&.  nodeXY
+    -- putIOwords ["hqtwinXY", showlong hqtwinXY]
+
+
+    -- let hqtwinNode = hqtwinhq .&. tess44short
+    -- putIOwords ["hqtwin", showlong hqtwinNode]
     -- mainMakeTessShort
 
     -- tessShort4 <- liftIO $ delaunay2 fourPnt2d    

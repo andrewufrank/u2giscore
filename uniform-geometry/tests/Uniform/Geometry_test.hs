@@ -63,3 +63,5 @@ test_ccw_t1a = assertBool (ccw_test (fivePnt2d !! 0) (fivePnt2d !! 1) (fivePnt2d
 -- test_ccw_t3 = assertBool (ccw_test  ([0,0]::[Double]) ([5,0]::[Double]) ([10,10]::[Double]))
 
 test_scale1 = assertEqual (V2 4.0 8.0::V2d) (scale 4 (V2 1 2))
+
+test-distance = assertEqual 0 (distance (fiveV2 !! 0) (fiveV2 !! 1))

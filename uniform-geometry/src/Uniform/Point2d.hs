@@ -135,6 +135,9 @@ instance ToHPoint2 [Double] where
 -- conversion to V2 
 class ToV2 a where 
     toV2 :: a -> V2 Double 
+    -- fromV2 :: V2 Double -> a 
+instance ToV2 (V2 Double) where 
+    toV2 = id 
 
 instance ToV2 [Double] where 
     toV2 = dd_v2

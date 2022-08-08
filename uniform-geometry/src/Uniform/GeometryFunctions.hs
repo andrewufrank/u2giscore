@@ -32,6 +32,7 @@ module Uniform.GeometryFunctions
     ( module Uniform.GeometryFunctions
     , module Uniform.Point2d
     , module Linear.V2
+    -- , module Linear.Metric
     , module Control.Lens
     , Pnt2, V2
         ) 
@@ -43,6 +44,7 @@ import Uniform.Point2dData
 -- import Vector
 import Linear.V2
 import Linear.Vector 
+import qualified Linear.Metric as Metric
 import qualified Linear.Vector as Lin
 import Control.Lens 
 import GHC.Generics
@@ -72,6 +74,10 @@ ccw_test a b c = HP.CW /= H.ccw (toHPoint a) (toHPoint b) (toHPoint c)
 
 scale :: Num a => a -> V2 a -> V2 a 
 scale = (*^)
+
+distance :: (ToV2 a) => a -> a -> Double
+distance b c =  (Metric.distance (toV2 b) (toV2 c))
+
 -- scale s (V2 x y) = (V2 (s*x) (s*y))
 
 -- circumCenter :: Point -> Point -> Point -> Point
@@ -93,3 +99,4 @@ scale = (*^)
 
 a33 :: V2 Double
 a33 = V2 3 6 
+t0 = distance a33 a33

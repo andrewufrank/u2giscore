@@ -67,7 +67,7 @@ main2 = do
     -- mainHQ
     -- mainMakeTessLong
     -- mainMakeTessShort
-    mainMakeTessShort
+    mainMakeTessShort  -- from ExampleData.HQexampleShort
     pageHQfaces_test
     return () 
     
