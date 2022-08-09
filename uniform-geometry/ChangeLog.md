@@ -39,5 +39,15 @@ the problem is using lenses and hiding the non-lense access functions (construct
 
 missing center for circumcircle, lengths and surface. 
 
+- improving Point2d.hs
+    Goal: uniformity of interface to functions (possibly from other packages)
+    Differentiate between Points with Names and without. Conversion between them.
+
+    My focus is on GIS type applications, i.e. the 15 digits of precision that Double brings gives  more resolution than the 10^10 required for mm on a global scale. Thus the points of interest here are all represented as Double and the names are always Int (Text would be more appropriate but when printing Text names the result is not Haskell code - unless all `"` are escaped with `\`!)
+    
+    TODO got to Text.
+
+    note: 2d -> two dimensions, 2D two dimension with Double 
+
 - problems 
     - :l app/Main.hs in .ghci not automatically loaded
