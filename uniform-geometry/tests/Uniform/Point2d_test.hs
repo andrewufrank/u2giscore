@@ -47,6 +47,12 @@ test_lensPV2 = assertEqual (_v2 p1) (p1 ^. v2)
 test_lensPV2x = assertEqual (1) (p1 ^. v2 . _x)
 test_lensV2x = assertEqual (3) (v1 ^. _x)
 test_lensV2y = assertEqual (4) (v1 ^. _y )
+test_id :: IO ()
+test_id = assertEqual (77::Int) (p1 ^. p2id)
+test_v2xy :: IO ()
+test_v2xy = assertEqual (V2 1.0 2.0) ((p1 ^. v2 . _xy))
+test_v2y :: IO ()
+test_v2y = assertEqual (2.0) ((p1 ^. v2 . _y))
 
 -- test_HPointText = assertEqual "Point2 0.0 0.0 :+ \"11\"" (showT . toHPointText
 --  . head $ fourPnt2d)

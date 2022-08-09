@@ -65,7 +65,7 @@ import Data.Vector.Fusion.Stream.Monadic (zipWith3M)
 -- | a data structure to represent a tesselation (and its dual)
 -- with Nodes and Faces (dual to each other)
 -- and half of quad edges (see Guibas & stolfi)
-data NodeHQ = NodeHQ {nodeIdn :: Int, refId :: Pnt2int} -- was V2d but should contain name of point
+data NodeHQ = NodeHQ {nodeIdn :: Int, refId :: Pnt2} -- was V2d but should contain name of point
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 data FaceHQ = FaceHQ {faceId:: Int} deriving (Show, Read, Ord, Eq, Generic, Zeros)
 

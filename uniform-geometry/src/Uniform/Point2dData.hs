@@ -48,7 +48,7 @@ import Control.Lens
 -- purely local format ddn, do not export!
 
 type DDN = (Double, Double, Integer)
-ddn_pnt2d ::   (Double, Double, Integer) -> Pnt2int
+ddn_pnt2d ::   (Double, Double, Integer) -> Pnt2
 ddn_pnt2d (x,y,i)= Pnt2d (fromInteger i) (V2 x y)
 ddn_v2 :: DDN -> V2D
 ddn_v2 (x,y,i)=  (V2 x y)

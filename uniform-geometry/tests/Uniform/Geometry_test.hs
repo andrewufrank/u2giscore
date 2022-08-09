@@ -41,12 +41,7 @@ test_p1 = assertEqual "Pnt2d {_p2id = 99, _v2 = V2 1.0 2.0}" (showT p1)
 
 test_v2zero = assertEqual "Pnt2d {_p2id = 0, _v2 = V2 0.0 0.0}" (showT (zero::Pnt2))
 
-test_id :: IO ()
-test_id = assertEqual (99::Int) (p1 ^. p2id)
-test_v2xy :: IO ()
-test_v2xy = assertEqual (V2 1.0 2.0) ((p1 ^. v2 . _xy))
-test_v2y :: IO ()
-test_v2y = assertEqual (2.0) ((p1 ^. v2 . _y))
+
 
 -- test_toP2 :: IO ()
 -- test_toP2 = assertEqual p1 (ddn_pnt2d . pnt2d_ddn $ p1)

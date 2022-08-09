@@ -33,24 +33,39 @@
 
 
 module Uniform.Point2d 
-    ( module Uniform.Point2d
-    , module Linear.V2
-    , module Control.Lens
-    , Pnt2, V2D
+    (
+    Pnt2, Pnt2d(..), v2, p2id -- with the lenses
+    , V2D (..)
+    , GlossPoint
+    , NamedPoint2 (..)
+    , Point2 (..)
+    , ToV2 (..)
+    , ToGloss (..)
+    , ToHPoint2 (..)
+    -- , H.Point
+    -- , module Uniform.Point2d
+    -- , module Linear.V2
+    -- , module Control.Lens
+    , 
     -- , Point2d
     -- other conversions
     -- , ddn_pnt2d
         )  where
 
 import UniformBase
+    ( Generic,
+      NiceStrings(showNice),
+      Zeros(zero),
+      showT,
+      CharChains(unwords') )
 -- import Vector
 import Linear.V2
 import qualified Linear.Vector as Lin
 import Control.Lens 
--- import GHC.Generics
+-- -- import GHC.Generics
 
 import qualified Data.Geometry as H
-import Data.Ext
+import Data.Ext ( type (:+)(..) )
 
 -- import           Uniform.Strings hiding ((</>), (<.>), S)
 
@@ -74,7 +89,7 @@ type Pnt2 = Pnt2d Int Double -- often pnt2d_   -- change later to better name
 -- type List2 a = [a]      -- ofte dd_
 type V2D = V2 Double  -- from linear V2  
 
-type Pnt2int = Pnt2d Int Double
+-- type Pnt2int = Pnt2d Int Double
 -- a special type for input in hgeometry delaunay 
 
 -- | a 2d point (constructed from V2 from Linear) with a name
