@@ -48,8 +48,10 @@ test_v2xy = assertEqual (V2 1.0 2.0) ((p1 ^. v2 . _xy))
 test_v2y :: IO ()
 test_v2y = assertEqual (2.0) ((p1 ^. v2 . _y))
 
-test_toP2 :: IO ()
-test_toP2 = assertEqual p1 (ddn_pnt2d . pnt2d_ddn $ p1)
+-- test_toP2 :: IO ()
+-- test_toP2 = assertEqual p1 (ddn_pnt2d . pnt2d_ddn $ p1)
+-- conversion direction not to be used 
+
 -- use inverse test 
 
 -- for tests five points 

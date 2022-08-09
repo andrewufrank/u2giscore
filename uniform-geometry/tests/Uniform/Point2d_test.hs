@@ -50,13 +50,13 @@ test_lensV2y = assertEqual (4) (v1 ^. _y )
 
 -- test_HPointText = assertEqual "Point2 0.0 0.0 :+ \"11\"" (showT . toHPointText
 --  . head $ fourPnt2d)
--- test_HPointInt = assertEqual "Point2 0.0 0.0 :+ 11" (showT . toHPointInt . head $ fourPnt2dInt)
--- test_HPoint_V2 = assertEqual "Point2 0.0 0.0" (showT . toHPoint . head $ fourV2)
+test_HPointInt = assertEqual "Point2 0.0 0.0 :+ 11" (showT . toHPointInt . head $ fourPnt2d)
+test_HPoint_V2 = assertEqual "Point2 0.0 0.0" (showT . toHPoint . head $ fourV2)
 
 -- -- i think the following could be reasonably defaults - but I see not how 
 -- -- to pass the type info 
 -- test_HPoint_Pnt2d_def = assertEqual "Point2 0.0 0.0" (showT . toHPoint . head $ fourPnt2d)
--- test_HPoint_Pnt2d_toInt = assertEqual "Point2 0.0 0.0 :+ 11" (showT . toHPointInt . head $ fourPnt2d)
+test_HPoint_Pnt2d_toInt = assertEqual "Point2 0.0 0.0 :+ 11" (showT . toHPointInt . head $ fourPnt2d)
 -- test_HPoint_V2_toText = assertEqual "Point2 0.0 0.0 :+ \"11\"" (showT . toHPointText . head $ fourPnt2d)
 
--- test_HPoint = assertEqual "V2 0.0 0.0" (showT . head $ fourV2)
+-- test_V2_x = assertEqual "V2 0.0 0.0" (showT . head $ fourV2)

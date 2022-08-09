@@ -171,8 +171,8 @@ class ToHPoint2 a where
     -- toHPointText = ext . toHPoint
     toHPointInt  :: a -> H.Point 2 Double :+ Int
 
--- instance ToHPoint2 (V2 Double) where 
---     toHPoint (V2 x y) = H.Point2 x y 
+instance ToHPoint2 (V2 Double) where 
+    toHPoint (V2 x y) = H.Point2 x y 
  
 instance ToHPoint2 (Pnt2) where 
     -- toHPointText (Pnt2d i (V2 x y)) =H.Point2 x y :+ ( i)
