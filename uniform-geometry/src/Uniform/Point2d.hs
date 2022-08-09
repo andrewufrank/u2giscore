@@ -35,7 +35,7 @@
 module Uniform.Point2d 
     (
     Pnt2, Pnt2d(..), v2, p2id -- with the lenses
-    , V2D (..)
+    , V2D (..), V2 (..)
     , GlossPoint
     , NamedPoint2 (..)
     , Point2 (..)

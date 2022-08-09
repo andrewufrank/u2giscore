@@ -33,7 +33,6 @@ import UniformBase
 
 -- import Control.Exception
 import Uniform.GeometryFunctions
-import Uniform.Point2d 
 -- import qualified Data.Geometry.Point as HP 
 
 p1 = Pnt2d 77 (V2 1 2):: Pnt2

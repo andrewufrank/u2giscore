@@ -28,19 +28,19 @@
 module Uniform.Point2dData 
     ( module Uniform.Point2dData
     , module Uniform.Point2d
-    , module Linear.V2
-    , module Control.Lens
+    -- , module Linear.V2
+    -- , module Control.Lens
     -- , fourV2, fiveV2
         )  where
 
 import UniformBase
 import Uniform.Point2d
-import qualified Data.Map as Map 
+-- import qualified Data.Map as Map 
 
--- import Vector
-import Linear.V2
-import qualified Linear.Vector as Lin
-import Control.Lens 
+-- -- import Vector
+-- import Linear.V2
+-- import qualified Linear.Vector as Lin
+-- import Control.Lens 
 -- import GHC.Generics
 
 -- import           Uniform.Strings hiding ((</>), (<.>), S)
