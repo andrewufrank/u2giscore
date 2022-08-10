@@ -67,8 +67,9 @@ main2 = do
     -- mainHQ
     -- mainMakeTessLong
     -- mainMakeTessShort
-    mainMakeTessShort  -- from ExampleData.HQexampleShort
-    pageHQfaces_test
+    -- mainMakeTessShort  -- from ExampleData.HQexampleShort
+    -- pageHQfaces_test
+    pageHQforglossFaces
     return () 
     
 -- p1 = Point2d 1 (V2 1 1):: P2

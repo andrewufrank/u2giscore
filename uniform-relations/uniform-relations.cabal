@@ -39,7 +39,7 @@ library
     , uniformBase >=0.1.3
   default-language: Haskell2010
 
-executable hq
+executable exec
   main-is: Main.hs
   other-modules:
       Paths_uniform_relations

@@ -56,7 +56,7 @@ library:
  
 
 executables: 
-  hq: 
+  exec: 
     main:   Main.hs
     source-dirs:  app
     dependencies: 

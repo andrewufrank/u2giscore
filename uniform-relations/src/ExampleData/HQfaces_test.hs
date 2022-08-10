@@ -101,12 +101,26 @@ pointsF401 = map ( (scale 20) . toV2 .  unPointTag . snd) pointsFace401
 pointsD400 = map ( (scale 20) . toV2 .  unPointTag . snd) pointsDualFace400 
 
 tess44short = makeCatFrom fourPnt2d 
-getrel = getRel tess44short  -- similar to monadic??
+getRel4 = getRel tess44short  -- similar to monadic??
 
-point1s = (getrel HqNode) .&. (getrel XY)
-point2s = (getrel Twin) .&. (getrel HqNode) .&. (getrel XY)
+point1s = (getRel4 HqNode) .&. (getRel4 XY)
+point2s = (getRel4 Twin) .&. (getRel4 HqNode) .&. (getRel4 XY)
 dist12 = zipWith distance (map (unPointTag . snd) point1s) 
         (map (unPointTag . snd) point2s)
+
+face3inv = converseRel (getRel4 HqFace) 
+node3 = face3inv .&. (getRel4 HqNode)
+face_pnt3 = node3 .&. (getRel4 XY)
+
+
+pageHQforglossFaces :: ErrIO ()
+pageHQforglossFaces = do 
+    putIOwords ["get the faces for tess4"]
+    putIOwords ["tess44short\n", showlong tess44short, "\n"    ]
+    -- putIOwords ["face_pnt3\n", showlong face_pnt3, "\n"    ]
+
+
+
 
 -- compLength = map distance a 
 -- run in repl with runErr pageHQfaces_test 

@@ -79,7 +79,7 @@ makeTripNode :: Int -> NodeHQ -> StoreTessShortElement
 -- -- note: the Face is the dual of the Node 
 -- the first field is just the id to check
 makeTripNode  i (NodeHQ j pnt) =  ( Node i, XY
-                    , PointTag  (Pnt2d (showT $ _p2id  pnt) (_v2 pnt)))
+                    , PointTag  (Pnt2d (_p2id  pnt) (_v2 pnt)))
 
 getAllTrips :: TessShortHQtriples -> [StoreTessShortElement]
 getAllTrips hqt = concat [_NodesTrip hqt, _FacesTrip hqt, _HQtrips hqt]
