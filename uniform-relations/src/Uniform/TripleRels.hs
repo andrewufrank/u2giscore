@@ -58,12 +58,14 @@ module Uniform.TripleRels
 -- import Control.Monad.State
 -- import Data.List (sort)
 -- import GHC.Generics ( Generic )
--- import Control.Monad.State  
+import Control.Monad.State  
 import Data.List ( nub ) 
+import AOPPrelude (swap)
+-- hiding ((.), concat, filter, zip)
 import UniformBase ( snd3, swapPair )
     -- ( Generic, fst3, trd3, errorT, putIOwords, showT, Zeros(zero) )
 -- import Uniform.NaiveTripleStore ()
-import Uniform.TripleStore ( CatStore, unCatStore )
+import Uniform.TripleStore -- ( CatStore, unCatStore )
 import UniformBase (NiceStrings)
     -- ( Action(..), TripleStore(tsfind, tsinsert, tsdel) )
 
@@ -104,12 +106,19 @@ semicolon :: (Eq o) =>  Rel o -> Rel o ->  Rel o
 r1 `semicolon` r2 = compRel r2 r1 
 
 --- monadic versions 
-rel3 :: (MonadState (CatStore o m) m1, Eq o, Eq m) => m 
+-- rel3 :: (MonadState (CatStore o m) m1, Eq o, Eq m) => m -> m1 (Rel o) 
+rel3 :: (MonadState m1, Eq m2, StateType m1 ~ CatStore o m2) => m2 -> m1 (Rel o)
 rel3 morph1 = do 
     c <- get 
-    return . getRel c morph1 
-    
-
+    return $ getRel c morph1 
+inv3 morph1 = do 
+    c <- get 
+    return . map swap $ getRel c morph1 
+-- comp3 :: (MonadState m, Eq o) => Rel o -> Rel o -> m (Rel o)
+-- comp3 rel1 rel2 = do 
+--     c <- get 
+--     let res = compRel rel2 rel1 
+--     return res 
 
 
 out13 :: (a, b1, b2) -> (a, b2)

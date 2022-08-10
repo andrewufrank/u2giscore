@@ -34,9 +34,11 @@ library
       src
   build-depends:
       HTF
+    , aop-prelude
     , base >=4.7 && <5
     , extra
     , gloss
+    , monads-tf
     , uniform-geometry
     , uniformBase >=0.1.3
   default-language: Haskell2010
@@ -49,9 +51,11 @@ executable exec
       app
   build-depends:
       HTF
+    , aop-prelude
     , base >=4.7 && <5
     , extra
     , gloss
+    , monads-tf
     , uniform-geometry
     , uniform-relations
     , uniformBase >=0.1.3
@@ -68,9 +72,11 @@ test-suite test1
       tests
   build-depends:
       HTF
+    , aop-prelude
     , base >=4.7 && <5
     , extra
     , gloss
+    , monads-tf
     , quickcheck-text
     , uniform-geometry
     , uniform-relations

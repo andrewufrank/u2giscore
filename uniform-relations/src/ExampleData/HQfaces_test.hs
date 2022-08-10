@@ -48,7 +48,11 @@ import Uniform.TesselationHalfQuads
 import Uniform.TripleRels
 import Data.List.Extra
 import Uniform.Drawings
-import qualified Graphics.Gloss as Gloss
+import Control.Monad.State  
+
+import AOPPrelude (swap) -- hiding ((.), concat, filter, zip)
+import Graphics.Gloss.Data.Color
+-- import qualified Graphics.Gloss as Gloss
 -- -- import  qualified         Algebra.Laws             as Law
 -- import Data.List ( nub ) 
 
@@ -110,9 +114,33 @@ point2s = (getRel4 Twin) .&. (getRel4 HqNode) .&. (getRel4 XY)
 dist12 = zipWith distance (map (unPointTag . snd) point1s) 
         (map (unPointTag . snd) point2s)
 
+
 face3inv = converseRel (getRel4 HqFace) 
 node3 = face3inv .&. (getRel4 HqNode)
 face_pnt3 = node3 .&. (getRel4 XY)
+
+
+-- coords2faces :: (MonadState m) => CatStoreTessShort -> m [(IDtype, [V2D])]
+coords2faces :: StateT CatStoreTessShort Identity [(IDtype, [V2D])]
+coords2faces = do 
+    f <- inv3 HqFace 
+    n <- rel3 HqNode 
+    xy <- rel3 XY 
+    let fp3 =  (f .&. n .&. xy)
+    return $ map onef . groupSort $ fp3 
+
+onef (Face i, pts) = (i, map (unName . unPointTag) pts)
+
+
+(coords2faces_4) = evalState coords2faces tess44short
+
+-- face_pnt3' :: ( CatStore ObjTessShort MorphTessShort)
+-- face_pnt3' = execStateT (do 
+--     f <- inv3 HqFace 
+--     n <- rel3 HqNode 
+--     xy <- rel3 XY 
+--     return (f .&. n .&. xy) 
+--     ) tess44short
 
 facesGrouped = groupBy (\a b -> fst a == fst b) face_pnt3
 facesXY = map (map oneFacexy) facesGrouped
@@ -125,18 +153,18 @@ facesXYlist = groupSort  face_pnt3
 -- faces_gloss :: [(ObjTessShort, [ObjTessShort])] -> [(IDtype, Gloss.Point)]
 -- faces_gloss :: [(ObjTessShort, [ObjTessShort])] -> [(IDtype, [toGloss fivePnt2d])]
 faces_gloss ips = map onef ips 
-    where
-        onef (Face i, pts) = (i, map (toGloss . unPointTag) pts)
+    -- where
+-- onef (Face i, pts) = (i, map (unName . unPointTag) pts)
 
 -- faces4gloss :: [[(IDtype, [Gloss.Point])]]
 -- faces4gloss :: [(IDtype, [toGloss fivePnt2d])]
 -- faces4gloss :: [(IDtype, [GlossPoint])]
 faces4gloss =  faces_gloss facesXYlist 
 -- faces4only :: [[GlossPoint]]
-faces4only :: [([Gloss.Point], Gloss.Color)]
-faces4only = map swap . map (first (const Gloss.red)) $ faces4gloss
+-- faces4only :: [([Gloss.Point], Gloss.Color)]
+faces4only = map swap . map (first (const  red)) $ faces4gloss
 
-swap (a,b) = (b,a)
+-- swap (a,b) = (b,a)
 
 pageHQforglossFaces :: ErrIO ()
 pageHQforglossFaces = do 
@@ -146,7 +174,7 @@ pageHQforglossFaces = do
     putIOwords ["faces4gloss\n", showT faces4gloss, "\n"    ]
     putIOwords ["faces4only\n", showT faces4only, "\n"    ]
 
-    showFacePage2 faces4only
+    -- showFacePage2 faces4only
 
 instance NiceStrings Float where shownice = showT 
 

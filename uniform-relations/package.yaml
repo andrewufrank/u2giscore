@@ -28,7 +28,8 @@ dependencies:
 - extra
 - uniform-geometry
 - gloss
-
+- monads-tf
+- aop-prelude
 # - containers
 
 # # - vector-space
