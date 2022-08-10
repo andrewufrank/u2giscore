@@ -46,7 +46,7 @@ import Uniform.TesselationHalfQuads
 -- -- import Storable.Value
 -- import Uniform.TripleStore
 import Uniform.TripleRels
-
+import Data.List.Extra
 -- -- import  qualified         Algebra.Laws             as Law
 -- import Data.List ( nub ) 
 
@@ -112,12 +112,26 @@ face3inv = converseRel (getRel4 HqFace)
 node3 = face3inv .&. (getRel4 HqNode)
 face_pnt3 = node3 .&. (getRel4 XY)
 
+facesGrouped = groupBy (\a b -> fst a == fst b) face_pnt3
+facesXY = map (map oneFacexy) facesGrouped
+    where 
+oneFacexy (Face i, PointTag p) = (i, unName p)
+
+facesXYlist :: [(ObjTessShort, [ObjTessShort])]
+facesXYlist = groupSort  face_pnt3
+faces_gloss :: [(ObjTessShort, [ObjTessShort])] -> [(IDtype, [GlossPoint])]
+faces_gloss ips = map onef ips 
+    where
+        onef (Face i, pts) = (i, map (toGloss . unPointTag) pts)
+
+-- faces4gloss :: [[(IDtype, [GlossPoint])]]
+faces4gloss =  faces_gloss facesXYlist 
 
 pageHQforglossFaces :: ErrIO ()
 pageHQforglossFaces = do 
     putIOwords ["get the faces for tess4"]
     putIOwords ["tess44short\n", showlong tess44short, "\n"    ]
-    -- putIOwords ["face_pnt3\n", showlong face_pnt3, "\n"    ]
+    putIOwords ["face_pnt3\n", showlong face_pnt3, "\n"    ]
 
 
 

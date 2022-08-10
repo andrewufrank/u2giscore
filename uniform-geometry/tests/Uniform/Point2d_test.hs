@@ -65,3 +65,5 @@ test_HPoint_Pnt2d_toInt = assertEqual "Point2 0.0 0.0 :+ 11" (showT . toHPointIn
 -- test_HPoint_V2_toText = assertEqual "Point2 0.0 0.0 :+ \"11\"" (showT . toHPointText . head $ fourPnt2d)
 
 -- test_V2_x = assertEqual "V2 0.0 0.0" (showT . head $ fourV2)
+
+test_gloss1 = assertEqual (1,2) (toGloss p1)

@@ -223,8 +223,8 @@ instance ToGloss V2D where
     toGloss (V2 x y) = (doubleToFloat x, doubleToFloat y)
     fromGloss (x,y) = V2 (floatToDouble x) (floatToDouble y) 
     
--- instance ToGloss (Pnt2) where 
---     toGloss (Pnt2d i (V2 x y)) = (x,y)
+instance ToGloss (Pnt2) where 
+    toGloss (Pnt2d i v2) = toGloss v2
 
 -- -- conversion to Pnt2
 -- class ToPnt2 a where 
