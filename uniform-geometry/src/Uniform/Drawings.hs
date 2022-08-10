@@ -67,10 +67,8 @@ gpts pts = Line . closeline $ pts
 lineClosedColor (l,c) = color c . Line . closeline $ l 
 -- scaleG s v@(x,y)= s A.* v -- (s*x, s*y)
 
-justlines = pictures . map onex  $
-        [ (fiveGloss, dark red)
-        , (map toGloss fourV2, green)
-        ]
+justlines = pictures . map onex   
+        -- 
 onex (l,c) = color c . Line . closeline $ l 
 -----------------------------in : 
 
@@ -86,16 +84,22 @@ drawing2  =  translate (-20) (-100) . (scale 10 10)
     ballColor = dark red 
     -- paddleColor = light (light blue) 
 
+exampleLines :: [([Point], Color)]
+exampleLines = [ (fiveGloss, dark red)
+        -- , (map toGloss fourV2, green)
+        ]
 
-
-showFacePage :: ErrIO ()
-showFacePage = do
+showFacePage2 :: MonadIO m => [([Point], Color)] -> m ()
+showFacePage2 lines = do
     putIOwords [ "Lib.showFacePage  here"]
     liftIO (do 
         -- display window background drawing
-        display window2 background (drawing2 justlines)
+        display window2 background (drawing2 (justlines lines))
         )
     return ()
+
+showFacePage :: ErrIO ()
+showFacePage = showFacePage2 exampleLines
 
 -----support stuff
 width, height, offset :: Int

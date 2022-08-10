@@ -47,6 +47,8 @@ import Uniform.TesselationHalfQuads
 -- import Uniform.TripleStore
 import Uniform.TripleRels
 import Data.List.Extra
+import Uniform.Drawings
+import qualified Graphics.Gloss as Gloss
 -- -- import  qualified         Algebra.Laws             as Law
 -- import Data.List ( nub ) 
 
@@ -119,21 +121,32 @@ oneFacexy (Face i, PointTag p) = (i, unName p)
 
 facesXYlist :: [(ObjTessShort, [ObjTessShort])]
 facesXYlist = groupSort  face_pnt3
-faces_gloss :: [(ObjTessShort, [ObjTessShort])] -> [(IDtype, [GlossPoint])]
+
+-- faces_gloss :: [(ObjTessShort, [ObjTessShort])] -> [(IDtype, Gloss.Point)]
+-- faces_gloss :: [(ObjTessShort, [ObjTessShort])] -> [(IDtype, [toGloss fivePnt2d])]
 faces_gloss ips = map onef ips 
     where
         onef (Face i, pts) = (i, map (toGloss . unPointTag) pts)
 
--- faces4gloss :: [[(IDtype, [GlossPoint])]]
+-- faces4gloss :: [[(IDtype, [Gloss.Point])]]
+-- faces4gloss :: [(IDtype, [toGloss fivePnt2d])]
+-- faces4gloss :: [(IDtype, [GlossPoint])]
 faces4gloss =  faces_gloss facesXYlist 
+-- faces4only :: [[GlossPoint]]
+faces4only :: [([Gloss.Point], Gloss.Color)]
+faces4only = map swap . map (first (const Gloss.red)) $ faces4gloss
+
+swap (a,b) = (b,a)
 
 pageHQforglossFaces :: ErrIO ()
 pageHQforglossFaces = do 
     putIOwords ["get the faces for tess4"]
     putIOwords ["tess44short\n", showlong tess44short, "\n"    ]
     putIOwords ["face_pnt3\n", showlong face_pnt3, "\n"    ]
-    putIOwords ["faces4gloss\n", showlong faces4gloss, "\n"    ]
+    putIOwords ["faces4gloss\n", showT faces4gloss, "\n"    ]
+    putIOwords ["faces4only\n", showT faces4only, "\n"    ]
 
+    showFacePage2 faces4only
 
 instance NiceStrings Float where shownice = showT 
 

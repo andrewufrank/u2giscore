@@ -55,6 +55,7 @@ import qualified Data.Geometry.Point as HP
 import qualified Data.List.NonEmpty as NE 
 import Algorithms.Geometry.DelaunayTriangulation.Types
 import Algorithms.Geometry.DelaunayTriangulation.Naive
+import qualified Graphics.Gloss as Gloss
 
 delaunay2 pnt2s =  delaunayTriangulation (NE.fromList $  map toHPointInt  pnt2s)
 -- maps to HPoint whatever the type of name 
@@ -84,7 +85,7 @@ circumCenter :: (ToGloss a) => a -> a -> a -> a
 circumCenter a b c = fromGloss 
         $ circumCenterGloss (toGloss a) (toGloss b) (toGloss c)
 
-circumCenterGloss :: GlossPoint -> GlossPoint -> GlossPoint -> GlossPoint
+circumCenterGloss :: Gloss.Point  -> Gloss.Point  -> Gloss.Point  -> Gloss.Point 
 circumCenterGloss (ax, ay) (bx, by) (cx, cy)
             =  (((ay**2+ax**2)*(by-cy)+(by**2+bx**2)*(cy-ay)+(cy**2+cx**2)*(ay-by))/d,
                 ((ay**2+ax**2)*(cx-bx)+(by**2+bx**2)*(ax-cx)+(cy**2+cx**2)*(bx-ax))/d)

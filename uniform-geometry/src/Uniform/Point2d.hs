@@ -36,7 +36,7 @@ module Uniform.Point2d
     (
     Pnt2, Pnt2d(..), v2, p2id -- with the lenses
     , V2D (..), V2 (..)
-    , GlossPoint
+    , Gloss.Point 
     , NamedPoint2 (..)
     , Point2 (..)
     , ToV2 (..)
@@ -61,6 +61,8 @@ import UniformBase
 -- import Vector
 import Linear.V2
 import qualified Linear.Vector as Lin
+import qualified  Graphics.Gloss as Gloss
+import    Graphics.Gloss  
 import Control.Lens 
 -- -- import GHC.Generics
 -- import GHC.Float   -- move somewhere and systematize
@@ -159,8 +161,7 @@ instance ToV2 (Pnt2) where
 
 
 -- -------------- the conversions
-type GlossPoint = (Float,Float)
-
+-- type Gloss.Point  = Gloss.Point 
 
 
 -- v2_dd :: V2 a -> [a]
@@ -216,8 +217,8 @@ instance ToHPoint2 (Pnt2) where
 
 -- conversion to (x,y)for gloss 
 class ToGloss a where 
-    toGloss :: a -> GlossPoint
-    fromGloss :: GlossPoint -> a 
+    toGloss :: a -> Gloss.Point 
+    fromGloss :: Gloss.Point  -> a 
 
 instance ToGloss V2D where 
     toGloss (V2 x y) = (doubleToFloat x, doubleToFloat y)
@@ -232,7 +233,7 @@ instance ToGloss (Pnt2) where
 -- -- instance ToPnt2 (H.Point2 Double Int) where
 -- -- hpointToPnt2 (H.Point2 x y :+ i) = Pnt2d i (V2 x y)
 
--- instance ToPnt2 GlossPoint where 
+-- instance ToPnt2 Gloss.Point  where 
 --     toPnt2 (x,y) = Pnt2d zero (V2 x y)  
 -- instance ToPnt2 (V2D) where 
 --     toPnt2  v  = Pnt2d zero v

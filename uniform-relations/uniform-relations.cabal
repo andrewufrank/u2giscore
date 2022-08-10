@@ -36,6 +36,7 @@ library
       HTF
     , base >=4.7 && <5
     , extra
+    , gloss
     , uniform-geometry
     , uniformBase >=0.1.3
   default-language: Haskell2010
@@ -50,6 +51,7 @@ executable exec
       HTF
     , base >=4.7 && <5
     , extra
+    , gloss
     , uniform-geometry
     , uniform-relations
     , uniformBase >=0.1.3
@@ -68,6 +70,7 @@ test-suite test1
       HTF
     , base >=4.7 && <5
     , extra
+    , gloss
     , quickcheck-text
     , uniform-geometry
     , uniform-relations

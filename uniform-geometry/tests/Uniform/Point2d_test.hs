@@ -34,6 +34,7 @@ import UniformBase
 -- import Control.Exception
 import Uniform.GeometryFunctions
 -- import qualified Data.Geometry.Point as HP 
+import Uniform.HQfaces_test
 
 p1 = Pnt2d 77 (V2 1 2):: Pnt2
 v1 = V2 3 4

@@ -27,6 +27,7 @@ dependencies:
 - uniformBase >=0.1.3
 - extra
 - uniform-geometry
+- gloss
 
 # - containers
 
