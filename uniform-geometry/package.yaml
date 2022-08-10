@@ -1,5 +1,5 @@
 name: uniform-geometry
-version: 0.0.1.5
+version: 0.0.1.6
 # cabal-version: >=1.22
 # build-type: Simple
 license: GPL
@@ -9,8 +9,10 @@ author: Andrew Frank
 category: 'Geometry, Uniform'
 synopsis: uniform wrapper for geometry functions
 description: |
-  a few basic data types and functions
-    0.0.1.1 for cabal
+  - some basic data types for 2d points (represented as Double) and 
+  - functions (for ccw test, incenter and circumcenter)
+  - delaunay (and voronoi) through access to qhull (suspended) and hgeometry
+  - graphical geometry output (through gloss)  
 
 # source-repository head
 #     type: git
@@ -24,12 +26,13 @@ dependencies:
 - base >= 4.7 && < 5
 - HTF
 - uniformBase >=0.1.3
+- extra
 - containers
 
 # - vector-space
 - linear
 - lens
-# - qhull ==0.1.0.3
+# - qhull ==0.1.0.4
 # - vector-algorithms # not needed for lts 18.28 ==0.8.0.3 # -- to force qhull
 # - insert-ordered-containers
 # - pretcabal ty-show 
@@ -45,6 +48,7 @@ dependencies:
 #  - lens
 # - semigroups
 - vector-circular
+- gloss
 
 
 library:

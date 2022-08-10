@@ -63,7 +63,8 @@ import Linear.V2
 import qualified Linear.Vector as Lin
 import Control.Lens 
 -- -- import GHC.Generics
-
+-- import GHC.Float   -- move somewhere and systematize
+import Numeric.Extra 
 import qualified Data.Geometry as H
 import Data.Ext ( type (:+)(..) )
 
@@ -158,7 +159,7 @@ instance ToV2 (Pnt2) where
 
 
 -- -------------- the conversions
-type GlossPoint = (Double,Double)
+type GlossPoint = (Float,Float)
 
 
 
@@ -215,12 +216,12 @@ instance ToHPoint2 (Pnt2) where
 
 -- conversion to (x,y)for gloss 
 class ToGloss a where 
-    toGloss :: a -> (Double,Double)
-    fromGloss :: (Double,Double) -> a 
+    toGloss :: a -> GlossPoint
+    fromGloss :: GlossPoint -> a 
 
 instance ToGloss V2D where 
-    toGloss (V2 x y) = (x,y)
-    fromGloss (x,y) = V2 x y 
+    toGloss (V2 x y) = (doubleToFloat x, doubleToFloat y)
+    fromGloss (x,y) = V2 (floatToDouble x) (floatToDouble y) 
     
 -- instance ToGloss (Pnt2) where 
 --     toGloss (Pnt2d i (V2 x y)) = (x,y)

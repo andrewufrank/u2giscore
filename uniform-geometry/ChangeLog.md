@@ -49,5 +49,6 @@ missing center for circumcircle, lengths and surface.
 
     note: 2d -> two dimensions, 2D two dimension with Double 
 
+0.0.1.6 adding gloss
 - problems 
     - :l app/Main.hs in .ghci not automatically loaded

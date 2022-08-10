@@ -29,7 +29,8 @@ import Uniform.Point2dData
 -- import Uniform.Delaunay 
 -- import Uniform.DelaunayTiles
 -- import Uniform.DelaunayTriples
-import Uniform.TesselationHalfQuads 
+-- import Uniform.TesselationHalfQuads
+import Uniform.Drawings 
 
 -- import qualified Data.IntMap.Strict  as IM
 -- import           Text.Show.Pretty
@@ -57,7 +58,8 @@ main2 = do
     -- mainDelaunay
     -- mainDelaunayTiles
     -- mainDelaunayTriples
-    mainHQ
+    -- mainHQ
+    showFacePage
     
 -- p1 = Point2d 1 (V2 1 1):: P2
 
