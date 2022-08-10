@@ -103,6 +103,15 @@ semicolon :: (Eq o) =>  Rel o -> Rel o ->  Rel o
 -- | an alternative name for composition of relations, with reverse order (wrt '.')
 r1 `semicolon` r2 = compRel r2 r1 
 
+--- monadic versions 
+rel3 :: (MonadState (CatStore o m) m1, Eq o, Eq m) => m 
+rel3 morph1 = do 
+    c <- get 
+    return . getRel c morph1 
+    
+
+
+
 out13 :: (a, b1, b2) -> (a, b2)
 out13 (a,b,c) = (a,c)
 
