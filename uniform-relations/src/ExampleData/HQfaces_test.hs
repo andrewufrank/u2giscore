@@ -132,9 +132,10 @@ pageHQforglossFaces = do
     putIOwords ["get the faces for tess4"]
     putIOwords ["tess44short\n", showlong tess44short, "\n"    ]
     putIOwords ["face_pnt3\n", showlong face_pnt3, "\n"    ]
+    putIOwords ["faces4gloss\n", showlong faces4gloss, "\n"    ]
 
 
-
+instance NiceStrings Float where shownice = showT 
 
 -- compLength = map distance a 
 -- run in repl with runErr pageHQfaces_test 
