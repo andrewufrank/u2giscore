@@ -52,3 +52,9 @@ missing center for circumcircle, lengths and surface.
 0.0.1.6 adding gloss
 - problems 
     - :l app/Main.hs in .ghci not automatically loaded
+    - problem with uBase 1.4 ?
+    - compiles only with cabal not with stack
+
+0.0.1.7 cleaning up 
+    - gloss moved into the Drawing, eventually its own package
+    - concentrate all Hgeometry dependency to bottom

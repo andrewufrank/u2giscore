@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           uniform-geometry
-version:        0.0.1.6
+version:        0.0.1.7
 synopsis:       uniform wrapper for geometry functions
 description:    - some basic data types for 2d points (represented as Double) and 
                 - functions (for ccw test, incenter and circumcenter)
