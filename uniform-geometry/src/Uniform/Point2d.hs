@@ -79,7 +79,7 @@ instance Zeros Double where zero = 0.0
 -----------------------  the two "uniform" prefered types
 class NamedPoint2 a where 
 -- ^ class of 2d points (double) 
-    name :: a -> Int
+    getName :: a -> Int
     unName ::  a -> V2D 
     putName :: Int -> V2D -> a  
 
@@ -88,6 +88,7 @@ class Point2 a where
 
 
 -- | a named type (a name and a V2)
+--  name restricted to Int to allow copy paste from output to code (without escaping "")
 type Pnt2 = Pnt2d Int Double -- often pnt2d_   -- change later to better name
 -- type List2 a = [a]      -- ofte dd_
 type V2D = V2 Double  -- from linear V2  
@@ -103,21 +104,21 @@ instance (Zeros i, Zeros v, Num v) => Zeros (Pnt2d i v) where zero = Pnt2d zero 
 instance (Zeros a, Num a) => Zeros (V2 a) where zero = Lin.zero 
 instance (Show i, Show v) => NiceStrings (Pnt2d i v) where
     showNice p =  unwords'   ["Pnt2d (", showT . _p2id $ p, " ", showT . _v2 $ p, ")"] 
-    -- result must be readalbe as Haskell code
+    -- result must be readalbe as Haskell code!
 
 makeLenses ''Pnt2d  -- brings in scope the lenses (only later)
 
 instance NamedPoint2 Pnt2 where 
-    name = _p2id 
+    getName = _p2id 
     unName a = a ^. v2 
     putName n v = Pnt2d n v 
 instance Point2 Pnt2 where 
     x a= a ^. v2 . _x 
     y a = a ^. v2 . _y     
 
---------- H.Point  -- move
+--------- H.Point  -- move to hgeometry dependent module
 instance (Show a, Read a, NamedPoint2 (Pnt2d a Double)) => NamedPoint2 (H.Point 2 Double :+ a) where 
-    name = name .  hpointToPnt2
+    getName = getName .  hpointToPnt2
 
     unName = unName . hpointToPnt2
     putName n v = p2_HPoint (putName n v)
@@ -146,36 +147,10 @@ instance ToV2 (V2 Double) where
 
 instance ToV2 [Double] where 
     toV2 [x,y] = V2 x y 
-                -- = dd_v2
--- -- from [Double] to V2 
--- dd_v2 :: [Double] -> V2 Double
--- dd_v2 [x,y] = V2 x y 
+ 
 
 instance ToV2 (Pnt2) where 
     toV2 p = (_v2 p)  -- works?
-
--- -- from P2d to V2 - drops the name, no inverse
--- pnt2d_v2 :: Pnt2d i v -> V2 v
--- pnt2d_v2 p = p ^. v2 
-
-
-
--- -------------- the conversions
--- type Gloss.Point  = Gloss.Point 
-
-
--- v2_dd :: V2 a -> [a]
--- v2_dd (V2 x y) = [x,y]
-
--- pnt2d_dd= v2_dd . pnt2d_v2  -- drops name
--- -- pnt2d_point2d= v2_point2d . pnt2d_v2  -- drops name
-
-
-
-
-
--- instance  (Show a)=> NiceStrings (V2 a) where 
---     shownice (V2 x y) = "(" <> showT x <> "/" <> showT y <> ")"
 
 --------------------------
 -- | conversion to H.Point (without a point name) -- required for calls to hgeometry
@@ -196,34 +171,3 @@ instance ToHPoint2 (Pnt2) where
     toHPointInt (Pnt2d i (V2 x y)) = H.Point2 x y :+ i
                 -- ((read . t2s $ i) :: Int)
     toHPoint (Pnt2d i (V2 x y)) = H.Point2 x y  
-
--- -- instance ToHPoint2 (Pnt2int) where 
--- --     toHPointInt  = p2_HPoint
--- --     toHPoint = toHPoint . pnt2d_v2  -- cancels number 
-    
--- instance ToHPoint2 [Double] where 
---     toHPoint = toHPoint . dd_v2
-
-        
-
--- -- conversion to [Double] for hgeometry 
--- class ToDD a where 
---     todd :: a -> [Double] 
-
--- instance ToDD V2D where 
---     todd = v2_dd
--- instance ToDD (Pnt2) where 
---     todd = pnt2d_dd
-
--- conversion to (x,y)for gloss 
-
--- -- conversion to Pnt2
--- class ToPnt2 a where 
---     toPnt2 :: a -> Pnt2
--- -- instance ToPnt2 (H.Point2 Double Int) where
--- -- hpointToPnt2 (H.Point2 x y :+ i) = Pnt2d i (V2 x y)
-
--- instance ToPnt2 Gloss.Point  where 
---     toPnt2 (x,y) = Pnt2d zero (V2 x y)  
--- instance ToPnt2 (V2D) where 
---     toPnt2  v  = Pnt2d zero v
