@@ -50,20 +50,13 @@ import Numeric.Extra -- for conversion to gloss data type float
 import Control.Lens 
 -- -- import GHC.Generics
 
--- example with fiveV2 
--- fiveGloss = map toGloss fiveV2 
--- list2glossPoint [x,y]= (x,y)
--- points = [[0.0,0.0],[2.0,0.0],[1.5,1.5]]
-
-
---         -- where lend = last ls
-
--- -- gpts0 = map (scaleG 40) $ map list2glossPoint points 
--- gpts pts = Line . closeline $ pts
-
+-- | polygon with a function to close the line
+-- and likely more 
 class DrawPolygon a where 
     closeLine :: a -> a 
 
+-- | a figure with a color and a path
+-- add a lablel with a point 
 data Figure a = Figure 
     { _figColor :: Color
     , _figPath :: [a]
@@ -74,21 +67,14 @@ data Figure a = Figure
 
 instance Zeros (Color) where zero = greyN 0.5
 
-makeLenses ''Figure 
+makeLenses ''Figure   -- only available from here onwards 
 
 instance DrawPolygon (Figure V2D) where 
     closeLine = over figPath  lineClose   
 
 
 figure2picture' :: ToGloss a => Figure a -> Picture
-figure2picture' f =  color (f ^. figColor) $ Line .  map toGloss $ view figPath f
--- figure2picture' f =  color (f ^. figColor) $ Line .  map toGloss $ view figPath f
-
-t33 :: [[V2D]]
-t33 = toListOf figPath fig1
--- figure2picture (Figure c p) = color c . Line . map toGloss $ p 
-
--- map2figPath f a = a . traversed . f
+figure2picture' f =  color (f ^. figColor) $ Line .  map toGloss $ view figPath 
 
 fig1 :: Figure V2D
 fig1 = closeLine $ Figure blue fiveV2 
@@ -96,34 +82,9 @@ fig1 = closeLine $ Figure blue fiveV2
 
 -- fig2 =  toListOf figPath fig1    -- beachter reihenfolge! 
 
--- fig2' = fig1 {_figPath = map (10*) $ _figPath fig1}
-
--- scaleFig s = figPath . traversed . (s *)
--- lineClosedColor (l,c) = color c . Line . scloseline $ l 
--- scaleG s v@(x,y)= s A.* v -- (s*x, s*y)
-
 lines2picture :: [Figure V2D] -> Picture
 lines2picture = pictures . map figure2picture' --   map onex   
 --         -- 
--- onex (l,c) = color c . Line .  map toGloss . closeLine . scaleFig 10  $ l 
------------------------------in : 
-
--- drawing2 :: Picture
--- drawing2  =  translate (-20) (-100) . (Gloss.scale 10 10)    
-    -- $ map lineClosedColor lines
-        -- [ (fiveGloss, dark red)
-        -- -- , (map toGloss fourV2, green)
-        -- ]
-    --  color ballColor . gpts $ pts
-    
---   where
---     ballColor = dark red 
---     -- paddleColor = light (light blue) 
-
--- exampleLines :: [([V2D], Color)]
--- exampleLines = [ (fiveV2, dark red)
---         -- , (map toGloss fourV2, green)
---         ]
 
 -- showFacePage2 :: MonadIO m => [([V2D], Color)] -> m ()
 showFacePage2 :: [Figure V2D] -> ExceptT Text IO ()
