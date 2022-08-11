@@ -99,19 +99,19 @@ locs11 t = map (_unVertexId . fst) . vertices11 $ t
 -- locs22 :: [Point2 Double]
 locs22 = map (\e -> snd e  ^. location) . vertices11
 vdat11 = map (\e -> snd e  ^. vData) . vertices11
-vertices11 tess11 = Vec.toList . vertices . planeGraph2 $ tess11
+vertices11 tess11 = Vec.toList . vertices . toPlaneGraph $ tess11
 
 hqfaces2 tess12 = map FaceHQ (faces1x tess12) -- [0 .. (nf - 1)] 
 -- todo will need circumcenter better incenter
     where
         nf :: Int
-        nf = numFaces . planeGraph2 $ tess12
+        nf = numFaces . toPlaneGraph $ tess12
         faces1x :: Triangulation v r -> [Int]
-        faces1x tess13 =  map (_unVertexId . _unFaceId . fst) . Vec.toList . faces . planeGraph2  $ tess13 
+        faces1x tess13 =  map (_unVertexId . _unFaceId . fst) . Vec.toList . faces . toPlaneGraph  $ tess13 
 
 tohqdatahq tess14 = map (tohqdataOne pg2) (map toEnum [0 .. (numD - 1)])
         where 
-            pg2 = planeGraph2 tess14 
+            pg2 = toPlaneGraph tess14 
             numD = Subdiv.numDarts . planarSubdiv2 $ tess14
 
 tohqdataOne pg2 d = HQdataHQ
@@ -143,7 +143,7 @@ mainHQ = do
     let tess41 = delaunay2 fourPnt2d
     putIOwords ["the returned tesselation", showT tess41]
     putIOwords ["point2d two\n", showT (toHq1 tess41), "\n"]
-    putIOwords ["list \nid, dart,          tail,      head,      left,    right \n", showT . controlList $ tess41, "\n"]
+    putIOwords ["controlList \nid, dart,          tail,      head,      left,    right \n", showT . controlList $ tess41, "\n"]
 
 -- controlList :: Triangulation Text Double  -> [(Dart, vertexId, vertexId,  faceid, faceid)]
 
@@ -153,6 +153,7 @@ mainHQ = do
 -- produces loop
 
 
+controlList :: Triangulation v r -> [(Int, Dart Int, VertexId' Int, VertexId' Int, FaceId' Int, FaceId' Int)]
 controlList tess = map oneDart darts 
     where 
         pg = toPlaneGraph tess 
@@ -168,6 +169,6 @@ controlList tess = map oneDart darts
 
 -- tess9 = delaunay2 fourPnt2d
 -- pg9 = toPlaneGraph tess9
--- ps9 = toPlanarSubdivision tess9
+-- ps9 = planarSubdiv2 tess9
 -- dualpg =  pg9 ^. pg9
 -- dualpg' = pg9 ^. ps9

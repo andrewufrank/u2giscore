@@ -124,12 +124,12 @@ hqnodes1 tess1 =  zipWith (\hp id' i ->  Pnt2d i (V2 (hp ^. xCoord) (hp ^. yCoor
     -- where
 
 -- hqfaces1 tess1 = []        
-vertices1 = Vec.toList . vertices . planeGraph2 $ tess1
+vertices1 = Vec.toList . vertices . toPlaneGraph $ tess1
 -- faces1 :: [Int]
 faces1 :: [FaceId' s]
-faces1 =  map ( fst) . Vec.toList . faces . planeGraph2  $ tess1
+faces1 =  map ( fst) . Vec.toList . faces . toPlaneGraph  $ tess1
 faces1x :: Triangulation v r -> [Int]
-faces1x tess1=  map (_unVertexId . _unFaceId . fst) . Vec.toList . faces . planeGraph2  $ tess1
+faces1x tess1=  map (_unVertexId . _unFaceId . fst) . Vec.toList . faces . toPlaneGraph  $ tess1
 -- cannot get just the index - some game with primal/dual 
 -- will be filled after the HQs to compute the incenter
 -- faces2 :: [VertexId s 'Dual]
@@ -140,7 +140,7 @@ hqfaces2 tess12 = map FaceHQ (faces1x tess12) -- [0 .. (nf - 1)]
 -- todo will need circumcenter better incenter
     where
         nf :: Int
-        nf = numFaces . planeGraph2 $ tess12
+        nf = numFaces . toPlaneGraph $ tess12
 
 locs1 = map (\e -> fst e  ^. location) vertices1
 locs2 = map (\e -> snd e  ^. location) vertices1
@@ -150,7 +150,7 @@ vdat1 = map (\e -> snd e  ^. vData) vertices1
 
 tohqdatahq tess1 = map (tohqdataOne pg2) (map toEnum [0 .. (numD - 1)])
         where 
-            pg2 = planeGraph2 tess1 
+            pg2 = toPlaneGraph tess1 
             numD = Subdiv.numDarts . planarSubdiv2 $ tess1
 
 psub2 = Subdiv.numDarts . planarSubdiv2 $ tess1
@@ -167,9 +167,9 @@ tohqdataOne pg2 d = HQdataHQ
 
 tx1 = tohqdatahq tess1
 
-dartsList tess1 = Vec.toList . darts' . planeGraph2 $ tess1
+dartsList tess1 = Vec.toList . darts' . toPlaneGraph $ tess1
 dartsList2 = dartsList tess1
-pg2 = planeGraph2 tess1
+pg2 = toPlaneGraph tess1
 
 dartNo1 = head dartsList2 
 dno1Node =  _unVertexId  . (`headOf` pg2) $ dartNo1

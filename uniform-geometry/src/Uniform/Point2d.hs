@@ -78,7 +78,7 @@ instance Zeros Double where zero = 0.0
 
 -----------------------  the two "uniform" prefered types
 class NamedPoint2 a where 
--- | class of 2d points (double) 
+-- ^ class of 2d points (double) 
     name :: a -> Int
     unName ::  a -> V2D 
     putName :: Int -> V2D -> a  
@@ -115,7 +115,7 @@ instance Point2 Pnt2 where
     x a= a ^. v2 . _x 
     y a = a ^. v2 . _y     
 
---------- H.Point
+--------- H.Point  -- move
 instance (Show a, Read a, NamedPoint2 (Pnt2d a Double)) => NamedPoint2 (H.Point 2 Double :+ a) where 
     name = name .  hpointToPnt2
 

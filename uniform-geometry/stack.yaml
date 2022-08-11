@@ -8,10 +8,12 @@ packages:
 # allow-newer: true
 
 extra-deps:
-
-- uniformBase-0.1.3@sha256:df960942c7047da4f8ec3b29831bfafa61c8a76078f98743c8837121f5fc3ccf,2467
-- uniform-algebras-0.1.3@sha256:b367633d547124f158e3db4b981ed05bdc9225c3bdbce53dd7127d542ac68132,1583
-- uniform-error-0.1.3@sha256:d7d1090c6900ec16229568b1ea167c4082bb65ab7bd3b0a52e2b873cb9fcaa3e,1870
+- ../../uBase/uniformBase
+#- uniformBase-0.1.3@sha256:df960942c7047da4f8ec3b29831bfafa61c8a76078f98743c8837121f5fc3ccf,2467
+- ../../uBase/uniform-algebras
+#- uniform-algebras-0.1.3@sha256:b367633d547124f158e3db4b981ed05bdc9225c3bdbce53dd7127d542ac68132,1583
+- ../../uBase/uniform-error
+#- uniform-error-0.1.3@sha256:d7d1090c6900ec16229568b1ea167c4082bb65ab7bd3b0a52e2b873cb9fcaa3e,1870
 - uniform-fileio-0.1.3@sha256:574a17a2848c1fdf69554c3d208c6dcd13e652492794f15dcb5e97d4b1e05b98,2706
 - ../../uBase/uniform-strings
 # - uniform-strings-0.1.3@sha256:8e5f482feedb9838ad485756fb9490d40bf27e1cf65b966558dc0ba0ee5e1097,1980
@@ -53,3 +55,4 @@ extra-deps:
 - queue-0.1.2@sha256:4efac395db09637ec7b667dc09b74ff80e0b83452088540e1d1b2ec262f4defa,1312
 - sign-0.4.4@sha256:7f7aa78b78f30b05155ec3709e1549b2f74fb5cec12522e44f10537223e922ea,2088
 - vector-algorithms-0.8.0.3@sha256:477ef5ac82fdd28a39536ed0a767faec3425802827abee485be31db5bc6f5e90,3488
+- aop-prelude-0.4.1.1@sha256:87f541964bb8c0e042125955bf1580020a664e62ab101b0a1068b8f278c2e001,1207
