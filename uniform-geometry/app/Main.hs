@@ -58,8 +58,8 @@ main2 = do
     -- mainDelaunay
     -- mainDelaunayTiles
     -- mainDelaunayTriples
-    -- mainHQ
-    showFacePage
+    mainHQ
+    -- showFacePage
     
 -- p1 = Point2d 1 (V2 1 1):: P2
 

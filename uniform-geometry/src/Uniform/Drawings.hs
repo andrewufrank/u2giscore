@@ -73,8 +73,8 @@ instance DrawPolygon (Figure V2D) where
     closeLine = over figPath  lineClose   
 
 
-figure2picture' :: ToGloss a => Figure a -> Picture
-figure2picture' f =  color (f ^. figColor) $ Line .  map toGloss $ view figPath 
+figure2picture' ::  Figure V2D -> Picture
+figure2picture' f =  color (f ^. figColor) $ Line .  map toGloss $ _figPath f 
 
 fig1 :: Figure V2D
 fig1 = closeLine $ Figure blue fiveV2 
