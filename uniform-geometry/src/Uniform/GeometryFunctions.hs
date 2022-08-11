@@ -42,6 +42,7 @@ import UniformBase
 import Uniform.Point2d 
 import Uniform.Point2dData
 -- import Vector
+import Linear  
 import Linear.V2
 import Linear.Vector 
 import qualified Linear.Metric as Metric
@@ -78,11 +79,17 @@ ccw_test :: (ToHPoint2 a1, ToHPoint2 a2, ToHPoint2 a3) => a1 -> a2 -> a3 -> Bool
 
 ccw_test a b c = HP.CCW == H.ccw (toHPoint a) (toHPoint b) (toHPoint c)
 
-scale :: Num a => a -> V2 a -> V2 a 
-scale = (*^)
+-- scaleBy :: Num a => a -> V2 a -> V2 a   -- rather silly?
+-- scaleBy a v = a * v
 
-distance :: (ToV2 a) => a -> a -> Double
-distance b c =  (Metric.distance (toV2 b) (toV2 c))
+lineClose :: (Point2 a) =>  [a] -> [a]
+-- close a line by adding the first point to the end 
+-- restricted to Point2 
+lineClose ls = ls ++ [head ls]
+
+
+-- distance :: (ToV2 a) => a -> a -> Double
+-- distance b c =  (Metric.distance (toV2 b) (toV2 c))
 
 -- scale s (V2 x y) = (V2 (s*x) (s*y))
 

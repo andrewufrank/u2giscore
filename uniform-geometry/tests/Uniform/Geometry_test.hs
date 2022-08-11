@@ -26,12 +26,9 @@ module Uniform.Geometry_test where
 
 import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
--- import   Uniform.Point2d
 import Uniform.Point2dData
-import Uniform.Point2d
 import UniformBase
 
--- import Control.Exception
 import Uniform.GeometryFunctions
 -- import qualified Data.Geometry.Point as HP 
 
@@ -41,27 +38,20 @@ test_p1 = assertEqual "Pnt2d {_p2id = 99, _v2 = V2 1.0 2.0}" (showT p1)
 
 test_v2zero = assertEqual "Pnt2d {_p2id = 0, _v2 = V2 0.0 0.0}" (showT (zero::Pnt2))
 
-
-
--- test_toP2 :: IO ()
--- test_toP2 = assertEqual p1 (ddn_pnt2d . pnt2d_ddn $ p1)
--- conversion direction not to be used 
-
--- use inverse test 
-
 -- for tests five points 
 -- fiveV2 :: [V2D]
 -- fiveV2 = map pnt2d_v2 fivePnt2d
 
--- test_ccw_t1 :: IO ()
--- test_ccw_t1 = assertBool (ccw_test (fiveV2 !! 0) (fiveV2 !! 1) (fiveV2 !! 2))
--- test_ccw_t2 = assertEqual False (ccw_test (fiveV2 !! 1) (fiveV2 !! 0) (fiveV2 !! 2))
--- test_ccw_t1a = assertBool (ccw_test (fivePnt2d !! 0) (fivePnt2d !! 1) (fivePnt2d !! 2))
--- -- test_ccw_t3 = assertBool (ccw_test  ([0,0]::[Double]) ([5,0]::[Double]) ([10,10]::[Double]))
+test_ccw_t1 :: IO ()
+test_ccw_t1 = assertBool (ccw_test (fiveV2 !! 0) (fiveV2 !! 1) (fiveV2 !! 2))
+test_ccw_t2 = assertEqual False (ccw_test (fiveV2 !! 1) (fiveV2 !! 0) (fiveV2 !! 2))
+test_ccw_t1a = assertBool (ccw_test (fivePnt2d !! 0) (fivePnt2d !! 1) (fivePnt2d !! 2))
+-- test_ccw_t3 = assertBool (ccw_test  ([0,0]::[Double]) ([5,0]::[Double]) ([10,10]::[Double]))
+-- conversion for Double not available anymore 
 
--- test_scale1 = assertEqual (V2 4.0 8.0::V2D) (scale 4 (V2 1 2))
+test_scale1 = assertEqual (V2 4.0 8.0::V2D) ((4 *) (V2 1 2))
 
--- test-distance = assertEqual 0 (distance (fiveV2 !! 0) (fiveV2 !! 1))
+test-distance = assertEqual 0 (distance (fiveV2 !! 0) (fiveV2 !! 1))
 
 test_incenter = assertEqual (V2 2.0 1.4142135623730951) 
             (incenter (V2 2 2) (V2 1 1) (V2 3 1))

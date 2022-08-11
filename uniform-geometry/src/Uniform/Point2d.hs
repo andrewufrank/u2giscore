@@ -83,7 +83,7 @@ class NamedPoint2 a where
     unName ::  a -> V2D 
     putName :: Int -> V2D -> a  
 
-class Point2 a where 
+class Point2 a where   -- this is the start of a generic Point2 class 
     x, y :: a -> Double 
 
 -----------------------  the two "uniform" prefered types Pnt2 and VD2 
@@ -93,6 +93,10 @@ class Point2 a where
 type Pnt2 = Pnt2d Int Double -- often pnt2d_   -- change later to better name
 -- type List2 a = [a]      -- ofte dd_
 type V2D = V2 Double  -- from linear V2  
+
+instance Point2 V2D where 
+    x (V2 x y) = x
+    y (V2 x y) = y
 
 -- type Pnt2int = Pnt2d Int Double
 -- a special type for input in hgeometry delaunay 

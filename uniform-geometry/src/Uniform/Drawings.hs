@@ -40,73 +40,103 @@ module Uniform.Drawings
 import UniformBase
 import Uniform.Point2d 
 import Uniform.Point2dData
-import Graphics.Gloss
+import Uniform.GeometryFunctions
+import Graphics.Gloss hiding (scale)
 import qualified Graphics.Gloss.Data.Point.Arithmetic as A
 import Graphics.Gloss.Data.Color
 import qualified Graphics.Gloss as Gloss
-import Numeric.Extra 
+import Numeric.Extra -- for conversion to gloss data type float 
 
--- import Vector
--- import Linear.V2
--- import qualified Linear.Vector as Lin
 import Control.Lens 
 -- -- import GHC.Generics
 
--- import qualified Data.Geometry as H
--- import Data.Ext ( type (:+)(..) )
-
--- import           Uniform.Strings hiding ((</>), (<.>), S)
--- the figure to show 
--- type GlossPoint = (Float, Float)
-
 -- example with fiveV2 
-
-fiveGloss = map toGloss fiveV2 
+-- fiveGloss = map toGloss fiveV2 
 -- list2glossPoint [x,y]= (x,y)
 -- points = [[0.0,0.0],[2.0,0.0],[1.5,1.5]]
 
-closeline ls = ls ++ [head ls]
-        -- where lend = last ls
 
--- gpts0 = map (scaleG 40) $ map list2glossPoint points 
-gpts pts = Line . closeline $ pts
+--         -- where lend = last ls
 
-lineClosedColor (l,c) = color c . Line . closeline $ l 
+-- -- gpts0 = map (scaleG 40) $ map list2glossPoint points 
+-- gpts pts = Line . closeline $ pts
+
+class DrawPolygon a where 
+    closeLine :: a -> a 
+
+data Figure a = Figure 
+    { _figColor :: Color
+    , _figPath :: [a]
+    } deriving (Show,    Eq, Generic, Zeros)
+
+-- instance (Zeros a) => Zeros (Figure a) where 
+--     zero = Figure zero zero
+
+instance Zeros (Color) where zero = greyN 0.5
+
+makeLenses ''Figure 
+
+instance DrawPolygon (Figure V2D) where 
+    closeLine = over figPath  lineClose   
+
+
+figure2picture' :: ToGloss a => Figure a -> Picture
+figure2picture' f =  color (f ^. figColor) $ Line .  map toGloss $ view figPath f
+-- figure2picture' f =  color (f ^. figColor) $ Line .  map toGloss $ view figPath f
+
+t33 :: [[V2D]]
+t33 = toListOf figPath fig1
+-- figure2picture (Figure c p) = color c . Line . map toGloss $ p 
+
+-- map2figPath f a = a . traversed . f
+
+fig1 :: Figure V2D
+fig1 = closeLine $ Figure blue fiveV2 
+
+
+-- fig2 =  toListOf figPath fig1    -- beachter reihenfolge! 
+
+-- fig2' = fig1 {_figPath = map (10*) $ _figPath fig1}
+
+-- scaleFig s = figPath . traversed . (s *)
+-- lineClosedColor (l,c) = color c . Line . scloseline $ l 
 -- scaleG s v@(x,y)= s A.* v -- (s*x, s*y)
 
-justlines = pictures .  map onex   
-        -- 
-onex (l,c) = color c . Line . closeline . map toGloss $ l 
+lines2picture :: [Figure V2D] -> Picture
+lines2picture = pictures . map figure2picture' --   map onex   
+--         -- 
+-- onex (l,c) = color c . Line .  map toGloss . closeLine . scaleFig 10  $ l 
 -----------------------------in : 
 
 -- drawing2 :: Picture
-drawing2  =  translate (-20) (-100) . (scale 10 10)    
+-- drawing2  =  translate (-20) (-100) . (Gloss.scale 10 10)    
     -- $ map lineClosedColor lines
         -- [ (fiveGloss, dark red)
         -- -- , (map toGloss fourV2, green)
         -- ]
     --  color ballColor . gpts $ pts
     
-  where
-    ballColor = dark red 
-    -- paddleColor = light (light blue) 
+--   where
+--     ballColor = dark red 
+--     -- paddleColor = light (light blue) 
 
-exampleLines :: [([V2D], Color)]
-exampleLines = [ (fiveV2, dark red)
-        -- , (map toGloss fourV2, green)
-        ]
+-- exampleLines :: [([V2D], Color)]
+-- exampleLines = [ (fiveV2, dark red)
+--         -- , (map toGloss fourV2, green)
+--         ]
 
-showFacePage2 :: MonadIO m => [([V2D], Color)] -> m ()
+-- showFacePage2 :: MonadIO m => [([V2D], Color)] -> m ()
+showFacePage2 :: [Figure V2D] -> ExceptT Text IO ()
 showFacePage2 lines = do
     putIOwords [ "Lib.showFacePage  here"]
     liftIO (do 
         -- display window background drawing
-        display window2 background (drawing2 (justlines lines))
+        display window2 white (Gloss.translate (-20) (-100) .Gloss.scale 40 40. lines2picture $ lines)
         )
     return ()
 
 showFacePage :: ErrIO ()
-showFacePage = showFacePage2 exampleLines
+showFacePage = showFacePage2 [fig1]
 
 -----support stuff
 width, height, offset :: Int
@@ -118,10 +148,10 @@ offset = 100
 window2 :: Display
 window2 = InWindow "few Lines" (width, height) (offset, offset)
 
-background :: Color
-background = white  -- black 
+
 
 -- to concentrate all the gloss stuff here 
+    
 class ToGloss a where 
     toGloss :: a -> Gloss.Point 
     fromGloss :: Gloss.Point  -> a 
