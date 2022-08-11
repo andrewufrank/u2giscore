@@ -36,12 +36,12 @@ module Uniform.Point2d
     (
     Pnt2, Pnt2d(..), v2, p2id -- with the lenses
     , V2D (..), V2 (..)
-    , Gloss.Point 
+    -- , Gloss.Point 
     , NamedPoint2 (..)
     , Point2 (..)
     , ToV2 (..)
     -- , ToGloss (..)  -- localized at Drawings
-    , ToHPoint2 (..)
+    , ToHPoint2 (..)  -- move to concentrat hgeometry
     -- , H.Point
     -- , module Uniform.Point2d
     -- , module Linear.V2
@@ -53,20 +53,20 @@ module Uniform.Point2d
         )  where
 
 import UniformBase
-    ( Generic,
-      NiceStrings(showNice),
-      Zeros(zero),
-      showT,
-      CharChains(unwords') )
+    -- ( Generic,
+    --   NiceStrings(showNice),
+    --   Zeros(zero),
+    --   showT,
+    --   CharChains(unwords') )
 -- import Vector
 import Linear.V2
 import qualified Linear.Vector as Lin
 import qualified  Graphics.Gloss as Gloss
-import    Graphics.Gloss  
+-- import    Graphics.Gloss  
 import Control.Lens 
 -- -- import GHC.Generics
 -- import GHC.Float   -- move somewhere and systematize
-import Numeric.Extra 
+-- import Numeric.Extra 
 import qualified Data.Geometry as H
 import Data.Ext ( type (:+)(..) )
 
@@ -76,7 +76,7 @@ import Data.Ext ( type (:+)(..) )
 instance Zeros Integer where zero = 0
 instance Zeros Double where zero = 0.0
 
------------------------  the two "uniform" prefered types
+
 class NamedPoint2 a where 
 -- ^ class of 2d points (double) 
     getName :: a -> Int
@@ -86,6 +86,7 @@ class NamedPoint2 a where
 class Point2 a where 
     x, y :: a -> Double 
 
+-----------------------  the two "uniform" prefered types Pnt2 and VD2 
 
 -- | a named type (a name and a V2)
 --  name restricted to Int to allow copy paste from output to code (without escaping "")

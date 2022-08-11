@@ -58,26 +58,25 @@ import Data.Geometry.PlanarSubdivision
 import Algorithms.Geometry.DelaunayTriangulation.Types
 import Algorithms.Geometry.DelaunayTriangulation.Naive
 
+
+-- from Hgeometry!
+
 delaunay2 :: ToHPoint2 a => [a] -> Triangulation Int Double
 delaunay2 pnt2s =  delaunayTriangulation (NE.fromList $  map toHPointInt  pnt2s)
--- maps to HPoint whatever the type of name 
 -- -- ^ calling delaunay with a list of V2
     -- delaunayTriangulation :: (Ord r, Fractional r) => NonEmpty (Point 2 r :+ p) -> Triangulation p r 
+-- maps to HPoint whatever the type of name 
 
--- planarSubdiv2 :: Triangulation Int Double -> _
 planarSubdiv2 :: (Ord r, Fractional r) => Triangulation p r -> PlanarSubdivision s p () () r
 planarSubdiv2 t = toPlanarSubdivision t
 
--- toPlaneGraph :: Triangulation Int Double ->  _
--- toPlaneGraph2 :: Triangulation Int Double  -> PlaneGraph Int Int () () Double
 toPlaneGraph2 :: Triangulation p r -> PlaneGraph s p () () r
 toPlaneGraph2 t = toPlaneGraph t
 
 ccw_test :: (ToHPoint2 a1, ToHPoint2 a2, ToHPoint2 a3) => a1 -> a2 -> a3 -> Bool
 -- | test for ccw, not include collinear case  
--- collinear case causes problems when extracting the faces in 
-    -- constructing the HalfQuads
-ccw_test a b c = HP.CW /= H.ccw (toHPoint a) (toHPoint b) (toHPoint c)
+
+ccw_test a b c = HP.CCW == H.ccw (toHPoint a) (toHPoint b) (toHPoint c)
 
 scale :: Num a => a -> V2 a -> V2 a 
 scale = (*^)
@@ -91,14 +90,7 @@ distance b c =  (Metric.distance (toV2 b) (toV2 c))
 circumCenter :: (ToPD a) => a -> a -> a -> a 
 circumCenter a b c = fromPD 
         $ circumCenterPD (toPD a) (toPD b) (toPD c)
-type PD = (Double,Double)
-class ToPD a where
-    toPD :: a -> PD
-    fromPD :: PD -> a
 
-instance ToPD V2D where
-    toPD (V2 x y) = (x,y)
-    fromPD (x,y) = V2 x y 
 
 circumCenterPD :: PD -> PD -> PD -> PD 
 circumCenterPD (ax, ay) (bx, by) (cx, cy)
@@ -132,6 +124,16 @@ incenter v1 v2 v3 = V2 ((a * v1 ^. _x + b * v2 ^._x   + c * v3 ^._x) / abc)
 --                    x2 + c * x3) / (a + b + c);
 --     float y = (a * y1 + b *
 --                    y2 + c * y3) / (a + b + c);
+
+--------------- auxiliary conversions locally used from V2D
+type PD = (Double,Double)
+class ToPD a where
+    toPD :: a -> PD
+    fromPD :: PD -> a
+
+instance ToPD V2D where
+    toPD (V2 x y) = (x,y)
+    fromPD (x,y) = V2 x y 
 
 a33 :: V2 Double
 a33 = V2 3 6 
