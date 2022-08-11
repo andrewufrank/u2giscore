@@ -55,7 +55,6 @@ import qualified Data.Geometry.Point as HP
 import qualified Data.List.NonEmpty as NE 
 import Algorithms.Geometry.DelaunayTriangulation.Types
 import Algorithms.Geometry.DelaunayTriangulation.Naive
-import qualified Graphics.Gloss as Gloss
 
 delaunay2 pnt2s =  delaunayTriangulation (NE.fromList $  map toHPointInt  pnt2s)
 -- maps to HPoint whatever the type of name 
@@ -81,12 +80,21 @@ distance b c =  (Metric.distance (toV2 b) (toV2 c))
 
 -- scale s (V2 x y) = (V2 (s*x) (s*y))
 
-circumCenter :: (ToGloss a) => a -> a -> a -> a 
-circumCenter a b c = fromGloss 
-        $ circumCenterGloss (toGloss a) (toGloss b) (toGloss c)
 
-circumCenterGloss :: Gloss.Point  -> Gloss.Point  -> Gloss.Point  -> Gloss.Point 
-circumCenterGloss (ax, ay) (bx, by) (cx, cy)
+circumCenter :: (ToPD a) => a -> a -> a -> a 
+circumCenter a b c = fromPD 
+        $ circumCenterPD (toPD a) (toPD b) (toPD c)
+type PD = (Double,Double)
+class ToPD a where
+    toPD :: a -> PD
+    fromPD :: PD -> a
+
+instance ToPD V2D where
+    toPD (V2 x y) = (x,y)
+    fromPD (x,y) = V2 x y 
+
+circumCenterPD :: PD -> PD -> PD -> PD 
+circumCenterPD (ax, ay) (bx, by) (cx, cy)
             =  (((ay**2+ax**2)*(by-cy)+(by**2+bx**2)*(cy-ay)+(cy**2+cx**2)*(ay-by))/d,
                 ((ay**2+ax**2)*(cx-bx)+(by**2+bx**2)*(ax-cx)+(cy**2+cx**2)*(bx-ax))/d)
         where d = 2*(ax*(by-cy)+bx*(cy-ay)+cx*(ay-by))

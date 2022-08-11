@@ -32,13 +32,20 @@
 {-# OPTIONS_GHC -w #-}
 
 
-module Uniform.Drawings where
+module Uniform.Drawings
+    (module Uniform.Drawings
+    , module Graphics.Gloss.Data.Color
+    ) where
  
 import UniformBase
 import Uniform.Point2d 
 import Uniform.Point2dData
 import Graphics.Gloss
 import qualified Graphics.Gloss.Data.Point.Arithmetic as A
+import Graphics.Gloss.Data.Color
+import qualified Graphics.Gloss as Gloss
+import Numeric.Extra 
+
 -- import Vector
 -- import Linear.V2
 -- import qualified Linear.Vector as Lin
@@ -67,9 +74,9 @@ gpts pts = Line . closeline $ pts
 lineClosedColor (l,c) = color c . Line . closeline $ l 
 -- scaleG s v@(x,y)= s A.* v -- (s*x, s*y)
 
-justlines = pictures . map onex   
+justlines = pictures .  map onex   
         -- 
-onex (l,c) = color c . Line . closeline $ l 
+onex (l,c) = color c . Line . closeline . map toGloss $ l 
 -----------------------------in : 
 
 -- drawing2 :: Picture
@@ -84,12 +91,12 @@ drawing2  =  translate (-20) (-100) . (scale 10 10)
     ballColor = dark red 
     -- paddleColor = light (light blue) 
 
-exampleLines :: [([Point], Color)]
-exampleLines = [ (fiveGloss, dark red)
+exampleLines :: [([V2D], Color)]
+exampleLines = [ (fiveV2, dark red)
         -- , (map toGloss fourV2, green)
         ]
 
-showFacePage2 :: MonadIO m => [([Point], Color)] -> m ()
+showFacePage2 :: MonadIO m => [([V2D], Color)] -> m ()
 showFacePage2 lines = do
     putIOwords [ "Lib.showFacePage  here"]
     liftIO (do 
@@ -113,3 +120,15 @@ window2 = InWindow "few Lines" (width, height) (offset, offset)
 
 background :: Color
 background = white  -- black 
+
+-- to concentrate all the gloss stuff here 
+class ToGloss a where 
+    toGloss :: a -> Gloss.Point 
+    fromGloss :: Gloss.Point  -> a 
+
+instance ToGloss V2D where 
+    toGloss (V2 x y) = (doubleToFloat x, doubleToFloat y)
+    fromGloss (x,y) = V2 (floatToDouble x) (floatToDouble y) 
+    
+instance ToGloss (Pnt2) where 
+    toGloss (Pnt2d i v2) = toGloss v2

@@ -40,7 +40,7 @@ module Uniform.Point2d
     , NamedPoint2 (..)
     , Point2 (..)
     , ToV2 (..)
-    , ToGloss (..)
+    -- , ToGloss (..)  -- localized at Drawings
     , ToHPoint2 (..)
     -- , H.Point
     -- , module Uniform.Point2d
@@ -216,16 +216,6 @@ instance ToHPoint2 (Pnt2) where
 --     todd = pnt2d_dd
 
 -- conversion to (x,y)for gloss 
-class ToGloss a where 
-    toGloss :: a -> Gloss.Point 
-    fromGloss :: Gloss.Point  -> a 
-
-instance ToGloss V2D where 
-    toGloss (V2 x y) = (doubleToFloat x, doubleToFloat y)
-    fromGloss (x,y) = V2 (floatToDouble x) (floatToDouble y) 
-    
-instance ToGloss (Pnt2) where 
-    toGloss (Pnt2d i v2) = toGloss v2
 
 -- -- conversion to Pnt2
 -- class ToPnt2 a where 
