@@ -123,9 +123,9 @@ face_pnt3 = node3 .&. (getRel4 XY)
 -- coords2faces :: (MonadState m) => CatStoreTessShort -> m [(IDtype, [V2D])]
 coords2faces :: StateT CatStoreTessShort Identity [(IDtype, [V2D])]
 coords2faces = do 
-    f <- inv3 HqFace 
-    n <- rel3 HqNode 
-    xy <- rel3 XY 
+    f <- inv2 HqFace 
+    n <- rel2 HqNode 
+    xy <- rel2 XY 
     let fp3 =  (f .&. n .&. xy)
     return $ map onef . groupSort $ fp3 
 
@@ -136,9 +136,9 @@ onef (Face i, pts) = (i, map (unName . unPointTag) pts)
 
 -- face_pnt3' :: ( CatStore ObjTessShort MorphTessShort)
 -- face_pnt3' = execStateT (do 
---     f <- inv3 HqFace 
---     n <- rel3 HqNode 
---     xy <- rel3 XY 
+--     f <- inv2 HqFace 
+--     n <- rel2 HqNode 
+--     xy <- rel2 XY 
 --     return (f .&. n .&. xy) 
 --     ) tess44short
 

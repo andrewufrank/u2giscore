@@ -39,15 +39,7 @@ module Uniform.NaiveTripleStore
     where
 
 import UniformBase
-import UniformBase (fst3, snd3, trd3)
--- import Uniform.Error
--- import Data.List.Extra
 
--- import Storable.Value
--- import Test.Framework.TestManager (testSuiteAsTest)
-
-
--- type Val = ValueSum 
 
 -- | a store for typed triples 
 class () => TripleStore o p v  where
@@ -59,7 +51,6 @@ class () => TripleStore o p v  where
     tsbatch :: [Action (o,p,v)] -> [(o,p,v)] -> [(o,p,v)]
     tsinsertMany :: [(o,p,v)] -> [(o,p,v)] -> [(o,p,v)]
 
--- rest for tests
 
 data Action a = Ins a | Del a
         deriving (Show, Read, Ord, Eq)

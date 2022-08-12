@@ -55,15 +55,10 @@ module Uniform.TripleStore
 --     )    
     where
 
--- import Control.Monad.State
--- import Data.List (sort)
--- import GHC.Generics ( Generic )
--- import Control.Monad.State  
-
 import UniformBase  
     -- ( Generic, fst3, trd3, errorT, putIOwords, showT, Zeros(zero) )
 import Uniform.NaiveTripleStore
-import UniformBase (NiceStrings)
+-- import UniformBase (NiceStrings)
     -- ( Action(..), TripleStore(tsfind, tsinsert, tsdel) )
 
 type CPoint o m =  (o,m,o)  -- a relation line (m - is predicate (aka morph), o is an subject/value, here object)
@@ -85,7 +80,6 @@ unCatStore (CatStoreK as) = as
 wrapCatStore :: ([CPoint o m] -> [CPoint o m]) -> CatStore o m-> CatStore o m
 wrapCatStore f = CatStoreK . f . unCatStore  -- not a functor!
 
--- -- -- type CatStoreState rel = State (CatStore rel)
 
 class CatStores o m where
     catStoreEmpty :: CatStore o m
