@@ -60,40 +60,42 @@ module Uniform.TripleRels
 -- import GHC.Generics ( Generic )
 import Control.Monad.State  
 import Data.List ( nub ) 
-import AOPPrelude (swap)
+-- import AOPPrelude (swap)
 -- hiding ((.), concat, filter, zip)
-import UniformBase ( snd3, swapPair )
+import UniformBase 
+-- ( snd3, swapPair )
     -- ( Generic, fst3, trd3, errorT, putIOwords, showT, Zeros(zero) )
 -- import Uniform.NaiveTripleStore ()
 import Uniform.TripleStore -- ( CatStore, unCatStore )
 import UniformBase (NiceStrings)
     -- ( Action(..), TripleStore(tsfind, tsinsert, tsdel) )
 
-type Rel o = [](o,o)
+type Rel2 o = [](o,o)
+-- | a binary relation
 
 
--- instance NiceStrings   (Rel o) where 
+-- instance NiceStrings   (Rel2 o) where 
 --     showlong r = intersperse 
 
-getRel :: (Eq m )=> CatStore o m -> m -> Rel o
+getRel :: (Eq m )=> CatStore o m -> m -> Rel2 o
 getRel cat m = map out13 . filter ((m ==) . snd3) . unCatStore $ cat
 
-converseRel :: Rel o -> Rel o
+converseRel :: Rel2 o -> Rel2 o
 converseRel = map swapPair 
 
-replOne :: (Eq o) => Rel o -> (o,o) -> Rel o
+replOne :: (Eq o) => Rel2 o -> (o,o) -> Rel2 o
 -- map the value in v to the value rs v
 replOne rs (a,b) =  zip (repeat a) r
     where 
             -- r :: [o]
             r = (map snd .  filter ((b==).fst) $ rs) 
 
-compRel :: (Eq o) =>  Rel o -> Rel o ->  Rel o
+compRel :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
 -- | compose relations r2 . r1 i.e. (B -> C) . (A -> B)
 -- or: r1;r2 
 compRel r2 r1 = concat $ map (replOne r2)  r1 
 
--- compRel :: (Show o, Eq o) =>  Rel o -> Rel o -> (Rel o, Rel o, Rel o) 
+-- compRel :: (Show o, Eq o) =>  Rel2 o -> Rel2 o -> (Rel2 o, Rel2 o, Rel2 o) 
 -- -- compose bc . ab 
 -- compRel bc ab = (ab,bc',ac) 
 --     where 
@@ -101,20 +103,20 @@ compRel r2 r1 = concat $ map (replOne r2)  r1
 --         b_ab = map snd ab 
 --         bc' = findMany bc b_ab
 
-semicolon :: (Eq o) =>  Rel o -> Rel o ->  Rel o
+semicolon :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
 -- | an alternative name for composition of relations, with reverse order (wrt '.')
 r1 `semicolon` r2 = compRel r2 r1 
 
 --- monadic versions 
--- rel3 :: (MonadState (CatStore o m) m1, Eq o, Eq m) => m -> m1 (Rel o) 
-rel3 :: (MonadState m1, Eq m2, StateType m1 ~ CatStore o m2) => m2 -> m1 (Rel o)
+-- rel3 :: (MonadState (CatStore o m) m1, Eq o, Eq m) => m -> m1 (Rel2 o) 
+rel3 :: (MonadState m1, Eq m2, StateType m1 ~ CatStore o m2) => m2 -> m1 (Rel2 o)
 rel3 morph1 = do 
     c <- get 
     return $ getRel c morph1 
 inv3 morph1 = do 
     c <- get 
     return . map swap $ getRel c morph1 
--- comp3 :: (MonadState m, Eq o) => Rel o -> Rel o -> m (Rel o)
+-- comp3 :: (MonadState m, Eq o) => Rel2 o -> Rel2 o -> m (Rel2 o)
 -- comp3 rel1 rel2 = do 
 --     c <- get 
 --     let res = compRel rel2 rel1 

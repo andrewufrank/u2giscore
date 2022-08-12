@@ -27,9 +27,9 @@ dependencies:
 - uniformBase >=0.1.4.2
 - extra
 - uniform-geometry >=0.0.1.7
-- gloss
+# - gloss
 - monads-tf
-- aop-prelude
+# - aop-prelude
 # - containers
 
 # # - vector-space

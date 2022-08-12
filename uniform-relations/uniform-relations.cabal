@@ -34,10 +34,8 @@ library
       src
   build-depends:
       HTF
-    , aop-prelude
     , base >=4.7 && <5
     , extra
-    , gloss
     , monads-tf
     , uniform-geometry >=0.0.1.7
     , uniformBase >=0.1.4.2
@@ -51,10 +49,8 @@ executable exec
       app
   build-depends:
       HTF
-    , aop-prelude
     , base >=4.7 && <5
     , extra
-    , gloss
     , monads-tf
     , uniform-geometry >=0.0.1.7
     , uniform-relations
@@ -72,10 +68,8 @@ test-suite test1
       tests
   build-depends:
       HTF
-    , aop-prelude
     , base >=4.7 && <5
     , extra
-    , gloss
     , monads-tf
     , quickcheck-text
     , uniform-geometry

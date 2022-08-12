@@ -26,7 +26,7 @@ module ExampleData.HQfaces_test
 
 import           Test.Framework hiding (scale, (.&.))
 
-import UniformBase hiding (Rel)
+import UniformBase  
 import ExampleData.HQexampleShort
 import ExampleData.HQschemaShort
 -- import Control.Exception
@@ -50,8 +50,8 @@ import Data.List.Extra
 import Uniform.Drawings
 import Control.Monad.State  
 
-import AOPPrelude (swap) -- hiding ((.), concat, filter, zip)
-import Graphics.Gloss.Data.Color
+-- import AOPPrelude (swap) -- hiding ((.), concat, filter, zip)
+-- import Graphics.Gloss.Data.Color
 -- import qualified Graphics.Gloss as Gloss
 -- -- import  qualified         Algebra.Laws             as Law
 -- import Data.List ( nub ) 
@@ -63,7 +63,7 @@ import Graphics.Gloss.Data.Color
 
 tessShort4 = makeCatFrom fourPnt2d
 
-hqface :: Rel ObjTessShort
+hqface :: Rel2 ObjTessShort
 hqface = getRel tessShort4 HqFace 
 hqnode = getRel tessShort4 HqNode
 hqfaceInv = converseRel hqface
@@ -80,7 +80,7 @@ pointsFace400 = filter (( Face 400==).fst) facePoint2
 pointsFace401 = filter (( Face 401==).fst) facePoint2
 
 --- as functions in tess 
-hqfacet ::  CatStoreTessShort -> Rel ObjTessShort
+hqfacet ::  CatStoreTessShort -> Rel2 ObjTessShort
 hqfacet tess = getRel tess  HqFace 
 
 hqnodet tess = getRel tess  HqNode
