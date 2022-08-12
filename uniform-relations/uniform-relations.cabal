@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           uniform-relations
-version:        0.0.1.1
+version:        0.0.1.2
 synopsis:       uniform wrapper to handle relations and a naive triple store
 description:    a base functions to store data in a naive triple store 
                 which is simplified, non optimized and strongly typed.
@@ -39,8 +39,8 @@ library
     , extra
     , gloss
     , monads-tf
-    , uniform-geometry
-    , uniformBase >=0.1.3
+    , uniform-geometry >=0.0.1.7
+    , uniformBase >=0.1.4.2
   default-language: Haskell2010
 
 executable exec
@@ -56,9 +56,9 @@ executable exec
     , extra
     , gloss
     , monads-tf
-    , uniform-geometry
+    , uniform-geometry >=0.0.1.7
     , uniform-relations
-    , uniformBase >=0.1.3
+    , uniformBase >=0.1.4.2
   default-language: Haskell2010
 
 test-suite test1

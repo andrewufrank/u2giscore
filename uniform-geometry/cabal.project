@@ -1,10 +1,11 @@
 packages: 
     *.cabal
+    ../../uBase/uniformBase
     ../../uBase/uniform-algebras/*.cabal
+    ../../uBase/uniform-strings/*.cabal
     ../../uBase/uniform-error/*.cabal
---    ../uniform-fileio/*.cabal
+--    ../../uBase/uniform-fileio/*.cabal
 --    ../uniform-json/*.cabal
---    ../uniform-strings/*.cabal
 --    ../uniform-time/*.cabal
 
 --       ../../fromOthersExperiments/qhull/*.cabal

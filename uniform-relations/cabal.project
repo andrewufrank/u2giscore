@@ -1,7 +1,8 @@
 packages: 
     *.cabal
---    ../uBase/uniform-algebras/*.cabal
---    ../uniform-error/*.cabal
+    ../../uBase/uniformBase
+    ../../uBase/uniform-algebras/*.cabal
+    ../../uBase/uniform-error/*.cabal
 --    ../uniform-fileio/*.cabal
 --    ../uniform-json/*.cabal
     ../../uBase/uniform-strings/*.cabal

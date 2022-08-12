@@ -39,6 +39,7 @@ module Uniform.NaiveTripleStore
     where
 
 import UniformBase
+import UniformBase (fst3, snd3, trd3)
 -- import Uniform.Error
 -- import Data.List.Extra
 

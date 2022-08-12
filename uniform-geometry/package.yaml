@@ -25,7 +25,7 @@ extra-source-files:
 dependencies:
 - base >= 4.7 && < 5
 - HTF
-- uniformBase >=0.1.4 
+- uniformBase >=0.1.4.1
 
 - extra
 - containers
