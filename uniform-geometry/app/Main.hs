@@ -59,6 +59,7 @@ main2 = do
     -- mainDelaunayTiles
     -- mainDelaunayTriples
     mainHQ
+    mainHQ2
     -- showFacePage
     
 -- p1 = Point2d 1 (V2 1 1):: P2

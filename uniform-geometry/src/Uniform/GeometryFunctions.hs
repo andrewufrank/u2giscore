@@ -35,6 +35,7 @@ module Uniform.GeometryFunctions
     -- , module Linear.Metric
     , module Control.Lens
     , Pnt2, V2
+    , distance -- from Linear.Vector
         ) 
          where
 
@@ -42,9 +43,9 @@ import UniformBase
 import Uniform.Point2d 
 import Uniform.Point2dData
 -- import Vector
-import Linear  
+import Linear.Vector ((*^))
 import Linear.V2
-import Linear.Vector 
+-- import Linear.Vector 
 import qualified Linear.Metric as Metric
 import qualified Linear.Vector as Lin
 import Control.Lens 
@@ -88,11 +89,15 @@ lineClose :: (Point2 a) =>  [a] -> [a]
 lineClose ls = ls ++ [head ls]
 
 
--- distance :: (ToV2 a) => a -> a -> Double
--- distance b c =  (Metric.distance (toV2 b) (toV2 c))
+distance :: (ToV2 a) => a -> a -> Double
+distance b c =  (Metric.distance (toV2 b) (toV2 c))
 
--- scale s (V2 x y) = (V2 (s*x) (s*y))
+-- scale :: Double -> V2 Double  -> V2 Double 
+-- scale s a = (s *^ a)
 
+-- scale' :: Double -> Pnt2d Int Double  -> Pnt2d Int Double
+scale :: (Functor f1, Functor f2, Num a) => a -> f1 (f2 a) -> f1 (f2 a)
+scale s p = fmap (s *^) p 
 
 circumCenter :: (ToPD a) => a -> a -> a -> a 
 circumCenter a b c = fromPD 

@@ -101,10 +101,10 @@ pointsF503_2 tess = filter (( Face 503==).fst) (facePoint2t tess )
 
 pointsDualFace400 = filter ((( (Node 400))==).fst) nodePoint2
 -- pointsF400 :: [Double]
-pointsF400 = map ( (scale 20) . toV2 .  unPointTag . snd) pointsFace400 
+pointsF400 = map ( (* 20) . toV2 .  unPointTag . snd) pointsFace400 
 -- [[0.0,0.0],[2.0,0.0],[1.5,1.5]]
-pointsF401 = map ( (scale 20) . toV2 .  unPointTag . snd) pointsFace401 
-pointsD400 = map ( (scale 20) . toV2 .  unPointTag . snd) pointsDualFace400 
+pointsF401 = map ( (* 20) . toV2 .  unPointTag . snd) pointsFace401 
+pointsD400 = map ( (* 20) . toV2 .  unPointTag . snd) pointsDualFace400 
 
 tess44short = makeCatFrom fourPnt2d 
 getRel4 = getRel tess44short  -- similar to monadic??

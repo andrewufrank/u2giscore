@@ -19,6 +19,7 @@
 {-# LANGUAGE UndecidableInstances  #-}
 {-# LANGUAGE DeriveAnyClass  #-}
 {-# LANGUAGE DeriveGeneric  #-}
+{-# LANGUAGE DeriveFunctor  #-}
 -- {-# LANGUAGE TypeApplications     #-}
 -- {-# LANGUAGE DeriveDataTypeable #-}
 -- {-# LANGUAGE PolyKinds #-}
@@ -43,14 +44,15 @@ module Uniform.Point2d
     -- , ToGloss (..)  -- localized at Drawings
     , ToHPoint2 (..)  -- move to concentrat hgeometry
     -- , H.Point
-    -- , module Uniform.Point2d
+    , module Uniform.Point2d
     -- , module Linear.V2
     -- , module Control.Lens
     , 
     -- , Point2d
     -- other conversions
     -- , ddn_pnt2d
-        )  where
+        ) 
+         where
 
 import UniformBase
     -- ( Generic,
@@ -103,15 +105,24 @@ instance Point2 V2D where
 
 -- | a 2d point (constructed from V2 from Linear) with a name
 data Pnt2d i v = Pnt2d {_p2id:: i, _v2:: V2 v}
-    deriving (Show, Read, Ord, Eq, Generic)
+    deriving (Show, Read, Ord, Eq, Generic, Functor)
 instance (Zeros i, Zeros v, Num v) => Zeros (Pnt2d i v) where zero = Pnt2d zero zero 
 
 instance (Zeros a, Num a) => Zeros (V2 a) where zero = Lin.zero 
 instance (Show i, Show v) => NiceStrings (Pnt2d i v) where
     showNice p =  unwords'   ["Pnt2d (", showT . _p2id $ p, " ", showT . _v2 $ p, ")"] 
-    -- result must be readalbe as Haskell code!
+    -- result must be readalbe as Haskell code! 
 
 makeLenses ''Pnt2d  -- brings in scope the lenses (only later)
+
+-- | apply functions to coords    
+-- instance Functor (Pnt2d i) where 
+--     fmap f (Pnt2d i v) = Pnt2d i (f v)
+    -- fmap f = over v2 f
+
+fmap' :: (V2 v -> V2 v1) -> Pnt2d i v -> Pnt2d i v1
+fmap' f (Pnt2d i v) = Pnt2d i (f v)
+
 
 instance NamedPoint2 Pnt2 where 
     getName = _p2id 

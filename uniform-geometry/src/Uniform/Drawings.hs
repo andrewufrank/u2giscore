@@ -19,6 +19,7 @@
 {-# LANGUAGE UndecidableInstances  #-}
 {-# LANGUAGE DeriveAnyClass  #-}
 {-# LANGUAGE DeriveGeneric  #-}
+{-# LANGUAGE DeriveFunctor #-}
 -- {-# LANGUAGE TypeApplications     #-}
 -- {-# LANGUAGE DeriveDataTypeable #-}
 -- {-# LANGUAGE PolyKinds #-}
@@ -60,7 +61,7 @@ class DrawPolygon a where
 data Figure a = Figure 
     { _figColor :: Color
     , _figPath :: [a]
-    } deriving (Show,    Eq, Generic, Zeros)
+    } deriving (Show,    Eq, Generic, Zeros, Functor)
 
 -- instance (Zeros a) => Zeros (Figure a) where 
 --     zero = Figure zero zero
@@ -77,22 +78,25 @@ figure2picture' ::  Figure V2D -> Picture
 figure2picture' f =  color (f ^. figColor) $ Line .  map toGloss $ _figPath f 
 
 fig1 :: Figure V2D
-fig1 = closeLine $ Figure blue fiveV2 
+fig1 = scale (1) . closeLine $ Figure blue fiveV2 
 
 
 -- fig2 =  toListOf figPath fig1    -- beachter reihenfolge! 
 
-lines2picture :: [Figure V2D] -> Picture
-lines2picture = pictures . map figure2picture' --   map onex   
+-- lines2picture :: [Figure V2D] -> Picture
+-- lines2picture = pictures . map figure2picture' --   map onex   
 --         -- 
-
+finishPicture :: [Figure V2D] -> Picture 
+-- | gives a right upper of 10 by 10 
+finishPicture = Gloss.translate (-100) (-100) .Gloss.scale 20 20. pictures . map figure2picture'  
 -- showFacePage2 :: MonadIO m => [([V2D], Color)] -> m ()
+
 showFacePage2 :: [Figure V2D] -> ExceptT Text IO ()
-showFacePage2 lines = do
+showFacePage2 figs = do
     putIOwords [ "Lib.showFacePage  here"]
     liftIO (do 
-        -- display window background drawing
-        display window2 white (Gloss.translate (-20) (-100) .Gloss.scale 40 40. lines2picture $ lines)
+        -- scale to give a 10 x 10 upper right 
+        display window2 white (finishPicture figs)
         )
     return ()
 
