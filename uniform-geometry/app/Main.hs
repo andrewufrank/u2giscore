@@ -23,13 +23,13 @@ module Main     where
 import UniformBase
 import Uniform.Point2d
 import Uniform.Point2dData 
-
+import Uniform.GeometryFunctions
 -- import Delaunay.Delaunay
 -- import Voronoi2D
 -- import Uniform.Delaunay 
 -- import Uniform.DelaunayTiles
 -- import Uniform.DelaunayTriples
--- import Uniform.TesselationHalfQuads
+import Uniform.TesselationHalfQuads
 import Uniform.Drawings 
 
 -- import qualified Data.IntMap.Strict  as IM

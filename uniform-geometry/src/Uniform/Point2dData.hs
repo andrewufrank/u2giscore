@@ -35,6 +35,7 @@ module Uniform.Point2dData
 
 import UniformBase
 import Uniform.Point2d
+
 -- import qualified Data.Map as Map 
 
 -- -- import Vector
