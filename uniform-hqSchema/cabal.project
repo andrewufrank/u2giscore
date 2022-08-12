@@ -8,6 +8,7 @@ packages:
     ../../uBase/uniform-strings/*.cabal
 --    ../uniform-time/*.cabal
     ../uniform-geometry
+    ../uniform-relations
        ../../fromOthersExperiments/qhull/*.cabal
 --    ../../qhullSplit/qhull/*.cabal 
 

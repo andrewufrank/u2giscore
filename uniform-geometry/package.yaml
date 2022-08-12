@@ -39,8 +39,8 @@ dependencies:
 # - pretcabal ty-show 
 
 # for hgeometry
-- hgeometry 
-- hgeometry-combinatorial
+- hgeometry >= 0.14 && < 0.15
+- hgeometry-combinatorial >= 0.14 && < 0.15
 # - linear
 - data-clist
 # - aeson-pretty

@@ -39,8 +39,8 @@ library
     , data-clist
     , extra
     , gloss
-    , hgeometry
-    , hgeometry-combinatorial
+    , hgeometry ==0.14.*
+    , hgeometry-combinatorial ==0.14.*
     , lens
     , linear
     , uniformBase >=0.1.4.1
@@ -61,8 +61,8 @@ executable exec
     , data-clist
     , extra
     , gloss
-    , hgeometry
-    , hgeometry-combinatorial
+    , hgeometry ==0.14.*
+    , hgeometry-combinatorial ==0.14.*
     , lens
     , linear
     , uniform-geometry
@@ -89,8 +89,8 @@ test-suite test1
     , data-clist
     , extra
     , gloss
-    , hgeometry
-    , hgeometry-combinatorial
+    , hgeometry ==0.14.*
+    , hgeometry-combinatorial ==0.14.*
     , lens
     , linear
     , quickcheck-text
