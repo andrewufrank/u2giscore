@@ -7,7 +7,7 @@ packages:
 --    ../uniform-json/*.cabal
     ../../uBase/uniform-strings/*.cabal
 --    ../uniform-time/*.cabal
---    ../uniform-geometry
+    ../uniform-geometry
        ../../fromOthersExperiments/qhull/*.cabal
 --    ../../qhullSplit/qhull/*.cabal 
 
