@@ -88,7 +88,16 @@ compRel :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
 -- | compose relations r2 . r1 i.e. (B -> C) . (A -> B)
 -- or: r1;r2 
 compRel r2 r1 = concat $ map (replOne r2)  r1 
+compRelx r2 r1 = [ (a,d) | (a,b) <- r1, (c,d) <- r2, b==c]
+-- compRelZip :: (Eq o) =>  Rel2 o -> Rel2 o ->  [(o, (o,o))]
+-- compRelZip r2 r1  = concat $ map (replOneZip r2)
 
+-- replOneZip rs (a,b) = zip (repeat a) r 
+--     where 
+--         r = zip (repeat b) (map snd . filter ((b==).fst) $ rs)
+compRelZip :: (Eq o) =>  Rel2 o -> Rel2 o ->  [(o, (o,o))]
+
+compRelZip r2 r1 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
 
 semicolon :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
 -- | an alternative name for composition of relations, with reverse order (wrt '.')

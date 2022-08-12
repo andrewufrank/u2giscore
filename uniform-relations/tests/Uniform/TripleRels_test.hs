@@ -151,8 +151,10 @@ r2s = [(SS 0,(SS 19)),((SS 1),(SS 18))]
 
 test_converse =  assertEqual [(SS 19, SS 0), (SS 18, SS 1)](converseRel r2s)
 
+r1, r2, r3 :: Rel2 Int -- [(Int,Int)]
 r1 = [(0, 10), (1,11), (0,12)]
 r2 = [(20,0), (21,2), (20,1), (24,1)]
+r3 = [(20,10), (21,20), (20,10), (24,10)]
 
 test_snd = assertEqual [0, 2, 1, 1] (map snd r2) 
 
@@ -162,5 +164,9 @@ test_compRel = assertEqual [(20, 0), (20, 0), (20, 1), (24, 1)] (compRel (conver
 test_compRel2 = assertEqual [(20, 0), (20, 1), (24, 1)] (nub $ compRel (converseRel r1) (compRel r1 r2))
 -- compare with r2 , dropped (21,2)
 -- not quite, but nearly 
+test_comp_x = assertEqual (compRel r1 r2) (compRelx r1 r2)
+
+test_compRelZip1 = assertEqual ([(20, (10, 0)), (20, (10, 1)), (21, (20, 2)), (20, (10, 0)),
+ (20, (10, 1)), (24, (10, 1))] :: [(Int, (Int,Int))]) $ compRelZip r2 r3 
 
 test_semicolon = assertEqual (compRel r1 r2) (r2 `semicolon` r1)

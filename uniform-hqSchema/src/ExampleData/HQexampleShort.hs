@@ -1,6 +1,8 @@
 -----------------------------------------------------------------------------
 --
--- Module      :  Uniform. test the HQ up to the conversion in proto-triples
+-- Module      :  Uniform. 
+--      convert the HQ produced by geometry 
+--      to a list of load instructions 
 --
 -- | import examples to test with  {-@ HTF_TESTS @-}
 -----------------------------------------------------------------------------
@@ -29,10 +31,8 @@ import UniformBase
 import Uniform.GeometryFunctions
 import Uniform.Point2dData
 import ExampleData.HQschemaShort
--- import Control.Exception
--- import Uniform.GeometryFunctions
--- import Uniform.Point2d
-import Uniform.TesselationHalfQuads
+ 
+-- import Uniform.TesselationHalfQuads
     
     -- ( delaunay2,
     --   fourPnt2d,
@@ -43,7 +43,7 @@ import Uniform.TesselationHalfQuads
     --   TesselationHQ(_Nodes, _Faces, _HQs) )
 -- import Uniform.GeometryTest(fivePnt2d, fourPnt2d)
 import Uniform.TripleStore
-import Uniform.Point2d
+-- import Uniform.Point2d
 import Uniform.TesselationHalfQuads
 import Uniform.NaiveTripleStore
 

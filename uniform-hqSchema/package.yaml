@@ -26,6 +26,7 @@ dependencies:
 - extra
 - uniform-geometry >=0.0.1.7
 - uniform-relations >=0.0.1.3
+# - uniform-hqSchema
 # - gloss
 - monads-tf
 # - aop-prelude
@@ -62,7 +63,7 @@ executables:
     main:   Main.hs
     source-dirs:  app
     dependencies: 
-    - uniform-relations
+    - uniform-hqSchema
     # - uniform-geometry
 
 tests:
@@ -73,6 +74,8 @@ tests:
     - uniformBase
     # - uniform-relations
     # - uniform-geometry
+    - uniform-hqSchema
+
     - HTF
     - quickcheck-text
     # - uniform-strings

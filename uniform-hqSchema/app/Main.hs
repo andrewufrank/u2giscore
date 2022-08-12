@@ -28,32 +28,12 @@ import Uniform.TripleRels
 import ExampleData.HQexampleShort
 import ExampleData.HQfaces_test
 
--- import Uniform.Point2d
--- import Uniform.Point2dData 
 
--- -- import Delaunay.Delaunay
--- import Voronoi2D
--- -- import Uniform.Delaunay 
--- -- import Uniform.DelaunayTiles
--- -- import Uniform.DelaunayTriples
--- import Uniform.TesselationHalfQuads 
-
--- import qualified Data.IntMap.Strict  as IM
--- import           Text.Show.Pretty
--- import Control.Lens 
--- import           Delaunay
-
--- -- import Delaunay.Types
--- import Qhull.Types
 
 main =
   startProg
     (unwords' ["Uniform.Relations", "the test for relatiosn and triple store"])
     ( do
-        -- let sitefn = makeAbsFile "/home/frank/Workspace11/ssg/docs/site/settings3"
-        -- workingdir1 :: Path Abs Dir <- currentDir 
-        -- let sitefn = workingdir1 </> (makeRelFile "settings3" )  
-        -- start NoticeLevel0 sitefn
 
         main2
     )
@@ -67,9 +47,10 @@ main2 = do
     -- mainHQ
     -- mainMakeTessLong
     -- mainMakeTessShort
+    pageHQfaces_test
     -- mainMakeTessShort  -- from ExampleData.HQexampleShort
     -- pageHQfaces_test
-    pageHQforglossFaces
+    -- pageHQforglossFaces
     return () 
     
 -- p1 = Point2d 1 (V2 1 1):: P2

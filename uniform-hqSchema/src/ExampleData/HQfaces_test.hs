@@ -31,93 +31,18 @@ import ExampleData.HQexampleShort
 import ExampleData.HQschemaShort
 -- import Control.Exception
 import Uniform.GeometryFunctions
-import Uniform.Point2d
+import Uniform.Point2d ()
 import Uniform.Point2dData
 import Uniform.TesselationHalfQuads
-    -- ( delaunay2,
-    --   fourPnt2d, fivePnt2d,
-    --   toHq1,
-    --   FaceHQ(circumcenter),
-    --   HQ(node, face, twin, halflength),
-    --   NodeHQ(..),
-    --   TesselationHQ(_Nodes, _Faces, _HQs) )
--- import Uniform.NaiveTripleStore
--- -- import Uniform.Object 
--- -- import Storable.Value
--- import Uniform.TripleStore
+  
 import Uniform.TripleRels
 import Data.List.Extra
 import Uniform.Drawings
 import Control.Monad.State  
 
--- import AOPPrelude (swap) -- hiding ((.), concat, filter, zip)
--- import Graphics.Gloss.Data.Color
--- import qualified Graphics.Gloss as Gloss
--- -- import  qualified         Algebra.Laws             as Law
--- import Data.List ( nub ) 
-
--- import           Test.Invariant           as Rule  
--- import Test.QuickCheck --  (arbitraryBoundedEnum)
-
---- example code  -- Minimal Schema
-
-tessShort4 = makeCatFrom fourPnt2d
-
-hqface :: Rel2 ObjTessShort
-hqface = getRel tessShort4 HqFace 
-hqnode = getRel tessShort4 HqNode
-hqfaceInv = converseRel hqface
-hqnodeInv = converseRel hqnode
-xyPoint = getRel tessShort4 XY 
-
-(.&.) = flip compRel  
--- faceNode = compRel hqnode hqfaceInv
-faceNode2 = hqfaceInv `semicolon` hqnode
--- facePoint = compRel xyPoint faceNode 
-facePoint2 =  hqfaceInv .&. hqnode `semicolon` xyPoint 
-nodePoint2 =  hqnodeInv `semicolon` hqface `semicolon` xyPoint 
-pointsFace400 = filter (( Face 400==).fst) facePoint2
-pointsFace401 = filter (( Face 401==).fst) facePoint2
-
---- as functions in tess 
-hqfacet ::  CatStoreTessShort -> Rel2 ObjTessShort
-hqfacet tess = getRel tess  HqFace 
-
-hqnodet tess = getRel tess  HqNode
-
-hqfaceInvt = converseRel . hqfacet 
-
-hqnodeInvt = converseRel . hqnodet 
-
-xyPointt tess = getRel tess  XY 
-
-facePoint2t tess =  hqfaceInvt tess .&. hqnodet tess `semicolon` xyPointt tess 
-
-pointsF500_2 tess = filter (( Face 500==).fst) (facePoint2t tess )
-pointsF501_2 tess = filter (( Face 501==).fst) (facePoint2t tess )
-pointsF502_2 tess = filter (( Face 502==).fst) (facePoint2t tess )
-pointsF503_2 tess = filter (( Face 503==).fst) (facePoint2t tess )
-    
-
-pointsDualFace400 = filter ((( (Node 400))==).fst) nodePoint2
--- pointsF400 :: [Double]
-pointsF400 = map ( (* 20) . toV2 .  unPointTag . snd) pointsFace400 
--- [[0.0,0.0],[2.0,0.0],[1.5,1.5]]
-pointsF401 = map ( (* 20) . toV2 .  unPointTag . snd) pointsFace401 
-pointsD400 = map ( (* 20) . toV2 .  unPointTag . snd) pointsDualFace400 
-
+ 
 tess44short = makeCatFrom fourPnt2d 
-getRel4 = getRel tess44short  -- similar to monadic??
-
-point1s = (getRel4 HqNode) .&. (getRel4 XY)
-point2s = (getRel4 Twin) .&. (getRel4 HqNode) .&. (getRel4 XY)
-dist12 = zipWith distance (map (unPointTag . snd) point1s) 
-        (map (unPointTag . snd) point2s)
-
-
-face3inv = converseRel (getRel4 HqFace) 
-node3 = face3inv .&. (getRel4 HqNode)
-face_pnt3 = node3 .&. (getRel4 XY)
+tess55short = makeCatFrom fivePnt2d 
 
 
 -- coords2faces :: (MonadState m) => CatStoreTessShort -> m [(IDtype, [V2D])]
@@ -133,79 +58,67 @@ onef (Face i, pts) = (i, map (unName . unPointTag) pts)
 
 
 (coords2faces_4) = evalState coords2faces tess44short
+(coords2faces_5) = evalState coords2faces tess55short
 
--- face_pnt3' :: ( CatStore ObjTessShort MorphTessShort)
--- face_pnt3' = execStateT (do 
---     f <- inv2 HqFace 
---     n <- rel2 HqNode 
---     xy <- rel2 XY 
---     return (f .&. n .&. xy) 
---     ) tess44short
 
-facesGrouped = groupBy (\a b -> fst a == fst b) face_pnt3
-facesXY = map (map oneFacexy) facesGrouped
-    where 
-oneFacexy (Face i, PointTag p) = (i, unName p)
+(.&.) = flip compRel  
 
-facesXYlist :: [(ObjTessShort, [ObjTessShort])]
-facesXYlist = groupSort  face_pnt3
 
--- faces_gloss :: [(ObjTessShort, [ObjTessShort])] -> [(IDtype, Gloss.Point)]
--- faces_gloss :: [(ObjTessShort, [ObjTessShort])] -> [(IDtype, [toGloss fivePnt2d])]
-faces_gloss ips = map onef ips 
-    -- where
--- onef (Face i, pts) = (i, map (unName . unPointTag) pts)
+ 
+-- points12 :: StateT CatStoreTessShort Identity (Rel2 ObjTessShort, Rel2 ObjTessShort)
+points12 :: StateT
+  CatStoreTessShort
+  Identity
+  [(ObjTessShort, (ObjTessShort, ObjTessShort))]
+points12 = do 
+    hqn <- rel2 HqNode 
+    xy <- rel2 XY 
+    twin <- rel2 Twin 
+    return (compRelZip (hqn .&. xy) (twin .&. hqn .&. xy))
 
--- faces4gloss :: [[(IDtype, [Gloss.Point])]]
--- faces4gloss :: [(IDtype, [toGloss fivePnt2d])]
--- faces4gloss :: [(IDtype, [GlossPoint])]
-faces4gloss =  faces_gloss facesXYlist 
--- faces4only :: [[GlossPoint]]
--- faces4only :: [([Gloss.Point], Gloss.Color)]
-faces4only = map swap . map (first (const  red)) $ faces4gloss
 
--- swap (a,b) = (b,a)
+point1s :: [(ObjTessShort, (ObjTessShort, ObjTessShort))]
+(point1s) = evalState points12 tess44short
 
-pageHQforglossFaces :: ErrIO ()
-pageHQforglossFaces = do 
-    putIOwords ["get the faces for tess4"]
-    putIOwords ["tess44short\n", showlong tess44short, "\n"    ]
-    putIOwords ["face_pnt3\n", showlong face_pnt3, "\n"    ]
-    putIOwords ["faces4gloss\n", showT faces4gloss, "\n"    ]
-    putIOwords ["faces4only\n", showT faces4only, "\n"    ]
+dist12 :: [(ObjTessShort, Double)]
+dist12 = map dist12one point1s
 
-    -- showFacePage2 faces4only
+dist12one :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> (ObjTessShort, Double) 
+dist12one (a,(p1,p2)) = (a, (distance (unName . unPointTag $ p1) (unName . unPointTag $ p2)))
+-- zipWith distance (map (unPointTag . snd) point1s) 
+--         (map (unPointTag . snd) point2s)
+
+
 
 instance NiceStrings Float where shownice = showT 
 
--- compLength = map distance a 
--- run in repl with runErr pageHQfaces_test 
 pageHQfaces_test :: ErrIO ()
 pageHQfaces_test = do
     putIOwords ["the tests for relations after storing four and five points"]
-    putIOwords ["tess44short\n", showlong tess44short, "\n"    ]
-    let hqNodeRel = getRel tess44short HqNode
-    putIOwords ["([hqNodeRel])\n", showlong hqNodeRel]
-    let nodeXY =   (getRel tess44short XY)
-    putIOwords ["([nodeXY])\n", showlong nodeXY]
-    let hqHqNodeXY =  hqNodeRel .&.nodeXY
-    putIOwords ["([hqHqNodeXY]) the quad with the coord of its node\n", showlong hqHqNodeXY]
+    -- putIOwords ["tess44short\n", showlong tess44short, "\n"    ]
+    putIOwords ["the end coord of the hqs", showAsLines point1s]
+    -- let hqNodeRel = getRel tess44short HqNode
+    -- putIOwords ["([hqNodeRel])\n", showlong hqNodeRel]
+    -- let nodeXY =   (getRel tess44short XY)
+    -- putIOwords ["([nodeXY])\n", showlong nodeXY]
+    -- let hqHqNodeXY =  hqNodeRel .&.nodeXY
+    -- putIOwords ["([hqHqNodeXY]) the quad with the coord of its node\n", showlong hqHqNodeXY]
     -- here ok the hq headnode 
     
-    let hqtwinhq = (getRel tess44short Twin)    
-    putIOwords ["hqtwinhq the quad with its twin \n", showlong hqtwinhq]
-    -- let hqtwinhqConv = converseRel   hqtwinhq 
-    -- putIOwords ["hqtwinhqConv twin hq left \n", showlong hqtwinhqConv]
-    let hqtwinhqNode = hqtwinhq  .&. (getRel tess44short HqNode) 
-    putIOwords ["hqtwinhqNode\n", showlong hqtwinhqNode]
-    let hqtwinhqNodeXY = hqtwinhqNode .&. nodeXY 
-    putIOwords ["hqtwinhqNodeXY the coords of the other end\n", showlong hqtwinhqNodeXY]
+    -- let hqtwinhq = (getRel tess44short Twin)    
+    -- putIOwords ["hqtwinhq the quad with its twin \n", showlong hqtwinhq]
+    -- -- let hqtwinhqConv = converseRel   hqtwinhq 
+    -- -- putIOwords ["hqtwinhqConv twin hq left \n", showlong hqtwinhqConv]
+    -- let hqtwinhqNode = hqtwinhq  .&. (getRel tess44short HqNode) 
+    -- putIOwords ["hqtwinhqNode\n", showlong hqtwinhqNode]
+    -- let hqtwinhqNodeXY = hqtwinhqNode .&. nodeXY 
+    -- putIOwords ["hqtwinhqNodeXY the coords of the other end\n", showlong hqtwinhqNodeXY]
     
-    let start_end = zip (map snd hqHqNodeXY) (map snd hqtwinhqNodeXY)
-    putIOwords ["start_end the points", showlong start_end]
+    -- let start_end = zip (map snd hqHqNodeXY) (map snd hqtwinhqNodeXY)
+    -- putIOwords ["start_end the points", showlong start_end]
 
-    let ds = map (uncurry distance) . map (cross (unPointTag, unPointTag) ) $     start_end 
-    putIOwords ["the distances ", showT ds]
+    -- let ds = map (uncurry distance) . map (cross (unPointTag, unPointTag) ) $     start_end 
+    -- putIOwords ["the distances ", showT ds]
     putIOwords ["the distances2 ", showT dist12]
 
 

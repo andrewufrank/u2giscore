@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 --
--- Module      :  ExampleData to test toHq -- this is the schema 
--- copied initially from CatCoreConcept
+-- Module      :  ExampleData to test toHq 
+-- the schema for handling the geometry of tesselations 
 
 -- this is the short schema (with sumtype tag is Obj constructor)
 -- using IDtype = Int 
@@ -23,6 +23,8 @@
 {-# LANGUAGE UndecidableInstances  #-}
 {-# LANGUAGE DeriveGeneric  #-}
 {-# LANGUAGE DeriveAnyClass  #-}
+{-# LANGUAGE DeriveFunctor  #-}
+
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use newtype instead of data" #-}
 
@@ -32,7 +34,7 @@
 module ExampleData.HQschemaShort where
 
 import Uniform.Point2dData
-import Uniform.Point2d
+-- import Uniform.Point2d
 import UniformBase
 
 
@@ -43,13 +45,15 @@ data ObjTessShort = Node IDtype
     | Face IDtype
     | HalfQuad IDtype             -- HQ is defined in TesselationHQ
     | PointTag Pnt2
-    | LengthTag   Length  
+    | LengthTag   LengthD  
     -- | AreaTag Area 
     -- | CostTag Cost 
     -- | NameTag Name
     | ZZpoint
     deriving (Show, Read, Ord, Eq, Generic)
+
 instance Zeros ObjTessShort where zero = ZZpoint
+
 instance NiceStrings ObjTessShort
     -- where shownice = showT
     -- would need a shownice for pointTag to propagate the shownice to the inside data 
@@ -62,7 +66,7 @@ unPointTag x = errorT ["unNodeTag - not a Node", showT x]
 -- unCostTag :: ObjTessShort -> Cost
 -- unCostTag (CostTag t) = t 
 -- unCostTag x = errorT ["unCostTag -  not a Cost", showT x]
-unLengthTag :: ObjTessShort -> Length
+unLengthTag :: ObjTessShort -> LengthD
 unLengthTag (LengthTag t) = t 
 unLengthTag x = errorT ["unLengthTag - not a Length", showT x]
 
@@ -90,10 +94,12 @@ instance NiceStrings MorphTessShort
 
 
 
-data Length = Length Double  
-    deriving (Show, Read, Ord, Eq, Generic, Zeros)
-instance NiceStrings Length where
+data Length a = Length a  
+    deriving (Show, Read, Ord, Eq, Generic, Zeros, Functor)
+instance (Show a) => NiceStrings (Length a) where
 --   showNice = showT   
+
+type LengthD = Length Double 
 
 
 
