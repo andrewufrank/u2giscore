@@ -106,7 +106,7 @@ area2faces vs = areaPoly vs
 circumCenter7x2 :: ToPD a => (a, a, a) -> a
 circumCenter7x2 ( (a,b,c)) = ( circumCenter a b c)
 
--- inCenter7   (a,b,c) = inCenter a b c 
+inCenter7   (a,b,c) = inCenter a b c 
 
 -- circumCenter72 ( (a,b,c)) = (circumCenter a b c)
 -- circumCenter7 :: (a,[V2D])-> Maybe (a,V2D) 
@@ -119,14 +119,16 @@ circumCenter7x2 ( (a,b,c)) = ( circumCenter a b c)
 -- circum72 :: Maybe (ObjTessShort,(V2D, V2D, V2D)) -> Maybe (ObjTessShort,V2D)
 -- circum72 Nothing = Nothing 
 -- circum72 (Just abbb) = Just $ circumCenter7 abbb
-circum722 (Just bbb) = Just $ circumCenter7x2 bbb
-circum722 Nothing = Nothing 
+-- circum722 (Just bbb) = Just $ circumCenter7x2 bbb
+-- circum722 Nothing = Nothing 
 
 area2facesM :: StateT CatStoreTessShort Identity [(ObjTessShort, Double)]
 area2facesM  = fmap (map (second area2faces)) coords2faces 
 
 circum2facesM ::StateT CatStoreTessShort Identity [ (ObjTessShort, Maybe V2D)]
 circum2facesM =  fmap (map (second (fmap circumCenter7x2 . isTriangle2)))    coords2faces
+
+incenter2facesM = fmap (map (second (fmap inCenter7 . isTriangle2))) coords2faces
 
 -- x3 :: Maybe (a1, (b, b, b)) -> Maybe (a1, b)
 -- x3 = maybe Nothing circumCenter7

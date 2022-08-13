@@ -73,6 +73,7 @@ pageHQfaces_test = do
     putIOwords ["the midpoint as triple \n ", showAsLines  $ evalState midpointHQasTriple tess44short]
     putIOwords ["the area \n ", showAsLines  $ evalState area2facesM tess44short]
     putIOwords ["the circum2facesM \n ", showAsLines  $ evalState circum2facesM tess44short]
+    putIOwords ["the incenter2facesM \n ", showAsLines  $ evalState incenter2facesM tess44short]
 
 
   
