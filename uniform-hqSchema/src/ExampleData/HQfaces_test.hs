@@ -61,7 +61,7 @@ onef (Face i, pts) = (i, map (unName . unPointTag) pts)
 (coords2faces_5) = evalState coords2faces tess55short
 
 
-(.&.) = flip compRel  
+
 
 
  

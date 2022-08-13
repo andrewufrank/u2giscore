@@ -59,7 +59,7 @@ library:
  
 
 executables: 
-  exec: 
+  exec:    # necessary to introduce a name (because tests is a second option)
     main:   Main.hs
     source-dirs:  app
     dependencies: 
@@ -67,7 +67,7 @@ executables:
     # - uniform-geometry
 
 tests:
-  test1:
+  test:
     main:                Testing.hs
     source-dirs:         tests
     dependencies:

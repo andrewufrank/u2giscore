@@ -54,7 +54,7 @@ executable exec
     , uniformBase >=0.1.4.2
   default-language: Haskell2010
 
-test-suite test1
+test-suite test
   type: exitcode-stdio-1.0
   main-is: Testing.hs
   other-modules:

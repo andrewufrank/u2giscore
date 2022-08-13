@@ -88,10 +88,15 @@ compRel :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
 -- | compose relations r2 . r1 i.e. (B -> C) . (A -> B)
 -- or: r1;r2 
 compRel r2 r1 = concat $ map (replOne r2)  r1 
-compRelx r2 r1 = [ (a,d) | (a,b) <- r1, (c,d) <- r2, b==c]
+
+compRelx :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
+-- | compose relations r1 and r2 (r1:2, A->B . B->C -> A->C)
+compRelx r1 r2 = [ (a,d) | (a,b) <- r1, (c,d) <- r2, b==c]
 -- compRelZip :: (Eq o) =>  Rel2 o -> Rel2 o ->  [(o, (o,o))]
 -- compRelZip r2 r1  = concat $ map (replOneZip r2)
 
+(.&.) :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
+(.&.) =  compRelx  
 -- replOneZip rs (a,b) = zip (repeat a) r 
 --     where 
 --         r = zip (repeat b) (map snd . filter ((b==).fst) $ rs)
