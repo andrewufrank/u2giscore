@@ -92,6 +92,9 @@ unHalfQuad (HalfQuad i) = i
 isTriangle :: (ObjTessShort, [V2D]) -> Maybe (ObjTessShort, (V2D, V2D, V2D))
 isTriangle (i, [a,b,c]) = Just (i,(a,b,c))
 isTriangle _ = Nothing 
+isTriangle2 :: ( [V2D]) -> Maybe (  (V2D, V2D, V2D))
+isTriangle2 ( [a,b,c]) = Just ( (a,b,c))
+isTriangle2 _ = Nothing 
 
 area2faces :: [V2D] -> Double 
 area2faces vs = areaPoly vs 
@@ -99,6 +102,8 @@ area2faces vs = areaPoly vs
 
 circumCenter7 :: ToPD V2D => (ObjTessShort, (V2D, V2D, V2D)) -> (ObjTessShort, V2D)
 circumCenter7 (i,(a,b,c)) = (i,circumCenter a b c)
+circumCenter7x2 ( (a,b,c)) = ( circumCenter a b c)
+-- circumCenter72 ( (a,b,c)) = (circumCenter a b c)
 -- circumCenter7 :: (a,[V2D])-> Maybe (a,V2D) 
 -- -- | calculate the circumcenter for a triangle, Nothing for other polygons
 -- circumCenter7 (a,vs) = do 
@@ -109,12 +114,14 @@ circumCenter7 (i,(a,b,c)) = (i,circumCenter a b c)
 circum72 :: Maybe (ObjTessShort,(V2D, V2D, V2D)) -> Maybe (ObjTessShort,V2D)
 circum72 Nothing = Nothing 
 circum72 (Just abbb) = Just $ circumCenter7 abbb
+circum722 (Just bbb) = Just $ circumCenter7x2 bbb
+circum722 Nothing = Nothing 
 
 area2facesM :: StateT CatStoreTessShort Identity [(ObjTessShort, Double)]
 area2facesM  = fmap (map (second area2faces)) coords2faces 
 
-circum2facesM ::StateT CatStoreTessShort Identity [Maybe (ObjTessShort, V2D)]
-circum2facesM =  fmap (map (circum72 . isTriangle))    coords2faces
+circum2facesM ::StateT CatStoreTessShort Identity [ (ObjTessShort, Maybe V2D)]
+circum2facesM =  fmap (map (second (circum722 . isTriangle2)))    coords2faces
 
 -- x3 :: Maybe (a1, (b, b, b)) -> Maybe (a1, b)
 -- x3 = maybe Nothing circumCenter7
