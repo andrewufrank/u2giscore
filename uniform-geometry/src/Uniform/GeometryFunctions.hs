@@ -54,8 +54,10 @@ import GHC.Generics
 import qualified Data.Geometry as H
 import Data.Ext
 import qualified Data.Geometry.Point as HP 
+import qualified Data.Geometry.Polygon as Poly
 import qualified Data.List.NonEmpty as NE 
 import Data.PlaneGraph
+import Data.Geometry.Triangle
 import Data.Geometry.PlanarSubdivision
 import Algorithms.Geometry.DelaunayTriangulation.Types
 import Algorithms.Geometry.DelaunayTriangulation.Naive
@@ -80,6 +82,19 @@ ccw_test :: (ToHPoint2 a1, ToHPoint2 a2, ToHPoint2 a3) => a1 -> a2 -> a3 -> Bool
 
 ccw_test a b c = HP.CCW == H.ccw (toHPoint a) (toHPoint b) (toHPoint c)
 
+-- area3 :: a -> a -> a -> Double
+area3 :: (ToHPoint2 a1) => a1 -> a1 -> a1 -> Double
+area3 a b c =   area triangle1 
+    where 
+        triangle1 = Triangle (toHPoint' a) (toHPoint' b) (toHPoint' c)
+
+-- areaPoly :: (ToHPoint2 a1) => [v2d] -> Double
+areaPoly vs =   Poly.signedArea poly 
+    where 
+        poly :: Poly.SimplePolygon () Double 
+        poly = Poly.simpleFromPoints pts
+        -- pts :: H.Point 2 Double Int 
+        pts = map toHPoint'  $ vs 
 -- scaleBy :: Num a => a -> V2 a -> V2 a   -- rather silly?
 -- scaleBy a v = a * v
 

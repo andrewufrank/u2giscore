@@ -71,6 +71,7 @@ pageHQfaces_test = do
     putIOwords ["the distances triples to insert for five \n ", showAsLines   lengthHQ2Ins5]
     putIOwords ["the midpoint of the hq \n ", showAsLines  $ evalState midpointHQ tess44short]
     putIOwords ["the midpoint as triple \n ", showAsLines  $ evalState midpointHQasTriple tess44short]
+    putIOwords ["the area \n ", showAsLines  $ evalState area2facesM tess44short]
 
 
   

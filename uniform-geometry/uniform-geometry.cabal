@@ -71,7 +71,7 @@ executable exec
     , vector-circular
   default-language: Haskell2010
 
-test-suite test1
+test-suite test
   type: exitcode-stdio-1.0
   main-is: Testing.hs
   other-modules:

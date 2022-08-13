@@ -41,10 +41,12 @@ import Uniform.TripleRels
 import Data.List.Extra
 -- import Uniform.Drawings
 import Control.Monad.State  
+import ExampleData.HQschemaShort (ObjTessShort(HalfQuad))
 
-
+-- | find the points with xy coord to a face
+--   gives list of points, as [V2D] 
 -- coords2faces :: (MonadState m) => CatStoreTessShort -> m [(IDtype, [V2D])]
-coords2faces :: StateT CatStoreTessShort Identity [(IDtype, [V2D])]
+-- coords2faces :: StateT CatStoreTessShort Identity [(IDtype, [V2D])]
 coords2faces = do 
     f <- inv2 HqFace 
     n <- rel2 HqNode 
@@ -52,9 +54,9 @@ coords2faces = do
     let fp3 =  (f .&. n .&. xy)
     return $ map onef . groupSort $ fp3 
 
-onef (Face i, pts) = (i, map (unName . unPointTag) pts)
+onef (Face i, pts) = (Face i, map (unName . unPointTag) pts)
 
- 
+
 -- points12 :: StateT CatStoreTessShort Identity (Rel2 ObjTessShort, Rel2 ObjTessShort)
 points12 :: StateT
   CatStoreTessShort
@@ -69,8 +71,12 @@ points12 = do
 -- dist12 :: [(ObjTessShort, Double)]
 -- dist12 = map dist12one point1s
 
--- dist12one :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> (ObjTessShort, Double) 
+dist12one :: ((a1, b1) -> b2) -> (a2, (a1, b1)) -> (a2, b2)
 dist12one f (a,(p1,p2)) = (a, f (p1,p2))
+-- ^ a generic function to unpack and apply 
+-- is essentially second 
+
+
 -- | distance from 2 tagged points 
 dist2pts :: (ObjTessShort, ObjTessShort) -> Double
 dist2pts (p1,p2) = distance (unName . unPointTag $ p1) (unName . unPointTag $ p2)
@@ -82,9 +88,17 @@ midpoint (p1,p2) = (/2) . (uncurry (+)) . (cross . dup $ (unName . unPointTag)) 
 dup a = (a,a)
 unHalfQuad (HalfQuad i) = i
 
+area2faces :: [V2D] -> Double 
+area2faces [a,b,c] = area3 a b c 
+area2faces s = errorT ["not three points - not a triangle?", showT s]
+
+area2facesM :: StateT CatStoreTessShort Identity [(ObjTessShort, Double)]
+area2facesM  = fmap (map (second area2faces)) coords2faces 
+
+
 
 distanceOfHQ :: StateT CatStoreTessShort Identity [(ObjTessShort, Double)]
-distanceOfHQ = fmap (map (dist12one dist2pts)) points12
+distanceOfHQ = fmap (map (second dist2pts)) points12
 
 
 midpointHQ :: StateT CatStoreTessShort Identity [(ObjTessShort, V2D)]

@@ -174,16 +174,21 @@ instance ToV2 (Pnt2) where
 -- or conversion to V2 
 class ToHPoint2 a where 
     toHPoint :: a -> H.Point 2 Double  
+    toHPoint' :: a -> H.Point 2 Double :+ () 
     -- toHPointWithID  :: a i d-> H.Point 2 Double :+ i
     -- toHPointText  :: a -> H.Point 2 Double :+ Text
     -- toHPointText = ext . toHPoint
     toHPointInt  :: a -> H.Point 2 Double :+ Int
+    fromHPoint :: H.Point 2 Double -> a
 
 instance ToHPoint2 (V2 Double) where 
-    toHPoint (V2 x y) = H.Point2 x y 
+    toHPoint (V2 x y) = H.Point2 x y
+    toHPoint' (V2 x y) = H.Point2 x y :+ ()
+    fromHPoint = hpointToV2  
  
 instance ToHPoint2 (Pnt2) where 
     -- toHPointText (Pnt2d i (V2 x y)) =H.Point2 x y :+ ( i)
+    -- toHPoint (Pnt2d i (V2 x y)) = H.Point2 x y :+ i
     toHPointInt (Pnt2d i (V2 x y)) = H.Point2 x y :+ i
                 -- ((read . t2s $ i) :: Int)
     toHPoint (Pnt2d i (V2 x y)) = H.Point2 x y  
