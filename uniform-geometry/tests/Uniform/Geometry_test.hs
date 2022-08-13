@@ -69,4 +69,14 @@ test_circum1 = assertEqual (V2 2 1) (circumCenter (V2 2 2) (V2 1 1) (V2 3 1) :: 
 
 test_area1 = assertEqual (1.0) (area3 ((V2 2 2) :: V2D) (V2 1 1) (V2 3 1) )
 
-test_poly1 = assertEqual (13.5) (areaPoly fiveV2)
+test_poly15 = assertEqual (13.5) (areaPoly fiveV2)
+test_poly25 = assertEqual (-13.5) (areaPoly . reverse $ fiveV2)
+
+pt3 = [((V2 2 2) :: V2D) ,(V2 1 1) ,(V2 3 1)]
+
+test_poly1 = assertEqual (1) (areaPoly pt3)
+test_poly2 = assertEqual (-1 ) (areaPoly . reverse $ pt3)
+
+test_ccw1 = assertEqual True (ccw_test ((V2 2 2) :: V2D) (V2 1 1) (V2 3 1) )
+test_ccw2 = assertEqual False (ccw_test ((V2 3 1) :: V2D) (V2 1 1) (V2 2 2) )
+            -- reversed manually

@@ -47,6 +47,7 @@ import ExampleData.HQschemaShort (ObjTessShort(HalfQuad))
 --   gives list of points, as [V2D] 
 -- coords2faces :: (MonadState m) => CatStoreTessShort -> m [(IDtype, [V2D])]
 -- coords2faces :: StateT CatStoreTessShort Identity [(IDtype, [V2D])]
+coords2faces :: StateT CatStoreTessShort Identity [(ObjTessShort, [V2D])]
 coords2faces = do 
     f <- inv2 HqFace 
     n <- rel2 HqNode 
@@ -88,14 +89,35 @@ midpoint (p1,p2) = (/2) . (uncurry (+)) . (cross . dup $ (unName . unPointTag)) 
 dup a = (a,a)
 unHalfQuad (HalfQuad i) = i
 
+isTriangle :: (ObjTessShort, [V2D]) -> Maybe (ObjTessShort, (V2D, V2D, V2D))
+isTriangle (i, [a,b,c]) = Just (i,(a,b,c))
+isTriangle _ = Nothing 
+
 area2faces :: [V2D] -> Double 
-area2faces [a,b,c] = area3 a b c 
-area2faces s = errorT ["not three points - not a triangle?", showT s]
+area2faces vs = areaPoly vs 
+-- area2faces s = errorT ["not three points - not a triangle?", showT s]
+
+circumCenter7 :: ToPD V2D => (ObjTessShort, (V2D, V2D, V2D)) -> (ObjTessShort, V2D)
+circumCenter7 (i,(a,b,c)) = (i,circumCenter a b c)
+-- circumCenter7 :: (a,[V2D])-> Maybe (a,V2D) 
+-- -- | calculate the circumcenter for a triangle, Nothing for other polygons
+-- circumCenter7 (a,vs) = do 
+--         (a,b,c) <- isTriangle vs
+--         let r = circumCenter a b c
+--         return (a,r)
+
+circum72 :: Maybe (ObjTessShort,(V2D, V2D, V2D)) -> Maybe (ObjTessShort,V2D)
+circum72 Nothing = Nothing 
+circum72 (Just abbb) = Just $ circumCenter7 abbb
 
 area2facesM :: StateT CatStoreTessShort Identity [(ObjTessShort, Double)]
 area2facesM  = fmap (map (second area2faces)) coords2faces 
 
+circum2facesM ::StateT CatStoreTessShort Identity [Maybe (ObjTessShort, V2D)]
+circum2facesM =  fmap (map (circum72 . isTriangle))    coords2faces
 
+-- x3 :: Maybe (a1, (b, b, b)) -> Maybe (a1, b)
+-- x3 = maybe Nothing circumCenter7
 
 distanceOfHQ :: StateT CatStoreTessShort Identity [(ObjTessShort, Double)]
 distanceOfHQ = fmap (map (second dist2pts)) points12

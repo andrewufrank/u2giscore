@@ -77,7 +77,7 @@ planarSubdiv2 t = toPlanarSubdivision t
 toPlaneGraph2 :: Triangulation p r -> PlaneGraph s p () () r
 toPlaneGraph2 t = toPlaneGraph t
 
-ccw_test :: (ToHPoint2 a1, ToHPoint2 a2, ToHPoint2 a3) => a1 -> a2 -> a3 -> Bool
+ccw_test :: (ToHPoint2 a1) => a1 -> a1 -> a1 -> Bool
 -- | test for ccw, not include collinear case  
 
 ccw_test a b c = HP.CCW == H.ccw (toHPoint a) (toHPoint b) (toHPoint c)
@@ -89,6 +89,11 @@ area3 a b c =   area triangle1
         triangle1 = Triangle (toHPoint' a) (toHPoint' b) (toHPoint' c)
 
 -- areaPoly :: (ToHPoint2 a1) => [v2d] -> Double
+-- | the area of a polygon, given as a sequence of points
+--  some restrictions on the points (>= 3), no crossings
+--  todo: I have the impression it does not give the sign correctly
+-- see test_poly1
+-- 
 areaPoly vs =   Poly.signedArea poly 
     where 
         poly :: Poly.SimplePolygon () Double 
