@@ -85,10 +85,18 @@ dist12 = map dist12one point1s
 
 dist12one :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> (ObjTessShort, Double) 
 dist12one (a,(p1,p2)) = (a, (distance (unName . unPointTag $ p1) (unName . unPointTag $ p2)))
+
+distHQ :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> StoreTessShortElement
+distHQ (a,(p1,p2)) = (a, Dist, LengthTag . Length $ d/2 )
+    where d = (distance (unName . unPointTag $ p1) (unName . unPointTag $ p2))
 -- zipWith distance (map (unPointTag . snd) point1s) 
 --         (map (unPointTag . snd) point2s)
 
-
+distanceOfHQ = fmap (map dist12one) points12
+lengthHQ = evalState distanceOfHQ tess44short
+lengthHQ2Ins4 :: [StoreTessShortElement]
+lengthHQ2Ins4 = evalState (fmap (map distHQ) points12) tess44short
+lengthHQ2Ins5 = evalState (fmap (map distHQ) points12) tess55short
 
 instance NiceStrings Float where shownice = showT 
 
@@ -120,6 +128,8 @@ pageHQfaces_test = do
     -- let ds = map (uncurry distance) . map (cross (unPointTag, unPointTag) ) $     start_end 
     -- putIOwords ["the distances ", showT ds]
     putIOwords ["the distances2 ", showT dist12]
+    putIOwords ["the distances triples to insert \n ", showAsLines   lengthHQ2Ins4]
+    putIOwords ["the distances triples to insert for five \n ", showAsLines   lengthHQ2Ins5]
 
 
   
