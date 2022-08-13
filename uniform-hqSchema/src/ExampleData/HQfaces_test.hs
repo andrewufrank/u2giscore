@@ -51,24 +51,14 @@ tess55short = makeCatFrom fivePnt2d
 point1s :: [(ObjTessShort, (ObjTessShort, ObjTessShort))]
 (point1s) = evalState points12 tess44short
 
--- dist12 :: [(ObjTessShort, Double)]
--- dist12 = map dist12one point1s
-
--- dist12one :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> (ObjTessShort, Double) 
--- dist12one (a,(p1,p2)) = (a, (distance (unName . unPointTag $ p1) (unName . unPointTag $ p2)))
-
--- distHQ :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> StoreTessShortElement
--- distHQ (a,(p1,p2)) = (a, Dist, LengthTag . Length $ d/2 )
---     where d = (distance (unName . unPointTag $ p1) (unName . unPointTag $ p2))
--- -- zipWith distance (map (unPointTag . snd) point1s) 
--- --         (map (unPointTag . snd) point2s)
-
--- distanceOfHQ = fmap (map dist12one) points12
 lengthHQ = evalState distanceOfHQ tess44short
-lengthHQ2Ins4 :: [StoreTessShortElement]
+
+-- lengthHQ2Ins4 :: [StoreTessShortElement]
 lengthHQ2Ins4 = evalState lengthHQasTriple tess44short
 lengthHQ2Ins5 = evalState lengthHQasTriple tess55short
 
+-- midpointHQ4 = evalState midpointHQ tess44short 
+-- midpointHQasTriple4 = evalState midpointHQasTriple tess44short 
 
 pageHQfaces_test :: ErrIO ()
 pageHQfaces_test = do
@@ -76,10 +66,11 @@ pageHQfaces_test = do
     -- putIOwords ["tess44short\n", showlong tess44short, "\n"    ]
     putIOwords ["the end coord of the hqs", showAsLines point1s]
  
-    -- putIOwords ["the distances2 ", showT dist12]
+    putIOwords ["the distances2 distanceOfHQ ", showAsLines lengthHQ]
     putIOwords ["the distances triples to insert \n ", showAsLines   lengthHQ2Ins4]
-    -- putIOwords ["the distances triples to insert for five \n ", showAsLines   lengthHQ2Ins5]
+    putIOwords ["the distances triples to insert for five \n ", showAsLines   lengthHQ2Ins5]
     putIOwords ["the midpoint of the hq \n ", showAsLines  $ evalState midpointHQ tess44short]
+    putIOwords ["the midpoint as triple \n ", showAsLines  $ evalState midpointHQasTriple tess44short]
 
 
   

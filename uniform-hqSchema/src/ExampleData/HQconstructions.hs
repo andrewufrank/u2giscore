@@ -69,23 +69,46 @@ points12 = do
 -- dist12 :: [(ObjTessShort, Double)]
 -- dist12 = map dist12one point1s
 
-dist12one :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> (ObjTessShort, Double) 
-dist12one (a,(p1,p2)) = (a, dist2pts (p1,p2))
+-- dist12one :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> (ObjTessShort, Double) 
+dist12one f (a,(p1,p2)) = (a, f (p1,p2))
 -- | distance from 2 tagged points 
+dist2pts :: (ObjTessShort, ObjTessShort) -> Double
 dist2pts (p1,p2) = distance (unName . unPointTag $ p1) (unName . unPointTag $ p2)
 
 -- | the coordinates of the halfway point in HQ 
-hqPoint (a,(p1,p2)) = (/2) . (uncurry (+)) . (cross . dup $ (unName . unPointTag)) $ (p1,p2)
+midpoint :: (ObjTessShort, ObjTessShort) -> V2D
+midpoint (p1,p2) = (/2) . (uncurry (+)) . (cross . dup $ (unName . unPointTag)) $ (p1,p2)
 
 dup a = (a,a)
+unHalfQuad (HalfQuad i) = i
 
--- | format as triple to store : length of HQ 
-lengthHQ :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> StoreTessShortElement
-lengthHQ inp@(a,(p1,p2)) = (a, Dist, LengthTag . Length $ (dist2pts (p1,p2))/2 )
 
-distanceOfHQ = fmap (map dist12one) points12
-lengthHQasTriple = fmap (map lengthHQ) points12
-midpointHQ = fmap (map hqPoint) points12
+distanceOfHQ :: StateT CatStoreTessShort Identity [(ObjTessShort, Double)]
+distanceOfHQ = fmap (map (dist12one dist2pts)) points12
+
+
+midpointHQ :: StateT CatStoreTessShort Identity [(ObjTessShort, V2D)]
+midpointHQ = fmap (map (dist12one midpoint)) points12
+
+lengthHQtriple :: (a, (ObjTessShort, ObjTessShort)) -> (a, MorphTessShort, ObjTessShort)
+lengthHQtriple inp@(a,(p1,p2)) = (a, Dist, LengthTag . Length $ (dist2pts (p1,p2))/2 )
+
+
+lengthHQasTriple :: StateT
+  CatStoreTessShort
+  Identity
+  [(ObjTessShort, MorphTessShort, ObjTessShort)]
+lengthHQasTriple = fmap (map lengthHQtriple) points12
+
+
+midpointHQtriple :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> (ObjTessShort, MorphTessShort, ObjTessShort)
+midpointHQtriple (a,(p1,p2)) = (a, XY, PointTag . putName (unHalfQuad a) $ (midpoint (p1,p2))/2 )
+
+midpointHQasTriple :: StateT
+  CatStoreTessShort
+  Identity
+  [StoreTessShortElement]
+midpointHQasTriple = fmap (map midpointHQtriple) points12
 
 instance NiceStrings Float where shownice = showT 
 
