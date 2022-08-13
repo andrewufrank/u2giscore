@@ -74,12 +74,18 @@ dist12one (a,(p1,p2)) = (a, dist2pts (p1,p2))
 -- | distance from 2 tagged points 
 dist2pts (p1,p2) = distance (unName . unPointTag $ p1) (unName . unPointTag $ p2)
 
+-- | the coordinates of the halfway point in HQ 
+hqPoint (a,(p1,p2)) = (/2) . (uncurry (+)) . (cross . dup $ (unName . unPointTag)) $ (p1,p2)
+
+dup a = (a,a)
+
 -- | format as triple to store : length of HQ 
 lengthHQ :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> StoreTessShortElement
 lengthHQ inp@(a,(p1,p2)) = (a, Dist, LengthTag . Length $ (dist2pts (p1,p2))/2 )
 
 distanceOfHQ = fmap (map dist12one) points12
 lengthHQasTriple = fmap (map lengthHQ) points12
+midpointHQ = fmap (map hqPoint) points12
 
 instance NiceStrings Float where shownice = showT 
 
