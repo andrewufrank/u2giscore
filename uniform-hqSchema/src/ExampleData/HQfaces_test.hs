@@ -61,6 +61,38 @@ lengthHQ2Ins5 = evalState lengthHQasTriple tess55short
 -- midpointHQ4 = evalState midpointHQ tess44short 
 -- midpointHQasTriple4 = evalState midpointHQasTriple tess44short 
 
+-- | evaluate a transformation to a queryresult against a catStore 
+-- questionalbe shortcut - may be difficult to debug?? 
+-- evalTrans4query2cat trans query cat = evalState ((fmap (map trans )) query) cat 
+
+-- build the completion 
+-- with length, midpoint 
+-- with area incircle circumcircle 
+
+-- trans which go for edges 
+forEdges2points = [lengthHQtriple, midpointHQtriple]  
+forFaces = [circumcenter2triple, incenter2triple]
+forFaces2 = [area2triples]
+forqueries = [points12]
+theCats = [tess44short]
+additinsPoints =  concat [evalTrans4query2cat trans points12 cat | trans <-[lengthHQtriple, midpointHQtriple] , cat <- theCats] -- trans query cat
+additinsAreas =  concat [evalTrans4query2cat trans coords2faces cat | trans <-[area2triples] , cat <- theCats] -- trans query cat
+
+additinsCenters =  catMaybes . concat   $ [evalTrans4query2cat trans coords2faces cat | trans <-[circumcenter2triple, incenter2triple] , cat <- theCats] -- trans query cat
+
+addinsFirst = evalTrans4query2cat midpointHQtriple points12 tess44short
+pageHQfaces_test2 :: ErrIO ()
+pageHQfaces_test2 = do
+
+    putIOwords ["the midpointHQtriple \n ", showAsLines $  evalTrans4query2cat midpointHQtriple points12 tess44short]
+    -- putIOwords ["the midpoint of the hq \n ", showAsLines  $ evalState midpointHQ tess44short]
+    putIOwords  ["first additions \n", showAsLines $ addinsFirst]
+    putIOwords  ["all the additinsPoints \n", showAsLines  $ additinsPoints]
+    putIOwords  ["all the additinsarea \n", showAsLines  $ additinsAreas]
+    putIOwords  ["all the additinscenters \n", showAsLines  $ additinsCenters]
+
+    return ()
+
 pageHQfaces_test :: ErrIO ()
 pageHQfaces_test = do
     putIOwords ["the tests for relations after storing four and five points"]
@@ -79,5 +111,7 @@ pageHQfaces_test = do
     putIOwords ["the incenter2facesTriples \n ", showAsLines . catMaybes $ evalState incenter2facesTriples tess44short]
     putIOwords ["the incircumCenter2facesTriples \n ", showAsLines . catMaybes $ evalState incircumCenter2facesTriples tess44short]
 
+    putIOwords ["the incircumCenter2facesTriples \n ", showAsLines . catMaybes $  evalTrans4query2cat circumcenter2triple coords2faces tess44short
+        ]
   
     return () 

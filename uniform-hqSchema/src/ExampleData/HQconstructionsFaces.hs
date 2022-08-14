@@ -55,37 +55,39 @@ coords2faces = do
 
   
 
-isTriangle2 :: ( [V2D]) -> Maybe (  (V2D, V2D, V2D))
-isTriangle2 ( [a,b,c]) = Just ( (a,b,c))
-isTriangle2 _ = Nothing 
+-- isTriangle2 :: ( [V2D]) -> Maybe (  (V2D, V2D, V2D))
+-- isTriangle2 ( [a,b,c]) = Just ( (a,b,c))
+-- isTriangle2 _ = Nothing 
 
-isTriangle1 :: [ObjTessShort] -> Maybe [ObjTessShort]
-isTriangle1 a = if 3 == length a then Just a else Nothing
+-- isTriangle1 :: [ObjTessShort] -> Maybe [ObjTessShort]
+-- isTriangle1 a = if 3 == length a then Just a else Nothing
 -- isTriangle1 _ = Nothing 
 
--- area2faces :: [V2D] -> Double 
 area2faces :: [ObjTessShort] -> Double
 area2faces vs = areaPoly . map unTagPoints2V $ vs 
--- area2faces s = errorT ["not three points - not a triangle?", showT s]
 
+area2triples ::(ObjTessShort, [ObjTessShort]) -> StoreTessShortElement
+area2triples (a,vds) = (a, Quant 2, AreaTag . Area . area2faces $ vds )
  
 incenter2faces :: [ObjTessShort] -> Maybe V2D
 incenter2faces = incenter8 . map unTagPoints2V 
 
 incenter8 :: [V2D] -> Maybe V2D
--- must be checked for triangle before!
--- inCenter8    =  inCenter7 . fromJust . isTriangle2  
+-- checks for triangle before!
 incenter8 [a,b,c] = Just $ inCenter a b c
 incenter8 vds = Nothing 
 
 -- for triples include the first obj
+
 incenter2triple :: (ObjTessShort, [ObjTessShort]) -> Maybe StoreTessShortElement
 incenter2triple (i,vds) = case incenter2faces vds of
-    Just vd -> Just (i, Incenter, (PointTag $ putName (unFace i)  vd))
-    Nothing -> Nothing
+        Just vd -> Just (i, Incenter, (PointTag $ putName (unFace i)  vd))
+        Nothing -> Nothing
+-- incenter2triple (i,obj) = 
+        -- maybe Nothing (\vd -> Just (i, Incenter, (PointTag $ putName (unFace i)  vd))) (incenter2faces obj)
 
 circumCenter2faces :: [ObjTessShort] -> Maybe V2D 
--- bombs if not triangle! check first 
+-- checks for triples
 circumCenter2faces = circumCenter8 . map unTagPoints2V 
 
 circumCenter8 [a,b,c] = Just $ circumCenter a b c 
@@ -111,6 +113,13 @@ incenter2facesM = fmap (map (second ( (incenter2faces  )))) coords2faces
 incenter2facesTriples = fmap (map  ( incenter2triple)) coords2faces 
 incircumCenter2facesTriples = fmap (map  ( circumcenter2triple)) coords2faces 
 
- 
+
+
+-- | evaluate a transformation to a queryresult against a catStore 
+-- questionalbe shortcut - may be difficult to debug?? 
+evalTrans4query2cat trans query cat = evalState ((fmap (map trans )) query) cat 
+
+
+
 instance NiceStrings Float where shownice = showT 
 

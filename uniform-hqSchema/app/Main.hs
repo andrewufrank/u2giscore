@@ -47,7 +47,7 @@ main2 = do
     -- mainHQ
     -- mainMakeTessLong
     -- mainMakeTessShort
-    pageHQfaces_test
+    pageHQfaces_test2
     -- mainMakeTessShort  -- from ExampleData.HQexampleShort
     -- pageHQfaces_test
     -- pageHQforglossFaces
