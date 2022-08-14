@@ -60,6 +60,12 @@ instance NiceStrings ObjTessShort
 -- instance NiceStrings Pnv2 where 
 --     shownice = showT 
 
+unHalfQuad :: ObjTessShort -> IDtype
+unHalfQuad (HalfQuad i) = i
+unFace :: ObjTessShort -> IDtype
+unFace (Face i) = i
+unTagPoints2V = unName . unPointTag
+
 unPointTag :: ObjTessShort -> Pnt2
 unPointTag (PointTag t) = t 
 unPointTag x = errorT ["unNodeTag - not a Node", showT x]

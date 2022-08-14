@@ -51,9 +51,7 @@ points12 = do
 -------------------- helpers 
 
 dup a = (a,a)
-unHalfQuad (HalfQuad i) = i
-unFace :: ObjTessShort -> IDtype
-unFace (Face i) = i
+
  
 -- for points12 
 -- | distance from 2 tagged points 
