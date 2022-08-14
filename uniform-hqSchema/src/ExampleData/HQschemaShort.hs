@@ -46,7 +46,7 @@ data ObjTessShort = Node IDtype
     | HalfQuad IDtype             -- HQ is defined in TesselationHQ
     | PointTag Pnt2
     | LengthTag   LengthD  
-    -- | AreaTag Area 
+    | AreaTag AreaD 
     -- | CostTag Cost 
     -- | NameTag Name
     | ZZpoint
@@ -78,7 +78,9 @@ data MorphTessShort =
     -- Stag S | Ttag T | 
     Twin 
     | XY
-    | Dist  
+    | Incenter   -- where to place a label - incenter
+    | Quant Int  -- the quantity with dimension n (0 count, 1 length, 2 area, 3 volume etc. )  
+
     -- | CenterTag Center | SurfacedTag Surfaced   
     | HqNode  
     | HqFace 
@@ -98,9 +100,13 @@ data Length a = Length a
     deriving (Show, Read, Ord, Eq, Generic, Zeros, Functor)
 instance (Show a) => NiceStrings (Length a) where
 --   showNice = showT   
-
 type LengthD = Length Double 
 
+data Area a = Area a  
+    deriving (Show, Read, Ord, Eq, Generic, Zeros, Functor)
+instance (Show a) => NiceStrings (Area a) where
+--   showNice = showT   
+type AreaD = Area Double 
 
 
 data TessShortHQtriples = TessShortHQtriples 

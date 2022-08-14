@@ -88,7 +88,8 @@ midpoint (p1,p2) = (/2) . (uncurry (+)) . (cross . dup $ (unName . unPointTag)) 
 
 dup a = (a,a)
 unHalfQuad (HalfQuad i) = i
-
+unFace :: ObjTessShort -> IDtype
+unFace (Face i) = i
 -- isTriangle :: (ObjTessShort, [V2D]) -> Maybe (ObjTessShort, (V2D, V2D, V2D))
 -- isTriangle (i, [a,b,c]) = Just (i,(a,b,c))
 -- isTriangle _ = Nothing 
@@ -106,6 +107,7 @@ area2faces vs = areaPoly vs
 circumCenter7x2 :: ToPD a => (a, a, a) -> a
 circumCenter7x2 ( (a,b,c)) = ( circumCenter a b c)
 
+inCenter7 :: (V2D, V2D, V2D) -> V2D
 inCenter7   (a,b,c) = inCenter a b c 
 
 -- circumCenter72 ( (a,b,c)) = (circumCenter a b c)
@@ -130,6 +132,19 @@ circum2facesM =  fmap (map (second (fmap circumCenter7x2 . isTriangle2)))    coo
 
 incenter2facesM = fmap (map (second (fmap inCenter7 . isTriangle2))) coords2faces
 
+incenter2facesTriple :: (ObjTessShort, [V2D]) -> Maybe (ObjTessShort, MorphTessShort, ObjTessShort)
+incenter2facesTriple (i,(vs)) = 
+        case isTriangle2 vs of 
+            Nothing  -> Nothing 
+            Just (a,b,c) -> Just (i, Incenter, (PointTag $ putName (unFace i)  (inCenter7 (a,b,c))))
+
+circumcenter2facesTriple :: (ObjTessShort, [V2D]) -> Maybe (ObjTessShort, MorphTessShort, ObjTessShort)
+circumcenter2facesTriple (i,(vs)) = 
+        case isTriangle2 vs of 
+            Nothing  -> Nothing 
+            Just (a,b,c) -> Just (i, XY, (PointTag $ putName (unFace i)  (circumCenter7x2 (a,b,c))))
+
+
 -- x3 :: Maybe (a1, (b, b, b)) -> Maybe (a1, b)
 -- x3 = maybe Nothing circumCenter7
 
@@ -141,7 +156,7 @@ midpointHQ :: StateT CatStoreTessShort Identity [(ObjTessShort, V2D)]
 midpointHQ = fmap (map (dist12one midpoint)) points12
 
 lengthHQtriple :: (a, (ObjTessShort, ObjTessShort)) -> (a, MorphTessShort, ObjTessShort)
-lengthHQtriple inp@(a,(p1,p2)) = (a, Dist, LengthTag . Length $ (dist2pts (p1,p2))/2 )
+lengthHQtriple inp@(a,(p1,p2)) = (a, Quant 1, LengthTag . Length $ (dist2pts (p1,p2))/2 )
 
 
 lengthHQasTriple :: StateT
