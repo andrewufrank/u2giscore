@@ -20,7 +20,8 @@ extra-source-files:
 
 library
   exposed-modules:
-      ExampleData.HQconstructions
+      ExampleData.HQconstructionsEdges
+      ExampleData.HQconstructionsFaces
       ExampleData.HQexampleShort
       ExampleData.HQfaces_test
       ExampleData.HQschemaShort
