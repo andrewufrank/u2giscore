@@ -89,13 +89,20 @@ area2faces vs = areaPoly . unTagPoints2V $ vs
 -- circumCenter7x2 ( (a,b,c)) = ( circumCenter a b c)
 
 incenter2faces :: [ObjTessShort] -> Maybe V2D
-incenter2faces = inCenter8 . unTagPoints2V 
+incenter2faces = incenter8 . unTagPoints2V 
 
-inCenter8 :: [V2D] -> Maybe V2D
+incenter8 :: [V2D] -> Maybe V2D
 -- must be checked for triangle before!
 -- inCenter8    =  inCenter7 . fromJust . isTriangle2  
-inCenter8 [a,b,c] = Just $ inCenter a b c
-inCenter8 vds = Nothing 
+incenter8 [a,b,c] = Just $ inCenter a b c
+incenter8 vds = Nothing 
+
+circumCenter2faces :: [ObjTessShort] -> Maybe V2D 
+-- bombs if not triangle! check first 
+circumCenter2faces = circumCenter8 . unTagPoints2V 
+
+circumCenter8 [a,b,c] = Just $ circumCenter a b c 
+circumCenter8 _ = Nothing 
 
 -- errorT ["inCenter8 not triangle, must check before!", showT vds]
 
@@ -127,8 +134,8 @@ inCenter8 vds = Nothing
 area2facesM :: StateT CatStoreTessShort Identity [(ObjTessShort, Double)]
 area2facesM  = fmap (map (second area2faces)) coords2faces 
 
--- circum2facesM ::StateT CatStoreTessShort Identity [ (ObjTessShort, Maybe V2D)]
--- circum2facesM =  fmap (map (second (fmap circumCenter7x2 . isTriangle2)))    coords2faces
+circum2facesM ::StateT CatStoreTessShort Identity [ (ObjTessShort, Maybe V2D)]
+circum2facesM =  fmap (map (second (circumCenter2faces)))    coords2faces
 
 incenter2facesM :: StateT CatStoreTessShort Identity [(ObjTessShort, Maybe V2D)]
 incenter2facesM = fmap (map (second ( (incenter2faces  )))) coords2faces
