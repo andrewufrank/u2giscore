@@ -76,6 +76,8 @@ pageHQfaces_test = do
     putIOwords ["the circum2facesM \n ", showAsLines  $ evalState circum2facesM tess44short]
     putIOwords ["the incenter2facesM \n ", showAsLines  $ evalState incenter2facesM tess44short]
 
+    putIOwords ["the incenter2facesTriples \n ", showAsLines . catMaybes $ evalState incenter2facesTriples tess44short]
+    putIOwords ["the incircumCenter2facesTriples \n ", showAsLines . catMaybes $ evalState incircumCenter2facesTriples tess44short]
 
   
     return () 

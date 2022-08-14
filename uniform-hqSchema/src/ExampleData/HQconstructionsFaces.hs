@@ -97,6 +97,12 @@ incenter8 :: [V2D] -> Maybe V2D
 incenter8 [a,b,c] = Just $ inCenter a b c
 incenter8 vds = Nothing 
 
+-- for triples include the first obj
+incenter2triple :: (ObjTessShort, [ObjTessShort]) -> Maybe StoreTessShortElement
+incenter2triple (i,vds) = case incenter2faces vds of
+    Just vd -> Just (i, Incenter, (PointTag $ putName (unFace i)  vd))
+    Nothing -> Nothing
+
 circumCenter2faces :: [ObjTessShort] -> Maybe V2D 
 -- bombs if not triangle! check first 
 circumCenter2faces = circumCenter8 . unTagPoints2V 
@@ -104,6 +110,11 @@ circumCenter2faces = circumCenter8 . unTagPoints2V
 circumCenter8 [a,b,c] = Just $ circumCenter a b c 
 circumCenter8 _ = Nothing 
 
+-- incenter2triple :: (ObjTessShort, [ObjTessShort]) -> Maybe StoreTessShortElement
+circumcenter2triple :: (ObjTessShort, [ObjTessShort]) -> Maybe StoreTessShortElement
+circumcenter2triple (i,vds) = case (circumCenter2faces vds) of
+    Just vd -> Just (i, XY, (PointTag $ putName (unFace i) vd ))
+    Nothing -> Nothing
 -- errorT ["inCenter8 not triangle, must check before!", showT vds]
 
 
@@ -139,6 +150,10 @@ circum2facesM =  fmap (map (second (circumCenter2faces)))    coords2faces
 
 incenter2facesM :: StateT CatStoreTessShort Identity [(ObjTessShort, Maybe V2D)]
 incenter2facesM = fmap (map (second ( (incenter2faces  )))) coords2faces
+
+incenter2facesTriples = fmap (map  ( incenter2triple)) coords2faces 
+incircumCenter2facesTriples = fmap (map  ( circumcenter2triple)) coords2faces 
+
 -- incenter2facesM = fmap (map (second (fmap (incenter2faces  )))) coords2faces
 -- incenter2facesM = fmap (map (second (fmap (inCenter7 . isTriangle2 . )))) coords2faces
 
@@ -152,7 +167,7 @@ incenter2facesM = fmap (map (second ( (incenter2faces  )))) coords2faces
 -- circumcenter2facesTriple (i,(vs)) = 
 --         case isTriangle2 vs of 
 --             Nothing  -> Nothing 
---             Just (a,b,c) -> Just (i, XY, (PointTag $ putName (unFace i)  (circumCenter7x2 (a,b,c))))
+--             Just (a,b,c) -> Just 
 
 
 -- x3 :: Maybe (a1, (b, b, b)) -> Maybe (a1, b)
