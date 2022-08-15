@@ -67,7 +67,7 @@ lengthHQtriple :: (a, (ObjTessShort, ObjTessShort)) -> (a, MorphTessShort, ObjTe
 lengthHQtriple inp@(a,(p1,p2)) = (a, Quant 1, LengthTag . Length $ (dist2pts (p1,p2))/2 )
 
 midpointHQtriple :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> (ObjTessShort, MorphTessShort, ObjTessShort)
-midpointHQtriple (a,(p1,p2)) = (a, XY, PointTag . putName (unHalfQuad a) $ (midpoint (p1,p2))/2 )
+midpointHQtriple (a,(p1,p2)) = (a, XY, PointTag . putName (unHalfQuad a) $ (midpoint (p1,p2)) )
 
 
 -- step 3 build the specific function into state monad   xxx M 
