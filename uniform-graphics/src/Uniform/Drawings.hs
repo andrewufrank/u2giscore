@@ -65,6 +65,7 @@ data Figure a = Figure
 
 -- instance (Zeros a) => Zeros (Figure a) where 
 --     zero = Figure zero zero
+instance Show a => NiceStrings (Figure a)
 
 instance Zeros (Color) where zero = greyN 0.5
 

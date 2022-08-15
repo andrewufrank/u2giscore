@@ -89,11 +89,13 @@ cat45 = catStoreBatch (map Ins allAddins) tess44short
 
 addinsFirst = evalTrans4query2cat midpointHQtriple points12 tess44short
 
+hq3 :: [(ObjTessShort, [V2D])]
 hq3 = evalTrans4query2cat points2v2 hqTriangles cat45 
 
 
-fig :: [Figure]
-fig = map (\p -> Figure green p) . second $ hq3
+fig :: [Figure V2D]
+fig = map (\p -> Figure green p) . map snd $ hq3
+
 pageHQfaces_testGraphics :: [Figure V2D] -> ExceptT Text IO ()
 pageHQfaces_testGraphics fig  = do
     putIOwords ["pageHQfaces_testGraphics - the figure  ", shownice fig]

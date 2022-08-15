@@ -50,6 +50,7 @@ executable main
     , gloss
     , lens
     , uniform-geometry
+    , uniform-graphics
     , uniformBase >=0.1.4.1
   default-language: Haskell2010
 
@@ -71,5 +72,6 @@ test-suite test
     , lens
     , quickcheck-text
     , uniform-geometry
+    , uniform-graphics
     , uniformBase
   default-language: Haskell2010

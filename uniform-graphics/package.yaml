@@ -61,14 +61,14 @@ executables:
     main:   Main.hs
     source-dirs:  app
     dependencies: 
-    - uniform-geometry
+    - uniform-graphics
 
 tests:
   test:
     main:                Testing.hs
     source-dirs:         tests
     dependencies:
-    - uniform-geometry
+    - uniform-graphics
     - HTF
     - quickcheck-text
     # - uniform-strings
