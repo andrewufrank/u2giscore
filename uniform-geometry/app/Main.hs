@@ -30,7 +30,7 @@ import Uniform.GeometryFunctions
 -- import Uniform.DelaunayTiles
 -- import Uniform.DelaunayTriples
 import Uniform.TesselationHalfQuads
-import Uniform.Drawings 
+-- import Uniform.Drawings 
 
 -- import qualified Data.IntMap.Strict  as IM
 -- import           Text.Show.Pretty

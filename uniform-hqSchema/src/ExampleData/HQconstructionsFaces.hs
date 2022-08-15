@@ -62,7 +62,7 @@ incenter2faces = incenter8 . map unTagPoints2V
 
 incenter8 :: [V2D] -> Maybe V2D
 -- checks for triangle before!
-incenter8 [a,b,c] = Just $ inCenter a b c
+incenter8 [a,b,c] = Just $ incenter a b c
 incenter8 vds = Nothing 
 
 -- for triples include the first obj

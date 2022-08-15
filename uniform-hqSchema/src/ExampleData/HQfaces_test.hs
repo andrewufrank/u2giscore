@@ -36,6 +36,8 @@ import Uniform.GeometryFunctions
 -- import Uniform.Point2d ()
 import Uniform.Point2dData
 import Uniform.TesselationHalfQuads
+import Uniform.TripleStore (CatStores(catStoreBatch))
+import Uniform.Drawings
   
 -- import Uniform.TripleRels
 -- import Data.List.Extra
@@ -43,7 +45,6 @@ import Uniform.TesselationHalfQuads
 import Control.Monad.State  
 import ExampleData.HQconstructionsEdges
 import ExampleData.HQconstructionsFaces
-import Uniform.TripleStore (CatStores(catStoreBatch))
 import Control.Monad.RWS (MonadWriter(tell))
  
 tess44short = makeCatFrom fourPnt2d 
@@ -89,6 +90,15 @@ cat45 = catStoreBatch (map Ins allAddins) tess44short
 addinsFirst = evalTrans4query2cat midpointHQtriple points12 tess44short
 
 hq3 = evalTrans4query2cat points2v2 hqTriangles cat45 
+
+
+fig :: [Figure]
+fig = map (\p -> Figure green p) . second $ hq3
+pageHQfaces_testGraphics :: [Figure V2D] -> ExceptT Text IO ()
+pageHQfaces_testGraphics fig  = do
+    putIOwords ["pageHQfaces_testGraphics - the figure  ", shownice fig]
+
+    showFacePage2 fig
 
 pageHQfaces_test3 :: ErrIO ()
 pageHQfaces_test3 = do

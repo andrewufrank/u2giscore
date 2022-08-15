@@ -18,7 +18,12 @@ extra-deps:
 - ../../uBase/uniform-strings
 # - uniform-strings-0.1.3@sha256:8e5f482feedb9838ad485756fb9490d40bf27e1cf65b966558dc0ba0ee5e1097,1980
 - uniform-time-0.1.3@sha256:1605c2dd1bc617cb1237b29a5ba98b425dcd46ad75b750fdc6fe097acff55b0b,1430
+
+# from u2to
 - ../uniform-relations 
+
+- ../uniform-geometry
+
 
 - test-invariant-0.4.5.0@sha256:d1aa6b61e0057a4065eeff3286208e947a0b44c6a2186210399f5e5e7fb0d0dd,1902
 

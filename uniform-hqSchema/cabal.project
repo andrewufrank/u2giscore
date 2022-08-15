@@ -9,6 +9,7 @@ packages:
 --    ../uniform-time/*.cabal
     ../uniform-geometry
     ../uniform-relations
+    ../uniform-graphics
        ../../fromOthersExperiments/qhull/*.cabal
 --    ../../qhullSplit/qhull/*.cabal 
 

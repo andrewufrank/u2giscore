@@ -26,6 +26,8 @@ dependencies:
 - extra
 - uniform-geometry >=0.0.1.7
 - uniform-relations >=0.0.1.3
+- uniform-graphics 
+
 # - uniform-hqSchema
 # - gloss
 - monads-tf

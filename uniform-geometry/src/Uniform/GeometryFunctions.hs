@@ -137,7 +137,7 @@ circumCenterPD (ax, ay) (bx, by) (cx, cy)
 -- >        where d = 2*(ax*(by-cy)+bx*(cy-ay)+cx*(ay-by))
 
 -- incenter :: (ToV2 a) => a -> a -> a -> a
-inCenter v1 v2 v3 = V2 ((a * v1 ^. _x + b * v2 ^._x   + c * v3 ^._x) / abc)
+incenter v1 v2 v3 = V2 ((a * v1 ^. _x + b * v2 ^._x   + c * v3 ^._x) / abc)
                         ((a * v1 ^._y  + b * v2 ^._y + c * v3 ^._y) / abc)
     where 
         a = distance v2 v3 

@@ -49,7 +49,7 @@ dependencies:
 #  - lens
 # - semigroups
 - vector-circular
-- gloss
+# - gloss
 
 
 library:

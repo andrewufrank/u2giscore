@@ -36,6 +36,7 @@ library
     , extra
     , monads-tf
     , uniform-geometry >=0.0.1.7
+    , uniform-graphics
     , uniform-relations >=0.0.1.3
     , uniformBase >=0.1.4.2
   default-language: Haskell2010
@@ -43,6 +44,7 @@ library
 executable exec
   main-is: Main.hs
   other-modules:
+      Gmain
       Paths_uniform_hqSchema
   hs-source-dirs:
       app
@@ -52,6 +54,7 @@ executable exec
     , extra
     , monads-tf
     , uniform-geometry >=0.0.1.7
+    , uniform-graphics
     , uniform-hqSchema
     , uniform-relations >=0.0.1.3
     , uniformBase >=0.1.4.2
@@ -71,6 +74,7 @@ test-suite test
     , monads-tf
     , quickcheck-text
     , uniform-geometry >=0.0.1.7
+    , uniform-graphics
     , uniform-hqSchema
     , uniform-relations >=0.0.1.3
     , uniformBase

@@ -23,7 +23,6 @@ extra-source-files:
 
 library
   exposed-modules:
-      Uniform.Drawings
       Uniform.GeometryFunctions
       Uniform.Point2d
       Uniform.Point2dData
@@ -38,7 +37,6 @@ library
     , containers
     , data-clist
     , extra
-    , gloss
     , hgeometry ==0.14.*
     , hgeometry-combinatorial ==0.14.*
     , lens
@@ -60,7 +58,6 @@ executable exec
     , containers
     , data-clist
     , extra
-    , gloss
     , hgeometry ==0.14.*
     , hgeometry-combinatorial ==0.14.*
     , lens
@@ -88,7 +85,6 @@ test-suite test
     , containers
     , data-clist
     , extra
-    , gloss
     , hgeometry ==0.14.*
     , hgeometry-combinatorial ==0.14.*
     , lens

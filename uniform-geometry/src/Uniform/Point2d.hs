@@ -63,7 +63,7 @@ import UniformBase
 -- import Vector
 import Linear.V2
 import qualified Linear.Vector as Lin
-import qualified  Graphics.Gloss as Gloss
+-- import qualified  Graphics.Gloss as Gloss
 -- import    Graphics.Gloss  
 import Control.Lens 
 -- -- import GHC.Generics

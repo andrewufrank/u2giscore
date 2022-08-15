@@ -27,12 +27,12 @@ import Uniform.TripleRels
 -- import ExampleData.HQexampleLong
 import ExampleData.HQexampleShort
 import ExampleData.HQfaces_test
-
+import Uniform.Graphics
 
 
 main =
   startProg
-    (unwords' ["Uniform.Graphics", "the test for graphics "])
+    (unwords' ["Uniform.Graphics", "the test for relatiosn and triple store"])
     ( do
 
         main2
@@ -47,7 +47,7 @@ main2 = do
     -- mainHQ
     -- mainMakeTessLong
     -- mainMakeTessShort
-    pageHQfaces_testGraphics
+    pageHQfaces_test3
     -- mainMakeTessShort  -- from ExampleData.HQexampleShort
     -- pageHQfaces_test
     -- pageHQforglossFaces
