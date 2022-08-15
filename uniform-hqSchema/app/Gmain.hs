@@ -15,7 +15,7 @@
 
     #-}
 
-module Main     where
+module Gmain     where
 
 
 
@@ -27,7 +27,7 @@ import Uniform.TripleRels
 -- import ExampleData.HQexampleLong
 import ExampleData.HQexampleShort
 import ExampleData.HQfaces_test
-import Uniform.Graphics
+import Uniform.Drawings
 
 
 main =

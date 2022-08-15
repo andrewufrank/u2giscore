@@ -96,8 +96,9 @@ hq3 = evalTrans4query2cat points2v2 hqTriangles cat45
 fig :: [Figure V2D]
 fig = map (\p -> Figure green p) . map snd $ hq3
 
-pageHQfaces_testGraphics :: [Figure V2D] -> ExceptT Text IO ()
-pageHQfaces_testGraphics fig  = do
+pageHQfaces_testGraphics ::  ExceptT Text IO ()
+pageHQfaces_testGraphics    = do
+    putIOwords ["pageHQfaces_testGraphics - the hq3  ", shownice hq3]
     putIOwords ["pageHQfaces_testGraphics - the figure  ", shownice fig]
 
     showFacePage2 fig

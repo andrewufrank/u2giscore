@@ -77,7 +77,7 @@ import Data.Ext ( type (:+)(..) )
 
 instance Zeros Integer where zero = 0
 instance Zeros Double where zero = 0.0
-
+instance NiceStrings V2D where 
 
 class NamedPoint2 a where 
 -- ^ class of 2d points (double) 
