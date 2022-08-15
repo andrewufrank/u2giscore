@@ -50,18 +50,6 @@ coords2faces = do
     return $ groupSort  fp3  
     -- return $ map onef . groupSort $ fp3 
 
- 
--- for faces
-
-  
-
--- isTriangle2 :: ( [V2D]) -> Maybe (  (V2D, V2D, V2D))
--- isTriangle2 ( [a,b,c]) = Just ( (a,b,c))
--- isTriangle2 _ = Nothing 
-
--- isTriangle1 :: [ObjTessShort] -> Maybe [ObjTessShort]
--- isTriangle1 a = if 3 == length a then Just a else Nothing
--- isTriangle1 _ = Nothing 
 
 area2faces :: [ObjTessShort] -> Double
 area2faces vs = areaPoly . map unTagPoints2V $ vs 
@@ -121,5 +109,4 @@ evalTrans4query2cat trans query cat = evalState ((fmap (map trans )) query) cat
 
 
 
-instance NiceStrings Float where shownice = showT 
 

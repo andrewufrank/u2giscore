@@ -31,45 +31,11 @@ import UniformBase
 import Uniform.GeometryFunctions
 import Uniform.Point2dData
 import ExampleData.HQschemaShort
- 
--- import Uniform.TesselationHalfQuads
-    
-    -- ( delaunay2,
-    --   fourPnt2d,
-    --   toHq1, toPnv2,
-    --   FaceHQ(circumcenter),
-    --   HQ(node, face, twin, halflength),
-    --   NodeHQ(..),
-    --   TesselationHQ(_Nodes, _Faces, _HQs) )
--- import Uniform.GeometryTest(fivePnt2d, fourPnt2d)
 import Uniform.TripleStore
 -- import Uniform.Point2d
 import Uniform.TesselationHalfQuads
 import Uniform.NaiveTripleStore
 
--- import Uniform.GeometryTest (fivePnt2d)
--- import qualified Data.Geometry.Point as HP 
-
-{- 
-data NodeHQ = NodeHQ V2d
-    deriving (Show, Read, Ord, Eq, Generic, Zeros)
-data FaceHQ = FaceHQ {circumcenter ::V2d} deriving (Show, Read, Ord, Eq, Generic, Zeros)
-
-data HQ = HQ 
-    { node:: Int    -- ^ end of hq (start or end of edge)
-    , face::Maybe Int -- ^ face right of the hq
-    , twin::Int     -- the other hq for the edge
-    , halflength :: Double  -- the half of the length of the edge
-    } 
-    deriving (Show, Read, Ord, Eq, Generic, Zeros)
-
-data TesselationHQ = TesselationHQ {
-          _Nodes      :: [NodeHQ]
-        , _Faces      :: [FaceHQ]
-        , _HQs       :: [HQ]      -- ^ the tileface starting and ending, alternating
-        } deriving Show
-
--}
 
 --- Make tirples 
 
@@ -84,10 +50,11 @@ makeTripNode  i (NodeHQ j pnt) =  ( Node i, XY
 getAllTrips :: TessShortHQtriples -> [StoreTessShortElement]
 getAllTrips hqt = concat [_NodesTrip hqt, _FacesTrip hqt, _HQtrips hqt]
 
-makeTripFace :: Int -> FaceHQ -> StoreTessShortElement
+-- makeTripFace :: Int -> FaceHQ -> StoreTessShortElement
 -- ^ convert to trip; contains only circumcenter
 -- dual to node 
-makeTripFace  i (FaceHQ j) =    (  Face $ i, XY,  zero)
+-- makeTripFace  i (FaceHQ j) =    (  Face $ i, XY,  zero)
+-- is constructed later from hq 
         -- , XY, PointTag . toPnv2 . circumcenter $ fhq)
         -- compute later and fill 
 
@@ -113,7 +80,9 @@ makeTripHq offset i hq = catMaybes [hqnode,  hqface, hqtwin, hqhalflength]
 hqToTrip :: Int -> TesselationHQ ->  TessShortHQtriples
 hqToTrip offset teshq  = TessShortHQtriples
     { _NodesTrip = zipWith (makeTripNode) [offset ..] (_Nodes teshq) 
-    , _FacesTrip = zipWith (makeTripFace) [offset ..] (_Faces teshq)
+    -- , _FacesTrip = zipWith (makeTripFace) [offset ..] (_Faces teshq)
+    -- are constructed later 
+    , _FacesTrip = []
     , _HQtrips   = concat $ zipWith (makeTripHq offset)   [offset ..] (_HQdatas teshq)
     } 
 

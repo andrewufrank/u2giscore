@@ -33,6 +33,7 @@ import ExampleData.HQschemaShort
 import Uniform.GeometryFunctions
 import Uniform.TripleRels
 import Data.List.Extra
+import Numeric.Extra
 -- import Uniform.Drawings
 import Control.Monad.State  
 
@@ -94,6 +95,4 @@ midpointHQasTriple :: StateT
   [StoreTessShortElement]
 midpointHQasTriple = fmap (map midpointHQtriple) points12
 
-
-instance NiceStrings Float where shownice = showT 
 

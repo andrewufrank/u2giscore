@@ -27,8 +27,10 @@ module ExampleData.HQfaces_test
 import           Test.Framework hiding (scale, (.&.))
 
 import UniformBase  
+import Uniform.NaiveTripleStore
 import ExampleData.HQexampleShort
 import ExampleData.HQschemaShort
+import ExampleData.HQconstructions4graphics 
 -- -- import Control.Exception
 import Uniform.GeometryFunctions
 -- import Uniform.Point2d ()
@@ -41,6 +43,8 @@ import Uniform.TesselationHalfQuads
 import Control.Monad.State  
 import ExampleData.HQconstructionsEdges
 import ExampleData.HQconstructionsFaces
+import Uniform.TripleStore (CatStores(catStoreBatch))
+import Control.Monad.RWS (MonadWriter(tell))
  
 tess44short = makeCatFrom fourPnt2d 
 tess55short = makeCatFrom fivePnt2d 
@@ -77,10 +81,27 @@ forqueries = [points12]
 theCats = [tess44short]
 additinsPoints =  concat [evalTrans4query2cat trans points12 cat | trans <-[lengthHQtriple, midpointHQtriple] , cat <- theCats] -- trans query cat
 additinsAreas =  concat [evalTrans4query2cat trans coords2faces cat | trans <-[area2triples] , cat <- theCats] -- trans query cat
-
 additinsCenters =  catMaybes . concat   $ [evalTrans4query2cat trans coords2faces cat | trans <-[circumcenter2triple, incenter2triple] , cat <- theCats] -- trans query cat
+allAddins = concat [additinsPoints, additinsAreas, additinsCenters]
+
+cat45 = catStoreBatch (map Ins allAddins) tess44short
 
 addinsFirst = evalTrans4query2cat midpointHQtriple points12 tess44short
+
+hq3 = evalTrans4query2cat id hqTriangles cat45 
+
+pageHQfaces_test3 :: ErrIO ()
+pageHQfaces_test3 = do
+    putIOwords ["the triples in cat45  \n ", shownice cat45]
+
+    putIOwords ["the hq triangles  \n ", showAsLines $ hq3]
+    putIOwords ["the hq triangles 1  \n ", showAsLines $ evalTrans4query2cat id hqTriangles1 cat45 ]
+    putIOwords ["the hq triangles 2  \n ", showAsLines $ evalTrans4query2cat id hqTriangles2 cat45 ]
+    putIOwords ["the hq triangles 3 \n ", showAsLines $ evalTrans4query2cat id hqTriangles3 cat45 ]
+    -- putIOwords ["the midpoint of the hq \n ", showAsLines  $ evalState midpointHQ tess44short]
+    -- putIOwords  ["first additions \n", showAsLines $ addinsFirst]
+
+
 pageHQfaces_test2 :: ErrIO ()
 pageHQfaces_test2 = do
 
@@ -90,6 +111,8 @@ pageHQfaces_test2 = do
     putIOwords  ["all the additinsPoints \n", showAsLines  $ additinsPoints]
     putIOwords  ["all the additinsarea \n", showAsLines  $ additinsAreas]
     putIOwords  ["all the additinscenters \n", showAsLines  $ additinsCenters]
+    putIOwords  ["all  \n", showAsLines  $ allAddins]
+    putIOwords ["the new triplestore cat45", shownice cat45]
 
     return ()
 
