@@ -51,29 +51,31 @@ hqTriangles = do
     return $ groupSort  fp3  
     -- return $ map onef . groupSort $ fp3 
 
-hqTriangles1 :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
-hqTriangles1 = do 
-    f <- rel2 HqFace 
-    n <- rel2 HqNode 
-    xy <- rel2 XY 
-    let fp3 =  xy 
-    return $ groupSort  fp3  
+points2v2 = second (map  (unName . unPointTag))  
 
-hqTriangles2 :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
-hqTriangles2 = do 
-    f <- rel2 HqFace 
-    n <- rel2 HqNode 
-    xy <- rel2 XY 
-    let fp3 =    (f .&. xy) 
-    return $ groupSort  fp3  
+-- hqTriangles1 :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
+-- hqTriangles1 = do 
+--     f <- rel2 HqFace 
+--     n <- rel2 HqNode 
+--     xy <- rel2 XY 
+--     let fp3 =  xy 
+--     return $ groupSort  fp3  
 
-hqTriangles3 :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
-hqTriangles3 = do 
-    f <- rel2 HqFace 
-    n <- rel2 HqNode 
-    xy <- rel2 XY 
-    let fp3 =    (n .&. xy) 
-    return $ groupSort  fp3  
+-- hqTriangles2 :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
+-- hqTriangles2 = do 
+--     f <- rel2 HqFace 
+--     n <- rel2 HqNode 
+--     xy <- rel2 XY 
+--     let fp3 =    (f .&. xy) 
+--     return $ groupSort  fp3  
+
+-- hqTriangles3 :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
+-- hqTriangles3 = do 
+--     f <- rel2 HqFace 
+--     n <- rel2 HqNode 
+--     xy <- rel2 XY 
+--     let fp3 =    (n .&. xy) 
+--     return $ groupSort  fp3  
 
 
 -- oints12 :: StateT

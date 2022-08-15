@@ -88,16 +88,18 @@ cat45 = catStoreBatch (map Ins allAddins) tess44short
 
 addinsFirst = evalTrans4query2cat midpointHQtriple points12 tess44short
 
-hq3 = evalTrans4query2cat id hqTriangles cat45 
+hq3 = evalTrans4query2cat points2v2 hqTriangles cat45 
 
 pageHQfaces_test3 :: ErrIO ()
 pageHQfaces_test3 = do
     putIOwords ["the triples in cat45  \n ", shownice cat45]
 
     putIOwords ["the hq triangles  \n ", showAsLines $ hq3]
-    putIOwords ["the hq triangles 1  \n ", showAsLines $ evalTrans4query2cat id hqTriangles1 cat45 ]
-    putIOwords ["the hq triangles 2  \n ", showAsLines $ evalTrans4query2cat id hqTriangles2 cat45 ]
-    putIOwords ["the hq triangles 3 \n ", showAsLines $ evalTrans4query2cat id hqTriangles3 cat45 ]
+
+    
+    -- putIOwords ["the hq triangles 1  \n ", showAsLines $ evalTrans4query2cat id hqTriangles1 cat45 ]
+    -- putIOwords ["the hq triangles 2  \n ", showAsLines $ evalTrans4query2cat id hqTriangles2 cat45 ]
+    -- putIOwords ["the hq triangles 3 \n ", showAsLines $ evalTrans4query2cat id hqTriangles3 cat45 ]
     -- putIOwords ["the midpoint of the hq \n ", showAsLines  $ evalState midpointHQ tess44short]
     -- putIOwords  ["first additions \n", showAsLines $ addinsFirst]
 

@@ -1,0 +1,71 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.35.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           uniform-graphics
+version:        0.0.1.1
+synopsis:       uniform wrapper gloss graphics
+description:    - access to gloss for minimal graphical output
+category:       Geometry, Uniform, Graphics
+author:         Andrew Frank
+maintainer:     Andrew U. Frank <andrewufrank@gmail.com>
+license:        GPL
+license-file:   GPL_3
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+library
+  exposed-modules:
+      Uniform.Drawings
+  other-modules:
+      Paths_uniform_graphics
+  hs-source-dirs:
+      src
+  build-depends:
+      HTF
+    , base >=4.7 && <5
+    , containers
+    , extra
+    , gloss
+    , uniformBase >=0.1.4.1
+  default-language: Haskell2010
+
+executable main
+  main-is: Main.hs
+  other-modules:
+      Paths_uniform_graphics
+  hs-source-dirs:
+      app
+  build-depends:
+      HTF
+    , base >=4.7 && <5
+    , containers
+    , extra
+    , gloss
+    , uniform-geometry
+    , uniformBase >=0.1.4.1
+  default-language: Haskell2010
+
+test-suite test
+  type: exitcode-stdio-1.0
+  main-is: Testing.hs
+  other-modules:
+      Uniform.Drewings_test
+      Uniform.Graphics_test
+      Paths_uniform_graphics
+  hs-source-dirs:
+      tests
+  build-depends:
+      HTF
+    , base >=4.7 && <5
+    , containers
+    , extra
+    , gloss
+    , quickcheck-text
+    , uniform-geometry
+    , uniformBase
+  default-language: Haskell2010

@@ -1,0 +1,78 @@
+name: uniform-graphics
+version: 0.0.1.1
+# cabal-version: >=1.22
+# build-type: Simple
+license: GPL
+license-file: GPL_3
+maintainer: Andrew U. Frank <andrewufrank@gmail.com>
+author: Andrew Frank
+category: 'Geometry, Uniform, Graphics'
+synopsis: uniform wrapper gloss graphics
+description: |
+  - access to gloss for minimal graphical output
+
+# source-repository head
+#     type: git
+#     location: https://github.com/andrewufrank/uniform-http.git
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+dependencies:
+- base >= 4.7 && < 5
+- HTF
+- uniformBase >=0.1.4.1
+
+- extra
+- containers
+- gloss
+
+# # - vector-space
+# - linear
+# - lens
+# # - qhull ==0.1.0.4
+# # - vector-algorithms # not needed for lts 18.28 ==0.8.0.3 # -- to force qhull
+# # - insert-ordered-containers
+# # - pretcabal ty-show 
+
+# # for hgeometry
+# - hgeometry >= 0.14 && < 0.15
+# - hgeometry-combinatorial >= 0.14 && < 0.15
+# # - linear
+# - data-clist
+# # - aeson-pretty
+# - vector 
+# # - array                    >= 0.5
+# #  - lens
+# # - semigroups
+# - vector-circular
+# - gloss
+
+
+library:
+  source-dirs: 
+  - src
+ 
+
+executables: 
+  main: 
+    main:   Main.hs
+    source-dirs:  app
+    dependencies: 
+    - uniform-geometry
+
+tests:
+  test:
+    main:                Testing.hs
+    source-dirs:         tests
+    dependencies:
+    - uniform-geometry
+    - HTF
+    - quickcheck-text
+    # - uniform-strings
+    # - uniform-http
+    - uniformBase
+    # - uniform-watch
+
+
