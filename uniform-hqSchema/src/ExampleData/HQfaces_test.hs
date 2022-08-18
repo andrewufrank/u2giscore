@@ -43,6 +43,7 @@ import Uniform.Drawings
 -- import Data.List.Extra
 -- import Uniform.Drawings
 import Control.Monad.State  
+import Data.Functor.Identity
 import ExampleData.HQconstructionsEdges
 import ExampleData.HQconstructionsFaces
 import Control.Monad.RWS (MonadWriter(tell))
@@ -94,29 +95,41 @@ cat52 = catStoreBatch (map Ins (allAddins tess51short)) tess51short
 hq4 :: [(ObjTessShort, [V2D])]
 hq4 = evalTrans4query2cat points2v2 hqTriangles cat42 
 hq5 = evalTrans4query2cat points2v2 hqTriangles cat52 
-hqV4 = evalTrans4query2cat pointsPairsv2 hqTriangles cat42 
-
+hqV4 :: [(ObjTessShort, (V2D, V2D))]
+hqV4 = evalTrans4query2cat pointsPairsv2 hqVoro cat42 
+hqD4 = evalTrans4query2cat pointsPairsv2 hqDela cat42 
+hqV5 = evalTrans4query2cat pointsPairsv2 hqVoro cat52 
+hqD5 = evalTrans4query2cat pointsPairsv2 hqDela cat52 
 
 fig4 :: [Figure V2D]
 fig4 = map closeLine . map (\p -> Figure (dark green) p) . map snd $ hq4
 fig5 = map closeLine . map (\p -> Figure (dark red) p) . map snd $ hq5
 
-fig4voro = map (\p -> figLine (dark green) p) . map snd # hqVoro
+fig4voro :: [Figure V2D]
+fig4voro = map (\p -> figLine (dark green) p) . map snd $ hqV4
+fig4dela = map (\p -> figLine (dark red) p) . map snd $ hqD4
+
+fig5voro = map (\p -> figLine (dark green) p) . map snd $ hqV5
+fig5dela = map (\p -> figLine (dark red) p) . map snd $ hqD5
 
 pageHQfaces_testGraphicsx ::  ExceptT Text IO ()
 pageHQfaces_testGraphicsx    = do
     putIOwords ["pageHQfaces_testGraphics - the hq4  ", shownice hq4]
     putIOwords ["pageHQfaces_testGraphics - the hq5  ", shownice hq5]
+    putIOwords ["the voronoi lines  \n ", showT $ hqV4]
+    putIOwords ["the delaunay lines  \n ", showT $ hqD4]
+
     -- putIOwords ["pageHQfaces_testGraphics - the figure  ", shownice fig]
 
-    -- showFacePage2 fig5
+    -- showFacePage2 (fig4voro ++ fig4dela)
+    showFacePage2 (fig5voro ++ fig5dela)
 
 pageHQfaces_test3 :: ErrIO ()
 pageHQfaces_test3 = do
     putIOwords ["the triples in cat45  \n ", shownice cat42]
 
-    putIOwords ["the hq triangles  \n ", showAsLines $ hq4]
-    putIOwords ["the voronoi lines  \n ", showT $ hqVoro]
+    putIOwords ["the hq triangles  \n ", showAsLines hq4]
+    putIOwords ["the voronoi lines  \n ", showT $ hqV4]
 
     
     -- putIOwords ["the hq triangles 1  \n ", showAsLines $ evalTrans4query2cat id hqTriangles1 cat45 ]

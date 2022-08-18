@@ -40,9 +40,8 @@ import Control.Monad.State
 -- step 1 get the data from the store, leave tags!
 
 -- points12 :: StateT CatStoreTessShort Identity (Rel2 ObjTessShort, Rel2 ObjTessShort)
-points12 :: StateT
+points12 :: State 
   CatStoreTessShort
-  Identity
   [(ObjTessShort, (ObjTessShort, ObjTessShort))]
 points12 = do 
     hqn <- rel2 HqNode 
@@ -76,22 +75,22 @@ midpointHQtriple (a,(p1,p2)) = (a, XY, PointTag . putName (unHalfQuad a) $ (midp
 -- for points12
 
 
-distanceOfHQ :: StateT CatStoreTessShort Identity [(ObjTessShort, Double)]
+distanceOfHQ :: State  CatStoreTessShort   [(ObjTessShort, Double)]
 distanceOfHQ = fmap (map (second dist2pts)) points12
 
 
-midpointHQ :: StateT CatStoreTessShort Identity [(ObjTessShort, V2D)]
+midpointHQ :: State  CatStoreTessShort   [(ObjTessShort, V2D)]
 midpointHQ = fmap (map (second midpoint)) points12
 
-lengthHQasTriple :: StateT
+lengthHQasTriple :: State 
   CatStoreTessShort
-  Identity
+   
   [(ObjTessShort, MorphTessShort, ObjTessShort)]
 lengthHQasTriple = fmap (map lengthHQtriple) points12
 
-midpointHQasTriple :: StateT
+midpointHQasTriple :: State 
   CatStoreTessShort
-  Identity
+   
   [StoreTessShortElement]
 midpointHQasTriple = fmap (map midpointHQtriple) points12
 

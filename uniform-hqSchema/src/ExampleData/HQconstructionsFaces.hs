@@ -35,13 +35,13 @@ import Uniform.TripleRels
 import Data.List.Extra
 -- import Uniform.Drawings
 import Control.Monad.State  
-
+import Control.Monad.Trans.Identity
 
 -- step 1 get the data from the store, leave tags!
 
 -- | find the points with xy coord to a face
 --   gives list of points, as [V2D] 
-coords2faces :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
+-- coords2faces :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
 coords2faces = do 
     f <- inv2 HqFace 
     n <- rel2 HqNode 
@@ -89,13 +89,13 @@ circumcenter2triple (i,vds) = case (circumCenter2faces vds) of
 
 -- for coord2faces 
 
-area2facesM :: StateT CatStoreTessShort Identity [(ObjTessShort, Double)]
+area2facesM :: State  CatStoreTessShort   [(ObjTessShort, Double)]
 area2facesM  = fmap (map (second area2faces)) coords2faces 
 
-circum2facesM ::StateT CatStoreTessShort Identity [ (ObjTessShort, Maybe V2D)]
+circum2facesM ::State  CatStoreTessShort   [ (ObjTessShort, Maybe V2D)]
 circum2facesM =  fmap (map (second (circumCenter2faces)))    coords2faces
 
-incenter2facesM :: StateT CatStoreTessShort Identity [(ObjTessShort, Maybe V2D)]
+incenter2facesM :: State  CatStoreTessShort   [(ObjTessShort, Maybe V2D)]
 incenter2facesM = fmap (map (second ( (incenter2faces  )))) coords2faces
 
 incenter2facesTriples = fmap (map  ( incenter2triple)) coords2faces 

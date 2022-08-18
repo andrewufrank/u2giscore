@@ -68,7 +68,7 @@ unTagPoints2V = unName . unPointTag
 
 unPointTag :: ObjTessShort -> Pnt2
 unPointTag (PointTag t) = t 
-unPointTag x = errorT ["unNodeTag - not a Node", showT x]
+unPointTag x = errorT ["unPointTag - not a Point", showT x]
 -- unCostTag :: ObjTessShort -> Cost
 -- unCostTag (CostTag t) = t 
 -- unCostTag x = errorT ["unCostTag -  not a Cost", showT x]

@@ -60,7 +60,7 @@ module Uniform.TripleRels
 import Control.Monad.State  
 import Data.List ( nub ) 
 import UniformBase 
-import Uniform.NaiveTripleStore  
+-- import Uniform.NaiveTripleStore  
 import Uniform.TripleStore -- ( CatStore, unCatStore )
     -- ( Action(..), TripleStore(tsfind, tsinsert, tsdel) )
 

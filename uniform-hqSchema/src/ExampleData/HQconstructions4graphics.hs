@@ -36,13 +36,14 @@ import Data.List.Extra
 -- import Uniform.Drawings
 import Control.Monad.State  
 import ExampleData.HQconstructionsFaces (evalTrans4query2cat)
+import Control.Monad.Identity (Identity)
 
 
 -- step 1 get the data from the store, leave tags!
 
 -- | construct relation with all the edges of the hq triangles  
 -- try groupSort 
-hqTriangles :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
+hqTriangles :: State  CatStoreTessShort   [(ObjTessShort, [ObjTessShort])]
 hqTriangles = do 
     f <- rel2 HqFace 
     n <- rel2 HqNode 
@@ -54,14 +55,21 @@ hqTriangles = do
 points2v2 = second (map  (unName . unPointTag))  
 pointsPairsv2 = second (both  (unName . unPointTag))  
 
-hqVoro :: StateT CatStoreTessShort Identity [(ObjTessShort, (ObjTessShort,ObjTessShort))]
+hqVoro :: StateT  CatStoreTessShort Identity  [(ObjTessShort, (ObjTessShort,ObjTessShort))]
 hqVoro = do 
     f <- rel2 HqFace 
     -- n <- rel2 HqNode 
     xy <- rel2 XY 
-    let fp3 =  relPair f xy 
+    let fp3 =  relPair (f .&. xy) xy 
     return    fp3  
 
+hqDela :: StateT  CatStoreTessShort Identity  [(ObjTessShort, (ObjTessShort,ObjTessShort))]
+hqDela = do 
+    -- f <- rel2 HqFace 
+    n <- rel2 HqNode 
+    xy <- rel2 XY 
+    let fp3 =  relPair (n .&. xy) xy 
+    return    fp3  
 -- hqTriangles2 :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
 -- hqTriangles2 = do 
 --     f <- rel2 HqFace 
