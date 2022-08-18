@@ -22,13 +22,13 @@
 {-# OPTIONS_GHC -fno-warn-missing-methods #-}
 {-# OPTIONS_GHC -w #-}
 
-module ExampleData.HQconstructionsFaces
+module HQschema.HQconstructionsFaces
     where
 
 import           Test.Framework hiding (scale, (.&.))
 import UniformBase  
-import ExampleData.HQexampleShort
-import ExampleData.HQschemaShort
+import HQschema.HQexampleShort
+import HQschema.HQschemaShort
 -- import Control.Exception
 import Uniform.GeometryFunctions
 import Uniform.TripleRels

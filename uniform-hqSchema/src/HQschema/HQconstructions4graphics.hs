@@ -22,20 +22,20 @@
 {-# OPTIONS_GHC -fno-warn-missing-methods #-}
 {-# OPTIONS_GHC -w #-}
 
-module ExampleData.HQconstructions4graphics
+module HQschema.HQconstructions4graphics
     where
 
 import           Test.Framework hiding (scale, (.&.))
 import UniformBase  
-import ExampleData.HQexampleShort
-import ExampleData.HQschemaShort
+import HQschema.HQexampleShort
+import HQschema.HQschemaShort
 -- import Control.Exception
 import Uniform.GeometryFunctions
 import Uniform.TripleRels
 import Data.List.Extra
 -- import Uniform.Drawings
 import Control.Monad.State  
-import ExampleData.HQconstructionsFaces (evalTrans4query2cat)
+import HQschema.HQconstructionsFaces (evalTrans4query2cat)
 import Control.Monad.Identity (Identity)
 
 
