@@ -98,13 +98,12 @@ hqnodes1 :: Triangulation Int Double  -> [NodeHQ]
 -- construct the nodes, with their data 
 hqnodes1 tess11 =  zipWith3 (\id' hp  i -> NodeHQ id' (Pnt2d i (V2 (hp ^. xCoord) (hp ^. yCoord)))) (locs11 tess11)  (locs22 tess11)  (vdat11 tess11)
     where
-
--- locs11 ::[Int]
-locs11 t = map (_unVertexId . fst) . vertices11 $ t
--- locs22 :: [Point2 Double]
-locs22 = map (\e -> snd e  ^. location) . vertices11
-vdat11 = map (\e -> snd e  ^. vData) . vertices11
-vertices11 tess11 = Vec.toList . vertices . toPlaneGraph $ tess11
+        -- locs11 ::[Int]
+        locs11 t = map (_unVertexId . fst) . vertices11 $ t
+        -- locs22 :: [Point2 Double]
+        locs22 = map (\e -> snd e  ^. location) . vertices11
+        vdat11 = map (\e -> snd e  ^. vData) . vertices11
+        vertices11 tess11 = Vec.toList . vertices . toPlaneGraph $ tess11
 
 hqfaces2 tess12 = map FaceHQ (faces1x tess12) -- [0 .. (nf - 1)] 
 -- todo will need circumcenter and incenter
