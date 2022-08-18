@@ -28,7 +28,7 @@ import           Test.Framework hiding (scale)
 import Control.Lens
 import Control.Lens.Tuple
 import Test.Framework
-import Uniform.Point2dData
+import ExampleData.Point2d
 import UniformBase
 import Uniform.TesselationHalfQuads
 -- import Control.Exception
@@ -71,7 +71,7 @@ mainHQ2 = do
     putIOwords ["the returned tesselation", showT tess51]
     putIOwords ["point2d two\n", showlong (toHq1 tess51), "\n"]
     putIOwords ["controlList \nid, dart,          tail,      head,      left,    right \n",   showAsLines . controlList $ tess51, "\n"]
-    
+
 -- mainMakeTess v2s= do 
 --     putIOwords ["\nmainDelaunayTriples\n"]
 --     -- putIOwords ["\nthe hq for faces\n", showT ]

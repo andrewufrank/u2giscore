@@ -36,7 +36,7 @@
 
 module Uniform.TesselationHalfQuads
     ( module Uniform.TesselationHalfQuads
-    -- , module Uniform.Point2dData
+    -- , module Uniform.Point2d
     -- , module Uniform.Point2d
     -- , module Linear.V2
     -- , module Control.Lens
@@ -45,7 +45,7 @@ module Uniform.TesselationHalfQuads
 
 import UniformBase
 import Uniform.Point2d
--- import Uniform.Point2dData
+-- import Uniform.Point2d
 import Uniform.GeometryFunctions
 -- import qualified Data.Map as Map
 -- import Linear.V2

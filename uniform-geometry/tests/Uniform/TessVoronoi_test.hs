@@ -25,7 +25,7 @@ module Uniform.TessVoronoi_test where
 import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
 -- import   Uniform.Point2d
-import Uniform.Point2dData
+import ExampleData.Point2d
 import UniformBase
 import Uniform.TesselationHalfQuads
 -- import Control.Exception

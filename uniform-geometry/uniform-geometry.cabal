@@ -23,9 +23,9 @@ extra-source-files:
 
 library
   exposed-modules:
+      ExampleData.Point2d
       Uniform.GeometryFunctions
       Uniform.Point2d
-      Uniform.Point2dData
       Uniform.TesselationHalfQuads
   other-modules:
       Paths_uniform_geometry

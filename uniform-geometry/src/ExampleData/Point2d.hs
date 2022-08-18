@@ -25,8 +25,8 @@
 {-# OPTIONS_GHC -w #-}
 
 
-module Uniform.Point2dData 
-    ( module Uniform.Point2dData
+module ExampleData.Point2d 
+    ( module ExampleData.Point2d
     , module Uniform.Point2d
     -- , module Linear.V2
     -- , module Control.Lens

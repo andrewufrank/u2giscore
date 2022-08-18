@@ -41,7 +41,7 @@ module Uniform.GeometryFunctions
 
 import UniformBase
 import Uniform.Point2d 
-import Uniform.Point2dData
+import ExampleData.Point2d
 -- import Vector
 import Linear.Vector ((*^))
 import Linear.V2

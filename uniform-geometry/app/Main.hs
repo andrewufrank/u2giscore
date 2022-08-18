@@ -22,7 +22,7 @@ module Main     where
  
 import UniformBase
 import Uniform.Point2d
-import Uniform.Point2dData 
+import ExampleData.Point2d 
 import Uniform.GeometryFunctions
 -- import Delaunay.Delaunay
 -- import Voronoi2D

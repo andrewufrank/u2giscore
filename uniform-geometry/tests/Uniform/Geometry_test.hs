@@ -26,7 +26,7 @@ module Uniform.Geometry_test where
 
 import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
-import Uniform.Point2dData
+import ExampleData.Point2d
 import UniformBase
 
 import Uniform.GeometryFunctions
