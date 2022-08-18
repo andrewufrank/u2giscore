@@ -97,7 +97,7 @@ intoCat ts = catStoreBatch (map wrapIns ts) $ catStoreEmpty -- cat400
 
 -- makeCat :: 
 
-makeCatFrom pnts = intoCat . getAllTrips . hqToTrip 400 . toHq1 . delaunay2 $ pnts
+makeCatFrom offset pnts = intoCat . getAllTrips . hqToTrip offset . toHq1 . delaunay2 $ pnts
 mainMakeTessShort :: ErrIO () 
 mainMakeTessShort = do 
     putIOwords ["\nmainDelaunayTriples TessShort\n"]

@@ -48,8 +48,8 @@ import ExampleData.HQconstructionsEdges
 import ExampleData.HQconstructionsFaces
 import Control.Monad.RWS (MonadWriter(tell))
  
-tess41short = makeCatFrom fourPnt2d 
-tess51short = makeCatFrom fivePnt2d 
+tess41short = makeCatFrom 400 fourPnt2d 
+tess51short = makeCatFrom 500 fivePnt2d 
 
 
 (coords2faces_4) = evalState coords2faces tess41short
