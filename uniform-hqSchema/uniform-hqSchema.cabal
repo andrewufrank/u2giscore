@@ -25,6 +25,7 @@ library
       ExampleData.HQconstructionsFaces
       ExampleData.HQexampleShort
       ExampleData.HQfaces_test
+      ExampleData.HQfourteenPoints
       ExampleData.HQschemaShort
   other-modules:
       Paths_uniform_hqSchema

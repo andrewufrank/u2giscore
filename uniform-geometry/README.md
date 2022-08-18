@@ -48,4 +48,6 @@ The goal is access to functions to compute
 - triangulations, and 
 - Voronoy tesselations. 
 
-They are 
+The packages includes some example data files (Point2dData), where four, five and fourteen points in Pnt2 format (point name Int, coordinates Double) are prepared. 
+
+With these points, the Delaunay triangulation can be computed (`delaunay2`) and converted to the a (proto) half-quad data structure with `toHq1`

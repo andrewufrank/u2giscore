@@ -75,6 +75,7 @@ fiveTup3iso :: [(Double, Double, Integer)]
 -- form an isoceles triangle (0,0),(0,3), (3,0)
 fiveTup3iso = [(0,0,21), (3,0,22), (4,2,23), (3,5,24),(0,3,25)]
 
+fourteenTup3 = [(7,0,1), (12,0,2),(18,4,3), (20,10,4), (19,14,5), (14,19,6), (9,20,7), (4,17,8), (0,10,9),(3,3,10), (8,8,11), (14,6,12), (13,11,13), (8,12,14) ]
 -- conversion to Pnt2 -- i.e. Int Double 
 fourPnt2d = map (ddn_pnt2d  ) fourTup3 :: [Pnt2]
 -- -- fourPnt2dInt = map (ddn_pnt2d . third3 fromInteger) fourTup3 :: [Pnt2int]
@@ -86,6 +87,7 @@ fourV2coll = map (toV2 . ddn_pnt2d)  fourTup3coll
 
 fivePnt2d :: [Pnt2]
 fivePnt2d = map (ddn_pnt2d)  fiveTup3 
+fourteenPnt2d = map (ddn_pnt2d)  fourteenTup3 
 -- fivePnt2dint = map (ddn_pnt2d . third3 fromInteger)  fiveTup3 
 -- -- | test points with names
 
@@ -93,7 +95,7 @@ fivePnt2d = map (ddn_pnt2d)  fiveTup3
 fiveV2 :: [V2D]
 fiveV2 = map toV2 fivePnt2d
 fiveV2iso = map (toV2 . ddn_pnt2d) fiveTup3iso
-
+fourteenV2 = map (toV2 . ddn_pnt2d) fourteenTup3
 -- -- fiveD = map (ddn_dd) fiveP2
 fiveV2_31 = map ddn_v2 [(0,0,21), (3.1,0,22), (4,2,23), (3,5,24),(0,3,25)]
 -- -- five less regular, no gleichschenklig dreieck 

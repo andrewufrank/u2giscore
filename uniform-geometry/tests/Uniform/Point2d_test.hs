@@ -30,7 +30,7 @@ import           Test.Framework hiding (scale)
 import Uniform.Point2dData
 import Uniform.Point2d
 import UniformBase
-
+import Control.Lens
 -- import Control.Exception
 import Uniform.GeometryFunctions
 -- import qualified Data.Geometry.Point as HP 

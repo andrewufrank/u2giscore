@@ -27,7 +27,7 @@ import Uniform.TripleRels
 -- import ExampleData.HQexampleLong
 import ExampleData.HQexampleShort
 import ExampleData.HQfaces_test
-
+import ExampleData.HQfourteenPoints
 
 
 main =
@@ -51,6 +51,7 @@ main2 = do
     -- mainMakeTessShort  -- from ExampleData.HQexampleShort
     -- pageHQfaces_test
     -- pageHQforglossFaces
+    pageHQfourteenPoints
     return () 
     
 -- p1 = Point2d 1 (V2 1 1):: P2
