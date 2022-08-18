@@ -24,7 +24,7 @@ dependencies:
 - HTF
 - uniformBase >=0.1.4.2
 - extra
-- uniform-geometry >=0.0.1.7
+- uniform-geometry >=0.0.1.7.1
 - uniform-relations >=0.0.1.3
 - uniform-graphics 
 

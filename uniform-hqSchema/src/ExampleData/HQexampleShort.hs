@@ -18,37 +18,30 @@
 {-# LANGUAGE TypeFamilies          #-}
 {-# LANGUAGE TypeSynonymInstances  #-}
 {-# LANGUAGE UndecidableInstances  #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Redundant $" #-}
 
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module HQschema.HQexampleShort where
+module ExampleData.HQexampleShort where
 
 -- import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
 -- import   Uniform.Point2d
 import UniformBase
 import Uniform.GeometryFunctions
-import Uniform.Point2dData
+import ExampleData.Point2d
 import HQschema.HQschemaShort
-import Uniform.TripleStore
+-- import Uniform.TripleStore
 -- import Uniform.Point2d
 import Uniform.TesselationHalfQuads
 import Uniform.NaiveTripleStore
-
+import HQschema.HQschemaTop
 
 --- Make tirples 
 
-makeTripNode :: Int -> NodeHQ -> StoreTessShortElement
--- -- | convert trip_xy   hqnx,   
--- -- a is NodeID or FaceID (for center )
--- -- note: the Face is the dual of the Node 
--- the first field is just the id to check
-makeTripNode  i (NodeHQ j pnt) =  ( Node i, XY
-                    , PointTag  (Pnt2d (_p2id  pnt) (_v2 pnt)))
 
-getAllTrips :: TessShortHQtriples -> [StoreTessShortElement]
-getAllTrips hqt = concat [_NodesTrip hqt, _FacesTrip hqt, _HQtrips hqt]
 
 -- makeTripFace :: Int -> FaceHQ -> StoreTessShortElement
 -- ^ convert to trip; contains only circumcenter
@@ -61,43 +54,42 @@ getAllTrips hqt = concat [_NodesTrip hqt, _FacesTrip hqt, _HQtrips hqt]
 
 -- sub: make triples for HQ 
 
-makeTripHq :: Int -> Int -> HQdataHQ -> [StoreTessShortElement]
--- convert the HQ data to StoreTessShortElements
-makeTripHq offset i hq = catMaybes [hqnode,  hqface, hqtwin, hqhalflength]
-    where
-        hqid =   HalfQuad $ i 
-        hqnode, hqface, hqtwin, hqhalflength :: Maybe StoreTessShortElement
-        hqnode = Just $ (hqid, HqNode,  Node   . (+offset) . hq_node $ hq)
-        hqface =   fmap  (\fi -> (hqid, HqFace,   Face  . (+offset) $ fi)) (Just . hq_face  $ hq)
-        -- in qhull is outerface = Nothing
-        -- in hgeometry is outerface just one of the faces
-        hqnext =  (hqid, NextHq,   HalfQuad  . (+offset) . hq_orbitNext $   hq)        
-        hqtwin = Just $ (hqid, Twin, HalfQuad  . (+offset) . hq_twin $ hq)
-        hqhalflength = Nothing 
-            -- Just $ (hqid, Dist, LengthTag . Length . halflength $ hq) 
+-- makeTripHq :: Int -> Int -> HQdataHQ -> [StoreTessShortElement]
+-- -- convert the HQ data to StoreTessShortElements
+-- makeTripHq offset i hq = catMaybes [hqnode,  hqface, hqtwin, hqhalflength]
+--     where
+--         hqid =   HalfQuad $ i 
+--         hqnode, hqface, hqtwin, hqhalflength :: Maybe StoreTessShortElement
+--         hqnode = Just $ (hqid, HqNode,  Node   . (+offset) . hq_node $ hq)
+--         hqface =   fmap  (\fi -> (hqid, HqFace,   Face  . (+offset) $ fi)) (Just . hq_face  $ hq)
+--         -- in qhull is outerface = Nothing
+--         -- in hgeometry is outerface just one of the faces
+--         hqnext =  (hqid, NextHq,   HalfQuad  . (+offset) . hq_orbitNext $   hq)        
+--         hqtwin = Just $ (hqid, Twin, HalfQuad  . (+offset) . hq_twin $ hq)
+--         hqhalflength = Nothing 
+--             -- Just $ (hqid, Dist, LengthTag . Length . halflength $ hq) 
 
 
-hqToTrip :: Int -> TesselationHQ ->  TessShortHQtriples
-hqToTrip offset teshq  = TessShortHQtriples
-    { _NodesTrip = zipWith (makeTripNode) [offset ..] (_Nodes teshq) 
-    -- , _FacesTrip = zipWith (makeTripFace) [offset ..] (_Faces teshq)
-    -- are constructed later 
-    , _FacesTrip = []
-    , _HQtrips   = concat $ zipWith (makeTripHq offset)   [offset ..] (_HQdatas teshq)
-    } 
+-- hqToTrip :: Int -> TesselationHQ ->  TessShortHQtriples
+-- hqToTrip offset teshq  = TessShortHQtriples
+--     { _NodesTrip = zipWith (makeTripNode) [offset ..] (_Nodes teshq) 
+--     -- , _FacesTrip = zipWith (makeTripFace) [offset ..] (_Faces teshq)
+--     -- are constructed later 
+--     , _FacesTrip = []
+--     , _HQtrips   = concat $ zipWith (makeTripHq offset)   [offset ..] (_HQdatas teshq)
+--     } 
 
-type CatStoreTessShort = CatStore ObjTessShort MorphTessShort
 
--- cat400 :: CatStoreTessShort
--- cat400 = catStoreEmpty
--- cat401 :: CatStore ObjPoint MorphTessShort
-intoCat :: [(StoreTessShortElement)] -> CatStoreTessShort
-intoCat ts = catStoreBatch (map wrapIns ts) $ catStoreEmpty -- cat400
+-- -- cat400 :: CatStoreTessShort
+-- -- cat400 = catStoreEmpty
+-- -- cat401 :: CatStore ObjPoint MorphTessShort
+-- intoCat :: [(StoreTessShortElement)] -> CatStoreTessShort
+-- intoCat ts = catStoreBatch (map wrapIns ts) $ catStoreEmpty -- cat400
 
 
 -- makeCat :: 
 
-makeCatFrom offset pnts = intoCat . getAllTrips . hqToTrip offset . toHq1 . delaunay2 $ pnts
+-- makeCatFrom offset pnts = intoCat . getAllTrips . hqToTrip offset . toHq1 . delaunay2 $ pnts
 mainMakeTessShort :: ErrIO () 
 mainMakeTessShort = do 
     putIOwords ["\nmainDelaunayTriples TessShort\n"]

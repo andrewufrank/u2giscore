@@ -20,22 +20,25 @@
 {-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
 {-# OPTIONS_GHC -fno-warn-missing-methods #-}
 {-# OPTIONS_GHC -w #-}
+{-# HLINT ignore "Avoid lambda" #-}
+{-# HLINT ignore "Use map once" #-}
+{-# HLINT ignore "Redundant $" #-}
 
-module HQschema.HQfourteenPoints
+module ExampleData.HQfourteenPoints
     where
 
 import           Test.Framework hiding (scale, (.&.))
 
 import UniformBase  
 import Uniform.NaiveTripleStore
-import HQschema.HQexampleShort
+-- import HQschema.HQexampleShort
 import HQschema.HQschemaShort
-import HQschema.HQfaces_test
+-- import HQschema.HQfaces_test
 import HQschema.HQconstructions4graphics 
 -- -- import Control.Exception
 import Uniform.GeometryFunctions
--- import Uniform.Point2d ()
-import Uniform.Point2dData
+import Uniform.Point2d ()
+import ExampleData.Point2d
 import Uniform.TesselationHalfQuads
 import Uniform.TripleStore  
 import Uniform.Drawings
@@ -47,6 +50,7 @@ import Control.Monad.State
 import Data.Functor.Identity
 import HQschema.HQconstructionsEdges
 import HQschema.HQconstructionsFaces
+import HQschema.HQschemaTop
 import Control.Monad.RWS (MonadWriter(tell))
 
 -- tess14 = delaunay2 fourteenPnt2d 
@@ -80,7 +84,7 @@ pageHQfourteenPoints :: ErrIO ()
 pageHQfourteenPoints = do 
     putIOwords ["the production of the catStore for fourteen points example"]
     putIOwords ["the points", showAsLines fourteenPnt2d]
-    putIOwords ["the voronoi lines  \n ", showT $ hqV4]
-    putIOwords ["the delaunay lines  \n ", showT $ hqD4]
+    putIOwords ["the voronoi lines  \n ", showT $ hqV6]
+    putIOwords ["the delaunay lines  \n ", showT $ hqD6]
 
     showFacePage2 (fig6voro ++ fig6dela)

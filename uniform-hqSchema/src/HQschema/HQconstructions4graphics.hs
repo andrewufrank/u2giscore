@@ -27,7 +27,7 @@ module HQschema.HQconstructions4graphics
 
 import           Test.Framework hiding (scale, (.&.))
 import UniformBase  
-import HQschema.HQexampleShort
+-- import HQschema.HQexampleShort
 import HQschema.HQschemaShort
 -- import Control.Exception
 import Uniform.GeometryFunctions

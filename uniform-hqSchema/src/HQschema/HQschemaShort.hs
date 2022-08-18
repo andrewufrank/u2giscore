@@ -27,15 +27,18 @@
 
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use newtype instead of data" #-}
+{-# OPTIONS_GHC -Wno-missing-methods #-}
 
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
 module HQschema.HQschemaShort where
 
-import Uniform.Point2dData
+import Uniform.Point2d
+import Uniform.TripleStore
 -- import Uniform.Point2d
 import UniformBase
+import Control.Monad.State
 
 
 type IDtype = Int
@@ -62,8 +65,12 @@ instance NiceStrings ObjTessShort
 
 unHalfQuad :: ObjTessShort -> IDtype
 unHalfQuad (HalfQuad i) = i
+unHalfQuad x = errorT ["unHalfQuad - not a HalfQuad", showT x]
+
 unFace :: ObjTessShort -> IDtype
 unFace (Face i) = i
+unFace x = errorT ["unFace - not a Face", showT x]
+
 unTagPoints2V = unName . unPointTag
 
 unPointTag :: ObjTessShort -> Pnt2
@@ -124,4 +131,5 @@ data TessShortHQtriples = TessShortHQtriples
 
 type StoreTessShortElement = (ObjTessShort, MorphTessShort, ObjTessShort)
 
-
+type CatStoreTessShort = CatStore ObjTessShort MorphTessShort
+type CatStoreState = State  CatStoreTessShort [StoreTessShortElement]

@@ -27,7 +27,7 @@ module HQschema.HQconstructionsEdges
 
 import           Test.Framework hiding (scale, (.&.))
 import UniformBase  
-import HQschema.HQexampleShort
+-- import HQschema.HQexampleShort
 import HQschema.HQschemaShort
 -- import Control.Exception
 import Uniform.GeometryFunctions
@@ -88,10 +88,7 @@ lengthHQasTriple :: State
   [(ObjTessShort, MorphTessShort, ObjTessShort)]
 lengthHQasTriple = fmap (map lengthHQtriple) points12
 
-midpointHQasTriple :: State 
-  CatStoreTessShort
-   
-  [StoreTessShortElement]
+midpointHQasTriple :: State  CatStoreTessShort [StoreTessShortElement]
 midpointHQasTriple = fmap (map midpointHQtriple) points12
 
 

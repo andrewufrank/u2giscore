@@ -25,9 +25,9 @@ import Uniform.NaiveTripleStore
 import Uniform.TripleStore
 import Uniform.TripleRels
 -- import HQschema.HQexampleLong
-import HQschema.HQexampleShort
-import HQschema.HQfaces_test
-import HQschema.HQfourteenPoints
+import ExampleData.HQexampleShort
+-- import HQschema.HQfaces_test
+import ExampleData.HQfourteenPoints
 
 
 main =

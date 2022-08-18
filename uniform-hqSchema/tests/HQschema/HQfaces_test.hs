@@ -20,6 +20,9 @@
 {-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
 {-# OPTIONS_GHC -fno-warn-missing-methods #-}
 {-# OPTIONS_GHC -w #-}
+{-# HLINT ignore "Use map once" #-}
+{-# HLINT ignore "Avoid lambda" #-}
+{-# HLINT ignore "Redundant $" #-}
 
 module HQschema.HQfaces_test
     where
@@ -28,13 +31,13 @@ import           Test.Framework hiding (scale, (.&.))
 
 import UniformBase  
 import Uniform.NaiveTripleStore
-import HQschema.HQexampleShort
+import ExampleData.HQexampleShort
 import HQschema.HQschemaShort
 import HQschema.HQconstructions4graphics 
 -- -- import Control.Exception
 import Uniform.GeometryFunctions
 -- import Uniform.Point2d ()
-import Uniform.Point2dData
+import ExampleData.Point2d
 import Uniform.TesselationHalfQuads
 import Uniform.TripleStore (CatStores(catStoreBatch))
 import Uniform.Drawings
@@ -46,6 +49,7 @@ import Control.Monad.State
 import Data.Functor.Identity
 import HQschema.HQconstructionsEdges
 import HQschema.HQconstructionsFaces
+import HQschema.HQschemaTop
 import Control.Monad.RWS (MonadWriter(tell))
  
 tess41short = makeCatFrom 400 fourPnt2d 
@@ -75,17 +79,17 @@ lengthHQ2Ins5 = evalState lengthHQasTriple tess51short
 -- with length, midpoint 
 -- with area incircle circumcircle 
 
--- trans which go for edges 
-forEdges2points = [lengthHQtriple, midpointHQtriple]  
-forFaces = [circumcenter2triple, incenter2triple]
-forFaces2 = [area2triples]
-forqueries = [points12]
-theCats = [tess41short, tess51short]
-additinsPoints :: CatStoreTessShort -> [(ObjTessShort, MorphTessShort, ObjTessShort)]
-additinsPoints cat =  concat [evalTrans4query2cat trans points12 cat | trans <-[lengthHQtriple, midpointHQtriple]  ] -- trans query cat
-additinsAreas cat  =  concat [evalTrans4query2cat trans coords2faces cat | trans <-[area2triples] ] -- trans query cat
-additinsCenters cat =  catMaybes . concat   $ [evalTrans4query2cat trans coords2faces cat | trans <-[circumcenter2triple, incenter2triple]  ] -- trans query cat
-allAddins cat = concat [additinsPoints cat, additinsAreas cat, additinsCenters cat]
+-- -- trans which go for edges 
+-- forEdges2points = [lengthHQtriple, midpointHQtriple]  
+-- forFaces = [circumcenter2triple, incenter2triple]
+-- forFaces2 = [area2triples]
+-- forqueries = [points12]
+-- theCats = [tess41short, tess51short]
+-- additinsPoints :: CatStoreTessShort -> [(ObjTessShort, MorphTessShort, ObjTessShort)]
+-- additinsPoints cat =  concat [evalTrans4query2cat trans points12 cat | trans <-[lengthHQtriple, midpointHQtriple]  ] -- trans query cat
+-- additinsAreas cat  =  concat [evalTrans4query2cat trans coords2faces cat | trans <-[area2triples] ] -- trans query cat
+-- additinsCenters cat =  catMaybes . concat   $ [evalTrans4query2cat trans coords2faces cat | trans <-[circumcenter2triple, incenter2triple]  ] -- trans query cat
+-- allAddins cat = concat [additinsPoints cat, additinsAreas cat, additinsCenters cat]
 
 cat42 = catStoreBatch (map Ins (allAddins tess41short)) tess41short
 cat52 = catStoreBatch (map Ins (allAddins tess51short)) tess51short
