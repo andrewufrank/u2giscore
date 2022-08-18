@@ -24,10 +24,10 @@ import UniformBase
 import Uniform.NaiveTripleStore 
 import Uniform.TripleStore
 import Uniform.TripleRels
--- import ExampleData.HQexampleLong
-import ExampleData.HQexampleShort
-import ExampleData.HQfaces_test
-import ExampleData.HQfourteenPoints
+-- import HQschema.HQexampleLong
+import HQschema.HQexampleShort
+import HQschema.HQfaces_test
+import HQschema.HQfourteenPoints
 
 
 main =
@@ -48,7 +48,7 @@ main2 = do
     -- mainMakeTessLong
     -- mainMakeTessShort
     -- pageHQfaces_testGraphicsx
-    -- mainMakeTessShort  -- from ExampleData.HQexampleShort
+    -- mainMakeTessShort  -- from HQschema.HQexampleShort
     -- pageHQfaces_test
     -- pageHQforglossFaces
     pageHQfourteenPoints

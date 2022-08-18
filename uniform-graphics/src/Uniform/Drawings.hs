@@ -40,7 +40,7 @@ module Uniform.Drawings
  
 import UniformBase
 import Uniform.Point2d 
-import Uniform.Point2dData
+import ExampleData.Point2d
 import Uniform.GeometryFunctions
 import Graphics.Gloss hiding (scale)
 import qualified Graphics.Gloss.Data.Point.Arithmetic as A

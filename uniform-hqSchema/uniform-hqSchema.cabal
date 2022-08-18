@@ -20,13 +20,17 @@ extra-source-files:
 
 library
   exposed-modules:
-      ExampleData.HQconstructions4graphics
-      ExampleData.HQconstructionsEdges
-      ExampleData.HQconstructionsFaces
       ExampleData.HQexampleShort
       ExampleData.HQfaces_test
       ExampleData.HQfourteenPoints
       ExampleData.HQschemaShort
+      HQschema.HQconstructions4graphics
+      HQschema.HQconstructionsEdges
+      HQschema.HQconstructionsFaces
+      HQschema.HQexampleShort
+      HQschema.HQfaces_test
+      HQschema.HQfourteenPoints
+      HQschema.HQschemaShort
   other-modules:
       Paths_uniform_hqSchema
   hs-source-dirs:

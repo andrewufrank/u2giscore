@@ -22,7 +22,7 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module HQschema.HQexampleShort where
+module ExampleData.HQexampleShort where
 
 -- import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
@@ -30,7 +30,7 @@ module HQschema.HQexampleShort where
 import UniformBase
 import Uniform.GeometryFunctions
 import Uniform.Point2dData
-import HQschema.HQschemaShort
+import ExampleData.HQschemaShort
 import Uniform.TripleStore
 -- import Uniform.Point2d
 import Uniform.TesselationHalfQuads

@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 --
--- Module      :  HQschema to test toHq 
+-- Module      :  ExampleData to test toHq 
 -- the schema for handling the geometry of tesselations 
 
 -- this is the short schema (with sumtype tag is Obj constructor)
@@ -31,7 +31,7 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module HQschema.HQschemaShort where
+module ExampleData.HQschemaShort where
 
 import Uniform.Point2dData
 -- import Uniform.Point2d

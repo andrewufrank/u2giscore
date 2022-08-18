@@ -35,7 +35,7 @@ import HQschema.HQconstructions4graphics
 -- -- import Control.Exception
 import Uniform.GeometryFunctions
 -- import Uniform.Point2d ()
-import Uniform.Point2dData
+import ExampleData.Point2d
 import Uniform.TesselationHalfQuads
 import Uniform.TripleStore  
 import Uniform.Drawings
