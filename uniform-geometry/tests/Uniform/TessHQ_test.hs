@@ -41,6 +41,37 @@ import qualified Data.PlaneGraph as Plane
 import qualified Data.Vector as Vec
 -- import qualified Data.Geometry.Point as HP 
 
+controlList :: Triangulation v r -> [(Int, Dart Int, VertexId' Int, VertexId' Int, FaceId' Int, FaceId' Int)]
+controlList tess = map oneDart darts 
+    where 
+        pg = toPlaneGraph tess 
+        darts = Vec.toList . darts' $  pg
+        oneDart d = ( fromEnum d
+            , d
+            , tailOf d pg
+            , headOf d pg
+            , leftFace d pg 
+            , rightFace d pg
+             )
+
+mainHQ :: ErrIO ()
+mainHQ = do
+    putIOwords ["the conversion to a tesselation As Half-Quads"]
+    putIOwords ["the given points", showlong fourPnt2d]
+    let tess41 = delaunay2 fourPnt2d
+    putIOwords ["the returned tesselation", showT tess41]
+    putIOwords ["point2d two\n", showlong (toHq1 tess41), "\n"]
+    putIOwords ["controlList \nid, dart,          tail,      head,      left,    right \n",   showAsLines . controlList $ tess41, "\n"]
+
+mainHQ2 :: ErrIO ()
+mainHQ2 = do
+    putIOwords ["the conversion to a tesselation As Half-Quads"]
+    putIOwords ["the given points", showlong fivePnt2d]
+    let tess51 = delaunay2 fivePnt2d
+    putIOwords ["the returned tesselation", showT tess51]
+    putIOwords ["point2d two\n", showlong (toHq1 tess51), "\n"]
+    putIOwords ["controlList \nid, dart,          tail,      head,      left,    right \n",   showAsLines . controlList $ tess51, "\n"]
+    
 -- mainMakeTess v2s= do 
 --     putIOwords ["\nmainDelaunayTriples\n"]
 --     -- putIOwords ["\nthe hq for faces\n", showT ]
@@ -131,13 +162,3 @@ planarSubdi2Four = "PlanarSubdivision {_components = [PlaneGraph {_graph = Plana
 toPlaneGraphFour = "PlaneGraph {_graph = PlanarGraph embedding = Permutation {_orbits = [[Dart (Arc 0) +1,Dart (Arc 1) +1,Dart (Arc 2) +1],[Dart (Arc 3) +1,Dart (Arc 4) +1,Dart (Arc 2) -1],[Dart (Arc 4) -1,Dart (Arc 0) -1],[Dart (Arc 1) -1,Dart (Arc 3) -1]], _indexes = [(0,0),(2,1),(0,1),(3,0),(0,2),(1,2),(1,0),(3,1),(1,1),(2,0)]} , vertexData = [VertexData {_location = Point2 0.0 0.0, _vData = 11},VertexData {_location = Point2 1.5 1.5, _vData = 12},VertexData {_location = Point2 0.0 2.0, _vData = 13},VertexData {_location = Point2 2.0 0.0, _vData = 14}] , rawDartData = [(),(),(),(),(),(),(),(),(),()] , faceData = [(),(),()]}"
 
 
--- old gqull style 
-
-{-
-tripsResfour :: Text
-tripsResfour = TesselationHQ {_Nodes = [NodeHQ (V2 0.0 0.0),NodeHQ (V2 1.5 1.5),NodeHQ (V2 0.0 2.0),NodeHQ (V2 2.0 0.0)], _Faces = [FaceHQ {circumcenter = V2 1.0 0.5},FaceHQ {circumcenter = V2 0.5 1.0}], _HQs = [HQ {node = 1, face = Nothing, twin = 5, halflength = 0.7905694150420949},HQ {node = 0, face = Just 0, twin = 6, halflength = 1.0},HQ {node = 0, face = Just 1, twin = 7, halflength = 1.0606601717798212},HQ {node = 1, face = Just 1, twin = 8, halflength = 0.7905694150420949},HQ {node = 0, face = Nothing, twin = 9, halflength = 1.0},HQ {node = 3, face = Just 0, twin = 0, halflength = 0.7905694150420949},HQ {node = 3, face = Nothing, twin = 1, halflength = 1.0},HQ {node = 1, face = Just 0, twin = 2, halflength = 1.0606601717798212},HQ {node = 2, face = Nothing, twin = 3, halflength = 0.7905694150420949},HQ {node = 2, face = Just 1, twin = 4, halflength = 1.0}]}
-
-tripsResfive = TesselationHQ {_Nodes = [NodeHQ (V2 0.0 0.0),NodeHQ (V2 3.0 0.0),NodeHQ (V2 4.0 2.0),NodeHQ (V2 3.0 5.0),NodeHQ (V2 0.0 3.0)], _Faces = [FaceHQ {circumcenter = V2 2.1363636363636362 3.0454545454545454},FaceHQ {circumcenter = V2 1.5 1.5},FaceHQ {circumcenter = V2 1.8333333333333335 1.8333333333333333}], _HQs = [HQ {node = 3, face = Just 0, twin = 7, halflength = 1.8027756377319946},HQ {node = 2, face = Just 2, twin = 8, halflength = 2.0615528128088303},HQ {node = 2, face = Just 0, twin = 9, halflength = 1.5811388300841898},HQ {node = 1, face = Nothing, twin = 10, halflength = 2.1213203435596424},HQ {node = 0, face = Nothing, twin = 11, halflength = 1.5},HQ {node = 0, face = Just 1, twin = 12, halflength = 1.5},HQ {node = 1, face = Just 2, twin = 13, halflength = 1.118033988749895},HQ {node = 4, face = Nothing, twin = 0, halflength = 1.8027756377319946},HQ {node = 4, face = Just 0, twin = 1, halflength = 2.0615528128088303},HQ {node = 3, face = Nothing, twin = 2, halflength = 1.5811388300841898},HQ {node = 4, face = Just 2, twin = 3, halflength = 2.1213203435596424},HQ {node = 4, face = Just 1, twin = 4, halflength = 1.5},HQ {node = 1, face = Nothing, twin = 5, halflength = 1.5},HQ {node = 2, face = Nothing, twin = 6, halflength = 1.118033988749895}]}
-
-tripsResfive_31 = TesselationHQ {_Nodes = [NodeHQ (V2 0.0 0.0),NodeHQ (V2 3.1 0.0),NodeHQ (V2 4.0 2.0),NodeHQ (V2 3.0 5.0),NodeHQ (V2 0.0 3.0)], _Faces = [FaceHQ {circumcenter = V2 2.1363636363636362 3.0454545454545454},FaceHQ {circumcenter = V2 1.55 1.4999999999999998},FaceHQ {circumcenter = V2 1.8196629213483149 1.7786516853932581}], _HQs = [HQ {node = 3, face = Just 0, twin = 7, halflength = 1.8027756377319946},HQ {node = 2, face = Just 2, twin = 8, halflength = 2.0615528128088303},HQ {node = 2, face = Just 0, twin = 9, halflength = 1.5811388300841898},HQ {node = 1, face = Just 1, twin = 10, halflength = 2.156965461012299},HQ {node = 0, face = Nothing, twin = 11, halflength = 1.5},HQ {node = 0, face = Just 1, twin = 12, halflength = 1.55},HQ {node = 1, face = Just 2, twin = 13, halflength = 1.0965856099730653},HQ {node = 4, face = Nothing, twin = 0, halflength = 1.8027756377319946},HQ {node = 4, face = Just 0, twin = 1, halflength = 2.0615528128088303},HQ {node = 3, face = Nothing, twin = 2, halflength = 1.5811388300841898},HQ {node = 4, face = Just 2, twin = 3, halflength = 2.156965461012299},HQ {node = 4, face = Just 1, twin = 4, halflength = 1.5},HQ {node = 1, face = Nothing, twin = 5, halflength = 1.55},HQ {node = 2, face = Nothing, twin = 6, halflength = 1.0965856099730653}]}
--}

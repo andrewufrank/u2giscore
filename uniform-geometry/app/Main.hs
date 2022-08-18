@@ -58,10 +58,11 @@ main2 = do
     -- mainDelaunay
     -- mainDelaunayTiles
     -- mainDelaunayTriples
-    mainHQ
-    mainHQ2
+    -- mainHQ
+    -- mainHQ2
     -- showFacePage
     
+    return ()
 -- p1 = Point2d 1 (V2 1 1):: P2
 
 -- fourDouble :: [[Double]]

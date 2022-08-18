@@ -45,14 +45,14 @@ module Uniform.TesselationHalfQuads
 
 import UniformBase
 import Uniform.Point2d
-import Uniform.Point2dData
+-- import Uniform.Point2dData
 import Uniform.GeometryFunctions
 -- import qualified Data.Map as Map
 -- import Linear.V2
 -- import qualified Linear.Vector as Lin
 import Control.Lens
 import Algorithms.Geometry.DelaunayTriangulation.Types
-import Algorithms.Geometry.DelaunayTriangulation.Naive
+-- import Algorithms.Geometry.DelaunayTriangulation.Naive
 -- import Data.Ext
 import Data.PlaneGraph
 import qualified Data.PlaneGraph as Plane
@@ -108,7 +108,7 @@ vertices11 tess11 = Vec.toList . vertices . toPlaneGraph $ tess11
 
 hqfaces2 tess12 = map FaceHQ (faces1x tess12) -- [0 .. (nf - 1)] 
 -- todo will need circumcenter and incenter
--- add later?
+--  done after the relations are stored 
     where
         -- nf :: Int
         -- nf = numFaces . toPlaneGraph $ tess12
@@ -142,48 +142,7 @@ showAsLines = unlines' . map showT
 -- should include the syntax (, and [])
 
 
-mainHQ :: ErrIO ()
-mainHQ = do
-    putIOwords ["the conversion to a tesselation As Half-Quads"]
-    putIOwords ["the given points", showlong fourPnt2d]
-    let tess41 = delaunay2 fourPnt2d
-    putIOwords ["the returned tesselation", showT tess41]
-    putIOwords ["point2d two\n", showlong (toHq1 tess41), "\n"]
-    putIOwords ["controlList \nid, dart,          tail,      head,      left,    right \n",   showAsLines . controlList $ tess41, "\n"]
-
-mainHQ2 :: ErrIO ()
-mainHQ2 = do
-    putIOwords ["the conversion to a tesselation As Half-Quads"]
-    putIOwords ["the given points", showlong fivePnt2d]
-    let tess51 = delaunay2 fivePnt2d
-    putIOwords ["the returned tesselation", showT tess51]
-    putIOwords ["point2d two\n", showlong (toHq1 tess51), "\n"]
-    putIOwords ["controlList \nid, dart,          tail,      head,      left,    right \n",   showAsLines . controlList $ tess51, "\n"]
 
 
--- instance (Show a, Show b, Show c, Show d, Show e, Show f) => NiceStrings (a,b,c,d,e, f) where 
---     showlong (a,b,c,d,e,f) = "(" <> showT a <> "\n" <> showT b <>"\n" <>
---                     showT c <> "\n" <> showT d <> "\n" <> showT e <> "\n" <> showT f <>   "\n)" 
--- produces loop
 
-
-controlList :: Triangulation v r -> [(Int, Dart Int, VertexId' Int, VertexId' Int, FaceId' Int, FaceId' Int)]
-controlList tess = map oneDart darts 
-    where 
-        pg = toPlaneGraph tess 
-        darts = Vec.toList . darts' $  pg
-        oneDart d = ( fromEnum d
-            , d
-            , tailOf d pg
-            , headOf d pg
-            , leftFace d pg 
-            , rightFace d pg
-             )
-
--- to get the face xy coord (i.e. the face as a node in the dual)
-
--- tess9 = delaunay2 fourPnt2d
--- pg9 = toPlaneGraph tess9
--- ps9 = planarSubdiv2 tess9
--- dualpg =  pg9 ^. pg9
--- dualpg' = pg9 ^. ps9
+ 
