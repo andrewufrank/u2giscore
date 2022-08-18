@@ -107,7 +107,7 @@ relPair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
 
 semicolon :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
 -- | an alternative name for composition of relations, with reverse order (wrt '.')
-r1 `semicolon` r2 = compRel r2 r1 
+r1 `semicolon` r2 = compRel r1 r2 
 
 --- monadic versions -----------------------------
 

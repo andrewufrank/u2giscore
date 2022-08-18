@@ -169,4 +169,4 @@ test_compRel2 = assertEqual [(20, 0), (20, 1), (24, 1)] (nub $ compRel  (compRel
 test_relPair1 = assertEqual ([(20, (0, 10)), (20, (0, 10)), (21, (2, 20)), (20, (1, 10)),
  (20, (1, 10)), (24, (1, 10))] :: [(Int, (Int,Int))]) $ relPair r2 r3 
 
-test_semicolon = assertEqual (compRel r1 r2) (r2 `semicolon` r1)
+test_semicolon = assertEqual (compRel r1 r2) (r1 `semicolon` r2)
