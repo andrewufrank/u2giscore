@@ -166,7 +166,7 @@ test_compRel2 = assertEqual [(20, 0), (20, 1), (24, 1)] (nub $ compRel (converse
 -- not quite, but nearly 
 test_comp_x = assertEqual (compRel r2 r1) (compRelx r1 r2)
 
-test_compRelZip1 = assertEqual ([(20, (10, 0)), (20, (10, 1)), (21, (20, 2)), (20, (10, 0)),
- (20, (10, 1)), (24, (10, 1))] :: [(Int, (Int,Int))]) $ compRelZip r2 r3 
+test_relPair1 = assertEqual ([(20, (0, 10)), (20, (0, 10)), (21, (2, 20)), (20, (1, 10)),
+ (20, (1, 10)), (24, (1, 10))] :: [(Int, (Int,Int))]) $ relPair r2 r3 
 
 test_semicolon = assertEqual (compRel r1 r2) (r2 `semicolon` r1)

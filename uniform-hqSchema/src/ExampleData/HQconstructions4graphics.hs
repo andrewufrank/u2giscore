@@ -53,13 +53,13 @@ hqTriangles = do
 
 points2v2 = second (map  (unName . unPointTag))  
 
--- hqTriangles1 :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
--- hqTriangles1 = do 
---     f <- rel2 HqFace 
---     n <- rel2 HqNode 
---     xy <- rel2 XY 
---     let fp3 =  xy 
---     return $ groupSort  fp3  
+hqVoro :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
+hqTriangles1 = do 
+    f <- rel2 HqFace 
+    -- n <- rel2 HqNode 
+    xy <- rel2 XY 
+    let fp3 =  xy 
+    return $ groupSort  fp3  
 
 -- hqTriangles2 :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
 -- hqTriangles2 = do 

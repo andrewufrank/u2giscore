@@ -30,9 +30,9 @@ import ExampleData.HQfaces_test
 import Uniform.Drawings
 
 
-main =
+gmain =
   startProg
-    (unwords' ["Uniform.Graphics", "the test for relatiosn and triple store"])
+    (unwords' ["Uniform.Graphics - Gmain", "the test for relatiosn and triple store"])
     ( do
 
         main2

@@ -100,9 +100,10 @@ compRelx r1 r2 = [ (a,d) | (a,b) <- r1, (c,d) <- r2, b==c]
 -- replOneZip rs (a,b) = zip (repeat a) r 
 --     where 
 --         r = zip (repeat b) (map snd . filter ((b==).fst) $ rs)
-compRelZip :: (Eq o) =>  Rel2 o -> Rel2 o ->  [(o, (o,o))]
+relPair :: (Eq o) =>  Rel2 o -> Rel2 o ->  [(o, (o,o))]
+-- make the obj a pair of the the objects of the two relations
 
-compRelZip r2 r1 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
+relPair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
 
 semicolon :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
 -- | an alternative name for composition of relations, with reverse order (wrt '.')

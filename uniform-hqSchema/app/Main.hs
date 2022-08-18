@@ -32,7 +32,7 @@ import ExampleData.HQfaces_test
 
 main =
   startProg
-    (unwords' ["Uniform.Graphics", "the test for graphics "])
+    (unwords' ["Uniform.Graphics Main", "the test for graphics "])
     ( do
 
         main2
@@ -47,7 +47,7 @@ main2 = do
     -- mainHQ
     -- mainMakeTessLong
     -- mainMakeTessShort
-    pageHQfaces_testGraphics
+    pageHQfaces_testGraphicsx
     -- mainMakeTessShort  -- from ExampleData.HQexampleShort
     -- pageHQfaces_test
     -- pageHQforglossFaces

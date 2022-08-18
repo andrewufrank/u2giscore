@@ -48,7 +48,7 @@ import Graphics.Gloss.Data.Color
 import qualified Graphics.Gloss as Gloss
 import Numeric.Extra -- for conversion to gloss data type float 
 
-import Control.Lens 
+-- import Control.Lens 
 -- -- import GHC.Generics
 
 -- | polygon with a function to close the line
@@ -94,7 +94,7 @@ finishPicture = Gloss.translate (-100) (-100) .Gloss.scale 20 20. pictures . map
 
 showFacePage2 :: [Figure V2D] -> ExceptT Text IO ()
 showFacePage2 figs = do
-    putIOwords [ "Lib.showFacePage  here"]
+    putIOwords [ "Lib.showFacePage2  here"]
     liftIO (do 
         -- scale to give a 10 x 10 upper right 
         display window2 white (finishPicture figs)

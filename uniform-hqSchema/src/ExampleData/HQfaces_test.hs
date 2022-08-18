@@ -100,13 +100,13 @@ fig4 :: [Figure V2D]
 fig4 = map closeLine . map (\p -> Figure (dark green) p) . map snd $ hq4
 fig5 = map closeLine . map (\p -> Figure (dark red) p) . map snd $ hq5
 
-pageHQfaces_testGraphics ::  ExceptT Text IO ()
-pageHQfaces_testGraphics    = do
+pageHQfaces_testGraphicsx ::  ExceptT Text IO ()
+pageHQfaces_testGraphicsx    = do
     putIOwords ["pageHQfaces_testGraphics - the hq4  ", shownice hq4]
     putIOwords ["pageHQfaces_testGraphics - the hq5  ", shownice hq5]
     -- putIOwords ["pageHQfaces_testGraphics - the figure  ", shownice fig]
 
-    showFacePage2 fig5
+    -- showFacePage2 fig5
 
 pageHQfaces_test3 :: ErrIO ()
 pageHQfaces_test3 = do
