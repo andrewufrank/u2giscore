@@ -46,7 +46,6 @@ library
 executable exec
   main-is: Main.hs
   other-modules:
-      Gmain
       Paths_uniform_hqSchema
   hs-source-dirs:
       app
