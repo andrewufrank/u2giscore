@@ -22,7 +22,7 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module Uniform.Point2d_test where
+module Uniform.Drawings_test where
 
 import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
@@ -33,6 +33,8 @@ import UniformBase
 
 -- import Control.Exception
 import Uniform.GeometryFunctions
+import Control.Lens
+-- import Lense.Simple
 -- import qualified Data.Geometry.Point as HP 
 -- import Uniform.HQfaces_test
 

@@ -31,6 +31,7 @@ library
     , containers
     , extra
     , gloss
+    , lens
     , uniform-geometry
     , uniformBase >=0.1.4.1
   default-language: Haskell2010
@@ -47,6 +48,7 @@ executable main
     , containers
     , extra
     , gloss
+    , lens
     , uniform-geometry
     , uniform-graphics
     , uniformBase >=0.1.4.1
@@ -56,7 +58,7 @@ test-suite test
   type: exitcode-stdio-1.0
   main-is: Testing.hs
   other-modules:
-      Uniform.Drewings_test
+      Uniform.Drawings_test
       Uniform.Graphics_test
       Paths_uniform_graphics
   hs-source-dirs:
@@ -67,6 +69,7 @@ test-suite test
     , containers
     , extra
     , gloss
+    , lens
     , quickcheck-text
     , uniform-geometry
     , uniform-graphics

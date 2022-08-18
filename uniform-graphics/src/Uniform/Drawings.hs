@@ -47,8 +47,8 @@ import qualified Graphics.Gloss.Data.Point.Arithmetic as A
 import Graphics.Gloss.Data.Color
 import qualified Graphics.Gloss as Gloss
 import Numeric.Extra -- for conversion to gloss data type float 
-
--- import Control.Lens 
+-- import Lense.Simple
+import Control.Lens 
 -- -- import GHC.Generics
 
 -- | polygon with a function to close the line
@@ -74,6 +74,10 @@ makeLenses ''Figure   -- only available from here onwards
 instance DrawPolygon (Figure V2D) where 
     closeLine = over figPath  lineClose   
 
+figLine ::Color ->  (V2D, V2D) -> Figure V2D 
+-- | make a line with from two points 
+figLine c (a,b) = Figure c [a,b]
+figLine c pts = errorT ["not two points for a single line!", showT pts]
 
 figure2picture' ::  Figure V2D -> Picture
 figure2picture' f =  color (f ^. figColor) $ Line .  map toGloss $ _figPath f 

@@ -23,7 +23,7 @@ dependencies:
 - base >= 4.7 && < 5
 - HTF
 - uniformBase >=0.1.4.1
-# - lens 
+- lens 
 - uniform-geometry
 - extra
 - containers

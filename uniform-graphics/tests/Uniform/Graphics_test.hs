@@ -22,12 +22,12 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module Uniform.Geometry_test where
+module Uniform.Graphics_test where
 
 import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
 import Uniform.Point2dData
--- import UniformBase
+import UniformBase
 
 -- import Uniform.GeometryFunctions
 -- import qualified Data.Geometry.Point as HP 

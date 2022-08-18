@@ -48,7 +48,7 @@ points12 = do
     hqn <- rel2 HqNode 
     xy <- rel2 XY 
     twin <- rel2 Twin 
-    return (compRelZip (hqn .&. xy) (twin .&. hqn .&. xy))
+    return (relPair (hqn .&. xy) (twin .&. hqn .&. xy))
 -------------------- helpers 
 
 dup a = (a,a)

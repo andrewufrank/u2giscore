@@ -33,7 +33,7 @@ module Uniform.GeometryFunctions
     , module Uniform.Point2d
     , module Linear.V2
     -- , module Linear.Metric
-    , module Control.Lens
+    -- , module Control.Lens
     , Pnt2, V2
     , distance -- from Linear.Vector
         ) 

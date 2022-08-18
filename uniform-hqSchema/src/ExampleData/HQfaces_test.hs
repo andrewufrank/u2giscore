@@ -94,11 +94,14 @@ cat52 = catStoreBatch (map Ins (allAddins tess51short)) tess51short
 hq4 :: [(ObjTessShort, [V2D])]
 hq4 = evalTrans4query2cat points2v2 hqTriangles cat42 
 hq5 = evalTrans4query2cat points2v2 hqTriangles cat52 
+hqV4 = evalTrans4query2cat pointsPairsv2 hqTriangles cat42 
 
 
 fig4 :: [Figure V2D]
 fig4 = map closeLine . map (\p -> Figure (dark green) p) . map snd $ hq4
 fig5 = map closeLine . map (\p -> Figure (dark red) p) . map snd $ hq5
+
+fig4voro = map (\p -> figLine (dark green) p) . map snd # hqVoro
 
 pageHQfaces_testGraphicsx ::  ExceptT Text IO ()
 pageHQfaces_testGraphicsx    = do
@@ -113,6 +116,7 @@ pageHQfaces_test3 = do
     putIOwords ["the triples in cat45  \n ", shownice cat42]
 
     putIOwords ["the hq triangles  \n ", showAsLines $ hq4]
+    putIOwords ["the voronoi lines  \n ", showT $ hqVoro]
 
     
     -- putIOwords ["the hq triangles 1  \n ", showAsLines $ evalTrans4query2cat id hqTriangles1 cat45 ]
