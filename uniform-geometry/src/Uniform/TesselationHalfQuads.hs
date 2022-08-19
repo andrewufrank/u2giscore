@@ -136,9 +136,9 @@ toHq1 tess11 = TesselationHQ
     , _HQdatas = tohqdatahq tess11
     }
 
-showAsLines :: Show a => [a] -> Text 
-showAsLines = unlines' . map showT 
--- should include the syntax (, and [])
+-- showAsLines :: Show a => [a] -> Text 
+-- showAsLines = unlines' . map showT 
+-- -- should include the syntax (, and [])
 
 
 

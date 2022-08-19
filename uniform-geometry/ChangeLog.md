@@ -58,3 +58,6 @@ missing center for circumcircle, lengths and surface.
 0.0.1.7 cleaning up 
     - gloss moved into the Drawing, eventually its own package
     - concentrate all Hgeometry dependency to bottom
+
+0.0.1.8 breaking out u2giscore (from u2to)
+    added showAsLines to strings (uniformBase 0.1.4.2)

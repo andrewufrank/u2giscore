@@ -1,5 +1,5 @@
 name: uniform-graphics
-version: 0.0.1.1
+version: 0.0.1.2
 # cabal-version: >=1.22
 # build-type: Simple
 license: GPL
@@ -22,9 +22,9 @@ extra-source-files:
 dependencies:
 - base >= 4.7 && < 5
 - HTF
-- uniformBase >=0.1.4.1
+- uniformBase >=0.1.4.2
 - lens 
-- uniform-geometry
+- uniform-geometry>=0.0.1.8
 - extra
 - containers
 - gloss

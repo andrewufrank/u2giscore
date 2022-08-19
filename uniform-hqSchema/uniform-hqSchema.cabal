@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           uniform-hqSchema
-version:        0.0.1.2
+version:        0.0.1.3
 synopsis:       the schema (i.e. data types) necessary to load geometry to a naive triple store (using the half-quad representation)
 description:    converting the extracted relations from a triangulation and reformat it for storage into a triple store
 category:       Geometry, Uniform, Relations
@@ -37,9 +37,9 @@ library
     , extra
     , monads-tf
     , transformers
-    , uniform-geometry >=0.0.1.7.1
-    , uniform-graphics
-    , uniform-relations >=0.0.1.3
+    , uniform-geometry >=0.0.1.8
+    , uniform-graphics >=0.0.1.2
+    , uniform-relations >=0.0.1.3.2
     , uniformBase >=0.1.4.2
   default-language: Haskell2010
 
@@ -55,10 +55,10 @@ executable exec
     , extra
     , monads-tf
     , transformers
-    , uniform-geometry >=0.0.1.7.1
-    , uniform-graphics
+    , uniform-geometry >=0.0.1.8
+    , uniform-graphics >=0.0.1.2
     , uniform-hqSchema
-    , uniform-relations >=0.0.1.3
+    , uniform-relations >=0.0.1.3.2
     , uniformBase >=0.1.4.2
   default-language: Haskell2010
 
@@ -77,9 +77,9 @@ test-suite test
     , monads-tf
     , quickcheck-text
     , transformers
-    , uniform-geometry >=0.0.1.7.1
-    , uniform-graphics
+    , uniform-geometry >=0.0.1.8
+    , uniform-graphics >=0.0.1.2
     , uniform-hqSchema
-    , uniform-relations >=0.0.1.3
+    , uniform-relations >=0.0.1.3.2
     , uniformBase
   default-language: Haskell2010

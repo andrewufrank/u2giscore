@@ -7,8 +7,11 @@ packages:
 --    ../uniform-json/*.cabal
     ../../uBase/uniform-strings/*.cabal
 --    ../uniform-time/*.cabal
-    ../uniform-geometry
-       ../../fromOthersExperiments/qhull/*.cabal
+
+
+--    ../uniform-geometry
+
+--      ../../fromOthersExperiments/qhull/*.cabal
 --    ../../qhullSplit/qhull/*.cabal 
 
 -- Disregard all upper bounds when dependency solving

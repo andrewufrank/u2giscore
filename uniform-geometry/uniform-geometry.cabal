@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           uniform-geometry
-version:        0.0.1.7.1
+version:        0.0.1.8
 synopsis:       uniform wrapper for geometry functions
 description:    - some basic data types for 2d points (represented as Double) and 
                 - functions (for ccw test, incenter and circumcenter)
@@ -41,7 +41,7 @@ library
     , hgeometry-combinatorial ==0.14.*
     , lens
     , linear
-    , uniformBase >=0.1.4.1
+    , uniformBase >=0.1.4.2
     , vector
     , vector-circular
   default-language: Haskell2010
@@ -63,7 +63,7 @@ executable exec
     , lens
     , linear
     , uniform-geometry
-    , uniformBase >=0.1.4.1
+    , uniformBase >=0.1.4.2
     , vector
     , vector-circular
   default-language: Haskell2010
