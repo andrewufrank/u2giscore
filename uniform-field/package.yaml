@@ -1,0 +1,59 @@
+name: uniform-field
+version: 0.0.1.0
+# cabal-version: >=1.22
+# build-type: Simple
+license: GPL
+license-file: GPL_3
+maintainer: Andrew U. Frank <andrewufrank@gmail.com>
+author: Andrew Frank
+category: 'Geometry, Uniform, GIS'
+synopsis: uniform wrapper for functions producing the field data in a GIS
+description: |
+  - functions to construct the field as a function pnt2d -> value
+
+
+# source-repository head
+#     type: git
+#     location: https://github.com/andrewufrank/u2giscore.git/uniform-field
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+dependencies:
+- base >= 4.7 && < 5
+- HTF
+- uniformBase >=0.1.4.2
+- uniform-geometry >= 0.0.1.8
+- extra
+- containers
+- repa-fftw
+- repa
+
+
+library:
+  source-dirs: 
+  - src
+ 
+
+executables: 
+  exec: 
+    main:   Main.hs
+    source-dirs:  app
+    dependencies: 
+    - uniform-field
+
+tests:
+  test:
+    main:                Testing.hs
+    source-dirs:         tests
+    dependencies:
+    - uniform-field
+    - HTF
+    - quickcheck-text
+    - uniformBase
+    # - uniform-strings
+    # - uniform-http
+    # - uniform-watch
+
+

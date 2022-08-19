@@ -1,0 +1,17 @@
+packages: 
+    *.cabal
+    ../../uBase/uniformBase
+    ../../uBase/uniform-algebras/*.cabal
+    ../../uBase/uniform-strings/*.cabal
+    ../../uBase/uniform-error/*.cabal
+--    ../../uBase/uniform-fileio/*.cabal
+
+--    ../uniform-json/*.cabal
+--    ../uniform-time/*.cabal
+    ../uniform-geometry
+
+ 
+-- Disregard all upper bounds when dependency solving
+
+allow-newer: toysolver:base 
+ 
