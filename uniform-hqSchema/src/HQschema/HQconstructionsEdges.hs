@@ -50,7 +50,7 @@ points12 = do
     return (relPair (hqn .&. xy) (twin .&. hqn .&. xy))
 -------------------- helpers 
 
-dup a = (a,a)
+
 
  
 -- for points12 

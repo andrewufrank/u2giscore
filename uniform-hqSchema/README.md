@@ -32,4 +32,4 @@ The goal is access to functions to compute
 - triangulations, and 
 - Voronoy tesselations. 
 
-They are 
+The functions here provide build the `CatStore` from a set of points as a set of triples according to the HQschema. `HQschemaTop` exports all the functions required. 
