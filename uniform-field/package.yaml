@@ -1,5 +1,5 @@
 name: uniform-field
-version: 0.0.1.0
+version: 0.0.1.1
 # cabal-version: >=1.22
 # build-type: Simple
 license: GPL
@@ -24,11 +24,11 @@ dependencies:
 - base >= 4.7 && < 5
 - HTF
 - uniformBase >=0.1.4.2
-- uniform-geometry >= 0.0.1.8
-- extra
-- containers
-- repa-fftw
-- repa
+# - uniform-geometry >= 0.0.1.8
+# - extra
+# - containers
+# - repa-fftw
+# - repa
 
 
 library:
