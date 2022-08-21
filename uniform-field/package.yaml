@@ -29,7 +29,7 @@ dependencies:
 # - containers
 # - repa-fftw
 # - repa
-
+- vector 
 
 library:
   source-dirs: 

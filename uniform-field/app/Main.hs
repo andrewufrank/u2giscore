@@ -20,7 +20,8 @@ module Main     where
 import UniformBase
 -- import Uniform.Point2d
 -- import ExampleData.Point2d 
-import Uniform.Field
+import Uniform.Fourier
+-- import Uniform.Field
 
 
 main =
@@ -34,6 +35,7 @@ main =
 
 main2 :: ErrIO () 
 main2 = do 
-    pageF1
+    -- pageF1
+    pageFourier
     
     return ()
