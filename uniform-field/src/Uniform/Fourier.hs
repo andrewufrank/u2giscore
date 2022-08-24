@@ -45,60 +45,68 @@ import qualified Prelude as P
 import Data.Complex
 import Data.List (transpose)
 
-import Data.Vector hiding (map)
+-- import Data.Vector hiding (map)
+import Data.Vector (Vector(..), toList, fromList)
 import qualified Data.Vector as V
 
--- one dimensional 
-
-
--- i :: Complex Double
--- i = 0 :+ 1
+-- one dimensional - first the base formula 'out of the book'
  
 omega :: Int -> Complex Double
 omega n = cis (2 * pi / fromIntegral n)
 
-
-
 dft' :: Int -> Double -> Vector (Complex Double) -> Vector (Complex Double)
-dft' sign scale h = generate bigN (((scale :+ 0) *) . doone)
-  where bigN = length h
+dft' sign scale h = V.generate bigN (((scale :+ 0) *) . doone)
+  where bigN = V.length h
         w = omega bigN
-        doone n = sum $
-                  zipWith (*) h $ generate bigN (\k -> w^^(sign*n*k))
+        doone n = V.sum $
+-- import Data.Vector hiding (map)
+                  V.zipWith (*) h $ V.generate bigN (\k -> w^^(sign*n*k))
 
 dft, idft :: Vector (Complex Double) -> Vector (Complex Double)
 dft = dft' 1 1
-idft v = dft' (-1) (1.0 / (fromIntegral $ length v)) v
+-- ^ the transformation from space domain to frequency domain
+idft v = dft' (-1) (1.0 / (fromIntegral $ V.length v)) v
+-- ^ inverst transformation, from frequency domain to space domain
 
--- for two dimensions
+
+-- for two dimensions - a list of vectors 
+-- could be a Vector (Vector) -- but this was simpler to code 
+
+-- helpers:
 
 fromList2d :: [[Complex Double]] -> [Vector (Complex Double)]
 -- fromList2d :: Vector [a] -> Vector (Vector a)
-fromList2d ms = P.map fromList ms 
+fromList2d ms = fmap fromList ms 
+toList2d :: Functor f => f (Vector a) -> f [a]
+toList2d ms = fmap toList ms 
 
 defuzz :: Vector (Complex Double) -> Vector (Complex Double)
--- makes close to zero to be 0 (but not other near integers)
+-- | makes close to zero to be 0 (but not other near integers)
 defuzz = V.map (\(r :+ i) -> df r :+ df i)
   where df x = if abs x < 1.0E-6 then 0 else x   
-defuzz' = P.map (\(r :+ i) -> df r :+ df i)
+defuzz' :: [Complex Double] -> [Complex Double]
+defuzz' = fmap (\(r :+ i) -> df r :+ df i)
   where df x = if abs x < 1.0E-6 then 0 else x   
-
 
 
 dft2d :: [[Complex Double]] -> [[Complex Double]]
-dft2d = P.map toList . transp . P.map dft . transp . P.map dft . P.map fromList 
+-- forward fourier transformation
+dft2d = toList2d . vecTransp . fmap dft . vecTransp . fmap dft . fmap fromList 
 
 dft2dtest :: [[Complex Double]] -> [[Complex Double]]
-dft2dtest = P.map toList . P.map dft . transp . P.map dft . transp.  P.map fromList 
+dft2dtest = toList2d . fmap dft . vecTransp . fmap dft . vecTransp .  fmap fromList 
 -- gives the same values as the other order
+
 idft2d :: [[Complex Double]] -> [[Complex Double]]
-idft2d = P.map toList . transp . P.map idft . transp . P.map idft . P.map fromList 
+-- | inverse 2d fourier transformation
+idft2d = toList2d . vecTransp . fmap idft . vecTransp . fmap idft . fmap fromList 
 
-transp :: [Vector a] -> [Vector a]
-transp = P.map fromList . transpose . P.map toList 
+vecTransp :: [Vector a] -> [Vector a]
+-- | transpose a Vector (by toList, fromList)
+vecTransp = fmap fromList . transpose . toList2d 
 
 
--- diff_e_x =  P.zipWith (P.-)  (P.concat x22tptp') (P.concat e22tptp')
+-- diff_e_x =  fzipWith (f-)  (fconcat x22tptp') (fconcat e22tptp')
 
 pageFourier :: ErrIO ()
 pageFourier = do 
