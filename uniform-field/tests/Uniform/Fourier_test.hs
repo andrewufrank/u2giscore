@@ -30,6 +30,7 @@ import           Test.Framework hiding (scale, generate)
 -- import ExampleData.Point2d
 -- import Uniform.Point2d
 import Prelude hiding (length, sum, map, zipWith, (++), null)
+import qualified Prelude as P
 import Data.Complex
 import Data.Vector
 import UniformBase
@@ -92,3 +93,13 @@ testpeak4r = assertEqual peak4 $ defuzz $ idft peak4ft
 -- test_p1 = assertEqual "Pnt2d {_p2id = 77, _v2 = V2 1.0 2.0}" (showT p1)
 -- test_v2zero = assertEqual "Pnt2d {_p2id = 0, _v2 = V2 0.0 0.0}" (showT (zero::Pnt2))
  
+test_transp2 = assertEqual e22 (transp . transp $ e22)
+test_transp8 = assertEqual g88' (P.map toList . transp . transp . P.map fromList $ g88')
+
+-- test if fourier transform first row then column same as other order 
+test_order44 = assertEqual (dft2d h44') (dft2dtest h44') 
+-- imprecis numeric! 
+
+
+test_four2d = assertEqual e22' (P.map (defuzz' . P.map ( (/4) )) . dft2d . dft2d $ e22')
+-- test_four2d_88 = assertEqual g88' (P.map (defuzz' . P.map ( (/64) )) . dft2d . dft2d $ g88')

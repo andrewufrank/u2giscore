@@ -36,7 +36,7 @@ module Uniform.Fourier
          where
 
 import UniformBase
-
+import GHC.Base
 import Prelude hiding (length, sum, map, zipWith, (++))
 import qualified Prelude as P
 import Data.Complex
@@ -48,7 +48,7 @@ import Uniform.FourierRepa ( grid8_11 )
 
 i :: Complex Double
 i = 0 :+ 1
-
+ 
 omega :: Int -> Complex Double
 omega n = cis (2 * pi / fromIntegral n)
 
@@ -73,6 +73,8 @@ defuzz :: Vector (Complex Double) -> Vector (Complex Double)
 -- makes close to zero to be 0 (but not other near integers)
 defuzz = V.map (\(r :+ i) -> df r :+ df i)
   where df x = if abs x < 1.0E-6 then 0 else x   
+defuzz' = P.map (\(r :+ i) -> df r :+ df i)
+  where df x = if abs x < 1.0E-6 then 0 else x   
 
 ---- simple 2d example , primed in [[a]]
 
@@ -93,6 +95,13 @@ e22tptp' = transpose . P.map toList $ e22tpt
 
 dft2d :: [[Complex Double]] -> [[Complex Double]]
 dft2d = P.map toList . transp . P.map dft . transp . P.map dft . P.map fromList 
+
+dft2dtest :: [[Complex Double]] -> [[Complex Double]]
+dft2dtest = P.map toList . P.map dft . transp . P.map dft . transp.  P.map fromList 
+-- gives the same values as the other order
+idft2d :: [[Complex Double]] -> [[Complex Double]]
+idft2d = P.map toList . transp . P.map idft . transp . P.map idft . P.map fromList 
+
 transp :: [Vector a] -> [Vector a]
 transp = P.map fromList . transpose . P.map toList 
 
@@ -126,8 +135,29 @@ pageFourier = do
     -- putIOwords ["j88t mapped dft", showT $ P.map toList j88t]
     return ()
 
--- g88' ::  [[Complex Double]]
--- g88' = P.map (P.map (:+ 0) . P.take 8) $ grid8_11 
+g88'' = P.map (  P.take 8) grid8_11  -- input original real
+g88' = P.map (P.map (:+ 0)) g88''  -- complex
+
+g88t' = dft2d g88' -- transformed, value seem ok compared to octave
+
+g88tt' = idft2d g88t'
+g88ttI = fmap imagPart . P.concat $ g88tt'
+g88ttR = fmap (fmap realPart) $ g88tt'
+
+-- g88tt' = P.map (P.map (/(8*8))). P.map ( P.map realPart) . dft2d $ g88t'
+-- d88 =  (P.zipWith (-)) (P.concat g88'')  (P.concat g88tt')
+
+h44 = [[1,2,3,4],[2,4,5,6],[1,3,2,2],[1,2,1,1]]
+h44' :: [[Complex Double]]
+h44' = P.map (P.map (:+ 0)) h44
+h44t' = dft2d h44'
+h44tt' = idft2d h44t'
+h44x1 =  defuzz' . P.map (liftA (/16)) . P.concat $ h44tt' 
+
+
+
+
+
 -- j88 :: [(Vector (Complex Double))]
 -- j88 = fromList2d g88'
 -- j88t :: [Vector (Complex Double)]
