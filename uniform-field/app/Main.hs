@@ -21,7 +21,8 @@ import UniformBase
 -- import Uniform.Point2d
 -- import ExampleData.Point2d 
 import Uniform.FourierRepa
-import Uniform.Fourier
+-- import Uniform.Fourier
+import ExampleData.TerrainLike
 -- import Uniform.Field
 
 
@@ -37,6 +38,7 @@ main =
 main2 :: ErrIO () 
 main2 = do 
     -- pageF1
-    pageFourier
+    -- pageFourier
+    pageTerrainLike
     
     return ()

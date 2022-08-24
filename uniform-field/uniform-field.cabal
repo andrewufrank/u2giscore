@@ -20,6 +20,7 @@ extra-source-files:
 
 library
   exposed-modules:
+      ExampleData.TerrainLike
       Uniform.Fourier
       Uniform.FourierRepa
   other-modules:
