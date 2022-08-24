@@ -28,7 +28,7 @@
 {-# OPTIONS_GHC -w #-}
 
 
-module Uniform.Field
+module Uniform.FourierRepa
          where
 
 import UniformBase
@@ -48,6 +48,7 @@ import Data.Array.Repa hiding (map)
 import Data.Array.Repa.Eval
 import Data.Array.Repa.Repr.ForeignPtr
 import Data.Array.Repa.FFTW
+-- import Data.Repa.Array
 
 a :: Array F DIM1 (Complex Double)
 a = fromList (Z :. 4) [i :+ 0 | i <- [0..3]]
@@ -69,7 +70,16 @@ b8_4 = ifft f8_4fromList
 b8_4res :: [Complex Double]
 b8_4res=toList b8_4
 
+g88:: Array F DIM2 (Complex Double)
+g88 = fromList (Z :. 8 :. 11) grid88
 
+g88f :: Array F DIM2 (Complex Double)
+g88f = fft2d g88 
+g88list :: [Complex Double]
+g88list = toList g88f
+-- g88list2 :: [[Complex Double]]
+-- g88list2 = toList g88f
+g88list3 = toList g88f
 -- >>> toList a
 -- [0.0 :+ 0.0,1.0 :+ 0.0,2.0 :+ 0.0,3.0 :+ 0.0]
 -- >>> toList $ fft a
@@ -81,11 +91,11 @@ b8_4res=toList b8_4
 pageF1 :: ErrIO ()
 pageF1 = do 
     putIOwords ["start F1 experiment"]
-
+    putIOwords ["g88", showT . toList $ g88]
 
     return ()
 
-grid88 = map (take 8) grid8_11
+grid88 = map (:+ 0) . concat $ map (take 8) grid8_11
 
 grid8_11 :: [[Double]]
 grid8_11 = [[385,382.5,380,378.75,380.714285714286,381.785714285714,385.384615384615,390.666666666667,397,403.333333333333,407.5],

@@ -24,11 +24,12 @@ dependencies:
 - base >= 4.7 && < 5
 - HTF
 - uniformBase >=0.1.4.2
-# - uniform-geometry >= 0.0.1.8
+- uniform-geometry >= 0.0.1.8
 # - extra
 # - containers
-# - repa-fftw
-# - repa
+- repa-fftw
+- repa
+# - repa-array
 - vector 
 
 library:

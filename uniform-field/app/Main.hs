@@ -20,6 +20,7 @@ module Main     where
 import UniformBase
 -- import Uniform.Point2d
 -- import ExampleData.Point2d 
+import Uniform.FourierRepa
 import Uniform.Fourier
 -- import Uniform.Field
 
