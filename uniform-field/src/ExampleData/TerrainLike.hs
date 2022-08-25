@@ -46,22 +46,22 @@ import Uniform.FourierRepa ( grid8_11 )
 import Uniform.Fourier
 
 -- a two by two 
-e22 :: [[Complex Double]]
+e22 :: [[Double]]
 e22 = [[3,2], [1,0]]
 e22' :: [[Complex Double]]
 e22' = P.map (P.map (:+ 0)) [[3,2], [1,0]]
 e22v :: [Vector (Complex Double)]
-e22v = P.map fromList e22'
+e22v = fromList2d e22'
 e22t :: [Vector (Complex Double)]
-e22t = P.map dft e22v  -- here the transformation, later
+e22t = P.map dft e22v  -- here the transformation, 
 e22t' :: [[Complex Double]]
-e22t' = P.map toList e22t
+e22t' =  toList2d e22t
 e22tp' :: [[Complex Double]]
 e22tp' = transpose e22t'
 e22tp :: [Vector (Complex Double)]
-e22tp = P.map fromList e22tp'
-e22tpt = P.map dft e22tp  -- here the transformation  later
-e22tptp' = transpose . P.map toList $ e22tpt
+e22tp =  fromList2d e22tp'
+e22tpt = P.map dft e22tp  -- here the transformation 
+e22tptp' = transpose .   toList2d $ e22tpt
 
 -- a 4 by 4 
 h44 = [[1,2,3,4],[2,4,5,6],[1,3,2,2],[1,2,1,1]]

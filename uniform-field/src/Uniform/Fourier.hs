@@ -76,8 +76,9 @@ idft v = dft' (-1) (1.0 / (fromIntegral $ V.length v)) v
 
 fromList2d :: [[Complex Double]] -> [Vector (Complex Double)]
 -- fromList2d :: Vector [a] -> Vector (Vector a)
-fromList2d ms = fmap fromList ms 
-toList2d :: Functor f => f (Vector a) -> f [a]
+fromList2d ms = fmap fromList  ms 
+toList2d ::  [Vector (Complex Double)] -> [[Complex Double]]
+-- convert [Vector (Complex Double)] -> [[Complex Double]]
 toList2d ms = fmap toList ms 
 
 defuzz :: Vector (Complex Double) -> Vector (Complex Double)
@@ -91,19 +92,17 @@ defuzz' = fmap (\(r :+ i) -> df r :+ df i)
 
 dft2d :: [[Complex Double]] -> [[Complex Double]]
 -- forward fourier transformation
-dft2d = toList2d . vecTransp . fmap dft . vecTransp . fmap dft . fmap fromList 
+dft2d = toList2d . vecTransp . fmap dft . vecTransp . fmap dft . fromList2d 
 
-dft2dtest :: [[Complex Double]] -> [[Complex Double]]
-dft2dtest = toList2d . fmap dft . vecTransp . fmap dft . vecTransp .  fmap fromList 
--- gives the same values as the other order
+
 
 idft2d :: [[Complex Double]] -> [[Complex Double]]
 -- | inverse 2d fourier transformation
-idft2d = toList2d . vecTransp . fmap idft . vecTransp . fmap idft . fmap fromList 
+idft2d = toList2d . vecTransp . fmap idft . vecTransp . fmap idft . fromList2d 
 
-vecTransp :: [Vector a] -> [Vector a]
+vecTransp :: [Vector (Complex Double)] -> [Vector (Complex Double)]
 -- | transpose a Vector (by toList, fromList)
-vecTransp = fmap fromList . transpose . toList2d 
+vecTransp = fromList2d . transpose . toList2d 
 
 
 -- diff_e_x =  fzipWith (f-)  (fconcat x22tptp') (fconcat e22tptp')

@@ -28,11 +28,15 @@ import           Test.Framework hiding (scale, generate)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
 -- import   Uniform.Point2d
 -- import ExampleData.Point2d
+import ExampleData.TerrainLike
 -- import Uniform.Point2d
 import Prelude hiding (length, sum, map, zipWith, (++), null)
 import qualified Prelude as P
 import Data.Complex
-import Data.Vector
+import Data.Vector (Vector(..), toList, fromList)
+import qualified Data.Vector as V
+import GHC.Base
+
 import UniformBase
 import Uniform.Fourier 
 
@@ -49,8 +53,8 @@ spike4Ft = fromList [1.0 :+ 0.0, 1.0 :+ 0.0, 1.0 :+ 0.0, 1.0 :+ 0.0]
 test_spike8 = assertEqual spike8Ft $ dft spike8 
 test_spike4 = assertEqual spike4Ft $ dft spike4 
 
-sin8 = generate 8 (\i -> sin (2 * pi * fromIntegral i / 8))
-sin4 = generate 4 (\i -> sin (2 * pi * fromIntegral i / 4))
+sin8 = V.generate 8 (\i -> sin (2 * pi * fromIntegral i / 8))
+sin4 = V.generate 4 (\i -> sin (2 * pi * fromIntegral i / 4))
 
 test_sine8 = assertEqual sin8ft $ defuzz $ dft sin8 
 test_sine4 = assertEqual sin4ft $ defuzz $ dft sin4 
@@ -83,23 +87,45 @@ peak4ft = fromList [12.0 :+ 0.0,
       (- 4.0) :+ 0.0,
        (- 4.0) :+ (- 3.9999999999999982)]
 test_peak8 = assertEqual peak8ft $ defuzz $ dft peak8
-test_peak8r = assertEqual zero8 $ defuzz $ zipWith (-) peak8 (idft peak8ft)
+test_peak8r = assertEqual zero8 $ defuzz $ V.zipWith (-) peak8 (idft peak8ft)
 test_peak4 = assertEqual peak4ft $ defuzz $ dft peak4
 testpeak4r = assertEqual peak4 $ defuzz $ idft peak4ft
 
--- p1 = Pnt2d 77 (V2 1 2):: Pnt2
--- v1 = V2 3 4
--- -- test construction of pnt2d
--- test_p1 = assertEqual "Pnt2d {_p2id = 77, _v2 = V2 1.0 2.0}" (showT p1)
--- test_v2zero = assertEqual "Pnt2d {_p2id = 0, _v2 = V2 0.0 0.0}" (showT (zero::Pnt2))
+e22vv :: [Vector (Complex Double)]
+e22vv =  fromList2d e22'
+
+test_transp2 = assertEqual e22vv (vecTransp . vecTransp $ e22vv)
+test_transp8 = assertEqual g88' (toList2d . vecTransp . vecTransp . fromList2d $ g88')
+
+-- -- test if fourier transform first row then column same as other order 
+dft2dtest :: [[Complex Double]] -> [[Complex Double]]
+dft2dtest = toList2d . fmap dft . vecTransp . fmap dft . vecTransp .  fromList2d 
+-- gives the same values as the other order
  
-test_transp2 = assertEqual e22 (transp . transp $ e22)
-test_transp8 = assertEqual g88' (P.map toList . transp . transp . P.map fromList $ g88')
+diff :: [[Complex Double]] -> [Complex Double]
+-- | difference between to results
+diff m =defuzz' $  ((P.zipWith (-))) (concat $ dft2d m) (concat $  dft2dtest m) 
+-- d44 :: [Complex Double]
+-- d44 = diff h44'
+ 
+z44 = [0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0]
+z88 = [0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
+    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
+    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
+    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
+    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
+    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
+    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
+    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
+    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
+    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
+    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
+    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
+    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0]
+test_order44 = assertEqual z44 (diff h44')
+test_order = assertEqual z88 (diff g88')
+-- -- imprecis numeric! 
 
--- test if fourier transform first row then column same as other order 
-test_order44 = assertEqual (dft2d h44') (dft2dtest h44') 
--- imprecis numeric! 
 
-
-test_four2d = assertEqual e22' (P.map (defuzz' . P.map ( (/4) )) . dft2d . dft2d $ e22')
--- test_four2d_88 = assertEqual g88' (P.map (defuzz' . P.map ( (/64) )) . dft2d . dft2d $ g88')
+-- test_four2d = assertEqual e22' (P.map (defuzz' . P.map ( (/4) )) . dft2d . dft2d $ e22')
+-- -- test_four2d_88 = assertEqual g88' (P.map (defuzz' . P.map ( (/64) )) . dft2d . dft2d $ g88')
