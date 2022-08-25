@@ -7,7 +7,10 @@ cabal-version: 1.12
 name:           uniform-field
 version:        0.0.1.1
 synopsis:       uniform wrapper for functions producing the field data in a GIS
-description:    - functions to construct the field as a function pnt2d -> value
+description:    - two modules wtih code to computer 2dimensional Fourier transformation and their inverse: 
+                  - FourierTextBook - an extremely non-optimized code close to a text book
+                  - FourierComfort - using comfort-array to access the FFTW (Fastest Fourier Transform in the West)
+                - functions to construct the field as a function pnt2d -> value
 category:       Geometry, Uniform, GIS
 author:         Andrew Frank
 maintainer:     Andrew U. Frank <andrewufrank@gmail.com>
@@ -22,7 +25,6 @@ library
   exposed-modules:
       ExampleData.TerrainLike
       Uniform.FourierComfort
-      Uniform.FourierRepa
       Uniform.FourierTextBook
   other-modules:
       Paths_uniform_field
@@ -65,7 +67,6 @@ test-suite test
   other-modules:
       Uniform.Field_test
       Uniform.FourierComfort_test
-      Uniform.FourierRepa_test
       Uniform.FourierTextBook_test
       Uniform.Point2d_test
       Paths_uniform_field

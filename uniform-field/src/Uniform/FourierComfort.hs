@@ -1,7 +1,8 @@
 -----------------------------------------------------------------------------
 --
--- Module      :  Uniform.Field
--- | A simple field
+-- Module      :  Uniform.FourierComfort
+-- | Highly optimized interface to FFTW 
+-- using comfort-array
 -----------------------------------------------------------------------------
 {-# LANGUAGE BangPatterns          #-}
 {-# LANGUAGE DoAndIfThenElse       #-}

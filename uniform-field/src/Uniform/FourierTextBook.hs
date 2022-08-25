@@ -111,8 +111,8 @@ vecTransp = fromList2d . transpose . toList2d
 
 -- diff_e_x =  fzipWith (f-)  (fconcat x22tptp') (fconcat e22tptp')
 
-pageFourier :: ErrIO ()
-pageFourier = do 
-    putIOwords ["start pageFourier experiment"]
+pageFourierTextBool :: ErrIO ()
+pageFourierTextBool = do 
+    putIOwords ["start pageFourierTextBool experiment"]
 
     return ()

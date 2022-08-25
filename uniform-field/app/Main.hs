@@ -40,7 +40,7 @@ main2 :: ErrIO ()
 main2 = do 
     -- pageF1
     pageComfort1
-    pageFourier
+    pageFourierTextBool
     -- pageTerrainLike
     
     return ()

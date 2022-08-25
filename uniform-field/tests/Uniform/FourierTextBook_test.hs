@@ -87,7 +87,7 @@ peak4ft = fromList [12.0 :+ 0.0,
       (- 4.0) :+ 0.0,
        (- 4.0) :+ (- 3.9999999999999982)]
 test_peak8 = assertEqual peak8ft $ defuzz $ dft peak8
-test_peak8r = assertEqual (replicate 8 (0 :+ 0)) $ defuzz $ V.zipWith (-) peak8 (idft peak8ft)
+test_peak8r = assertEqual (V.fromList . replicate 8 $ (0 :+ 0)) $ defuzz $ V.zipWith (-) peak8 (idft peak8ft)
 test_peak4 = assertEqual peak4ft $ defuzz $ dft peak4
 testpeak4r = assertEqual peak4 $ defuzz $ idft peak4ft
 
