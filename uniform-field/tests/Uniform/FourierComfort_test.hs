@@ -43,6 +43,9 @@ import Data.Array.Comfort.Shape-- import Control.Lens
 -- import qualified Data.Geometry.Point as HP 
 -- import Uniform.HQfaces_test
 
+grid88 :: [Complex Double]
+grid88 = map (:+ 0) . concat $ map (take 8) grid8_11
+
 a88 = fromList (ZeroBased 8, ZeroBased 8) grid88 
 test_fromtolist1 = assertEqual grid88 (toList a88)
 test_shape = assertEqual (ZeroBased 8, ZeroBased 8) (C.shape a88)
@@ -54,9 +57,7 @@ test_inv44 = assertEqual h44 $ idfttw2d . dfttw2d 4 4 $ h44
 -- test_inv88 = assertEqual grid8_11 $ idfttw2d . dfttw2d 8 11 $ grid8_11
 -- fails for numerical issues
 
-testinv88' = assertEqual (replicate (8*11) 0) $ map defuzz1 $ zipWith (-)
+testinv88' = assertEqual (replicate (8*11) 0) $ map defuzzR $ zipWith (-)
     (concat grid8_11) (concat . idfttw2d . dfttw2d 8 11 $ grid8_11)
-
-ex811= concat . idfttw2d . dfttw2d 8 11 $ grid8_11
-d811 = map defuzz1 $ zipWith (-) (concat grid8_11) ex811 
-defuzz1 x = if abs x < 1.0E-6 then 0 else x
+    where
+        defuzzR x = if abs x < 1.0E-6 then 0 else x

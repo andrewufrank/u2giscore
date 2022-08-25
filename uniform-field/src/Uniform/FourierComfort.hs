@@ -60,39 +60,21 @@ import qualified Data.Array.Comfort.Storable.Private as Pr
 import ExampleData.TerrainLike
 import GHC.Float (int2Double)
 
-
-a = fromList (ZeroBased 8, ZeroBased 8) grid88 
-al :: [Complex Double]
-al = toList a 
-ash = C.shape a
-shape88 :: (ZeroBased Int,  ZeroBased Int)
-shape88 = (ZeroBased 8, ZeroBased 8)
-shapeCyc =   (Cyclic 8, Cyclic 8)
--- ac :: C.Array (Cyclic Integer, Cyclic Integer) (Complex Double)
-ac
-  :: Data.Array.Comfort.Boxed.Unchecked.Array
-       (Data.Array.Comfort.Shape.Cyclic Integer,
-        Data.Array.Comfort.Shape.Cyclic Integer)
-       (Data.Complex.Complex Double)
-ac = C.reshape shapeCyc a 
--- acf = Pr.freeze a  -- gives error
-
--- versuch mit direktem einlesen 
-p88 :: Pr.Array (Cyclic Integer, Cyclic Integer) (Complex Double)
-p88 = Pr.fromList shapeCyc grid88
-
+-- storable frequency amplitude Fourier transformed 
 data FourierTransformed = FourierTransformed 
     {  rows, cols :: Int
     , mat :: [(Complex Double)]
     }
     deriving (Show, Read,   Eq, Generic)
 
+-- forward Fourier transformation of a 2d matrix 
 dfttw2d :: Int -> Int -> [[ Double]] -> FourierTransformed
     -- Pr.Array (Cyclic Integer, Cyclic Integer) (Complex Double)
 dfttw2d m n mat =  FourierTransformed m n . Pr.toList 
         . fourier Forward 
         . Pr.fromList (Cyclic m, Cyclic n) . map (:+ 0). concat $ mat
 
+-- inverse Fourier transformation restoring a 2d matrix 
 idfttw2d :: FourierTransformed -> [[Double]]
 idfttw2d (FourierTransformed m n mat) = 
         createMatrix m  
@@ -103,27 +85,51 @@ idfttw2d (FourierTransformed m n mat) =
     where   scale :: Double 
             scale = 1/(int2Double (m*n))
 
+-- helper 
+createMatrix :: Int -> [a] -> [[a]]
+createMatrix _ [] = []
+createMatrix n xs = take n xs : createMatrix n (drop n xs)
+
+
+-- a = fromList (ZeroBased 8, ZeroBased 8) grid88 
+-- al :: [Complex Double]
+-- al = toList a 
+-- ash = C.shape a
+-- shape88 :: (ZeroBased Int,  ZeroBased Int)
+-- shape88 = (ZeroBased 8, ZeroBased 8)
+-- shapeCyc =   (Cyclic 8, Cyclic 8)
+-- -- ac :: C.Array (Cyclic Integer, Cyclic Integer) (Complex Double)
+-- ac
+--   :: Data.Array.Comfort.Boxed.Unchecked.Array
+--        (Data.Array.Comfort.Shape.Cyclic Integer,
+--         Data.Array.Comfort.Shape.Cyclic Integer)
+--        (Data.Complex.Complex Double)
+-- ac = C.reshape shapeCyc a 
+-- -- acf = Pr.freeze a  -- gives error
+
+-- -- versuch mit direktem einlesen 
+-- p88 :: Pr.Array (Cyclic Integer, Cyclic Integer) (Complex Double)
+-- p88 = Pr.fromList shapeCyc grid88
+
         
-q44 = dfttw2d 4 4 h44
-r44 = idfttw2d q44
+-- q44 = dfttw2d 4 4 h44
+-- r44 = idfttw2d q44
 
-p88t = fourier Forward p88
-q88t = dfttw2d 8 8 grid8_11
-p88tt = fourier Backward p88t
-p88tt' = Pr.toList p88tt
-p88tts' = map (/64) p88tt'
-p88s = createMatrix 8 p88tts'
+-- p88t = fourier Forward p88
+-- q88t = dfttw2d 8 8 grid8_11
+-- p88tt = fourier Backward p88t
+-- p88tt' = Pr.toList p88tt
+-- p88tts' = map (/64) p88tt'
+-- p88s = createMatrix 8 p88tts'
 
-r88 = fromList shape88 p88tt'
+-- r88 = fromList shape88 p88tt'
 -- not helping, single list (with indication of size in head)
 
 -- matrixEvery :: Int -> [a] -> [[a]]
 -- matrixEvery _ [] = []
 -- matrixEvery n xs = as : matrixEvery n bs
 --   where (as,bs) = matrixEvery n xs
-createMatrix :: Int -> [a] -> [[a]]
-createMatrix _ [] = []
-createMatrix n xs = take n xs : createMatrix n (drop n xs)
+
 
 -- a :: Array F DIM1 (Complex Double)
 -- a = fromList (Z :. 4) [i :+ 0 | i <- [0..3]]
@@ -170,5 +176,5 @@ pageComfort1 = do
 
     return ()
 
-grid88 :: [Complex Double]
-grid88 = map (:+ 0) . concat $ map (take 8) grid8_11
+-- grid88 :: [Complex Double]
+-- grid88 = map (:+ 0) . concat $ map (take 8) grid8_11

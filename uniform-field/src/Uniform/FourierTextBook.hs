@@ -92,7 +92,7 @@ defuzz = V.map (\(r :+ i) -> df r :+ df i)
 defuzz' :: [Complex Double] -> [Complex Double]
 defuzz' = fmap (\(r :+ i) -> df r :+ df i)
   where df x = if abs x < 1.0E-6 then 0 else x   
-
+defuzzR x = if abs x < 1.0E-6 then 0 else x
 
 dft2d :: [[Complex Double]] -> [[Complex Double]]
 -- forward fourier transformation
