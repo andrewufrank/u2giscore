@@ -82,6 +82,9 @@ p88tt' = Pr.toList p88tt
 p88tts' = map (/64) p88tt'
 p88s = createMatrix 8 p88tts'
 
+r88 = fromList shape88 p88tt'
+-- not helping, single list (with indication of size in head)
+
 -- matrixEvery :: Int -> [a] -> [[a]]
 -- matrixEvery _ [] = []
 -- matrixEvery n xs = as : matrixEvery n bs
