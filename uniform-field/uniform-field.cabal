@@ -35,6 +35,7 @@ library
     , base >=4.7 && <5
     , comfort-array
     , comfort-fftw
+    , extra
     , repa
     , repa-fftw
     , uniform-geometry >=0.0.1.8
@@ -53,6 +54,7 @@ executable exec
     , base >=4.7 && <5
     , comfort-array
     , comfort-fftw
+    , extra
     , repa
     , repa-fftw
     , uniform-field
@@ -77,6 +79,7 @@ test-suite test
     , base >=4.7 && <5
     , comfort-array
     , comfort-fftw
+    , extra
     , quickcheck-text
     , repa
     , repa-fftw
