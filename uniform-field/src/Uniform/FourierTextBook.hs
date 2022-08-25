@@ -3,7 +3,11 @@
 -- Module      :  Uniform.Fourier
 -- | A simple outof the book  implementation of fourier transform
 -- following https://www.skybluetrades.net/blog/2013/11/2013-11-13-data-analysis-fft-1.html
+-- from Copyright (2013) Ian Ross
 -- probably essentially to learn DFFT 
+-- because no optimizations
+-- an optimized version (starting from the same code)
+-- https://hackage.haskell.org/package/arb-fft
 
 -- extended to include 2d transformations 
 -- as combinations of twice applyint 1d transformations
@@ -34,7 +38,7 @@
 {-# OPTIONS_GHC -w #-}
 
 
-module Uniform.Fourier
+module Uniform.FourierTextBook
     
          where
 

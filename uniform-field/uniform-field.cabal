@@ -21,9 +21,9 @@ extra-source-files:
 library
   exposed-modules:
       ExampleData.TerrainLike
-      Uniform.Fourier
       Uniform.FourierComfort
       Uniform.FourierRepa
+      Uniform.FourierTextBook
   other-modules:
       Paths_uniform_field
   hs-source-dirs:
@@ -64,9 +64,9 @@ test-suite test
   main-is: Testing.hs
   other-modules:
       Uniform.Field_test
-      Uniform.Fourier_test
       Uniform.FourierComfort_test
       Uniform.FourierRepa_test
+      Uniform.FourierTextBook_test
       Uniform.Point2d_test
       Paths_uniform_field
   hs-source-dirs:

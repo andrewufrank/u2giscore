@@ -43,7 +43,7 @@ import Data.List (transpose)
 import Data.Vector hiding (map)
 import qualified Data.Vector as V
 import Uniform.FourierRepa ( grid8_11 ) 
-import Uniform.Fourier
+import Uniform.FourierTextBook
 
 -- a two by two  - ste[wise done]
 e22 :: [[Double]]

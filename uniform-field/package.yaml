@@ -1,6 +1,6 @@
 name: uniform-field
 version: 0.0.1.1
-# cabal-version: >=1.22
+# cabal-version: >=3.6 would go to verbatim, but usually not required
 # build-type: Simple
 license: GPL
 license-file: GPL_3
@@ -9,6 +9,9 @@ author: Andrew Frank
 category: 'Geometry, Uniform, GIS'
 synopsis: uniform wrapper for functions producing the field data in a GIS
 description: |
+  - two modules wtih code to computer 2dimensional Fourier transformation and their inverse: 
+    - FourierTextBook - an extremely non-optimized code close to a text book
+    - FourierComfort - using comfort-array to access the FFTW (Fastest Fourier Transform in the West)
   - functions to construct the field as a function pnt2d -> value
 
 

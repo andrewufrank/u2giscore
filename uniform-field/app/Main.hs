@@ -22,7 +22,7 @@ import UniformBase
 -- import ExampleData.Point2d 
 import Uniform.FourierComfort
 -- import Uniform.FourierRepa
--- import Uniform.Fourier
+import Uniform.FourierTextBook
 import ExampleData.TerrainLike
 -- import Uniform.Field
 
@@ -40,7 +40,7 @@ main2 :: ErrIO ()
 main2 = do 
     -- pageF1
     pageComfort1
-    -- pageFourier
+    pageFourier
     -- pageTerrainLike
     
     return ()

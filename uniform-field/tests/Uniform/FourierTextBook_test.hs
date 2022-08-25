@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 --
--- Module      :  Uniform.Field_test
+-- Module      :  Uniform.FourierTextBook_test
 --
 -- | import examples to test with  {-@ HTF_TESTS @-}
 -----------------------------------------------------------------------------
@@ -22,7 +22,7 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module Uniform.Fourier_test where
+module Uniform.FourierTextBook_test where
 
 import           Test.Framework hiding (scale, generate)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
@@ -38,7 +38,7 @@ import qualified Data.Vector as V
 import GHC.Base
 
 import UniformBase
-import Uniform.Fourier 
+import Uniform.FourierTextBook 
 
 v0 :: Vector (Complex Double)
 v0 = fromList  [0 :+ 0]
@@ -79,15 +79,15 @@ peak8ft = fromList [24.0 :+ 0.0,
     (- 3.9999999999999973) :+ 0.0,
     (- 6.828427124746188) :+ (- 6.828427124746166)]
 
-zero8 = fromList [0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
- 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0] 
+-- zero8 = fromList [0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
+--  0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0] 
 peak4 = fromList [0,6,4,2]
 peak4ft = fromList [12.0 :+ 0.0,
      (- 4.0) :+ 4.000000000000001,
       (- 4.0) :+ 0.0,
        (- 4.0) :+ (- 3.9999999999999982)]
 test_peak8 = assertEqual peak8ft $ defuzz $ dft peak8
-test_peak8r = assertEqual zero8 $ defuzz $ V.zipWith (-) peak8 (idft peak8ft)
+test_peak8r = assertEqual (replicate 8 (0 :+ 0)) $ defuzz $ V.zipWith (-) peak8 (idft peak8ft)
 test_peak4 = assertEqual peak4ft $ defuzz $ dft peak4
 testpeak4r = assertEqual peak4 $ defuzz $ idft peak4ft
 
@@ -108,22 +108,9 @@ diff m =defuzz' $  ((P.zipWith (-))) (concat $ dft2d m) (concat $  dft2dtest m)
 -- d44 :: [Complex Double]
 -- d44 = diff h44'
  
-z44 = [0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0,0.0 :+ 0.0]
-z88 = [0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
-    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
-    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
-    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
-    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
-    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
-    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
-    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
-    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
-    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
-    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
-    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0,
-    0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0, 0.0 :+ 0.0]
-test_order44 = assertEqual z44 (diff h44')
-test_order = assertEqual z88 (diff g88')
+ 
+test_order44 = assertEqual (replicate 16 (0 :+ 0)) (diff h44')
+test_order = assertEqual (replicate 64 (0 :+ 0)) (diff g88')
 -- -- imprecis numeric! 
 
 
