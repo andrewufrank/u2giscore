@@ -28,8 +28,11 @@ import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
 -- import   Uniform.Point2d
 import ExampleData.Point2d
+import ExampleData.TerrainLike
+
 import Uniform.Point2d
-import Uniform.FourierComfort(grid88)
+-- import Uniform.FourierTextBook(defuzz')
+import Uniform.FourierComfort
 import UniformBase
 import Data.Complex
 import qualified Data.Array.Comfort.Boxed as C
@@ -40,11 +43,20 @@ import Data.Array.Comfort.Shape-- import Control.Lens
 -- import qualified Data.Geometry.Point as HP 
 -- import Uniform.HQfaces_test
 
-p1 = Pnt2d 77 (V2 1 2):: Pnt2
-v1 = V2 3 4
--- test construction of pnt2d
 a88 = fromList (ZeroBased 8, ZeroBased 8) grid88 
 test_fromtolist1 = assertEqual grid88 (toList a88)
 test_shape = assertEqual (ZeroBased 8, ZeroBased 8) (C.shape a88)
 test_v2zero = assertEqual "Pnt2d {_p2id = 0, _v2 = V2 0.0 0.0}" (showT (zero::Pnt2))
- 
+
+
+
+test_inv44 = assertEqual h44 $ idfttw2d . dfttw2d 4 4 $ h44
+-- test_inv88 = assertEqual grid8_11 $ idfttw2d . dfttw2d 8 11 $ grid8_11
+-- fails for numerical issues
+
+testinv88' = assertEqual (replicate (8*11) 0) $ map defuzz1 $ zipWith (-)
+    (concat grid8_11) (concat . idfttw2d . dfttw2d 8 11 $ grid8_11)
+
+ex811= concat . idfttw2d . dfttw2d 8 11 $ grid8_11
+d811 = map defuzz1 $ zipWith (-) (concat grid8_11) ex811 
+defuzz1 x = if abs x < 1.0E-6 then 0 else x
