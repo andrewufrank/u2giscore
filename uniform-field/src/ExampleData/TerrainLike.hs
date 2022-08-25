@@ -45,7 +45,7 @@ import qualified Data.Vector as V
 import Uniform.FourierRepa ( grid8_11 ) 
 import Uniform.Fourier
 
--- a two by two 
+-- a two by two  - ste[wise done]
 e22 :: [[Double]]
 e22 = [[3,2], [1,0]]
 e22' :: [[Complex Double]]
@@ -72,10 +72,6 @@ h44tt' = idft2d h44t'
 h44x1 =  defuzz' . P.map (liftA (/16)) . P.concat $ h44tt' 
 
 
-x22tptp' :: [[Complex Double]]
-x22tptp' = dft2d e22'
-y22' = dft2d x22tptp'
-
 -- the 8 by 8 terrain
 
 g88'' = P.map (  P.take 8) grid8_11  -- input original real
@@ -86,9 +82,6 @@ g88t' = dft2d g88' -- transformed, value seem ok compared to octave
 g88tt' = idft2d g88t'
 g88ttI = fmap imagPart . P.concat $ g88tt'
 g88ttR = fmap (fmap realPart) $ g88tt'
-
-
-diff_e_x =  P.zipWith (P.-)  (P.concat x22tptp') (P.concat e22tptp')
 
 pageTerrainLike :: ErrIO ()
 pageTerrainLike = do 
@@ -101,28 +94,8 @@ pageTerrainLike = do
     putIOwords ["e22tpt", showT e22tpt]
     putIOwords ["e22tptp'", showT e22tptp']
     putIOwords ["equal input without transformation ", showT (e22' == e22tptp')]
-    putIOwords ["x22tptp'", showT x22tptp']
 
-    putIOwords ["equal with transformation ", showT (x22tptp' == e22tptp')]
-    putIOwords ["difference with transformation e or x", showT diff_e_x]
-
-    putIOwords ["back", showT y22']
-
-    -- putIOwords ["grid88", showT grid8_11]
-    -- putIOwords ["j88", showT j88]
-    -- putIOwords ["j88t mapped dft", showT $ P.map toList j88t]
     return ()
 
 
--- g88tt' = P.map (P.map (/(8*8))). P.map ( P.map realPart) . dft2d $ g88t'
--- d88 =  (P.zipWith (-)) (P.concat g88'')  (P.concat g88tt')
-
-
-
-
--- j88 :: [(Vector (Complex Double))]
--- j88 = fromList2d g88'
--- j88t :: [Vector (Complex Double)]
--- j88t= P.map dft j88
--- j88tu = P.map toList j88t
--- j88tup = transpose j88tu
+ 
