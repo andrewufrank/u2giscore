@@ -22,6 +22,7 @@ library
   exposed-modules:
       ExampleData.TerrainLike
       Uniform.Fourier
+      Uniform.FourierComfort
       Uniform.FourierRepa
   other-modules:
       Paths_uniform_field
@@ -30,6 +31,8 @@ library
   build-depends:
       HTF
     , base >=4.7 && <5
+    , comfort-array
+    , comfort-fftw
     , repa
     , repa-fftw
     , uniform-geometry >=0.0.1.8
@@ -46,6 +49,8 @@ executable exec
   build-depends:
       HTF
     , base >=4.7 && <5
+    , comfort-array
+    , comfort-fftw
     , repa
     , repa-fftw
     , uniform-field
@@ -60,6 +65,7 @@ test-suite test
   other-modules:
       Uniform.Field_test
       Uniform.Fourier_test
+      Uniform.FourierComfort_test
       Uniform.FourierRepa_test
       Uniform.Point2d_test
       Paths_uniform_field
@@ -68,6 +74,8 @@ test-suite test
   build-depends:
       HTF
     , base >=4.7 && <5
+    , comfort-array
+    , comfort-fftw
     , quickcheck-text
     , repa
     , repa-fftw

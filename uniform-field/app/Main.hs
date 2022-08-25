@@ -20,7 +20,8 @@ module Main     where
 import UniformBase
 -- import Uniform.Point2d
 -- import ExampleData.Point2d 
-import Uniform.FourierRepa
+import Uniform.FourierComfort
+-- import Uniform.FourierRepa
 -- import Uniform.Fourier
 import ExampleData.TerrainLike
 -- import Uniform.Field
@@ -38,7 +39,8 @@ main =
 main2 :: ErrIO () 
 main2 = do 
     -- pageF1
+    pageComfort1
     -- pageFourier
-    pageTerrainLike
+    -- pageTerrainLike
     
     return ()
