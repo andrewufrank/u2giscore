@@ -75,6 +75,7 @@ test-suite test
       Uniform.FourierComfort_test
       Uniform.FourierTextBook_test
       Uniform.Point2d_test
+      Uniform.Raster_test
       Paths_uniform_field
   hs-source-dirs:
       tests

@@ -42,21 +42,6 @@ import Data.Complex
 grid88 :: [Complex Double]
 grid88 = map (:+ 0) . concat $ map (take 8) grid8_11
 
-left = 400 
-bott= 800
-wid = 100
-hei = 50 
-grid4 = Raster  left bott wid hei
-g00 = (0,0) :: (Int,Int)
-g23 = (2,3):: (Int,Int)
-
-test_g00m = assertEqual (V2 left bott) $ rowCol2world (4, 6) grid4 g00
-test_g23m = assertEqual (V2 450.0 825) $ rowCol2world (4, 6) grid4 g23
-
--- test_g00r = assertEqual g00 $ world2rowCol grid4 (V2 left bott)
-
-test_g00t1 = assertEqual g00 $ world2rowCol (4, 6) grid4 (V2 left bott)
-test_g23t1 = assertEqual g23 $ world2rowCol (4, 6) grid4 (V2 450.0 825)
 
 raster44 = Raster 500 1000 40 40 
 raster811 = Raster 1000 2000 110 80 

@@ -87,7 +87,10 @@ class NamedPoint2 a where
 
 class Point2 a where   -- this is the start of a generic Point2 class 
     x, y :: a -> Double 
-
+    -- todo change to xCoord yCoord, but gives conflict with hgeometry 
+    -- xCoord, yCoord :: a -> Double
+    -- xCoord = x 
+    -- yCoord = y
 -----------------------  the two "uniform" prefered types Pnt2 and VD2 
 
 -- | a named type (a name and a V2)
@@ -97,8 +100,8 @@ type Pnt2 = Pnt2d Int Double -- often pnt2d_   -- change later to better name
 type V2D = V2 Double  -- from linear V2  
 
 instance Point2 V2D where 
-    x (V2 x y) = x
-    y (V2 x y) = y
+    x (V2 x1 y1) = x1
+    y (V2 x1 y1) = y1
 
 -- type Pnt2int = Pnt2d Int Double
 -- a special type for input in hgeometry delaunay 

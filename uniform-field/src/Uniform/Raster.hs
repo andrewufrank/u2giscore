@@ -31,18 +31,18 @@
 
 
 module Uniform.Raster
+
          where
 
 import UniformBase
-import Uniform.Point2d 
+import Uniform.Point2d (Point2 (..), V2(..), V2D ) 
 
 import Data.Complex
  
-import ExampleData.TerrainLike
-import GHC.Float (int2Double)
+-- import ExampleData.TerrainLike
+-- import GHC.Float (int2Double)
 -- import Uniform.Fourier 
 
-type Field = FourierTransformed 
 
 -- storable frequency domain Fourier transformed 
 -- the size of the 2d array of the transforms
@@ -56,12 +56,16 @@ data FourierTransformed = FourierTransformed
     deriving (Show, Read,   Eq, Generic)
 
 
-class Rasters coord where 
-    -- rasterDescriptor :: V2D -> 
+class Rasters r pt where 
+    rasterDescriptor :: pt -> pt -> r
+
+instance Rasters Raster V2D where
+    rasterDescriptor ll@(V2 x1 y1) tr@(V2 x2 y2) = Raster x1 y1 (x w) (y w)
+        where w = tr - ll 
 
 data Raster = Raster
-        {  x,y :: Double   -- the lower left corner 
-        , xrows, ycols :: Double -- the size of the viewport
+        {  xorigin,yorigin :: Double   -- the lower left corner 
+        , xwidths, yheight :: Double -- the size of the raster
         }
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
