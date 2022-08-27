@@ -25,19 +25,13 @@
 module Uniform.Field_test where
 
 import           Test.Framework hiding (scale)
--- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
--- import   Uniform.Point2d
 import ExampleData.Point2d
 import Uniform.Point2d
 import UniformBase
--- import Control.Lens
--- import Control.Exception
--- import Uniform.GeometryFunctions
--- import qualified Data.Geometry.Point as HP 
+ 
 import Uniform.Field
 import Uniform.Fourier
 import Uniform.Raster
-import Uniform.Raster_test
 import Data.Complex
 import Uniform.FourierTextBook ( defuzzR )
 import ExampleData.TerrainLike
@@ -46,6 +40,11 @@ import ExampleData.TerrainLike
 
 grid88 :: [Complex Double]
 grid88 = map (:+ 0) . concat $ map (take 8) grid8_11
+
+raster44 :: Raster Double
+raster44 = Raster (V2 500 1000) (V2 40 40) 
+raster811 :: Raster Double
+raster811 = Raster (V2 1000 2000) (V2 110 80) 
 
 
 

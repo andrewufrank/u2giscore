@@ -80,19 +80,20 @@ rowCol2world ::  (Int, Int) -> RasterD -> (Int,Int) -> V2 Double
 rowCol2world (rows, cols) (Raster  orig size) (r,c) = res
 --  rowCol2world (rows, cols) (Raster  x y xr yc) (r,c) = V2 xw yw
    where 
-            res = orig ^+^ size ^*^ (rc ^/^ rowscols)
+            res = orig ^+^ size ^*^ (v2int r c ^/^ (v2int rows cols))
             -- xw = x + (fromIntegral r * xr / fromIntegral rows)
             -- -- w = x + [r/rows, c /cols]
             -- yw = y +  (fromIntegral c * yc / fromIntegral cols)
-            rc = V2 (fromIntegral r) (fromIntegral c)
-            rowscols = V2 (fromIntegral rows) (fromIntegral cols)
+            -- rc = V2 (fromIntegral r) (fromIntegral c)
+            -- rowscols = V2 (fromIntegral rows) (fromIntegral cols)
 
 (^*^) :: V2 Double -> V2 Double -> V2 Double
 (^*^) = liftI2 (*)
 (^/^) :: V2 Double -> V2 Double -> V2 Double
 (^/^) = liftI2 (/)
 
-
+v2int :: Int -> Int -> V2 Double
+v2int a b = V2 (fromIntegral a) (fromIntegral b)
 
 -- world2rowCol :: Grid -> V2 Double -> (Int,Int)
 world2rowCol ::  (Int, Int) -> RasterD -> V2 Double -> (Int, Int)
@@ -101,11 +102,11 @@ world2rowCol (rows, cols) (Raster  orig size) (pt) = (floor r, floor c)
 -- orld2rowCol (rows, cols) (Raster  x y xr yc) (V2 xw yw) = (floor r, floor c) 
     where 
         V2 r c = res  
-        res = (pt ^-^  orig) ^*^ rowscols  ^/^ size 
+        res = (pt ^-^  orig) ^*^ (v2int rows cols)  ^/^ size 
             -- r = (xw - x) * fromIntegral rows / xr 
             -- -- rc = w - xh * [rows/xr, cols/yc]
             -- c = (yw -y) * fromIntegral cols / yc 
-        rowscols = V2 (fromIntegral rows) (fromIntegral cols)
+        -- rowscols = V2 (fromIntegral rows) (fromIntegral cols)
 
 -- viewport :: StateVar (Position, Size)
 
