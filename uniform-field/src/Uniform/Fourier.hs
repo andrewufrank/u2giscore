@@ -76,27 +76,44 @@ data FourierTransformed = FourierTransformed
     }
     deriving (Show, Read,   Eq, Generic)
 
-fourier :: Raster -> (Int,Int) -> [[Double]] -> FourierTransformed 
-fourier raster (rows,cols) mat = FourierTransformed raster rows cols 
+fourier :: Raster ->   [[Double]] -> FourierTransformed 
+-- converts to the fourier transformed and stores the descriptor
+fourier raster  mat = FourierTransformed raster rows cols 
         . dfttw2d rows cols $ mat
+    where 
+            rows = length mat 
+            cols = length . head $ mat 
 
 fourierInv :: FourierTransformed -> [[Double]]
-fourierInv ft= idfttw2d (rows ft) (cols ft) (mat ft)
--- Raster describes the original raster in world coordinates
+fourierInv ft = idfttw2d (rows ft) (cols ft) (mat ft)
+-- inverts the fourier transformation and produces the original array (real!)
 data Raster = Raster
         {  x,y :: Double   -- the lower left corner 
         , rowwidth, colheight :: Double -- the size of the viewport
         }
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
+getValueAt :: FourierTransformed -> V2D ->  Double 
+-- a naive and not to be used demonstration how to obtain a single value 
+-- back 
+getValueAt ft v@(V2 x y) = (matTF) !! r !! c 
+
+    where 
+        matTF = fourierInv ft
+        (r,c) = world2rowCol (rows ft, cols ft) (raster ft) v
+
 -- rowCol2world :: ows cols Grid -> (Int, Int) -> V2 Double
-rowCol2world rows cols (Raster  x y rw ch) (r,c) = V2 xw yw
+rowCol2world ::  (Int, Int) -> Raster -> (Int,Int) -> V2 Double
+-- convert from the row col to the world xy - with paramters of number of rows and colums in the image the raster descriptor 
+rowCol2world (rows, cols) (Raster  x y rw ch) (r,c) = V2 xw yw
     where 
             xw = x + (fromIntegral r * rw / fromIntegral rows)
             yw = y +  (fromIntegral c * ch / fromIntegral cols)
 
 -- world2rowCol :: Grid -> V2 Double -> (Int,Int)
-world2rowCol rows cols (Raster  x y rw ch) (V2 xw yw) = (floor r, floor c) 
+world2rowCol ::  (Int, Int) -> Raster -> V2 Double -> (Int, Int)
+-- convert back to the row col to the world xy - with paramters of number of rows and colums in the image the raster descriptor 
+world2rowCol (rows, cols) (Raster  x y rw ch) (V2 xw yw) = (floor r, floor c) 
     where 
             r = (xw - x) * fromIntegral rows / rw 
             c = (yw -y) * fromIntegral cols / ch 
@@ -117,10 +134,6 @@ world2rowCol rows cols (Raster  x y rw ch) (V2 xw yw) = (floor r, floor c)
 
 
 
-
-
-
-
 pageFourier3 :: ErrIO ()
 pageFourier3 = do 
     putIOwords ["start pageFourier3 experiment"]
@@ -128,5 +141,3 @@ pageFourier3 = do
 
     return ()
 
--- grid88 :: [Complex Double]
--- grid88 = map (:+ 0) . concat $ map (take 8) grid8_11

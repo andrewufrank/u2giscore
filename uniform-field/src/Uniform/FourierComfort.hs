@@ -73,7 +73,7 @@ dfttw2d m n mat =    Pr.toList
 -- needs same size input as in forward transform
 idfttw2d :: Int -> Int -> [Complex Double] -> [[Double]]
 idfttw2d   m n mat = 
-        createMatrix m  
+        createMatrix n  
             . map (* scale) 
             . map ( realPart)  --(/(fromIntegral m*n)) .
             . Pr.toList . fourier Backward 
