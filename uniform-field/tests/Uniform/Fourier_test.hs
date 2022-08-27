@@ -26,10 +26,10 @@ module Uniform.Fourier_test where
 
 import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
-import ExampleData.Point2d
+-- import ExampleData.Point2d
 import ExampleData.TerrainLike
 
-import Uniform.Point2d
+-- import Uniform.Point2d
 -- import Uniform.FourierTextBook(defuzz')
 -- import Uniform.FourierComfort
 import Uniform.FourierTextBook ( defuzzR )

@@ -40,7 +40,7 @@ import UniformBase
 import Data.Complex
 import Uniform.FourierTextBook ( defuzzR )
 import Uniform.Raster
-import ExampleData.TerrainLike
+-- import ExampleData.TerrainLike
  
 left = 400 
 bott= 800

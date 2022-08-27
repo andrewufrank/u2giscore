@@ -38,14 +38,13 @@ module Uniform.Field
 import UniformBase
 import Uniform.Point2d 
 
-import Data.Complex
+-- import Data.Complex
  
-import ExampleData.TerrainLike
+-- import ExampleData.TerrainLike
 import GHC.Float (int2Double)
 import Uniform.Fourier 
 import Uniform.Raster
 
-type Field = FourierTransformed 
 
 class Fields d where 
 -- ^ a continuou changing value in a 2d domain f x y -> v 
@@ -70,7 +69,7 @@ instance Fields Double where
 -- -- storable frequency domain Fourier transformed 
 -- -- the size of the 2d array of the transforms
 -- -- the world coordinates of the grid originally
--- data FourierTransformed = FourierTransformed 
+-- data Field = Field 
 --     {  raster :: Raster  
 --             -- ^ the real world coords of the original raster 
 --     , rows, cols :: Int     -- ^ the size of the array used for the transformations 
@@ -78,22 +77,22 @@ instance Fields Double where
 --     }
 --     deriving (Show, Read,   Eq, Generic)
 
--- fourier :: Raster ->   [[Double]] -> FourierTransformed 
+-- fourier :: Raster ->   [[Double]] -> Field 
 -- -- converts to the fourier transformed and stores the descriptor
--- fourier raster  mat = FourierTransformed raster rows cols 
+-- fourier raster  mat = Field raster rows cols 
 --         . dfttw2d rows cols $ mat
 --     where 
 --             rows = length mat 
 --             cols = length . head $ mat 
 
--- fourierInv :: FourierTransformed -> [[Double]]
+-- fourierInv :: Field -> [[Double]]
 -- fourierInv ft = idfttw2d (rows ft) (cols ft) (mat ft)
 -- -- inverts the fourier transformation and produces the original array (real!)
 -- -- TODO - these should be integers (raster cells)
 -- -- where to convert to world coord?
  
 
--- getValueAt :: FourierTransformed -> V2D ->  Double 
+-- getValueAt :: Field -> V2D ->  Double 
 -- -- a naive and not to be used demonstration how to obtain a single value 
 -- -- back 
 -- getValueAt ft v@(V2 x y) = (matTF) !! r !! c 

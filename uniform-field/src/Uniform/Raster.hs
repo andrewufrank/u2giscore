@@ -47,7 +47,7 @@ import Data.Complex
 -- storable frequency domain Fourier transformed 
 -- the size of the 2d array of the transforms
 -- the world coordinates of the grid originally
-data FourierTransformed = FourierTransformed 
+data Field = Field 
     {  raster :: Raster Double 
             -- ^ the real world coords of the original raster 
     , rows, cols :: Int     -- ^ the size of the array used for the transformations 
