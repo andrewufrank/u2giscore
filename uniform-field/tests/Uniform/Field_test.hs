@@ -34,11 +34,54 @@ import UniformBase
 -- import Control.Exception
 -- import Uniform.GeometryFunctions
 -- import qualified Data.Geometry.Point as HP 
--- import Uniform.HQfaces_test
+import Uniform.Field
+import Uniform.Fourier
+import Uniform.Raster
+import Data.Complex
+import Uniform.FourierTextBook ( defuzzR )
+import ExampleData.TerrainLike
 
-p1 = Pnt2d 77 (V2 1 2):: Pnt2
-v1 = V2 3 4
--- test construction of pnt2d
-test_p1 = assertEqual "Pnt2d {_p2id = 77, _v2 = V2 1.0 2.0}" (showT p1)
-test_v2zero = assertEqual "Pnt2d {_p2id = 0, _v2 = V2 0.0 0.0}" (showT (zero::Pnt2))
- 
+
+
+grid88 :: [Complex Double]
+grid88 = map (:+ 0) . concat $ map (take 8) grid8_11
+
+left = 400 
+bott= 800
+wid = 100
+hei = 50 
+grid4 = Raster  left bott wid hei
+g00 = (0,0) :: (Int,Int)
+g23 = (2,3):: (Int,Int)
+
+test_g00m = assertEqual (V2 left bott) $ rowCol2world (4, 6) grid4 g00
+test_g23m = assertEqual (V2 450.0 825) $ rowCol2world (4, 6) grid4 g23
+
+-- test_g00r = assertEqual g00 $ world2rowCol grid4 (V2 left bott)
+
+test_g00t1 = assertEqual g00 $ world2rowCol (4, 6) grid4 (V2 left bott)
+test_g23t1 = assertEqual g23 $ world2rowCol (4, 6) grid4 (V2 450.0 825)
+
+raster44 = Raster 500 1000 40 40 
+raster811 = Raster 1000 2000 110 80 
+f44 = fourier raster44   h44 
+
+-- test_inv44 :: IO ()
+test_inv44 = assertEqual h44 $ fourierInv . fourier raster44    $ h44
+-- test_inv44 = assertEqual h44 $ idfttw2d 4 4 . dfttw2d 4 4 $ h44
+
+-- test_inv88 = assertEqual grid8_11 $ fourierInv . fourier raster811 (8,11) $ grid8_11
+-- -- fails for numerical issues
+
+testinv88' = assertEqual (replicate (8*11) 0) $ map defuzzR $ zipWith (-)
+    (concat grid8_11) (concat . fourierInv . fourier raster811   $ grid8_11)
+    where
+        defuzzR x = if abs x < 1.0E-6 then 0 else x
+
+g39 = grid8_11 !! 3 !! 9 
+v39 = rowCol2world (8,11) raster811 (3,9)
+v39back =  world2rowCol (8,11) raster811 v39
+test_rc39 = assertEqual (3,9) $ world2rowCol (8,11) raster811 v39
+ft811 = fourier raster811    grid8_11
+ft811tf = fourierInv ft811
+test_get39 = assertEqual zero $ defuzzR $ g39 - getValueAt ft811 v39

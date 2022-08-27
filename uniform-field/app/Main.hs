@@ -25,7 +25,7 @@ import Uniform.Fourier
 -- import Uniform.FourierRepa
 import Uniform.FourierTextBook
 import ExampleData.TerrainLike
--- import Uniform.Field
+import Uniform.Field
 
 
 main =
@@ -40,7 +40,8 @@ main =
 main2 :: ErrIO () 
 main2 = do 
     -- pageF1
-    pageFourier3
+    -- pageFourier3
+    pageField3
     -- pageComfort1
     -- pageFourierTextBool
     -- pageTerrainLike

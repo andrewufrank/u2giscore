@@ -24,9 +24,11 @@ extra-source-files:
 library
   exposed-modules:
       ExampleData.TerrainLike
+      Uniform.Field
       Uniform.Fourier
       Uniform.FourierComfort
       Uniform.FourierTextBook
+      Uniform.Raster
   other-modules:
       Paths_uniform_field
   hs-source-dirs:

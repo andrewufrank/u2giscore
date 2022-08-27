@@ -34,16 +34,7 @@ module Uniform.FourierComfort
          where
 
 import UniformBase
--- import Uniform.Point2d 
--- import ExampleData.Point2d
--- -- import Vector
--- import Linear.Vector ((*^))
--- import Linear.V2
--- -- import Linear.Vector 
--- import qualified Linear.Metric as Metric
--- import qualified Linear.Vector as Lin
--- import Control.Lens 
--- import GHC.Generics
+
 
 import Data.Complex
 -- import Numeric.Extra
@@ -53,13 +44,7 @@ import Data.Array.Comfort.Shape
 import Numeric.FFTW.Rank2
 -- import qualified Data.Array.Comfort.Boxed.Unchecked
 import qualified Data.Array.Comfort.Storable.Private as Pr
--- import Data.Array.Repa hiding (map)
--- import Data.Array.Repa.Eval
--- import Data.Array.Repa.Repr.ForeignPtr
--- import Data.Array.Repa.FFTW
--- -- import Data.Repa.Array
--- import ExampleData.TerrainLike
--- import GHC.Float (int2Double)
+
 
 
 -- forward Fourier transformation of a 2d matrix 

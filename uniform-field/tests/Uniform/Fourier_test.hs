@@ -26,24 +26,18 @@ module Uniform.Fourier_test where
 
 import           Test.Framework hiding (scale)
 -- import           Uniform.Strings hiding ((</>), (<.>), (<|>))
--- import   Uniform.Point2d
 import ExampleData.Point2d
 import ExampleData.TerrainLike
 
 import Uniform.Point2d
 -- import Uniform.FourierTextBook(defuzz')
 -- import Uniform.FourierComfort
-import Uniform.FourierTextBook
+import Uniform.FourierTextBook ( defuzzR )
 import Uniform.Fourier 
+import Uniform.Raster
 import UniformBase
 import Data.Complex
--- import qualified Data.Array.Comfort.Boxed as C
--- import  Data.Array.Comfort.Boxed (fromList, toList)
--- import Data.Array.Comfort.Shape-- import Control.Lens
--- import Control.Exception
--- import Uniform.GeometryFunctions
--- import qualified Data.Geometry.Point as HP 
--- import Uniform.HQfaces_test
+ 
 
 grid88 :: [Complex Double]
 grid88 = map (:+ 0) . concat $ map (take 8) grid8_11
@@ -80,10 +74,10 @@ testinv88' = assertEqual (replicate (8*11) 0) $ map defuzzR $ zipWith (-)
     where
         defuzzR x = if abs x < 1.0E-6 then 0 else x
 
-g39 = grid8_11 !! 3 !! 9 
-v39 = rowCol2world (8,11) raster811 (3,9)
-v39back =  world2rowCol (8,11) raster811 v39
-test_rc39 = assertEqual (3,9) $ world2rowCol (8,11) raster811 v39
-ft811 = fourier raster811    grid8_11
-ft811tf = fourierInv ft811
-test_get39 = assertEqual zero $ defuzzR $ g39 - getValueAt ft811 v39
+-- g39 = grid8_11 !! 3 !! 9 
+-- v39 = rowCol2world (8,11) raster811 (3,9)
+-- v39back =  world2rowCol (8,11) raster811 v39
+-- test_rc39 = assertEqual (3,9) $ world2rowCol (8,11) raster811 v39
+-- ft811 = fourier raster811    grid8_11
+-- ft811tf = fourierInv ft811
+-- test_get39 = assertEqual zero $ defuzzR $ g39 - getValueAt ft811 v39
