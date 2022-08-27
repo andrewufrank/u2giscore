@@ -36,8 +36,9 @@ module Uniform.Raster
 
 import UniformBase
 import Uniform.Point2d (Point2 (..), V2(..), V2D ) 
-
+import Linear.Vector
 import Data.Complex
+-- import Data.Array.Repa (Shape(sizeIsValid))
  
 -- import ExampleData.TerrainLike
 -- import GHC.Float (int2Double)
@@ -60,14 +61,14 @@ class Rasters d where
     rasterDescriptor :: V2 d -> V2 d -> Raster d
 
 instance Rasters Double where
-    rasterDescriptor ll@(V2 x1 y1) tr@(V2 x2 y2) = Raster x1 y1 (x w) (y w)
+    rasterDescriptor ll@(V2 x1 y1) tr@(V2 x2 y2) = Raster ll w
         where w = tr - ll 
 
 -- todo add better functions once clear what is needed 
 
 data Raster d = Raster
-        {  xorigin,yorigin :: d   -- the lower left corner 
-        , xwidths, yheight :: d -- the size of the raster
+        {  rasterorigin :: V2 d   -- the lower left corner 
+        , rastersize :: V2 d -- the size of the raster
         }
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
@@ -76,20 +77,35 @@ type RasterD = Raster Double
 -- rowCol2world :: ows cols Grid -> (Int, Int) -> V2 Double
 rowCol2world ::  (Int, Int) -> RasterD -> (Int,Int) -> V2 Double
 -- convert from the row col to the world xy - with paramters of number of rows and colums in the image the raster descriptor 
-rowCol2world (rows, cols) (Raster  x y xr yc) (r,c) = V2 xw yw
-    where 
-            xw = x + (fromIntegral r * xr / fromIntegral rows)
-            -- w = x + [r/rows, c /cols]
-            yw = y +  (fromIntegral c * yc / fromIntegral cols)
+rowCol2world (rows, cols) (Raster  orig size) (r,c) = res
+--  rowCol2world (rows, cols) (Raster  x y xr yc) (r,c) = V2 xw yw
+   where 
+            res = orig ^+^ size ^*^ (rc ^/^ rowscols)
+            -- xw = x + (fromIntegral r * xr / fromIntegral rows)
+            -- -- w = x + [r/rows, c /cols]
+            -- yw = y +  (fromIntegral c * yc / fromIntegral cols)
+            rc = V2 (fromIntegral r) (fromIntegral c)
+            rowscols = V2 (fromIntegral rows) (fromIntegral cols)
+
+(^*^) :: V2 Double -> V2 Double -> V2 Double
+(^*^) = liftI2 (*)
+(^/^) :: V2 Double -> V2 Double -> V2 Double
+(^/^) = liftI2 (/)
+
+
 
 -- world2rowCol :: Grid -> V2 Double -> (Int,Int)
 world2rowCol ::  (Int, Int) -> RasterD -> V2 Double -> (Int, Int)
 -- convert back to the row col to the world xy - with paramters of number of rows and colums in the image the raster descriptor 
-world2rowCol (rows, cols) (Raster  x y xr yc) (V2 xw yw) = (floor r, floor c) 
+world2rowCol (rows, cols) (Raster  orig size) (pt) = (floor r, floor c) 
+-- orld2rowCol (rows, cols) (Raster  x y xr yc) (V2 xw yw) = (floor r, floor c) 
     where 
-            r = (xw - x) * fromIntegral rows / xr 
-            -- rc = w - xh * [rows/xr, cols/yc]
-            c = (yw -y) * fromIntegral cols / yc 
+        V2 r c = res  
+        res = (pt ^-^  orig) ^*^ rowscols  ^/^ size 
+            -- r = (xw - x) * fromIntegral rows / xr 
+            -- -- rc = w - xh * [rows/xr, cols/yc]
+            -- c = (yw -y) * fromIntegral cols / yc 
+        rowscols = V2 (fromIntegral rows) (fromIntegral cols)
 
 -- viewport :: StateVar (Position, Size)
 

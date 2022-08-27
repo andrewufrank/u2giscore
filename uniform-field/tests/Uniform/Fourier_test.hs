@@ -29,7 +29,7 @@ import           Test.Framework hiding (scale)
 -- import ExampleData.Point2d
 import ExampleData.TerrainLike
 
--- import Uniform.Point2d
+import Uniform.Point2d
 -- import Uniform.FourierTextBook(defuzz')
 -- import Uniform.FourierComfort
 import Uniform.FourierTextBook ( defuzzR )
@@ -43,8 +43,8 @@ grid88 :: [Complex Double]
 grid88 = map (:+ 0) . concat $ map (take 8) grid8_11
 
 
-raster44 = Raster 500 1000 40 40 
-raster811 = Raster 1000 2000 110 80 
+raster44 = Raster (V2 500 1000) (V2 40 40) 
+raster811 = Raster (V2 1000 2000) (V2 110 80) 
 f44 = fourier raster44  4 4 h44 
 
 -- test_inv44 :: IO ()

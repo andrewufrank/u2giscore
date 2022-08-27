@@ -46,22 +46,32 @@ left = 400
 bott= 800
 wid = 100
 hei = 50 
-grid4 = Raster  left bott wid hei
+grid4 = Raster  (V2 left bott) (V2 wid hei)
 g00 = (0,0) :: (Int,Int)
 g23 = (2,3):: (Int,Int)
 
 test_g00m = assertEqual (V2 left bott) $ rowCol2world (4, 6) grid4 g00
 test_g23m = assertEqual (V2 450.0 825) $ rowCol2world (4, 6) grid4 g23
 
--- test_g00r = assertEqual g00 $ world2rowCol grid4 (V2 left bott)
+test_xr00 = assertEqual (V2 400 800) $ rowCol2world (4, 6) grid4 g00  -- 400 800
+test_yr02 = assertEqual (V2 425 825) $ rowCol2world (4, 6) grid4 (1,3) -- 425 825
+
+test_r01 = assertEqual (V2 425 800) $ rowCol2world (4, 6) grid4 (1,0) -- 425 800
+test_r04 = assertEqual (V2 500 850) $ rowCol2world (4, 6) grid4 (4,6) -- 500 850
+
+xx1 = (V2 4 6) ^/^ (V2 4 6)
+
+test_t00 = assertEqual (1,6) $ world2rowCol (4,6) grid4 (V2 425 850)
 
 test_g00t1 = assertEqual g00 $ world2rowCol (4, 6) grid4 (V2 left bott)
 test_g23t1 = assertEqual g23 $ world2rowCol (4, 6) grid4 (V2 450.0 825)
 
+-- v2int xi yi = V2 xi yi :: V2D
+
 raster44 :: Raster Double
-raster44 = Raster 500 1000 40 40 
+raster44 = Raster (V2 500 1000) (V2 40 40) 
 raster811 :: Raster Double
-raster811 = Raster 1000 2000 110 80 
+raster811 = Raster (V2 1000 2000) (V2 110 80) 
 -- f44 = fourier raster44   h44 
 
 -- -- test_inv44 :: IO ()

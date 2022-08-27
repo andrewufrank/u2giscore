@@ -39,8 +39,7 @@ library
     , comfort-array
     , comfort-fftw
     , extra
-    , repa
-    , repa-fftw
+    , linear
     , uniform-geometry >=0.0.1.8
     , uniformBase >=0.1.4.2
     , vector
@@ -58,8 +57,7 @@ executable exec
     , comfort-array
     , comfort-fftw
     , extra
-    , repa
-    , repa-fftw
+    , linear
     , uniform-field
     , uniform-geometry >=0.0.1.8
     , uniformBase >=0.1.4.2
@@ -85,9 +83,8 @@ test-suite test
     , comfort-array
     , comfort-fftw
     , extra
+    , linear
     , quickcheck-text
-    , repa
-    , repa-fftw
     , uniform-field
     , uniform-geometry >=0.0.1.8
     , uniformBase

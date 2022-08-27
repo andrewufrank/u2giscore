@@ -29,9 +29,10 @@ dependencies:
 - uniformBase >=0.1.4.2
 - uniform-geometry >= 0.0.1.8
 - extra
+- linear
 # - containers
-- repa-fftw
-- repa
+# - repa-fftw
+# - repa
 # - repa-array
 - comfort-array
 - comfort-fftw

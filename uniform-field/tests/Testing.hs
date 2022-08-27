@@ -24,12 +24,11 @@ module Main     where
 import Test.Framework
 import UniformBase  
 
--- import {-@ HTF_TESTS @-} Uniform.TessVoronoi_test
 import {-@ HTF_TESTS @-} Uniform.Raster_test
 import {-@ HTF_TESTS @-} Uniform.Field_test
 import {-@ HTF_TESTS @-} Uniform.Fourier_test
--- import {-@ HTF_TESTS @-} Uniform.FourierComfort_test
--- import {-@ HTF_TESTS @-} Uniform.FourierTextBook_test
+import {-@ HTF_TESTS @-} Uniform.FourierComfort_test
+import {-@ HTF_TESTS @-} Uniform.FourierTextBook_test
 -- import UniformBase
 
 main = do
