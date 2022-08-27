@@ -34,7 +34,7 @@ module Uniform.FourierComfort
          where
 
 import UniformBase
-import Uniform.Point2d 
+-- import Uniform.Point2d 
 -- import ExampleData.Point2d
 -- -- import Vector
 -- import Linear.Vector ((*^))
@@ -46,159 +46,46 @@ import Uniform.Point2d
 -- import GHC.Generics
 
 import Data.Complex
-import Extra
-import qualified Data.Array.Comfort.Boxed as C
+-- import Numeric.Extra
+-- import qualified Data.Array.Comfort.Boxed as C
 import  Data.Array.Comfort.Boxed (fromList, toList)
 import Data.Array.Comfort.Shape
 import Numeric.FFTW.Rank2
-import qualified Data.Array.Comfort.Boxed.Unchecked
+-- import qualified Data.Array.Comfort.Boxed.Unchecked
 import qualified Data.Array.Comfort.Storable.Private as Pr
 -- import Data.Array.Repa hiding (map)
 -- import Data.Array.Repa.Eval
 -- import Data.Array.Repa.Repr.ForeignPtr
 -- import Data.Array.Repa.FFTW
 -- -- import Data.Repa.Array
-import ExampleData.TerrainLike
-import GHC.Float (int2Double)
+-- import ExampleData.TerrainLike
+-- import GHC.Float (int2Double)
 
--- storable frequency amplitude Fourier transformed 
-data FourierTransformed = FourierTransformed 
-    {  vpmap :: ViewPortMap   
-            -- ^ the mapping from matric indices to real world coords 
-    , mat :: [(Complex Double)] -- the Fourier transform in frequncy space
-    }
-    deriving (Show, Read,   Eq, Generic)
-
-data ViewPortMap = ViewPortMap
-        { rows, cols :: Int                -- the number of rows and colums
-        , x,y :: Double   -- the lower left corner 
-        , width, height :: Double -- the size of the viewport
-        }
-    deriving (Show, Read, Ord, Eq, Generic, Zeros)
-
--- rowCol2viewport (ViewPortMap rows cols x y w h) (r,c) = V2 xw yw
---     where 
---             xw = x + (r * w /rows)
---             yw = y +  (c + h/cols)
--- viewport2rowCol (ViewPortMap rows cols x y w h) (V2 xw yw) = (r,c) 
---     where 
---             r = (xw - x) * rows / r 
---             c = (yw -y) * cols / c 
-
--- viewport :: StateVar (Position, Size)
-
--- Controls the affine transformation from normalized device coordinates to window coordinates. The viewport state variable consists of the coordinates (x, y) of the lower left corner of the viewport rectangle, (in pixels, initial value (0,0)), and the size (width, height) of the viewport. When a GL context is first attached to a window, width and height are set to the dimensions of that window.
-
--- Let (xnd, ynd) be normalized device coordinates. Then the window coordinates (xw, yw) are computed as follows:
-
--- xw = (xnd + 1) (width / 2) + x
-
--- yw = (ynd + 1) (heigth / 2) + y
-
--- Viewport width and height are silently clamped to a range that depends on the implementation, see maxViewportDims.
-
--- better use resize from https://hackage.haskell.org/package/hip-1.5.6.0/docs/Graphics-Image-Processing.html
 
 -- forward Fourier transformation of a 2d matrix 
-dfttw2d :: V2 Double -> V2 Double -> Int -> Int -> [[ Double]] -> FourierTransformed
-    -- Pr.Array (Cyclic Integer, Cyclic Integer) (Complex Double)
-dfttw2d m n mat =  FourierTransformed m n . Pr.toList 
+-- input of size of array (could be extracted, but required later for inverse)
+dfttw2d :: Int -> Int -> [[Double]] -> [Complex Double]
+dfttw2d m n mat =    Pr.toList 
         . fourier Forward 
         . Pr.fromList (Cyclic m, Cyclic n) . map (:+ 0). concat $ mat
 
 -- inverse Fourier transformation restoring a 2d matrix 
-idfttw2d :: FourierTransformed -> [[Double]]
-idfttw2d (FourierTransformed m n mat) = 
+-- needs same size input as in forward transform
+idfttw2d :: Int -> Int -> [Complex Double] -> [[Double]]
+idfttw2d   m n mat = 
         createMatrix m  
             . map (* scale) 
             . map ( realPart)  --(/(fromIntegral m*n)) .
             . Pr.toList . fourier Backward 
             . Pr.fromList (Cyclic m, Cyclic n) $ mat 
     where   scale :: Double 
-            scale = 1/(int2Double (m*n))
+            scale = 1/(fromIntegral (m*n))
 
--- helper 
+-- helper -- create the original matrix sizes 
 createMatrix :: Int -> [a] -> [[a]]
 createMatrix _ [] = []
 createMatrix n xs = take n xs : createMatrix n (drop n xs)
 
-
--- a = fromList (ZeroBased 8, ZeroBased 8) grid88 
--- al :: [Complex Double]
--- al = toList a 
--- ash = C.shape a
--- shape88 :: (ZeroBased Int,  ZeroBased Int)
--- shape88 = (ZeroBased 8, ZeroBased 8)
--- shapeCyc =   (Cyclic 8, Cyclic 8)
--- -- ac :: C.Array (Cyclic Integer, Cyclic Integer) (Complex Double)
--- ac
---   :: Data.Array.Comfort.Boxed.Unchecked.Array
---        (Data.Array.Comfort.Shape.Cyclic Integer,
---         Data.Array.Comfort.Shape.Cyclic Integer)
---        (Data.Complex.Complex Double)
--- ac = C.reshape shapeCyc a 
--- -- acf = Pr.freeze a  -- gives error
-
--- -- versuch mit direktem einlesen 
--- p88 :: Pr.Array (Cyclic Integer, Cyclic Integer) (Complex Double)
--- p88 = Pr.fromList shapeCyc grid88
-
-        
--- q44 = dfttw2d 4 4 h44
--- r44 = idfttw2d q44
-
--- p88t = fourier Forward p88
--- q88t = dfttw2d 8 8 grid8_11
--- p88tt = fourier Backward p88t
--- p88tt' = Pr.toList p88tt
--- p88tts' = map (/64) p88tt'
--- p88s = createMatrix 8 p88tts'
-
--- r88 = fromList shape88 p88tt'
--- not helping, single list (with indication of size in head)
-
--- matrixEvery :: Int -> [a] -> [[a]]
--- matrixEvery _ [] = []
--- matrixEvery n xs = as : matrixEvery n bs
---   where (as,bs) = matrixEvery n xs
-
-
--- a :: Array F DIM1 (Complex Double)
--- a = fromList (Z :. 4) [i :+ 0 | i <- [0..3]]
--- a8 = fromList (Z :. 8) [i :+ 0 | i <- [0..7]]
--- f = fft a 
--- f8 = fft a8
--- b :: Array F DIM1 (Complex Double)
--- b = ifft f 
--- b8 :: Array F DIM1 (Complex Double)
--- b8 = ifft f8
--- blist :: [Complex Double]
--- blist = toList b
--- b8list = toList b8
--- f8list = toList f8
--- f8_4list = take 4 . toList $ f8
--- f8_4fromList = fromList (Z :.4) f8_4list 
--- b8_4 :: Array F DIM1 (Complex Double)
--- b8_4 = ifft f8_4fromList 
--- b8_4res :: [Complex Double]
--- b8_4res=toList b8_4
-
--- g88:: Array F DIM2 (Complex Double)
--- g88 = fromList (Z :. 8 :. 11) grid88
-
--- g88f :: Array F DIM2 (Complex Double)
--- g88f = fft2d g88 
--- g88list :: [Complex Double]
--- g88list = toList g88f
--- -- g88list2 :: [[Complex Double]]
--- -- g88list2 = toList g88f
--- g88list3 = toList g88f
--- >>> toList a
--- [0.0 :+ 0.0,1.0 :+ 0.0,2.0 :+ 0.0,3.0 :+ 0.0]
--- >>> toList $ fft a
--- [6.0 :+ 0.0,(-2.0) :+ 2.0,(-2.0) :+ 0.0,(-2.0) :+ (-2.0)]
--- >>> toList $ ifft $ fft a
--- [0.0 :+ 0.0,1.0 :+ 0.0,2.0 :+ 0.0,3
 
 
 pageComfort1 :: ErrIO ()
@@ -207,6 +94,3 @@ pageComfort1 = do
     -- putIOwords ["g88", showT . toList $ g88]
 
     return ()
-
--- grid88 :: [Complex Double]
--- grid88 = map (:+ 0) . concat $ map (take 8) grid8_11

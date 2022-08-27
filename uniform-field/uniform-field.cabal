@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           uniform-field
-version:        0.0.1.1
+version:        0.0.1.2
 synopsis:       uniform wrapper for functions producing the field data in a GIS
 description:    - two modules wtih code to computer 2dimensional Fourier transformation and their inverse: 
                   - FourierTextBook - an extremely non-optimized code close to a text book
@@ -24,6 +24,7 @@ extra-source-files:
 library
   exposed-modules:
       ExampleData.TerrainLike
+      Uniform.Fourier
       Uniform.FourierComfort
       Uniform.FourierTextBook
   other-modules:
@@ -68,6 +69,7 @@ test-suite test
   main-is: Testing.hs
   other-modules:
       Uniform.Field_test
+      Uniform.Fourier_test
       Uniform.FourierComfort_test
       Uniform.FourierTextBook_test
       Uniform.Point2d_test

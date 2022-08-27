@@ -48,13 +48,13 @@ import Uniform.Point2d
 -- import GHC.Generics
 
 import Data.Complex
-import Extra
-import qualified Data.Array.Comfort.Boxed as C
-import  Data.Array.Comfort.Boxed (fromList, toList)
-import Data.Array.Comfort.Shape
-import Numeric.FFTW.Rank2
-import qualified Data.Array.Comfort.Boxed.Unchecked
-import qualified Data.Array.Comfort.Storable.Private as Pr
+-- import Extra
+-- import qualified Data.Array.Comfort.Boxed as C
+-- import  Data.Array.Comfort.Boxed (fromList, toList)
+-- import Data.Array.Comfort.Shape
+-- import Numeric.FFTW.Rank2
+-- import qualified Data.Array.Comfort.Boxed.Unchecked
+-- import qualified Data.Array.Comfort.Storable.Private as Pr
 -- import Data.Array.Repa hiding (map)
 -- import Data.Array.Repa.Eval
 -- import Data.Array.Repa.Repr.ForeignPtr
@@ -62,32 +62,41 @@ import qualified Data.Array.Comfort.Storable.Private as Pr
 -- -- import Data.Repa.Array
 import ExampleData.TerrainLike
 import GHC.Float (int2Double)
-import Uniform.FourierTextBook
+import Uniform.FourierComfort
 import Uniform.FourierTextBook
 
--- storable frequency amplitude Fourier transformed 
+-- storable frequency domain Fourier transformed 
+-- the size of the 2d array of the transforms
+-- the world coordinates of the grid originally
 data FourierTransformed = FourierTransformed 
-    {  vpmap :: ViewPortMap   
+    {  vpmap :: Grid  
             -- ^ the mapping from matric indices to real world coords 
     , mat :: [(Complex Double)] -- the Fourier transform in frequncy space
     }
     deriving (Show, Read,   Eq, Generic)
 
-data ViewPortMap = ViewPortMap
+fourier :: Grid 
+
+-- grid is a sort of window-viewport mapping between the fourier grid (0,0 based and small number of rows/cols) to the world raster image 
+-- todo : add an interpolation method, see later
+data Grid = Grid
         { rows, cols :: Int                -- the number of rows and colums
         , x,y :: Double   -- the lower left corner 
-        , width, height :: Double -- the size of the viewport
+        , rowwidth, colheight :: Double -- the size of the viewport
         }
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
--- rowCol2viewport (ViewPortMap rows cols x y w h) (r,c) = V2 xw yw
---     where 
---             xw = x + (r * w /rows)
---             yw = y +  (c + h/cols)
--- viewport2rowCol (ViewPortMap rows cols x y w h) (V2 xw yw) = (r,c) 
---     where 
---             r = (xw - x) * rows / r 
---             c = (yw -y) * cols / c 
+rowCol2world :: Grid -> (Int, Int) -> V2 Double
+rowCol2world (Grid rows cols x y rw ch) (r,c) = V2 xw yw
+    where 
+            xw = x + (fromIntegral r * rw / fromIntegral rows)
+            yw = y +  (fromIntegral c * ch / fromIntegral cols)
+
+world2rowCol :: Grid -> V2 Double -> (Int,Int)
+world2rowCol (Grid rows cols x y rw ch) (V2 xw yw) = (floor r, floor c) 
+    where 
+            r = (xw - x) * fromIntegral rows / rw 
+            c = (yw -y) * fromIntegral cols / ch 
 
 -- viewport :: StateVar (Position, Size)
 
@@ -105,10 +114,6 @@ data ViewPortMap = ViewPortMap
 
 
 
--- helper 
-createMatrix :: Int -> [a] -> [[a]]
-createMatrix _ [] = []
-createMatrix n xs = take n xs : createMatrix n (drop n xs)
 
 
 
