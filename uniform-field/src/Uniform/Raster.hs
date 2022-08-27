@@ -48,7 +48,7 @@ import Data.Complex
 -- the size of the 2d array of the transforms
 -- the world coordinates of the grid originally
 data FourierTransformed = FourierTransformed 
-    {  raster :: Raster  
+    {  raster :: Raster Double 
             -- ^ the real world coords of the original raster 
     , rows, cols :: Int     -- ^ the size of the array used for the transformations 
     , mat :: [Complex Double] -- the Fourier transform in frequncy space
@@ -56,35 +56,39 @@ data FourierTransformed = FourierTransformed
     deriving (Show, Read,   Eq, Generic)
 
 
-class Rasters r pt where 
-    rasterDescriptor :: pt -> pt -> r
+class Rasters d where 
+    rasterDescriptor :: V2 d -> V2 d -> Raster d
 
-instance Rasters Raster V2D where
+instance Rasters Double where
     rasterDescriptor ll@(V2 x1 y1) tr@(V2 x2 y2) = Raster x1 y1 (x w) (y w)
         where w = tr - ll 
 
-data Raster = Raster
-        {  xorigin,yorigin :: Double   -- the lower left corner 
-        , xwidths, yheight :: Double -- the size of the raster
+-- todo add better functions once clear what is needed 
+
+data Raster d = Raster
+        {  xorigin,yorigin :: d   -- the lower left corner 
+        , xwidths, yheight :: d -- the size of the raster
         }
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
- 
+type RasterD = Raster Double 
 
 -- rowCol2world :: ows cols Grid -> (Int, Int) -> V2 Double
-rowCol2world ::  (Int, Int) -> Raster -> (Int,Int) -> V2 Double
+rowCol2world ::  (Int, Int) -> RasterD -> (Int,Int) -> V2 Double
 -- convert from the row col to the world xy - with paramters of number of rows and colums in the image the raster descriptor 
 rowCol2world (rows, cols) (Raster  x y xr yc) (r,c) = V2 xw yw
     where 
             xw = x + (fromIntegral r * xr / fromIntegral rows)
+            -- w = x + [r/rows, c /cols]
             yw = y +  (fromIntegral c * yc / fromIntegral cols)
 
 -- world2rowCol :: Grid -> V2 Double -> (Int,Int)
-world2rowCol ::  (Int, Int) -> Raster -> V2 Double -> (Int, Int)
+world2rowCol ::  (Int, Int) -> RasterD -> V2 Double -> (Int, Int)
 -- convert back to the row col to the world xy - with paramters of number of rows and colums in the image the raster descriptor 
 world2rowCol (rows, cols) (Raster  x y xr yc) (V2 xw yw) = (floor r, floor c) 
     where 
             r = (xw - x) * fromIntegral rows / xr 
+            -- rc = w - xh * [rows/xr, cols/yc]
             c = (yw -y) * fromIntegral cols / yc 
 
 -- viewport :: StateVar (Position, Size)

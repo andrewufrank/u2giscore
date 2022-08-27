@@ -57,13 +57,10 @@ import Uniform.Raster
 --     }
 --     deriving (Show, Read,   Eq, Generic)
 
-fourier :: Raster ->   [[Double]] -> FourierTransformed 
+fourier :: RasterD -> Int -> Int ->  [[Double]] -> FourierTransformed 
 -- converts to the fourier transformed and stores the descriptor
-fourier raster  mat = FourierTransformed raster rows cols 
+fourier raster rows cols mat = FourierTransformed raster rows cols 
         . dfttw2d rows cols $ mat
-    where 
-            rows = length mat 
-            cols = length . head $ mat 
 
 fourierInv :: FourierTransformed -> [[Double]]
 fourierInv ft = idfttw2d (rows ft) (cols ft) (mat ft)

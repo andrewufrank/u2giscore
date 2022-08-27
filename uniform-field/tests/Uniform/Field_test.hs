@@ -49,7 +49,7 @@ grid88 = map (:+ 0) . concat $ map (take 8) grid8_11
 
 
 
-ft811 = fourier raster811    grid8_11
+ft811 = fourier raster811 8 11   grid8_11
 ft811tf = fourierInv ft811
 
 g39 = grid8_11 !! 3 !! 9 

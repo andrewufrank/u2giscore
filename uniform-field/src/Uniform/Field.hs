@@ -47,13 +47,25 @@ import Uniform.Raster
 
 type Field = FourierTransformed 
 
-class Fields a v where 
--- ^ a continuou ycanging value in a 2d domain f x y -> v 
-    -- createField :: 
-    -- getValue :: 
+class Fields d where 
+-- ^ a continuou changing value in a 2d domain f x y -> v 
+    createField :: Raster d -> [[d]] -> Field
+    
+    -- | a proof of concept access to a value at a point 
+    -- do not use - performance penalty!
+    getValueAt :: Field -> V2 d -> d 
 
  
--- instance Fields Field where 
+instance Fields Double where 
+    createField raster mat = fourier raster rows cols mat
+        where 
+            rows = length mat 
+            cols = length . head $ mat 
+    getValueAt ft v@(V2 x y) = (matTF) !! r !! c 
+        where 
+            matTF = fourierInv ft
+            (r,c) = world2rowCol (rows ft, cols ft) (raster ft) v
+
 
 -- -- storable frequency domain Fourier transformed 
 -- -- the size of the 2d array of the transforms
@@ -81,14 +93,14 @@ class Fields a v where
 -- -- where to convert to world coord?
  
 
-getValueAt :: FourierTransformed -> V2D ->  Double 
--- a naive and not to be used demonstration how to obtain a single value 
--- back 
-getValueAt ft v@(V2 x y) = (matTF) !! r !! c 
+-- getValueAt :: FourierTransformed -> V2D ->  Double 
+-- -- a naive and not to be used demonstration how to obtain a single value 
+-- -- back 
+-- getValueAt ft v@(V2 x y) = (matTF) !! r !! c 
 
-    where 
-        matTF = fourierInv ft
-        (r,c) = world2rowCol (rows ft, cols ft) (raster ft) v
+--     where 
+--         matTF = fourierInv ft
+--         (r,c) = world2rowCol (rows ft, cols ft) (raster ft) v
 
 
 -- viewport :: StateVar (Position, Size)

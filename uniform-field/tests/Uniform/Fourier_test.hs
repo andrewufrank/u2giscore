@@ -45,17 +45,17 @@ grid88 = map (:+ 0) . concat $ map (take 8) grid8_11
 
 raster44 = Raster 500 1000 40 40 
 raster811 = Raster 1000 2000 110 80 
-f44 = fourier raster44   h44 
+f44 = fourier raster44  4 4 h44 
 
 -- test_inv44 :: IO ()
-test_inv44 = assertEqual h44 $ fourierInv . fourier raster44    $ h44
+test_inv44 = assertEqual h44 $ fourierInv . fourier raster44 4 4   $ h44
 -- test_inv44 = assertEqual h44 $ idfttw2d 4 4 . dfttw2d 4 4 $ h44
 
 -- test_inv88 = assertEqual grid8_11 $ fourierInv . fourier raster811 (8,11) $ grid8_11
 -- -- fails for numerical issues
 
 testinv88' = assertEqual (replicate (8*11) 0) $ map defuzzR $ zipWith (-)
-    (concat grid8_11) (concat . fourierInv . fourier raster811   $ grid8_11)
+    (concat grid8_11) (concat . fourierInv . fourier raster811  8 11  $ grid8_11)
     where
         defuzzR x = if abs x < 1.0E-6 then 0 else x
 

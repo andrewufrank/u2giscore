@@ -58,7 +58,9 @@ test_g23m = assertEqual (V2 450.0 825) $ rowCol2world (4, 6) grid4 g23
 test_g00t1 = assertEqual g00 $ world2rowCol (4, 6) grid4 (V2 left bott)
 test_g23t1 = assertEqual g23 $ world2rowCol (4, 6) grid4 (V2 450.0 825)
 
+raster44 :: Raster Double
 raster44 = Raster 500 1000 40 40 
+raster811 :: Raster Double
 raster811 = Raster 1000 2000 110 80 
 -- f44 = fourier raster44   h44 
 
