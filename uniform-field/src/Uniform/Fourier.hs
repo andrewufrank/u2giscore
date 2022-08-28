@@ -48,12 +48,12 @@ import Uniform.Raster
 
 
 
-fourier :: RasterD -> Int -> Int ->  [[Double]] -> Field 
+fourier :: RasterD -> Int -> Int ->  [[Double]] -> Field Double
 -- converts to the fourier transformed and stores the descriptor
 fourier raster rows cols mat = Field raster rows cols 
         . dfttw2d rows cols $ mat
 
-fourierInv :: Field -> [[Double]]
+fourierInv :: Field Double -> [[Double]]
 fourierInv ft = idfttw2d (rows ft) (cols ft) (mat ft)
 -- inverts the fourier transformation and produces the original array (real!)
 -- data Raster = Raster

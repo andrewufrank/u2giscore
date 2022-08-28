@@ -61,3 +61,4 @@ missing center for circumcircle, lengths and surface.
 
 0.0.1.8 breaking out u2giscore (from u2to)
     added showAsLines to strings (uniformBase 0.1.4.2)
+    added exports from lower modules to the top (HQschemaTop, Field)

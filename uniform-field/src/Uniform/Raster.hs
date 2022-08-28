@@ -48,11 +48,11 @@ import Data.Complex
 -- storable frequency domain Fourier transformed 
 -- the size of the 2d array of the transforms
 -- the world coordinates of the grid originally
-data Field = Field 
-    {  raster :: Raster Double 
+data Field d = Field 
+    {  raster :: Raster d 
             -- ^ the real world coords of the original raster 
     , rows, cols :: Int     -- ^ the size of the array used for the transformations 
-    , mat :: [Complex Double] -- the Fourier transform in frequncy space
+    , mat :: [Complex d] -- the Fourier transform in frequncy space
     }
     deriving (Show, Read,   Eq, Generic)
 

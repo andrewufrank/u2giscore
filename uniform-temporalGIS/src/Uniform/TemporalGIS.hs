@@ -55,20 +55,27 @@ type StorageElement = StoreTessShortElement
 -- type CatStoreTessShort = CatStore ObjTessShort MorphTessShort
 -- type CatStoreState = State  CatStoreTessShort [StoreTessShortElement]
 
-class Tstorage ts  where 
+class Tstoraged ts  where 
 -- ^ a continuou changing value in a 2d domain f x y -> v 
     createTstorage :: Time -> RasterD -> Storage ->  ts
     -- ^ time and spatial extend to cover, add a snapshot relation storage
-    addField :: Time -> Field -> ts -> ts 
+    addField :: Time -> Field Double -> ts -> ts 
     -- ^ add a field (not considering yet changes of a field)
     addToRelations :: Time ->  [StorageElement]  -> ts -> ts  
     -- ^ add a batch update to relatiosn
 
     -- todo add change ops  
  
+data Tstore = Tstore 
+    { maxTime :: Time  -- ^ the last update -- only additions in sequence
+    , fields :: [(Time, Field Double)] -- ^ the fields, with a time stamp when added
+    , relations :: []  -- the relation storage, each entry timed
+    }
 
- 
-instance Tstorage Double where 
+    deriving (Show, Read, Ord, Eq, Generic, Zeros)
+
+
+instance Tstoraged Double where 
 
 
 

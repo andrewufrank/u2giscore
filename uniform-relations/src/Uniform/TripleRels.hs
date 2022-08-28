@@ -26,41 +26,12 @@
 {-# LANGUAGE DeriveGeneric    #-}
 
 module Uniform.TripleRels
---     (
---       CPoint 
---     , CatStore (..), CatStores (..)
---     , Action (..)  -- from NaiveTripleStore
---     , isSingleton, getSingle1, getSingle3
---     , getTarget3, getTarget1
---     , openSingleton
---     , find2fun, find2rel
---     , find2funR, find2relR
---     , MorphSel (..) 
---     , wrapIns
---     ---- for tests
---     -- , pageTriple4cat
-    
---     -- , Morph (..), Obj (..), Sobj(..), Tobj(..)
---     -- , v0, v1, v2, v3, a1x, a2x
--- --     Uniforms (..), Uniform (..), UniformState
--- --     -- , ObjID, makeObjID
--- -- --    , module Uniform.NaiveTriplestore
--- -- --    ,  Rel4Test  (..)
--- --     -- , B4val (..), proxyB4val, proxyDouble
--- --     , Val
--- --     , Vals (..)
--- --     -- ,  unVal4, isVal4
--- --     , Row (..)
--- -- --    , newNaiveStore -- for testing
---     )    
+ 
     where
 
--- import Data.List (sort)
--- import GHC.Generics ( Generic )
 import Control.Monad.State  
 import Data.List ( nub ) 
 import UniformBase 
--- import Uniform.NaiveTripleStore  
 import Uniform.TripleStore -- ( CatStore, unCatStore )
     -- ( Action(..), TripleStore(tsfind, tsinsert, tsdel) )
 

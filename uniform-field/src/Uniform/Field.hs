@@ -50,11 +50,11 @@ import Uniform.Raster
 
 class Fields d where 
 -- ^ a continuou changing value in a 2d domain f x y -> v 
-    createField :: Raster d -> [[d]] -> Field
+    createField :: Raster d -> [[d]] -> Field d
     
     -- | a proof of concept access to a value at a point 
     -- do not use - performance penalty!
-    getValueAt :: Field -> V2 d -> d 
+    getValueAt :: Field Double -> V2 d -> d 
 
  
 instance Fields Double where 
