@@ -69,7 +69,23 @@ class Tstoraged ts  where
  
 data Tstore = Tstore 
     { minTime, maxTime :: Time  -- ^ the first, last update -- only additions in sequence
-    , covered :: Raster Double
+    , covered :: Raster Double -- ^ a box around the area covered 
+    , fields :: [(Time, Field Double)] -- ^ the fields, with a time stamp when added
+    , relations :: [(Time, StorageElement)]  -- the relation storage, each entry timed
+    }
+
+    deriving (Show, Read,   Eq, Generic, Zeros)
+
+instance Zeros UTCTime where zero = fromEpochTime' 0
+-- this counts seconds since 1970-01-01
+
+instance Tstoraged Tstore where 
+    emptyTstorage t = Tstore 
+        { minTime = t
+        , maxTime = t
+        , covered = zero 
+        , fields = []
+        , relations = []
         }
 
 
