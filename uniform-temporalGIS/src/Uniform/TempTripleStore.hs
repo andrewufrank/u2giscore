@@ -1,9 +1,8 @@
 -----------------------------------------------------------------------------
 --
--- Module      :  Uniform.TemporalStorage
+-- Module      :  Uniform.TempTripleStore
 
--- | storage for relations and fields 
---   with time
+-- | the time wrapper around the triple store
 -----------------------------------------------------------------------------
 {-# LANGUAGE BangPatterns          #-}
 {-# LANGUAGE DoAndIfThenElse       #-}
@@ -30,16 +29,16 @@
 {-# OPTIONS_GHC -w #-}
 
 
-module Uniform.TemporalGIS
+module Uniform.TempTripleStore
          where
 
 import UniformBase
 import Uniform.Time
 import Uniform.Point2d 
--- import Uniform.TripleStore
-import HQschema.HQschemaTop
+import Uniform.TripleStore
+-- import HQschema.HQschemaTop
 -- import Uniform.Raster
-import Uniform.Field
+-- import Uniform.Field
 -- import Data.Complex
  
 -- import ExampleData.TerrainLike
@@ -55,27 +54,19 @@ type StorageElement = StoreTessShortElement
 -- type CatStoreTessShort = CatStore ObjTessShort MorphTessShort
 -- type CatStoreState = State  CatStoreTessShort [StoreTessShortElement]
 
-class Tstoraged ts  where 
--- ^ a continuou changing value in a 2d domain f x y -> v 
-    createTstorage :: Time -> RasterD -> Storage ->  ts
-    -- ^ time and spatial extend to cover, add a snapshot relation storage
-    addField :: Time -> Field Double -> ts -> ts 
-    -- ^ add a field (not considering yet changes of a field)
-    addToRelations :: Time ->  [StorageElement]  -> ts -> ts  
-    -- ^ add a batch update to relatiosn
+class (Eq t, Ord t) => TimedTripleStore t trp where 
+-- | a wrapper around the triples 
+-- perhaps I should have created a class triple and one store
+    ttempty :: [(t,trp)]
+    ttinsert :: t -> trp -> [(t,trp)] -> [(t,trp)]
+    -- ttdel 
+    ttfind ::   t -> t -> [(t,trp)] -> [(t,trp)]
+    -- provide lower and upper bound on time 
 
-    -- todo add change ops  
- 
-data Tstore = Tstore 
-    { maxTime :: Time  -- ^ the last update -- only additions in sequence
-    , fields :: [(Time, Field Double)] -- ^ the fields, with a time stamp when added
-    , relations :: [(Time, StorageElement)]  -- the relation storage, each entry timed
-    }
-
-    deriving (Show, Read, Ord, Eq, Generic, Zeros)
-
-
-instance Tstoraged Double where 
+instance TimedTripleStore t trp where 
+    ttempy = []
+    ttinsert t trp = ((t,trp) :)
+    ttfind t1 t2 = filter (\tt -> ((t1 =<).fst $ tt) && ((t2 >). fst $ tt))
 
 
 
