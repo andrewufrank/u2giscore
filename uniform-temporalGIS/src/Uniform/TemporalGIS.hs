@@ -56,26 +56,21 @@ type StorageElement = StoreTessShortElement
 -- type CatStoreState = State  CatStoreTessShort [StoreTessShortElement]
 
 class Tstoraged ts  where 
--- ^ a continuou changing value in a 2d domain f x y -> v 
-    createTstorage :: Time -> RasterD -> Storage ->  ts
+-- ^ the storage of a time GIS 
+    emptyTstorage :: Time ->  ts
     -- ^ time and spatial extend to cover, add a snapshot relation storage
     addField :: Time -> Field Double -> ts -> ts 
     -- ^ add a field (not considering yet changes of a field)
     addToRelations :: Time ->  [StorageElement]  -> ts -> ts  
+    addOneRelations :: Time ->  StorageElement  -> ts -> ts  
     -- ^ add a batch update to relatiosn
 
     -- todo add change ops  
  
 data Tstore = Tstore 
-    { maxTime :: Time  -- ^ the last update -- only additions in sequence
-    , fields :: [(Time, Field Double)] -- ^ the fields, with a time stamp when added
-    , relations :: [(Time, StorageElement)]  -- the relation storage, each entry timed
-    }
-
-    deriving (Show, Read, Ord, Eq, Generic, Zeros)
-
-
-instance Tstoraged Double where 
+    { minTime, maxTime :: Time  -- ^ the first, last update -- only additions in sequence
+    , covered :: Raster Double
+        }
 
 
 

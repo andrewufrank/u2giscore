@@ -45,8 +45,8 @@ import Uniform.TripleStore
 -- import Uniform.Fourier 
 -- import Uniform.Raster
 type Time = UTCTime
-type Storage = CatStoreTessShort
-type StorageElement = StoreTessShortElement
+-- type Storage = CatStoreTessShort
+-- type StorageElement = StoreTessShortElement
 
 -- copied from TripleStore
 -- type StoreTessShortElement = (ObjTessShort, MorphTessShort, ObjTessShort)
@@ -63,11 +63,12 @@ class (Eq t, Ord t) => TimedTripleStore t trp where
     ttfind ::   t -> t -> [(t,trp)] -> [(t,trp)]
     -- provide lower and upper bound on time 
 
-instance TimedTripleStore t trp where 
-    ttempy = []
+instance (Ord t) => TimedTripleStore t trp where 
+    ttempty = []
     ttinsert t trp = ((t,trp) :)
-    ttfind t1 t2 = filter (\tt -> ((t1 =<).fst $ tt) && ((t2 >). fst $ tt))
+    ttfind t1 t2 = filter (\tt -> ((t1 <=).fst $ tt) && ((t2 >). fst $ tt))
 
+-- a conversion from triple to timed triple would be easy, but not required
 
 
 pageTemporal2 :: ErrIO ()

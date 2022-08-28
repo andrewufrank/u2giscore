@@ -21,6 +21,7 @@ extra-source-files:
 library
   exposed-modules:
       Uniform.TemporalGIS
+      Uniform.TempTripleStore
   other-modules:
       Paths_uniform_temporalGIS
   hs-source-dirs:
