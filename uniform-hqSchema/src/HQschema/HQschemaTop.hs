@@ -28,7 +28,14 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module HQschema.HQschemaTop where
+module HQschema.HQschemaTop 
+    (module HQschema.HQschemaTop
+    , module Uniform.TripleStore
+    , StoreTessShortElement (..)
+    , CatStoreTessShort (..)
+    , CatStoreState
+    )
+where
 
 import Uniform.Point2d
 import Uniform.TripleStore
@@ -45,7 +52,6 @@ import HQschema.HQconstructionsFaces
 import HQschema.HQconstructionsEdges
 
 
-type CatStoreState = State  CatStoreTessShort [StoreTessShortElement]
 
 makeTripNode :: Int -> NodeHQ -> StoreTessShortElement
 -- -- | convert trip_xy   hqnx,   

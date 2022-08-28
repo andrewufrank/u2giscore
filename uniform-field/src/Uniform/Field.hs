@@ -33,6 +33,8 @@
 
 
 module Uniform.Field
+    (module Uniform.Field
+    , module Uniform.Raster)
          where
 
 import UniformBase

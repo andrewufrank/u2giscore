@@ -36,9 +36,9 @@ module Uniform.TemporalGIS
 import UniformBase
 import Uniform.Time
 import Uniform.Point2d 
-import Uniform.TripleStore
+-- import Uniform.TripleStore
 import HQschema.HQschemaTop
-import Uniform.Raster
+-- import Uniform.Raster
 import Uniform.Field
 -- import Data.Complex
  
@@ -46,7 +46,14 @@ import Uniform.Field
 -- import Uniform.Fourier 
 -- import Uniform.Raster
 type Time = UTCTime
-type Storage = CatStoreTessShort [StoreTessShortElement]
+type Storage = CatStoreTessShort
+type StorageElement = StoreTessShortElement
+
+-- copied from TripleStore
+-- type StoreTessShortElement = (ObjTessShort, MorphTessShort, ObjTessShort)
+
+-- type CatStoreTessShort = CatStore ObjTessShort MorphTessShort
+-- type CatStoreState = State  CatStoreTessShort [StoreTessShortElement]
 
 class Tstorage ts  where 
 -- ^ a continuou changing value in a 2d domain f x y -> v 
@@ -54,7 +61,7 @@ class Tstorage ts  where
     -- ^ time and spatial extend to cover, add a snapshot relation storage
     addField :: Time -> Field -> ts -> ts 
     -- ^ add a field (not considering yet changes of a field)
-    addToRelations :: Time ->  [StoreTessShortElement]  -> ts -> ts  
+    addToRelations :: Time ->  [StorageElement]  -> ts -> ts  
     -- ^ add a batch update to relatiosn
 
     -- todo add change ops  

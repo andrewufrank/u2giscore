@@ -10,7 +10,7 @@ category: 'Geometry, Uniform, Relations'
 synopsis: the schema (i.e. data types) necessary to load geometry to a naive triple store (using the half-quad representation)
 description: |
   converting the extracted relations from a triangulation and reformat it for storage into a triple store
-tested-with: ghc 9.0.2
+tested-with: ghc == 9.0.2
 # source-repository head
 #     type: git
 #     location: https://github.com/andrewufrank/uniform-http.git

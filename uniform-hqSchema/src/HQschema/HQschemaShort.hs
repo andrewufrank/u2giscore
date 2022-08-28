@@ -103,6 +103,7 @@ data MorphTessShort =
         -- | NamedTag
     | ZZm 
     deriving (Show, Read, Ord, Eq, Generic )
+    
 instance Zeros MorphTessShort  where zero = ZZm
 instance NiceStrings MorphTessShort
     -- where shownice = showT  
