@@ -1,0 +1,24 @@
+
+import: https://www.stackage.org/lts-19.2/cabal.config
+
+packages: *.cabal
+    ../../uBase/uniformBase
+    ../../uBase/uniform-algebras/*.cabal
+    ../../uBase/uniform-strings/*.cabal
+    ../../uBase/uniform-error/*.cabal
+--    ../../uBase/uniform-fileio/*.cabal
+
+--    ../uniform-json/*.cabal
+--    ../uniform-time/*.cabal
+    ../uniform-geometry
+    ../uniform-hqSchema
+    ../uniform-relations
+    ../uniform-graphics
+    ../uniform-field
+
+
+ 
+-- Disregard all upper bounds when dependency solving
+
+allow-newer: toysolver:base 
+ 

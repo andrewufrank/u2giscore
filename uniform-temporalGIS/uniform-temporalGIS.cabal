@@ -1,0 +1,85 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.35.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           uniform-temporalGIS
+version:        0.0.1.1
+synopsis:       extending the GIS code with a functor to include temporal data
+description:    - construct the storage for GIS data and add time stamps
+category:       Geometry, Uniform, GIS
+author:         Andrew Frank
+maintainer:     Andrew U. Frank <andrewufrank@gmail.com>
+license:        GPL
+license-file:   GPL_3
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+library
+  exposed-modules:
+      Uniform.TemporalGIS
+  other-modules:
+      Paths_uniform_temporalGIS
+  hs-source-dirs:
+      src
+  build-depends:
+      HTF
+    , base >=4.7 && <5
+    , extra
+    , linear
+    , uniform-field
+    , uniform-geometry >=0.0.1.8
+    , uniform-hqSchema
+    , uniform-relations
+    , uniform-time
+    , uniformBase >=0.1.4.2
+    , vector
+  default-language: Haskell2010
+
+executable exec
+  main-is: Main.hs
+  other-modules:
+      Paths_uniform_temporalGIS
+  hs-source-dirs:
+      app
+  build-depends:
+      HTF
+    , base >=4.7 && <5
+    , extra
+    , linear
+    , uniform-field
+    , uniform-geometry >=0.0.1.8
+    , uniform-hqSchema
+    , uniform-relations
+    , uniform-temporalGIS
+    , uniform-time
+    , uniformBase >=0.1.4.2
+    , vector
+  default-language: Haskell2010
+
+test-suite test
+  type: exitcode-stdio-1.0
+  main-is: Testing.hs
+  other-modules:
+      Uniform.TemporalGIS_test
+      Paths_uniform_temporalGIS
+  hs-source-dirs:
+      tests
+  build-depends:
+      HTF
+    , base >=4.7 && <5
+    , extra
+    , linear
+    , quickcheck-text
+    , uniform-field
+    , uniform-geometry >=0.0.1.8
+    , uniform-hqSchema
+    , uniform-relations
+    , uniform-temporalGIS
+    , uniform-time
+    , uniformBase
+    , vector
+  default-language: Haskell2010

@@ -1,0 +1,61 @@
+name: uniform-temporalGIS
+version: 0.0.1.1
+# cabal-version: >=3.6 would go to verbatim, but usually not required
+# build-type: Simple
+license: GPL
+license-file: GPL_3
+maintainer: Andrew U. Frank <andrewufrank@gmail.com>
+author: Andrew Frank
+category: 'Geometry, Uniform, GIS'
+synopsis: extending the GIS code with a functor to include temporal data
+description: |
+  - construct the storage for GIS data and add time stamps
+
+# source-repository head
+#     type: git
+#     location: https://github.com/andrewufrank/u2giscore.git/uniform-field
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+dependencies:
+- base >= 4.7 && < 5
+- HTF
+- uniformBase >=0.1.4.2
+- uniform-time
+- uniform-geometry >= 0.0.1.8
+- uniform-relations
+- uniform-hqSchema
+- uniform-field
+- extra
+- linear
+# - containers
+- vector 
+
+library:
+  source-dirs: 
+  - src
+ 
+
+executables: 
+  exec: 
+    main:   Main.hs
+    source-dirs:  app
+    dependencies: 
+    - uniform-temporalGIS
+
+tests:
+  test:
+    main:                Testing.hs
+    source-dirs:         tests
+    dependencies:
+    - uniform-temporalGIS
+    - HTF
+    - quickcheck-text
+    - uniformBase
+    # - uniform-strings
+    # - uniform-http
+    # - uniform-watch
+
+
