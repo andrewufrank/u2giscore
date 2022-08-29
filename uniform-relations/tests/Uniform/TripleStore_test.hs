@@ -21,7 +21,7 @@
 {-# OPTIONS_GHC -fno-warn-missing-methods #-}
 {-# OPTIONS_GHC -w #-}
 
-module Uniform.Rels2_test
+module Uniform.TripleStore_test
     where
 
 
@@ -35,38 +35,24 @@ import Uniform.Rels2
 -- import  qualified         Algebra.Laws             as Law
 import           Test.Framework
 import Data.List ( nub ) 
+import Uniform.Rels2_test (cp1, cp2, os2, Obj(..), Morph(..))
 
 -- import           Test.Invariant           as Rule  
 -- import Test.QuickCheck --  (arbitraryBoundedEnum)
 
 --- example code  -- Minimal Schema
 
-data Morph = F | T  | Null  -- for storing a graph S =s,t> T 
-    deriving (Show, Read, Ord, Eq, Generic)
-instance Zeros Morph where zero = Null
-instance NiceStrings Morph where shownice = showT
-data Obj = SS Int | TT Int | ZZ 
-    deriving (Show, Read, Ord, Eq, Generic)
-instance NiceStrings Obj where shownice = showT 
+-- data Morph = F | T  | Null  -- for storing a graph S =s,t> T 
+    -- deriving (Show, Read, Ord, Eq, Generic)
+-- instance Zeros Morph where zero = Null
+-- instance NiceStrings Morph where shownice = showT
+-- data Obj = SS Int | TT Int | ZZ 
+    -- deriving (Show, Read, Ord, Eq, Generic)
+-- instance NiceStrings Obj where shownice = showT 
 
-instance Zeros Obj where zero = ZZ
+-- instance Zeros Obj where zero = ZZ
 
--- data Sobj a = SK a deriving (Show, Read, Ord, Eq, Generic, Zeros)
--- data Tobj a = TK a deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
--- instance Show a => NiceStrings a  
-
--- for test
-os1 :: Obj
-os1 = SS 0
-os2 :: Obj
-os2 = SS 1
-cp1 :: (Obj, Morph, Obj)
-cp1 = (os1, F, os2)
-cp2 :: (Obj, Morph, Obj)
-cp2 = (os2, F, SS 2)
-
--- -------------for test 
 
 v0 :: CatStore Obj Morph  
 v0 = catStoreEmpty
@@ -74,11 +60,11 @@ v1 :: CatStore   Obj Morph
 v1 = catStoreInsert cp1 v0
 v2 :: CatStore  Obj Morph
 v2 = catStoreInsert cp2 v1
-v2a = catStoreInsert (os2, F, SS 0) v2  -- v2a is rel, sk1 -> sk0 and sk2
+v2a = catStoreInsert (F, (os2, SS 0)) v2  -- v2a is rel, sk1 -> sk0 and sk2
 v3 :: CatStore  Obj Morph
 v3 = catStoreDel cp2 v2
 
-a1 :: [Action (Obj, Morph, Obj)]
+a1 :: [Action (Morph, (Obj,  Obj))]
 a1 = [Ins cp1, Ins cp2]
 a1x :: CatStore Obj Morph
 a1x = catStoreBatch a1 v0
@@ -101,10 +87,10 @@ pageTriple4cat = do
     putIOwords ["CatStore  v2a", shownice v2a]
     -- page2
 
-test_time1 = do
-        res <- runErr $  pageTriple4cat 
-                -- return True
-        assertEqual (Right ()) res  -- does not produce output
+-- test_time1 = do
+--         res <- runErr $  pageTriple4cat 
+--                 -- return True
+--         assertEqual (Right ()) res  -- does not produce output
 
 -- need more data , check that fun and invFun are inverse
 -- test_eval_Node_e = do 
@@ -123,8 +109,8 @@ test_insert2 = assertEqual (concat'["CatStoreK [", res2, ",", res1, "]"]) (showT
 test_batch_insert = assertEqual (concat'["CatStoreK [", res2, ",", res1, "]"])
     (showT v2)
 res1 :: Text
-res1 = "(SS 0,F,SS 1)"
-res2 = "(SS 1,F,SS 2)"
+res1 = "(F,(SS 0,SS 1))"
+res2 = "(F,(SS 1,SS 2))"
 res21 = concat'["[", res2, ",", res1, "]"]
 
 -- test_batch_insert21 :: IO ()
@@ -143,30 +129,3 @@ test_Batch = assertEqual (concat'["CatStoreK [", res1, ",", res2, "]"] )
     (showT $ a1x)
 test_delBatch = assertEqual (concat'["CatStoreK [", res1,  "]"] ) 
     (showT $ a2x)
-
-test_getRel = assertEqual [(SS 0, SS 1), (SS 1, SS 2)] (getRel a1x F)
-
-r1s = getRel v2a F 
-r2s = [(SS 0,(SS 19)),((SS 1),(SS 18))]
-
-test_converse =  assertEqual [(SS 19, SS 0), (SS 18, SS 1)](converseRel r2s)
-
-r1, r2, r3 :: Rel2 Int -- [(Int,Int)]
-r1 = [(0, 10), (1,11), (0,12)]
-r2 = [(20,0), (21,2), (20,1), (24,1)]
-r3 = [(20,10), (21,20), (20,10), (24,10)]
-
-test_snd = assertEqual [0, 2, 1, 1] (map snd r2) 
-
-test_compRel = assertEqual [(20, 0), (20, 0), (20, 1), (24, 1)] (compRel  (compRel r2 r1) (converseRel r1))
---  nearly == r2
--- r1r2 = nub (compRel r1 r2)
-test_compRel2 = assertEqual [(20, 0), (20, 1), (24, 1)] (nub $ compRel  (compRel r2 r1) (converseRel r1))
--- compare with r2 , dropped (21,2)
--- not quite, but nearly 
--- test_comp_x = assertEqual (compRel r2 r1) (compRelx r1 r2)
-
-test_relPair1 = assertEqual ([(20, (0, 10)), (20, (0, 10)), (21, (2, 20)), (20, (1, 10)),
- (20, (1, 10)), (24, (1, 10))] :: [(Int, (Int,Int))]) $ relPair r2 r3 
-
-test_semicolon = assertEqual (compRel r1 r2) (r1 `semicolon` r2)

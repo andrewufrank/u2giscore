@@ -61,10 +61,10 @@ os1 :: Obj
 os1 = SS 0
 os2 :: Obj
 os2 = SS 1
-cp1 :: (Obj, Morph, Obj)
-cp1 = (os1, F, os2)
-cp2 :: (Obj, Morph, Obj)
-cp2 = (os2, F, SS 2)
+cp1 :: (Morph, (Obj, Obj))
+cp1 = (F, (os1,  os2))
+cp2 :: (Morph, (Obj, Obj))
+cp2 = (F, (os2,   SS 2))
 
  
 pageTriple4cat :: ErrIO ()

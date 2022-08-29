@@ -51,13 +51,22 @@ instance (Eq m, Eq o) => Rels3 m o where
     -- then compose with all ops from Rels
 
 instance (Eq m, Eq o) => Rels (m,(o,o)) where
-    emptyRel2 = []
-    add2rel a = (a :)
-
+    -- emptyRel2 = []
+    -- add2rel a = (a :)
+    -- del2rel 
 -- instance (Eq m, Eq o) => Rels (m,(o,o)) where
+
+
+-- emptyRel2 = CatStoreK emptyRel2
+-- add2rel a = wrapCatStore (add2rel (a :))
+
+
+converseRel3 :: (Eq m, Eq o) => m -> [(m, (o, o))] -> [(o, o)]
 converseRel3 m = doToRel m converseRel  
-filterRel3 :: (Eq m, Eq o) => m -> [(m, (o, o))] -> [(o, o)]
+-- filterRel3 :: (Eq m, Eq o) => m -> [(m, (o, o))] -> [(o, o)]
+filterRel3 :: (Eq m, Eq o) => m -> ((o, o) -> Bool) -> [(m, (o, o))] -> [(o, o)]
 filterRel3 m cond = doToRel m (filterRel cond)
+
 
     -- compRel r1 r2 = [ (a,d) | (a,b) <- r1, (c,d) <- r2, b==c]
     -- -- relPair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
@@ -66,21 +75,18 @@ filterRel3 m cond = doToRel m (filterRel cond)
 
 -- wrapping later
 
-newtype CatStore o m = CatStoreK [CPoint o m] 
+newtype CatStore o m = CatStoreK [(m,(o,o))] 
                      deriving (Show, Read, Eq)
 
 instance (Show o, Show m) =>  NiceStrings (CatStore o m) where 
-    shownice (CatStoreK oms) = (s2t "\nCatStoreK [\n") <> (showlong) oms <> 
-        unCatStore :: CatStore o m -> [CPoint o m]
-    
+    shownice (CatStoreK oms) = (s2t "\nCatStoreK [\n") <> (showAsLines) oms <> "]\n"
+
+unCatStore :: CatStore o m -> [CPoint o m]  
 unCatStore (CatStoreK as) = as
 wrapCatStore :: ([CPoint o m] -> [CPoint o m]) -> CatStore o m-> CatStore o m
 wrapCatStore f = CatStoreK . f . unCatStore  -- not a functor!"\n\t]"
 
-instance Rels (CatStore o m) where
-    emptyRel2 = CatStoreK emptyRel2
-    add2rel a = wrapCatStore (add2rel (a :))
-
+-- instance Rels (CatStore o m) where
 
 
 -- instance Rels (CatStore o m) where 
@@ -101,22 +107,22 @@ out13 :: (a, b1, b2) -> (a, b2)  -- todo
 out13 (a,b,c) = (a,c)
 
 
--- class CatStores o m where
---     catStoreEmpty :: CatStore o m
---     catStoreInsert :: CPoint o m -> CatStore o m  -> CatStore o m
---     catStoreDel :: CPoint o m -> CatStore o m  -> CatStore o m 
+class CatStores o m where
+    catStoreEmpty :: CatStore o m
+    catStoreInsert :: CPoint o m -> CatStore o m  -> CatStore o m
+    catStoreDel :: CPoint o m -> CatStore o m  -> CatStore o m 
 --     catStoreFind :: (Maybe o, Maybe m, Maybe o) -> CatStore o m  -> [CPoint o m]
---     catStoreBatch :: [Action (o,m,o)] -> CatStore o m  -> CatStore o m 
---     catStoreBatch [] ts = ts
---     catStoreBatch ((Ins t) : as) ts = catStoreInsert t . catStoreBatch as $ ts
---     catStoreBatch ((Del t) : as) ts = catStoreDel t . catStoreBatch as $ ts
+    catStoreBatch :: [Action  (m,(o,o))] -> CatStore o m  -> CatStore o m 
+    catStoreBatch [] ts = ts
+    catStoreBatch ((Ins t) : as) ts = catStoreInsert t . catStoreBatch as $ ts
+    catStoreBatch ((Del t) : as) ts = catStoreDel t . catStoreBatch as $ ts
 
 
 
 
--- instance (Eq o, Eq m, TripleStore o m o) => CatStores o m where
---     catStoreEmpty =(CatStoreK []) :: CatStore o m
---     catStoreInsert t  = wrapCatStore  (tsinsert t)  
---     catStoreDel t = wrapCatStore (tsdel t) 
+instance (Eq o, Eq m, Rels (o,o)) => CatStores o m where
+    catStoreEmpty =(CatStoreK (emptyRel2)) :: CatStore o m
+    catStoreInsert t  = wrapCatStore  (add2rel t)  
+    catStoreDel t = wrapCatStore (del2rel t) 
 --     catStoreFind t = tsfind t . unCatStore
 

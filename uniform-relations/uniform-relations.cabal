@@ -58,6 +58,7 @@ test-suite test1
   other-modules:
       Uniform.NaiveTripleStore_test
       Uniform.Rels2_test
+      Uniform.TripleStore_test
       Paths_uniform_relations
   hs-source-dirs:
       tests

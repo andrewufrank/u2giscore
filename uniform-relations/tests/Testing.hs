@@ -22,7 +22,7 @@ module Main     where
 
 
 import Test.Framework
--- import {-@ HTF_TESTS @-} Uniform.NaiveTripleStore_test
+import {-@ HTF_TESTS @-} Uniform.TripleStore_test
 import {-@ HTF_TESTS @-} Uniform.Rels2_test
 import UniformBase
 

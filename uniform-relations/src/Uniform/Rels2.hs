@@ -42,6 +42,10 @@ type Rel2 o = [](o,o)
 class Eq e =>  Rels e where 
     emptyRel2 :: [e] 
     add2rel :: e -> [e] -> [e]
+    del2rel :: e -> [e] -> [e]
+    emptyRel2 = []
+    add2rel a = (a :)
+    del2rel a = filter (a /=) 
 
 class Eq e =>  Rels2 e where 
 
@@ -58,9 +62,10 @@ class Eq e =>  Rels2 e where
 
 
 instance Eq o => Rels (o,o) where
-    emptyRel2 = []
-    add2rel a = (a :)
-    
+    -- emptyRel2 = []
+    -- add2rel a = (a :)
+    -- del2rel a = filter (a /=) 
+
 instance Eq o => Rels2 (o,o) where
     converseRel = map swap  
     compRel r1 r2 = [ (a,d) | (a,b) <- r1, (c,d) <- r2, b==c]
