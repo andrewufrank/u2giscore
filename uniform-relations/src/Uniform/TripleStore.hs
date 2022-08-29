@@ -31,6 +31,7 @@ module Uniform.TripleStore
 
 import UniformBase  
     -- ( Generic, fst3, trd3, errorT, putIOwords, showT, Zeros(zero) )
+import Uniform.TripleRels
 import Uniform.NaiveTripleStore
 -- import UniformBase (NiceStrings)
     -- ( Action(..), TripleStore(tsfind, tsinsert, tsdel) )
@@ -53,6 +54,12 @@ unCatStore :: CatStore o m -> [CPoint o m]
 unCatStore (CatStoreK as) = as
 wrapCatStore :: ([CPoint o m] -> [CPoint o m]) -> CatStore o m-> CatStore o m
 wrapCatStore f = CatStoreK . f . unCatStore  -- not a functor!
+
+getRel :: (Eq m )=> CatStore o m -> m -> Rel2 o
+getRel cat m = map out13 . filter ((m ==) . snd3) . unCatStore $ cat
+
+out13 :: (a, b1, b2) -> (a, b2)  -- todo
+out13 (a,b,c) = (a,c)
 
 
 class CatStores o m where
