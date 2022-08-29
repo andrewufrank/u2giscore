@@ -1,17 +1,14 @@
 -----------------------------------------------------------------------------
 --
--- Module      :  Triple Relations
+-- Module      :    Relations with two values 
+
 -- base for queries is the compostion of relations
 
--- the triple store is typed, thus the relations are typed as well
--- (o,p,v) in the triplestore is interpreted as a relation p(o,v)
+--  
 --
 -- this is the foundation - data for a single relation
 -- 
--- a category consists of Objects (CObj, o) and Morphism (Morph, p)
--- but the (single) relation must have type o,o, to allow for conversion
-
--- they are typed for typed functions and points in the CObj
+-- 
 
 -----------------------------------------------------------------------------
 
@@ -27,7 +24,7 @@
 {-# LANGUAGE DeriveFunctor    #-}
 {-# LANGUAGE DeriveGeneric    #-}
 
-module Uniform.TripleRels
+module Uniform.Rels2
  
     where
 
@@ -46,23 +43,42 @@ type Rel2 o = [](o,o)
 
 -- getRel :: (Eq m )=> CatStore o m -> m -> Rel2 o
 -- getRel cat m = map out13 . filter ((m ==) . snd3) . unCatStore $ cat
-class Rels o where 
-    converseRel :: Rel2 o -> Rel2 o
--- | compose relations r1 and r2 (r1:2, A->B . B->C -> A->C)
-    compRel :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
-    (.&.) :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
-    (.&.) =  compRel  
-    relPair :: (Eq o) =>  Rel2 o -> Rel2 o ->  [(o, (o,o))]
-    -- make the obj a pair of the the objects of the two relations
-    emptyRel2 :: Rel2 o 
-    add2rel :: (o,o) -> Rel2 o -> Rel2 o
+-- class Eq o =>  Rels o where 
+--     emptyRel2 :: Rel2 o 
+--     add2rel :: (o,o) -> Rel2 o -> Rel2 o
+--     converseRel :: Rel2 o -> Rel2 o
+-- -- | compose relations r1 and r2 (r1:2, A->B . B->C -> A->C)
+--     compRel :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
+--     (.&.) :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
+--     (.&.) =  compRel  
+--     filterRel :: ((o,o) -> Bool) -> Rel2 o -> Rel2 o
+--     filterEq :: o -> Rel2 o -> Rel2 o
+--     filterEq v r = filterRel ((v ==) . fst) r
+--     relPair :: (Eq o) =>  Rel2 o -> Rel2 o ->  [(o, (o,o))]
+--     -- make the obj a pair of the the objects of the two relations
 
-instance Rels o where
+class Eq e =>  Rels e where 
+    emptyRel2 :: [e] 
+    add2rel :: e -> [e] -> [e]
+    converseRel :: [e] -> [e]
+-- | compose relations r1 and r2 (r1:2, A->B . B->C -> A->C)
+    compRel ::   [e] -> [e] ->  [e]
+    (.&.) ::    [e] -> [e] ->  [e]
+    (.&.) =  compRel  
+    filterRel :: (e -> Bool) -> [e] -> [e]
+    -- filterEq :: o -> [e] -> [e]
+    -- filterEq v r = filterRel ((v ==) . fst) r
+    -- relPair :: (Eq o) =>  [e] -> [e] ->  [(o, (o,o))]
+    -- make the obj a pair of the the objects of the two relations
+
+
+instance Eq o => Rels (o,o) where
     emptyRel2 = []
     add2rel a = (a :)
     converseRel = map swap  
     compRel r1 r2 = [ (a,d) | (a,b) <- r1, (c,d) <- r2, b==c]
-    relPair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
+    -- relPair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
+    filterRel cond = filter cond 
 
 -- replOne :: (Eq o) => Rel2 o -> (o,o) -> Rel2 o
 -- -- map the value in v to the value rs v

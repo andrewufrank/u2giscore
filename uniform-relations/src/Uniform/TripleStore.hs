@@ -31,18 +31,23 @@ module Uniform.TripleStore
 
 import UniformBase  
     -- ( Generic, fst3, trd3, errorT, putIOwords, showT, Zeros(zero) )
-import Uniform.TripleRels
+import Uniform.Rels2
 import Uniform.NaiveTripleStore
 -- import UniformBase (NiceStrings)
     -- ( Action(..), TripleStore(tsfind, tsinsert, tsdel) )
 
+ 
 type CPoint o m =  (o,m,o)  -- a relation line (m - is predicate (aka morph), o is an subject/value, here object)
+type Rel3 o m = (m,Rel2 o)
 
 newtype CatStore o m = CatStoreK [CPoint o m] 
                      deriving (Show, Read, Eq)
 
 instance (Show o, Show m) =>  NiceStrings (CatStore o m) where 
     shownice (CatStoreK oms) = (s2t "\nCatStoreK [\n") <> (showlong) oms <> "\n\t]"
+
+-- instance Rels (CatStore o m) where 
+--     emptyRel2 = CatStoreK emptyRel2 
 
 -- instance (Show a, Show b, Show c) => NiceStrings (a,b,c) where 
 --             showNice a = showT a 

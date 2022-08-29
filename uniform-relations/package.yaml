@@ -26,31 +26,9 @@ dependencies:
 - HTF
 - uniformBase >=0.1.4.2
 - extra
-#- uniform-geometry >=0.0.1.7
-# - gloss
+ 
 - monads-tf
-# - aop-prelude
-# - containers
-
-# # - vector-space
-# - linear
-# - lens
-# - qhull ==0.1.0.3
-# - vector-algorithms # not needed for lts 18.28 ==0.8.0.3 # -- to force qhull
-# - insert-ordered-containers
-# - pretty-show 
-
-# # for hgeometry
-# - hgeometry 
-# - hgeometry-combinatorial
-# # - linear
-# - data-clist
-# # - aeson-pretty
-# - vector 
-# - array                    >= 0.5
-#  - lens
-# - semigroups
-# - vector-circular
+ 
 
 
 library:

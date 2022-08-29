@@ -21,7 +21,7 @@
 {-# OPTIONS_GHC -fno-warn-missing-methods #-}
 {-# OPTIONS_GHC -w #-}
 
-module Uniform.TripleRels_test
+module Uniform.Rels2_test
     where
 
 
@@ -30,7 +30,7 @@ import Uniform.NaiveTripleStore
 -- import Uniform.Object 
 -- import Storable.Value
 import Uniform.TripleStore
-import Uniform.TripleRels
+import Uniform.Rels2
 
 -- import  qualified         Algebra.Laws             as Law
 import           Test.Framework

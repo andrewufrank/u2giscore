@@ -23,7 +23,7 @@ module Main     where
 import UniformBase
 import Uniform.NaiveTripleStore 
 import Uniform.TripleStore
-import Uniform.TripleRels
+import Uniform.Rels2
 -- import ExampleData.HQexampleLong
 -- import ExampleData.HQexampleShort
 -- import ExampleData.HQfaces_test
