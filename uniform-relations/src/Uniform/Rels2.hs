@@ -38,6 +38,37 @@ type Rel2 o = [](o,o)
 -- | a binary relation
 
 
+
+class Eq e =>  Rels e where 
+    emptyRel2 :: [e] 
+    add2rel :: e -> [e] -> [e]
+
+class Eq e =>  Rels2 e where 
+
+    converseRel :: [e] -> [e]
+-- | compose relations r1 and r2 (r1:2, A->B . B->C -> A->C)
+    compRel ::   [e] -> [e] ->  [e]
+    (.&.) ::    [e] -> [e] ->  [e]
+    (.&.) =  compRel  
+    filterRel :: (e -> Bool) -> [e] -> [e]
+    -- filterEq :: o -> [e] -> [e]
+    -- filterEq v r = filterRel ((v ==) . fst) r
+    -- relPair :: (Eq o) =>  [e] -> [e] ->  [(o, (o,o))]
+    -- make the obj a pair of the the objects of the two relations
+
+
+instance Eq o => Rels (o,o) where
+    emptyRel2 = []
+    add2rel a = (a :)
+    
+instance Eq o => Rels2 (o,o) where
+    converseRel = map swap  
+    compRel r1 r2 = [ (a,d) | (a,b) <- r1, (c,d) <- r2, b==c]
+    -- relPair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
+    filterRel cond = filter cond 
+
+----------------
+
 -- instance NiceStrings   (Rel2 o) where 
 --     showlong r = intersperse 
 
@@ -56,29 +87,6 @@ type Rel2 o = [](o,o)
 --     filterEq v r = filterRel ((v ==) . fst) r
 --     relPair :: (Eq o) =>  Rel2 o -> Rel2 o ->  [(o, (o,o))]
 --     -- make the obj a pair of the the objects of the two relations
-
-class Eq e =>  Rels e where 
-    emptyRel2 :: [e] 
-    add2rel :: e -> [e] -> [e]
-    converseRel :: [e] -> [e]
--- | compose relations r1 and r2 (r1:2, A->B . B->C -> A->C)
-    compRel ::   [e] -> [e] ->  [e]
-    (.&.) ::    [e] -> [e] ->  [e]
-    (.&.) =  compRel  
-    filterRel :: (e -> Bool) -> [e] -> [e]
-    -- filterEq :: o -> [e] -> [e]
-    -- filterEq v r = filterRel ((v ==) . fst) r
-    -- relPair :: (Eq o) =>  [e] -> [e] ->  [(o, (o,o))]
-    -- make the obj a pair of the the objects of the two relations
-
-
-instance Eq o => Rels (o,o) where
-    emptyRel2 = []
-    add2rel a = (a :)
-    converseRel = map swap  
-    compRel r1 r2 = [ (a,d) | (a,b) <- r1, (c,d) <- r2, b==c]
-    -- relPair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
-    filterRel cond = filter cond 
 
 -- replOne :: (Eq o) => Rel2 o -> (o,o) -> Rel2 o
 -- -- map the value in v to the value rs v
@@ -105,7 +113,7 @@ instance Eq o => Rels (o,o) where
 
 -- semicolon :: (Eq o) =>  Rel2 o -> Rel2 o ->  Rel2 o
 -- | an alternative name for composition of relations, with reverse order (wrt '.')
-r1 `semicolon` r2 = compRel r1 r2 
+-- r1 `semicolon` r2 = compRel r1 r2 
 
 -- --- monadic versions -----------------------------
 
