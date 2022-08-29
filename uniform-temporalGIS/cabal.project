@@ -20,5 +20,5 @@ packages: *.cabal
  
 -- Disregard all upper bounds when dependency solving
 
-allow-newer: toysolver:base 
+allow-newer: toysolver:base t
  

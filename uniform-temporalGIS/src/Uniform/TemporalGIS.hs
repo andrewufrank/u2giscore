@@ -62,14 +62,17 @@ class Tstoraged ts  where
     addField :: Time -> Field Double -> ts -> ts 
     -- ^ add a field (not considering yet changes of a field)
     addToRelations :: Time ->  [StorageElement]  -> ts -> ts  
-    addOneRelations :: Time ->  StorageElement  -> ts -> ts  
     -- ^ add a batch update to relatiosn
-
+    addOneFact :: Time ->  StorageElement  -> ts -> ts  
+    findFacts :: Time -> Time -> ts -> [StorageElement]
+    -- ^ find the facts relevant for this time 
+    findRel   -- braucht type of morphism m
     -- todo add change ops  
  
 data Tstore = Tstore 
     { minTime, maxTime :: Time  -- ^ the first, last update -- only additions in sequence
     , covered :: Raster Double -- ^ a box around the area covered 
+    -- ,   -- simplification, later to update for each addition
     , fields :: [(Time, Field Double)] -- ^ the fields, with a time stamp when added
     , relations :: [(Time, StorageElement)]  -- the relation storage, each entry timed
     }
@@ -83,11 +86,15 @@ instance Tstoraged Tstore where
     emptyTstorage t = Tstore 
         { minTime = t
         , maxTime = t
-        , covered = zero 
+        ,covered = zero 
         , fields = []
         , relations = []
         }
-
+    addField t f ts = ts {maxTime = t, fields = (t,f) : fields ts }
+    -- check for time and update covered later
+    addOneFact t trp ts = ts {maxTime = t, relations= (t,trp) : relations ts}
+    findFacts t1 t2 ts = ttfind t1 t2 (relations ts)
+    findRel t1 t2 rel ts = ttfind t1 t2 (relations ts)
 
 
 pageTemporal2 :: ErrIO ()
