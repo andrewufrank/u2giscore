@@ -26,32 +26,11 @@ module Uniform.TripleStore_test
 
 
 import UniformBase
--- import Uniform.NaiveTripleStore
--- import Uniform.Object 
--- import Storable.Value
 import Uniform.TripleStore
 import Uniform.Rels2
 
--- import  qualified         Algebra.Laws             as Law
 import           Test.Framework
-import Data.List ( nub ) 
 import Uniform.Rels2_test (cp1, cp2, os2, Obj(..), Morph(..))
-
--- import           Test.Invariant           as Rule  
--- import Test.QuickCheck --  (arbitraryBoundedEnum)
-
---- example code  -- Minimal Schema
-
--- data Morph = F | T  | Null  -- for storing a graph S =s,t> T 
-    -- deriving (Show, Read, Ord, Eq, Generic)
--- instance Zeros Morph where zero = Null
--- instance NiceStrings Morph where shownice = showT
--- data Obj = SS Int | TT Int | ZZ 
-    -- deriving (Show, Read, Ord, Eq, Generic)
--- instance NiceStrings Obj where shownice = showT 
-
--- instance Zeros Obj where zero = ZZ
-
 
 
 v0 :: CatStore Obj Morph  
@@ -85,21 +64,7 @@ pageTriple4cat = do
     putIOwords ["CatStore a1x added batch cp1 cp2", shownice a1x]
     putIOwords ["CatStore  a2x", shownice a2x]
     putIOwords ["CatStore  v2a", shownice v2a]
-    -- page2
-
--- test_time1 = do
---         res <- runErr $  pageTriple4cat 
---                 -- return True
---         assertEqual (Right ()) res  -- does not produce output
-
--- need more data , check that fun and invFun are inverse
--- test_eval_Node_e = do 
---     res <- evalStateT ( sRel (Node 'a')) cat11
---     assertEqual [Edge 1, Edge 5] res 
-
--- test_eval_edge_1s = do 
---     res <- evalStateT ( sInv (Edge 1)) cat11 -- expect Node a
---     assertEqual ("") (showT res) 
+ 
 
 test_empty = assertEqual ("CatStoreK []") (showT (v0))
 
@@ -113,12 +78,6 @@ res1 = "(F,(SS 0,SS 1))"
 res2 = "(F,(SS 1,SS 2))"
 res21 = concat'["[", res2, ",", res1, "]"]
 
--- test_batch_insert21 :: IO ()
--- test_batch_insert21 = assertEqual (concat'["[", res2, ",", res1, "]"])
---     (showT . tsbatch [Ins t2, Ins t1] $ ts0)
-
--- test_find = assertEqual (concat'["[", res1, "]"]) (showT (tsfind (Just k1, Nothing, Nothing) ts1))
--- test_find2 = assertEqual (concat'["[", res1, "]"]) (showT (tsfind (Just k1, Just r1, Nothing) ts1))
 
 test_del0 = assertEqual (concat'["CatStoreK [", res2, ",", res1, "]"])
     (showT  v2)
