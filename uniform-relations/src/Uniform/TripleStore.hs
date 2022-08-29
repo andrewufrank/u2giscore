@@ -32,7 +32,7 @@ module Uniform.TripleStore
 import UniformBase  
     -- ( Generic, fst3, trd3, errorT, putIOwords, showT, Zeros(zero) )
 import Uniform.Rels2
-import Uniform.NaiveTripleStore
+-- import Uniform.NaiveTripleStore
 -- import UniformBase (NiceStrings)
     -- ( Action(..), TripleStore(tsfind, tsinsert, tsdel) )
 

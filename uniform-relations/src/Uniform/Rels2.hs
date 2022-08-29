@@ -60,6 +60,9 @@ class Eq e =>  Rels2 e where
     -- relPair :: (Eq o) =>  [e] -> [e] ->  [(o, (o,o))]
     -- make the obj a pair of the the objects of the two relations
 
+data Action a = Ins a | Del a
+        deriving (Show, Read, Ord, Eq)
+
 
 instance Eq o => Rels (o,o) where
     -- emptyRel2 = []

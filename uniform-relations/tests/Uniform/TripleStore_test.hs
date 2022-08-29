@@ -26,7 +26,7 @@ module Uniform.TripleStore_test
 
 
 import UniformBase
-import Uniform.NaiveTripleStore
+-- import Uniform.NaiveTripleStore
 -- import Uniform.Object 
 -- import Storable.Value
 import Uniform.TripleStore
