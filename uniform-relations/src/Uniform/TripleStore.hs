@@ -4,9 +4,9 @@
 -- base for queries is the compostion of relations
 
 -- the triple store is typed, thus the relations are typed as well
--- (o,p,v) in the triplestore is interpreted as a relation p(o,v)
+-- (o,p,v) -- here (p,(o,o)) in the triplestore is interpreted as a relation p(o,v)
 --
--- uses the naive triplestore
+--  
 -- 
 -- a category consists of Objects (CObj) and Morphism (Morph)
 -- they are typed for typed functions and points in the CObj

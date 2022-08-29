@@ -1,6 +1,6 @@
  -----------------------------------------------------------------------------
 --
--- Module      :  Test Naive Triple Store 
+-- Module      :  Test  Triple Store 
 --          with a minimal Schema:
 -- the tag of the sum type is the constructor for the node id 
 --

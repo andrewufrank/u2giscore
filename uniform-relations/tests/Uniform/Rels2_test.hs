@@ -24,20 +24,12 @@
 module Uniform.Rels2_test
     where
 
-
 import UniformBase
--- import Uniform.NaiveTripleStore
--- import Uniform.Object 
--- import Storable.Value
-import Uniform.TripleStore
 import Uniform.Rels2
 
--- import  qualified         Algebra.Laws             as Law
 import           Test.Framework
 import Data.List ( nub ) 
 
--- import           Test.Invariant           as Rule  
--- import Test.QuickCheck --  (arbitraryBoundedEnum)
 
 --- example code  -- Minimal Schema
 
@@ -50,9 +42,6 @@ data Obj = SS Int | TT Int | ZZ
 instance NiceStrings Obj where shownice = showT 
 
 instance Zeros Obj where zero = ZZ
-
--- data Sobj a = SK a deriving (Show, Read, Ord, Eq, Generic, Zeros)
--- data Tobj a = TK a deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
 -- instance Show a => NiceStrings a  
 
@@ -88,21 +77,6 @@ test_time1 = do
 --     res <- evalStateT ( sInv (Edge 1)) cat11 -- expect Node a
 --     assertEqual ("") (showT res) 
 
-res1 :: Text
-res1 = "(SS 0,F,SS 1)"
-res2 = "(SS 1,F,SS 2)"
-res21 = concat'["[", res2, ",", res1, "]"]
-
--- test_batch_insert21 :: IO ()
--- test_batch_insert21 = assertEqual (concat'["[", res2, ",", res1, "]"])
---     (showT . tsbatch [Ins t2, Ins t1] $ ts0)
-
--- test_find = assertEqual (concat'["[", res1, "]"]) (showT (tsfind (Just k1, Nothing, Nothing) ts1))
--- test_find2 = assertEqual (concat'["[", res1, "]"]) (showT (tsfind (Just k1, Just r1, Nothing) ts1))
- 
-
--- test_getRel = assertEqual [(SS 0, SS 1), (SS 1, SS 2)] (getRel a1x F)
-
 -- r1s = getRel v2a F 
 r2s = [(SS 0,(SS 19)),((SS 1),(SS 18))]
 
@@ -126,4 +100,3 @@ test_compRel2 = assertEqual [(20, 0), (20, 1), (24, 1)] (nub $ compRel  (compRel
 -- test_relPair1 = assertEqual ([(20, (0, 10)), (20, (0, 10)), (21, (2, 20)), (20, (1, 10)),
 --  (20, (1, 10)), (24, (1, 10))] :: [(Int, (Int,Int))]) $ relPair r2 r3 
 
--- test_semicolon = assertEqual (compRel r1 r2) (r1 `semicolon` r2)
