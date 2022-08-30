@@ -32,7 +32,10 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module HQschema.HQschemaShort where
+module HQschema.HQschemaShort
+    (module HQschema.HQschemaShort
+    , module Uniform.TripleStore
+    ) where
 
 import Uniform.Point2d
 import Uniform.TripleStore

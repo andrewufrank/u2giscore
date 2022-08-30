@@ -27,26 +27,33 @@ module HQschema.HQconstructionsFaces
 
 import           Test.Framework hiding (scale, (.&.))
 import UniformBase  
+import Uniform.TripleStore
 -- import HQschema.HQexampleShort
 import HQschema.HQschemaShort
 -- import Control.Exception
 import Uniform.GeometryFunctions
-import Uniform.TripleRels
+import Uniform.Rels2
 import Data.List.Extra
 -- import Uniform.Drawings
 import Control.Monad.State  
-import Control.Monad.Trans.Identity
+import Data.Functor.Identity
+-- import Control.Monad.Trans.Identity
 
 -- step 1 get the data from the store, leave tags!
 
 -- | find the points with xy coord to a face
 --   gives list of points, as [V2D] 
 -- coords2faces :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
+-- coords2faces :: m [(k, [k])]
+-- coords2faces :: StateT
+--   [(MorphTessShort, (ObjTessShort, ObjTessShort))]
+--   Data.Functor.Identity.Identity
+--   [(ObjTessShort, [ObjTessShort])]
 coords2faces = do 
     f <- inv2 HqFace 
     n <- rel2 HqNode 
     xy <- rel2 XY 
-    let fp3 =  (f .&. n .&. xy)
+    let fp3 =  (f .&. n .&. xy)  -- :: [(k, k)]
     return $ groupSort  fp3  
     -- return $ map onef . groupSort $ fp3 
 
@@ -98,7 +105,9 @@ circum2facesM =  fmap (map (second (circumCenter2faces)))    coords2faces
 incenter2facesM :: State  CatStoreTessShort   [(ObjTessShort, Maybe V2D)]
 incenter2facesM = fmap (map (second ( (incenter2faces  )))) coords2faces
 
+incenter2facesTriples :: State  CatStoreTessShort  [Maybe StoreTessShortElement]
 incenter2facesTriples = fmap (map  ( incenter2triple)) coords2faces 
+incircumCenter2facesTriples :: State  CatStoreTessShort  [Maybe StoreTessShortElement]
 incircumCenter2facesTriples = fmap (map  ( circumcenter2triple)) coords2faces 
 
 

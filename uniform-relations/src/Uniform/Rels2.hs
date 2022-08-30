@@ -57,7 +57,7 @@ class (Eq e, Rel2pair e) =>  Rels2 e where
     converseRel :: [e] -> [e]
     converseRel = map swaprel  
 
--- | compose relations r1 and r2 (r1:2, A->B . B->C -> A->C)
+    -- | compose relations r1 and r2 (r1:2, A->B . B->C -> A->C)
     compRel ::   [e] -> [e] ->  [e]
     (.&.) ::    [e] -> [e] ->  [e]
     (.&.) =  compRel  
@@ -80,4 +80,5 @@ instance Eq o => Rels2 (o,o) where
     -- relPair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
     filterRel cond = filter cond 
 
+-- instance Rels2 CatStores 
 

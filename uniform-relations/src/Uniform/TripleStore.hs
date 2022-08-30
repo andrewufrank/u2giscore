@@ -29,6 +29,7 @@ module Uniform.TripleStore
 
     where
 
+import Control.Monad.State
 import UniformBase  
     -- ( Generic, fst3, trd3, errorT, putIOwords, showT, Zeros(zero) )
 import Uniform.Rels2
@@ -89,3 +90,21 @@ instance (Eq o, Eq m, Rels (o,o)) => CatStores o m where
     catStoreDel t = wrapCatStore (del2rel t) 
 --     catStoreFind t = tsfind t . unCatStore
 
+-- --- monadic versions -----------------------------
+-- should be class to work for unwrapped and wrapped 
+
+-- rel2 :: (MonadState (CatStore o m) m1, Eq o, Eq m) => m -> m1 (Rel2 o) 
+rel2 :: (MonadState m1, Eq m2, Eq o, StateType m1 ~ CatStore o m2) => m2 -> m1 (Rel2 o)
+-- rel2 :: (MonadState m1, Eq m2, Eq o, StateType m1 ~ [(m2, (o, o))]) => m2 -> m1 [(o, o)]
+rel2 morph1 = do 
+    c <- get 
+    return $ getRel morph1 . unCatStore $ c
+-- inv2 :: (MonadState m1, Eq m2, Eq b, StateType m1 ~ [(m2, (b, b))]) => m2 -> m1 [(b, b)]
+inv2 :: (MonadState m1, Eq m2, Eq b, StateType m1 ~ CatStore b m2) => m2 -> m1 [(b, b)]
+inv2 morph1 = do 
+    c <- get 
+    return . map swap $ getRel morph1 . unCatStore $  c
+
+relPair :: (Eq o) =>  [(o,o)] -> [(o,o)] ->  [(o, (o,o))]
+relPair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
+-- make the obj a pair of the the objects of the two relations
