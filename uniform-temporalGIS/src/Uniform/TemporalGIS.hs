@@ -66,7 +66,7 @@ class Tstoraged ts  where
     addOneFact :: Time ->  StorageElement  -> ts -> ts  
     findFacts :: Time -> Time -> ts -> [StorageElement]
     -- ^ find the facts relevant for this time 
-    findRel   -- braucht type of morphism m
+    -- findRel   -- braucht type of morphism m
     -- todo add change ops  
  
 data Tstore = Tstore 
@@ -82,19 +82,19 @@ data Tstore = Tstore
 instance Zeros UTCTime where zero = fromEpochTime' 0
 -- this counts seconds since 1970-01-01
 
-instance Tstoraged Tstore where 
-    emptyTstorage t = Tstore 
-        { minTime = t
-        , maxTime = t
-        ,covered = zero 
-        , fields = []
-        , relations = []
-        }
-    addField t f ts = ts {maxTime = t, fields = (t,f) : fields ts }
-    -- check for time and update covered later
-    addOneFact t trp ts = ts {maxTime = t, relations= (t,trp) : relations ts}
-    findFacts t1 t2 ts = ttfind t1 t2 (relations ts)
-    findRel t1 t2 rel ts = ttfind t1 t2 (relations ts)
+-- instance Tstoraged Tstore where 
+--     emptyTstorage t = Tstore 
+--         { minTime = t
+--         , maxTime = t
+--         ,covered = zero 
+--         , fields = []
+--         , relations = []
+--         }
+--     addField t f ts = ts {maxTime = t, fields = (t,f) : fields ts }
+--     -- check for time and update covered later
+--     addOneFact t trp ts = ts {maxTime = t, relations= (t,trp) : relations ts}
+--     findFacts t1 t2 ts = ttfind t1 t2 (relations ts)
+    -- findRel t1 t2 rel ts = ttfind t1 t2 (relations ts)
 
 
 pageTemporal2 :: ErrIO ()

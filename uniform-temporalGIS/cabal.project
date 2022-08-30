@@ -1,4 +1,6 @@
 
+
+
 import: https://www.stackage.org/lts-19.2/cabal.config
 
 packages: *.cabal
@@ -20,5 +22,5 @@ packages: *.cabal
  
 -- Disregard all upper bounds when dependency solving
 
-allow-newer: toysolver:base t
+-- allow-newer: toysolver:base t
  
