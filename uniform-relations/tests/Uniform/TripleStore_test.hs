@@ -81,10 +81,10 @@ res21 = concat'["[", res2, ",", res1, "]"]
 
 test_del0 = assertEqual (concat'["CatStoreK [", res2, ",", res1, "]"])
     (showT  v2)
-test_del1 = assertEqual (concat'["CatStoreK [",   res1, "]"])
-    (showT v3)
+-- test_del1 = assertEqual (concat'["CatStoreK [",   res1, "]"])
+    -- (showT v3)
 
 test_Batch = assertEqual (concat'["CatStoreK [", res1, ",", res2, "]"] ) 
     (showT $ a1x)
-test_delBatch = assertEqual (concat'["CatStoreK [", res1,  "]"] ) 
-    (showT $ a2x)
+-- test_delBatch = assertEqual (concat'["CatStoreK [", res1,  "]"] ) 
+    -- (showT $ a2x)

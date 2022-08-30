@@ -77,10 +77,13 @@ test_time1 = do
 --     res <- evalStateT ( sInv (Edge 1)) cat11 -- expect Node a
 --     assertEqual ("") (showT res) 
 
+-- instance Rel2s (Obj)
 -- r1s = getRel v2a F 
+r2s :: [(Obj, Obj)]
 r2s = [(SS 0,(SS 19)),((SS 1),(SS 18))]
 
-test_converse =  assertEqual [(SS 19, SS 0), (SS 18, SS 1)](converseRel r2s)
+test_converse :: IO ()
+test_converse =  assertEqual [(SS 19, SS 0), (SS 18, SS 1)] (converse2Rel r2s)
 
 r1, r2, r3 :: Rel2 Int -- [(Int,Int)]
 r1 = [(0, 10), (1,11), (0,12)]
@@ -89,10 +92,11 @@ r3 = [(20,10), (21,20), (20,10), (24,10)]
 
 test_snd = assertEqual [0, 2, 1, 1] (map snd r2) 
 
-test_compRel = assertEqual [(20, 0), (20, 0), (20, 1), (24, 1)] (compRel  (compRel r2 r1) (converseRel r1))
+test_compRel :: IO ()
+test_compRel = assertEqual [(20, 0), (20, 0), (20, 1), (24, 1)] (comp2Rel  (comp2Rel r2 r1) (converse2Rel r1))
 --  nearly == r2
 -- r1r2 = nub (compRel r1 r2)
-test_compRel2 = assertEqual [(20, 0), (20, 1), (24, 1)] (nub $ compRel  (compRel r2 r1) (converseRel r1))
+test_compRel2 = assertEqual [(20, 0), (20, 1), (24, 1)] (nub $ comp2Rel  (comp2Rel r2 r1) (converse2Rel r1))
 -- compare with r2 , dropped (21,2)
 -- not quite, but nearly 
 -- test_comp_x = assertEqual (compRel r2 r1) (compRelx r1 r2)

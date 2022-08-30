@@ -37,64 +37,63 @@ import UniformBase
 import Uniform.Rels2
 
  
-type CPoint o m =  (m,(o,o)) -- a relation line (m - is predicate (aka morph), o is an subject/value, here object)
-type Rel3 o m = (m,Rel2 o)
+type Tup3 o p = (p,Tup2 o)
 
-class (Eq m, Eq o) => Rels3 m o where 
-    getRel :: m -> [(m,(o,o))] -> [(o,o)]
-    doToRel :: m -> ([(o,o)] -> [(o,o)]) -> [(m,(o,o))] -> [(o,o)]
+class (Eq p, Eq o) => Rels3 p o where 
+    get3Rel :: p -> [(p,Tup2 o)] -> [Tup2 o]
+    doTo3Rel :: p -> ([Tup2 o] -> [Tup2 o]) -> [(p,Tup2 o)] -> [Tup2 o]
     
-instance (Eq m, Eq o) => Rels3 m o where 
-    getRel m = map snd . filter ((m==).fst) 
-    doToRel m f = f . getRel m 
+instance (Eq p, Eq o) => Rels3 p o where 
+    get3Rel p = map snd . filter ((p==).fst) 
+    doTo3Rel p f = f . get3Rel p 
 
     -- then compose with all ops from Rels
 
-instance (Eq m, Eq o) => Rels (m,(o,o)) where
+-- instance (Eq p, Eq o) => Rel2s (p,(o,o)) where
 
-converseRel3 :: (Eq m, Eq o) => m -> [(m, (o, o))] -> [(o, o)]
-converseRel3 m = doToRel m converseRel  
--- filterRel3 :: (Eq m, Eq o) => m -> [(m, (o, o))] -> [(o, o)]
-filterRel3 :: (Eq m, Eq o) => m -> ((o, o) -> Bool) -> [(m, (o, o))] -> [(o, o)]
-filterRel3 m cond = doToRel m (filterRel cond)
+converse3Rel :: (Eq p, Eq o, Rel2s o) => p -> [(p, (o, o))] -> [(o, o)]
+converse3Rel p = doTo3Rel p converse2Rel  
+-- filterRel3 :: (Eq p, Eq o) => p -> [(p, (o, o))] -> [(o, o)]
+filter3Rel :: (Eq p, Eq o,  Rel2s o) => p -> ((o, o) -> Bool) -> [(p, (o, o))] -> [(o, o)]
+filter3Rel p cond = doTo3Rel p (filter2Rel cond)
 
 
 -- wrapping 
 
-newtype CatStore o m = CatStoreK [(m,(o,o))] 
+newtype CatStore o p = CatStoreK [Tup3 o p] 
                      deriving (Show, Read, Eq)
 
-instance (Show o, Show m) =>  NiceStrings (CatStore o m) where 
+instance (Show o, Show p) =>  NiceStrings (CatStore o p) where 
     shownice (CatStoreK oms) = (s2t "\nCatStoreK [\n") <> (showAsLines) oms <> "]\n"
 
 
 
-class CatStores o m where
-    catStoreEmpty :: CatStore o m
-    catStoreInsert :: CPoint o m -> CatStore o m  -> CatStore o m
-    catStoreDel :: CPoint o m -> CatStore o m  -> CatStore o m 
---     catStoreFind :: (Maybe o, Maybe m, Maybe o) -> CatStore o m  -> [CPoint o m]
-    catStoreBatch :: [Action  (m,(o,o))] -> CatStore o m  -> CatStore o m 
+class CatStores o p where
+    catStoreEmpty :: CatStore o p
+    catStoreInsert :: Tup3 o p -> CatStore o p  -> CatStore o p
+    catStoreDel :: Tup3 o p -> CatStore o p  -> CatStore o p 
+--     catStoreFind :: (Maybe o, Maybe p, Maybe o) -> CatStore o p  -> [Tup3 o p]
+    catStoreBatch :: [Action  (p,Tup2 o)] -> CatStore o p  -> CatStore o p 
     catStoreBatch [] ts = ts
     catStoreBatch ((Ins t) : as) ts = catStoreInsert t . catStoreBatch as $ ts
     catStoreBatch ((Del t) : as) ts = catStoreDel t . catStoreBatch as $ ts
 
-    unCatStore :: CatStore o m -> [CPoint o m]  
+    unCatStore :: CatStore o p -> [Tup3 o p]  
     -- unCatStore (CatStoreK as) = as
-    wrapCatStore :: ([CPoint o m] -> [CPoint o m]) -> CatStore o m-> CatStore o m
+    wrapCatStore :: ([Tup3 o p] -> [Tup3 o p]) -> CatStore o p-> CatStore o p
     -- wrapCatStore f = CatStoreK . f . unCatStore  -- not a functor!"\n\t]"
 
 
 
 
-instance (Eq o, Eq m, Rels (o,o)) => CatStores o m where
-    catStoreEmpty =(CatStoreK (emptyRel2)) :: CatStore o m
-    catStoreInsert t  = wrapCatStore  (add2rel t)  
-    catStoreDel t = wrapCatStore (del2rel t) 
+instance (Eq o, Eq p, Rel2s o) => CatStores o p where
+    catStoreEmpty =(CatStoreK []) :: CatStore o p
+    catStoreInsert t  = wrapCatStore  ((:) t)  
+    -- catStoreDel t = wrapCatStore (del2rel t) 
 --     catStoreFind t = tsfind t . unCatStore
-    -- unCatStore :: CatStore o m -> [CPoint o m]  
+    -- unCatStore :: CatStore o p -> [Tup3 o p]  
     unCatStore (CatStoreK as) = as
-    -- wrapCatStore :: ([CPoint o m] -> [CPoint o m]) -> CatStore o m-> CatStore o m
+    -- wrapCatStore :: ([Tup3 o p] -> [Tup3 o p]) -> CatStore o p-> CatStore o p
     wrapCatStore f = CatStoreK . f . unCatStore  -- not a functor!"\n\t]"
 
 
@@ -103,22 +102,22 @@ instance (Eq o, Eq m, Rels (o,o)) => CatStores o m where
 
 class Rels2monadic m p o where 
 -- | monadic operatios to get relations and process
-    rel2 :: p -> m [(o,o)]
+    rel2 :: p -> m [Tup2 o]
     -- | get binary relation for a property
-    inv2 :: p -> m [(o,o)]
+    inv2 :: p -> m [Tup2 o]
     -- | get inverse relation for a property
 
-instance (MonadState m, Eq p, Eq o, StateType m ~ CatStore o p) => Rels2monadic m p o where 
+instance (MonadState m, Eq p, Eq o, Rel2s o, StateType m ~ CatStore o p) => Rels2monadic m p o where 
  
     rel2 morph1 = do 
         c <- get 
-        return $ getRel morph1 . unCatStore $ c
+        return $ get3Rel morph1 . unCatStore $ c
  
     inv2 morph1 = do 
         c <- get 
-        return . map swap $ getRel morph1 . unCatStore $  c
+        return . map swap $ get3Rel morph1 . unCatStore $  c
 
 
-relPair :: (Eq o) =>  [(o,o)] -> [(o,o)] ->  [(o, (o,o))]
-relPair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
+-- relPair :: (Eq o) =>  [Tup2 o] -> [Tup2 o] ->  [(o, Tup2 o)]
+-- relPair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
 -- make the obj a pair of the the objects of the two relations

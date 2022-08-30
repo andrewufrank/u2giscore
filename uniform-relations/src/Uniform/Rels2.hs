@@ -30,58 +30,64 @@ module Uniform.Rels2
 
 import UniformBase 
 
-type Rel2 o = [](o,o)
+type Tup2 o = (o,o)
+type Rel2 o = [Tup2 o]
 -- | a binary relation
 
-class Rel2pair  o where 
-    swaprel :: o -> o 
-    -- fstEq :: 
-instance Rel2pair (o,o) where
-    swaprel (a,b) = (b,a)
-    -- fstEqual 
-
-
-class Eq e =>  Rels e where 
+class Eq o =>  Rel2s o where 
 -- | relations as list of elements
+    data Tup o 
 -- this is just list! and all is automatic
-    emptyRel2 :: [e] 
-    emptyRel2 = []
-    add2rel :: e -> [e] -> [e]
+    empty2Rel :: [Tup2 o] 
+    empty2Rel = []
+    add2rel :: Tup2 o -> [Tup2 o] -> [Tup2 o]
     add2rel a = (a :)
-    del2rel :: e -> [e] -> [e]
+    del2rel :: Tup2 o -> [Tup2 o] -> [Tup2 o]
     del2rel a = filter (a /=) 
     -- | deletes all element with same value
 
-class (Eq e, Rel2pair e) =>  Rels2 e where 
+-- class (Eq o, Rel2pair o) =>  Rels2 o where 
 -- | operations for relations
 -- could be a family with element and list  
-    converseRel :: [e] -> [e]
-    converseRel = map swaprel  
+    converse2Rel :: [Tup2 o] -> [Tup2 o]
+    converse2Rel = map swap2rel  
 
     -- | compose relations r1 and r2 (r1:2, A->B . B->C -> A->C)
-    compRel ::   [e] -> [e] ->  [e]
-    (.&.) ::    [e] -> [e] ->  [e]
-    (.&.) =  compRel  
-    filterRel :: (e -> Bool) -> [e] -> [e]
-    -- filterEq :: e -> [e] -> [e]
+    comp2Rel ::   [Tup2 o] -> [Tup2 o] ->  [Tup2 o]
+    (.&.) ::    [Tup2 o] -> [Tup2 o] ->  [Tup2 o]
+    (.&.) =  comp2Rel  
+    filter2Rel :: (Tup2 o -> Bool) -> [Tup2 o] -> [Tup2 o]
+    -- filterEq :: o -> [o] -> [o]
     -- filterEq v r = filterRel ((v ==) . fst) r
-    -- relPair :: (Eq o) =>  [e] -> [e] ->  [(o, (o,o))]
+    -- relPair :: (Eq o) =>  [o] -> [o] ->  [(o, Tup2)]
     -- make the obj a pair of the the objects of the two relations
+    rel2pair :: (Eq o) =>  [Tup2 o] -> [Tup2 o] ->  [(o, Tup2 o)]
+    -- make the obj a pair of the the objects of the two relations
+    swap2rel :: Tup2 o -> Tup2 o 
 
 data Action a = Ins a | Del a
         deriving (Show, Read, Ord, Eq)
 wrapIns :: a -> Action a
 wrapIns a =   Ins  a
 
-instance Eq o => Rels (o,o) where
+instance Eq o => Rel2s (o) where
     -- emptyRel2 = []
     -- add2rel a = (a :)
     -- del2rel a = filter (a /=) 
 
-instance Eq o => Rels2 (o,o) where
-    compRel r1 r2 = [ (a,d) | (a,b) <- r1, (c,d) <- r2, b==c]
+-- instance Eq o => Rels2 (Tup2 o) where
+    comp2Rel r1 r2 = [ (a,d) | (a,b) <- r1, (c,d) <- r2, b==c]
     -- relPair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
-    filterRel cond = filter cond 
+    filter2Rel cond = filter cond 
+    rel2pair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
+    swap2rel (a,b) = (b,a)
 
 -- instance Rels2 CatStores 
 
+
+-- class Rel2pair  o where 
+--     swaprel :: o -> o 
+--     -- fstEq :: 
+-- instance Rel2pair (Tup2 o) where
+--     swaprel (a,b) = (b,a)
+--     -- fstEqual 

@@ -59,7 +59,7 @@ hqVoro = do
     f <- rel2 HqFace 
     -- n <- rel2 HqNode 
     xy <- rel2 XY 
-    let fp3 =  relPair (f .&. xy) xy 
+    let fp3 =  rel2pair (f .&. xy) xy 
     return    fp3  
 
 hqDela :: StateT  CatStoreTessShort Identity  [(ObjTessShort, (ObjTessShort,ObjTessShort))]
@@ -67,7 +67,7 @@ hqDela = do
     -- f <- rel2 HqFace 
     n <- rel2 HqNode 
     xy <- rel2 XY 
-    let fp3 =  relPair (n .&. xy) xy 
+    let fp3 =  rel2pair (n .&. xy) xy 
     return    fp3  
 -- hqTriangles2 :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
 -- hqTriangles2 = do 
