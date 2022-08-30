@@ -104,20 +104,16 @@ instance (Eq o, Eq m, Rels (o,o)) => CatStores o m where
 class Rels2monadic m p o where 
 -- | monadic operatios to get relations and process
     rel2 :: p -> m [(o,o)]
+    -- | get binary relation for a property
     inv2 :: p -> m [(o,o)]
+    -- | get inverse relation for a property
 
 instance (MonadState m, Eq p, Eq o, StateType m ~ CatStore o p) => Rels2monadic m p o where 
-
--- rel2 :: (MonadState (CatStore o m) m1, Eq o, Eq m) => m -> m1 (Rel2 o) 
--- rel2 :: (MonadState m1, Eq m2, Eq o, StateType m1 ~ CatStore o m2) => m2 -> m1 (Rel2 o)
--- rel2 :: (MonadState m1, Eq m2, Eq o, StateType m1 ~ [(m2, (o, o))]) => m2 -> m1 [(o, o)]
--- rel2 :: (MonadState m1, Eq m2, Eq o, Rels (o, o), StateType m1 ~ CatStore o m2) => m2 -> m1 [(o, o)]
+ 
     rel2 morph1 = do 
         c <- get 
         return $ getRel morph1 . unCatStore $ c
--- inv2 :: (MonadState m1, Eq m2, Eq b, StateType m1 ~ [(m2, (b, b))]) => m2 -> m1 [(b, b)]
--- inv2 :: (MonadState m1, Eq m2, Eq b, StateType m1 ~ CatStore b m2) => m2 -> m1 [(b, b)]
--- inv2 :: (MonadState m1, Eq m2, Eq b, Rels (b, b), StateType m1 ~ CatStore b m2) => m2 -> m1 [(b, b)]
+ 
     inv2 morph1 = do 
         c <- get 
         return . map swap $ getRel morph1 . unCatStore $  c

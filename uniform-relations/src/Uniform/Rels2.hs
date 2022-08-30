@@ -45,11 +45,12 @@ class Eq e =>  Rels e where
 -- | relations as list of elements
 -- this is just list! and all is automatic
     emptyRel2 :: [e] 
-    add2rel :: e -> [e] -> [e]
-    del2rel :: e -> [e] -> [e]
     emptyRel2 = []
+    add2rel :: e -> [e] -> [e]
     add2rel a = (a :)
+    del2rel :: e -> [e] -> [e]
     del2rel a = filter (a /=) 
+    -- | deletes all element with same value
 
 class (Eq e, Rel2pair e) =>  Rels2 e where 
 -- | operations for relations
