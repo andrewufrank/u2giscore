@@ -31,7 +31,6 @@ import UniformBase
 import HQschema.HQschemaShort
 -- import Control.Exception
 import Uniform.GeometryFunctions
-import Uniform.TripleRels
 import Data.List.Extra
 -- import Uniform.Drawings
 import Control.Monad.State  

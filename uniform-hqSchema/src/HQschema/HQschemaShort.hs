@@ -35,10 +35,12 @@
 module HQschema.HQschemaShort
     (module HQschema.HQschemaShort
     , module Uniform.TripleStore
+    , module Uniform.Rels2
     ) where
 
 import Uniform.Point2d
 import Uniform.TripleStore
+import Uniform.Rels2
 -- import Uniform.Point2d
 import UniformBase
 import Control.Monad.State
@@ -133,7 +135,12 @@ data TessShortHQtriples = TessShortHQtriples
     }
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
-type StoreTessShortElement = (ObjTessShort, MorphTessShort, ObjTessShort)
+-- reorganisationm o,p,o -> p, (o,o)
+
+reorg214 :: (a1, a2, b) -> (a2, (a1, b))
+reorg214 (a,b,c) = (b, (a,c))
+
+type StoreTessShortElement = (MorphTessShort, (ObjTessShort,  ObjTessShort))
 
 type CatStoreTessShort = CatStore ObjTessShort MorphTessShort
 type CatStoreState = State  CatStoreTessShort [StoreTessShortElement]

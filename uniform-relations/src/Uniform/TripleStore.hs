@@ -26,6 +26,8 @@
 {-# LANGUAGE DeriveGeneric    #-}
 
 module Uniform.TripleStore
+    ( module Uniform.TripleStore
+    , module Uniform.Rels2)
 
     where
 

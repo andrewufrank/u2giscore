@@ -63,11 +63,11 @@ midpoint :: (ObjTessShort, ObjTessShort) -> V2D
 midpoint (p1,p2) = (/2) . (uncurry (+)) . (cross . dup $ (unName . unPointTag)) $ (p1,p2)
 
 
-lengthHQtriple :: (a, (ObjTessShort, ObjTessShort)) -> (a, MorphTessShort, ObjTessShort)
-lengthHQtriple inp@(a,(p1,p2)) = (a, Quant 1, LengthTag . Length $ (dist2pts (p1,p2))/2 )
+-- lengthHQtriple :: (a, (ObjTessShort, ObjTessShort)) -> (a, MorphTessShort, ObjTessShort)
+lengthHQtriple inp@(a,(p1,p2)) = reorg214  (a, Quant 1, LengthTag . Length $ (dist2pts (p1,p2))/2 )
 
-midpointHQtriple :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> (ObjTessShort, MorphTessShort, ObjTessShort)
-midpointHQtriple (a,(p1,p2)) = (a, XY, PointTag . putName (unHalfQuad a) $ (midpoint (p1,p2)) )
+midpointHQtriple :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> StoreTessShortElement
+midpointHQtriple (a,(p1,p2)) = reorg214 (a, XY, PointTag . putName (unHalfQuad a) $ (midpoint (p1,p2)) )
 
 
 -- step 3 build the specific function into state monad   xxx M 
@@ -82,10 +82,10 @@ distanceOfHQ = fmap (map (second dist2pts)) points12
 midpointHQ :: State  CatStoreTessShort   [(ObjTessShort, V2D)]
 midpointHQ = fmap (map (second midpoint)) points12
 
-lengthHQasTriple :: State 
-  CatStoreTessShort
+-- lengthHQasTriple :: State 
+--   CatStoreTessShort
    
-  [(ObjTessShort, MorphTessShort, ObjTessShort)]
+--   [(ObjTessShort, MorphTessShort, ObjTessShort)]
 lengthHQasTriple = fmap (map lengthHQtriple) points12
 
 midpointHQasTriple :: State  CatStoreTessShort [StoreTessShortElement]

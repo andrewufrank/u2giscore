@@ -21,9 +21,8 @@ module Main     where
 
  
 import UniformBase
-import Uniform.NaiveTripleStore 
 import Uniform.TripleStore
-import Uniform.TripleRels
+import Uniform.Rels2
 -- import HQschema.HQexampleLong
 import ExampleData.HQexampleShort
 -- import HQschema.HQfaces_test

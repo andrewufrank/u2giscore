@@ -62,7 +62,7 @@ area2faces :: [ObjTessShort] -> Double
 area2faces vs = areaPoly . map unTagPoints2V $ vs 
 
 area2triples ::(ObjTessShort, [ObjTessShort]) -> StoreTessShortElement
-area2triples (a,vds) = (a, Quant 2, AreaTag . Area . area2faces $ vds )
+area2triples (a,vds) = reorg214 (a, Quant 2, AreaTag . Area . area2faces $ vds )
  
 incenter2faces :: [ObjTessShort] -> Maybe V2D
 incenter2faces = incenter8 . map unTagPoints2V 
@@ -76,7 +76,7 @@ incenter8 vds = Nothing
 
 incenter2triple :: (ObjTessShort, [ObjTessShort]) -> Maybe StoreTessShortElement
 incenter2triple (i,vds) = case incenter2faces vds of
-        Just vd -> Just (i, Incenter, (PointTag $ putName (unFace i)  vd))
+        Just vd -> Just . reorg214 $ (i, Incenter, (PointTag $ putName (unFace i)  vd))
         Nothing -> Nothing
 -- incenter2triple (i,obj) = 
         -- maybe Nothing (\vd -> Just (i, Incenter, (PointTag $ putName (unFace i)  vd))) (incenter2faces obj)
@@ -91,7 +91,7 @@ circumCenter8 _ = Nothing
  
 circumcenter2triple :: (ObjTessShort, [ObjTessShort]) -> Maybe StoreTessShortElement
 circumcenter2triple (i,vds) = case (circumCenter2faces vds) of
-    Just vd -> Just (i, XY, (PointTag $ putName (unFace i) vd ))
+    Just vd -> Just . reorg214 $ (i, XY, (PointTag $ putName (unFace i) vd ))
     Nothing -> Nothing
 
 -- for coord2faces 

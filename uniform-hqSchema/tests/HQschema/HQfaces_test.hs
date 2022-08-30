@@ -30,7 +30,6 @@ module HQschema.HQfaces_test
 import           Test.Framework hiding (scale, (.&.))
 
 import UniformBase  
-import Uniform.NaiveTripleStore
 import ExampleData.HQexampleShort
 import HQschema.HQschemaShort
 import HQschema.HQconstructions4graphics 

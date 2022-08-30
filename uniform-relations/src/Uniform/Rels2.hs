@@ -69,6 +69,8 @@ class (Eq e, Rel2pair e) =>  Rels2 e where
 
 data Action a = Ins a | Del a
         deriving (Show, Read, Ord, Eq)
+wrapIns :: a -> Action a
+wrapIns a =   Ins  a
 
 instance Eq o => Rels (o,o) where
     -- emptyRel2 = []

@@ -36,7 +36,6 @@ import HQschema.HQschemaShort
 -- import Uniform.TripleStore
 -- import Uniform.Point2d
 import Uniform.TesselationHalfQuads
-import Uniform.NaiveTripleStore
 import HQschema.HQschemaTop
 
 --- Make tirples 
