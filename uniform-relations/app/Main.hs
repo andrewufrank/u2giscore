@@ -21,7 +21,6 @@ module Main     where
 
  
 import UniformBase
-import Uniform.NaiveTripleStore 
 import Uniform.TripleStore
 import Uniform.Rels2
 -- import ExampleData.HQexampleLong
