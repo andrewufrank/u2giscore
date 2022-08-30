@@ -58,8 +58,11 @@ filter3Rel :: (Eq p, Eq o,  Rel2s o) => p -> ((o, o) -> Bool) -> [(p, (o, o))] -
 filter3Rel p cond = doTo3Rel p (filter2Rel cond)
 
 
--- wrapping 
+-- | not wrapped
+newtype PlainStore o p = Store  [Tup3 o p] 
+                    --  deriving (Show, Read, Eq)
 
+-- | wrapped
 newtype CatStore o p = CatStoreK [Tup3 o p] 
                      deriving (Show, Read, Eq)
 
@@ -68,33 +71,42 @@ instance (Show o, Show p) =>  NiceStrings (CatStore o p) where
 
 
 
-class CatStores o p where
-    catStoreEmpty :: CatStore o p
-    catStoreInsert :: Tup3 o p -> CatStore o p  -> CatStore o p
-    catStoreDel :: Tup3 o p -> CatStore o p  -> CatStore o p 
---     catStoreFind :: (Maybe o, Maybe p, Maybe o) -> CatStore o p  -> [Tup3 o p]
-    catStoreBatch :: [Action  (p,Tup2 o)] -> CatStore o p  -> CatStore o p 
-    catStoreBatch [] ts = ts
-    catStoreBatch ((Ins t) : as) ts = catStoreInsert t . catStoreBatch as $ ts
-    catStoreBatch ((Del t) : as) ts = catStoreDel t . catStoreBatch as $ ts
+class Stores  st o p where
+    storeEmpty :: st o p
+    storeInsert :: Tup3 o p -> st o p  -> st o p
+    storeDel :: Tup3 o p -> st o p  -> st o p 
+--     storeFind :: (Maybe o, Maybe p, Maybe o) -> st o p  -> [Tup3 o p]
+    storeBatch :: [Action  (Tup3 o p)] -> st o p  -> st o p 
+    storeBatch [] ts = ts
+    storeBatch ((Ins t) : as) ts = storeInsert t . storeBatch as $ ts
+    storeBatch ((Del t) : as) ts = storeDel t . storeBatch as $ ts
 
-    unCatStore :: CatStore o p -> [Tup3 o p]  
-    -- unCatStore (CatStoreK as) = as
-    wrapCatStore :: ([Tup3 o p] -> [Tup3 o p]) -> CatStore o p-> CatStore o p
-    -- wrapCatStore f = CatStoreK . f . unCatStore  -- not a functor!"\n\t]"
-
-
+    unStore :: st o p -> [Tup3 o p]  
+    -- unStore (StoreK as) = as
+    wrapStore :: ([Tup3 o p] -> [Tup3 o p]) -> st o p-> st o p
+    -- wrapStore f = StoreK . f . unStore  -- not a functor!"\n\t]"
 
 
-instance (Eq o, Eq p, Rel2s o) => CatStores o p where
-    catStoreEmpty =(CatStoreK []) :: CatStore o p
-    catStoreInsert t  = wrapCatStore  ((:) t)  
-    -- catStoreDel t = wrapCatStore (del2rel t) 
---     catStoreFind t = tsfind t . unCatStore
-    -- unCatStore :: CatStore o p -> [Tup3 o p]  
-    unCatStore (CatStoreK as) = as
-    -- wrapCatStore :: ([Tup3 o p] -> [Tup3 o p]) -> CatStore o p-> CatStore o p
-    wrapCatStore f = CatStoreK . f . unCatStore  -- not a functor!"\n\t]"
+instance (Eq o, Eq p, Rel2s o) => Stores  PlainStore o p  where
+    storeEmpty =(Store []) 
+    storeInsert t  = wrapStore  ((:) t)  
+    -- storeDel t = wrapStore (del2rel t) 
+--     storeFind t = tsfind t . unStore
+    -- unStore :: Store o p -> [Tup3 o p]  
+    unStore (Store as) = as
+    -- wrapStore :: ([Tup3 o p] -> [Tup3 o p]) -> Store o p-> Store o p
+    wrapStore f = Store . f . unStore  
+
+
+instance (Eq o, Eq p, Rel2s o) => Stores CatStore o p where
+    storeEmpty =(CatStoreK [])  
+    storeInsert t  = wrapStore  ((:) t)  
+    -- storeDel t = wrapStore (del2rel t) 
+--     storeFind t = tsfind t . unStore
+    -- unStore :: Store o p -> [Tup3 o p]  
+    unStore (CatStoreK as) = as
+    -- wrapStore :: ([Tup3 o p] -> [Tup3 o p]) -> Store o p-> Store o p
+    wrapStore f = CatStoreK . f . unStore  -- not a functor!"\n\t]"
 
 
 -- --- monadic versions -----------------------------
@@ -107,15 +119,15 @@ class Rels2monadic m p o where
     inv2 :: p -> m [Tup2 o]
     -- | get inverse relation for a property
 
-instance (MonadState m, Eq p, Eq o, Rel2s o, StateType m ~ CatStore o p) => Rels2monadic m p o where 
+instance (Stores st o p, MonadState m, Eq p, Eq o, Rel2s o, StateType m ~ st o p) => Rels2monadic m p o where 
  
     rel2 morph1 = do 
         c <- get 
-        return $ get3Rel morph1 . unCatStore $ c
+        return $ get3Rel morph1 . unStore $ c
  
     inv2 morph1 = do 
         c <- get 
-        return . map swap $ get3Rel morph1 . unCatStore $  c
+        return . map swap $ get3Rel morph1 . unStore $  c
 
 
 -- relPair :: (Eq o) =>  [Tup2 o] -> [Tup2 o] ->  [(o, Tup2 o)]

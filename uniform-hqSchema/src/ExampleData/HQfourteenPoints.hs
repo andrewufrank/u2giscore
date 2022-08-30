@@ -64,7 +64,7 @@ cat61 = makeCatFrom  600 fourteenPnt2d
 
 -- process to construct the addins in hqfaces  -- need cleaning
 addtoCat :: [(StoreTessShortElement)] -> CatStoreTessShort -> CatStoreTessShort
-addtoCat ts cat0 = catStoreBatch (map wrapIns ts) cat0
+addtoCat ts cat0 = storeBatch (map wrapIns ts) cat0
 
 cat62 = addtoCat  (allAddins cat61) cat61
 

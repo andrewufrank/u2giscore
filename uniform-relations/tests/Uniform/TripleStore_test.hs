@@ -34,21 +34,21 @@ import Uniform.Rels2_test (cp1, cp2, os2, Obj(..), Morph(..))
 
 
 v0 :: CatStore Obj Morph  
-v0 = catStoreEmpty
+v0 = storeEmpty
 v1 :: CatStore   Obj Morph
-v1 = catStoreInsert cp1 v0
+v1 = storeInsert cp1 v0
 v2 :: CatStore  Obj Morph
-v2 = catStoreInsert cp2 v1
-v2a = catStoreInsert (F, (os2, SS 0)) v2  -- v2a is rel, sk1 -> sk0 and sk2
+v2 = storeInsert cp2 v1
+v2a = storeInsert (F, (os2, SS 0)) v2  -- v2a is rel, sk1 -> sk0 and sk2
 v3 :: CatStore  Obj Morph
-v3 = catStoreDel cp2 v2
+v3 = storeDel cp2 v2
 
 a1 :: [Action (Morph, (Obj,  Obj))]
 a1 = [Ins cp1, Ins cp2]
 a1x :: CatStore Obj Morph
-a1x = catStoreBatch a1 v0
+a1x = storeBatch a1 v0
 a2x :: CatStore Obj Morph
-a2x = catStoreBatch [Del cp2] a1x
+a2x = storeBatch [Del cp2] a1x
 
 
 

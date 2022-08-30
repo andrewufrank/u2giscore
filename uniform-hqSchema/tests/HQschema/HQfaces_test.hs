@@ -38,7 +38,7 @@ import Uniform.GeometryFunctions
 -- import Uniform.Point2d ()
 import ExampleData.Point2d
 import Uniform.TesselationHalfQuads
-import Uniform.TripleStore (CatStores(catStoreBatch))
+import Uniform.TripleStore (Stores(storeBatch))
 import Uniform.Drawings
   
 -- import Uniform.TripleRels
@@ -90,8 +90,8 @@ lengthHQ2Ins5 = evalState lengthHQasTriple tess51short
 -- additinsCenters cat =  catMaybes . concat   $ [evalTrans4query2cat trans coords2faces cat | trans <-[circumcenter2triple, incenter2triple]  ] -- trans query cat
 -- allAddins cat = concat [additinsPoints cat, additinsAreas cat, additinsCenters cat]
 
-cat42 = catStoreBatch (map Ins (allAddins tess41short)) tess41short
-cat52 = catStoreBatch (map Ins (allAddins tess51short)) tess51short
+cat42 = storeBatch (map Ins (allAddins tess41short)) tess41short
+cat52 = storeBatch (map Ins (allAddins tess51short)) tess51short
 
 -- addinsFirst = evalTrans4query2cat midpointHQtriple points12 tess41short
 

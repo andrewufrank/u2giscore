@@ -93,7 +93,7 @@ hqToTrip offset teshq  = TessShortHQtriples
 -- cat400 = catStoreEmpty
 -- cat401 :: CatStore ObjPoint MorphTessShort
 intoCat :: [(StoreTessShortElement)] -> CatStoreTessShort
-intoCat ts = catStoreBatch (map wrapIns ts) $ catStoreEmpty -- cat400
+intoCat ts = storeBatch (map wrapIns ts) $ storeEmpty -- cat400
 
 
 -- makeCat :: 
