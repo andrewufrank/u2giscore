@@ -67,10 +67,6 @@ newtype CatStore o m = CatStoreK [(m,(o,o))]
 instance (Show o, Show m) =>  NiceStrings (CatStore o m) where 
     shownice (CatStoreK oms) = (s2t "\nCatStoreK [\n") <> (showAsLines) oms <> "]\n"
 
-unCatStore :: CatStore o m -> [CPoint o m]  
-unCatStore (CatStoreK as) = as
-wrapCatStore :: ([CPoint o m] -> [CPoint o m]) -> CatStore o m-> CatStore o m
-wrapCatStore f = CatStoreK . f . unCatStore  -- not a functor!"\n\t]"
 
 
 class CatStores o m where
@@ -83,6 +79,11 @@ class CatStores o m where
     catStoreBatch ((Ins t) : as) ts = catStoreInsert t . catStoreBatch as $ ts
     catStoreBatch ((Del t) : as) ts = catStoreDel t . catStoreBatch as $ ts
 
+    unCatStore :: CatStore o m -> [CPoint o m]  
+    -- unCatStore (CatStoreK as) = as
+    wrapCatStore :: ([CPoint o m] -> [CPoint o m]) -> CatStore o m-> CatStore o m
+    -- wrapCatStore f = CatStoreK . f . unCatStore  -- not a functor!"\n\t]"
+
 
 
 
@@ -91,18 +92,27 @@ instance (Eq o, Eq m, Rels (o,o)) => CatStores o m where
     catStoreInsert t  = wrapCatStore  (add2rel t)  
     catStoreDel t = wrapCatStore (del2rel t) 
 --     catStoreFind t = tsfind t . unCatStore
+    -- unCatStore :: CatStore o m -> [CPoint o m]  
+    unCatStore (CatStoreK as) = as
+    -- wrapCatStore :: ([CPoint o m] -> [CPoint o m]) -> CatStore o m-> CatStore o m
+    wrapCatStore f = CatStoreK . f . unCatStore  -- not a functor!"\n\t]"
+
 
 -- --- monadic versions -----------------------------
 -- should be class to work for unwrapped and wrapped 
 
+class Rels2monadic 
+
 -- rel2 :: (MonadState (CatStore o m) m1, Eq o, Eq m) => m -> m1 (Rel2 o) 
-rel2 :: (MonadState m1, Eq m2, Eq o, StateType m1 ~ CatStore o m2) => m2 -> m1 (Rel2 o)
+-- rel2 :: (MonadState m1, Eq m2, Eq o, StateType m1 ~ CatStore o m2) => m2 -> m1 (Rel2 o)
 -- rel2 :: (MonadState m1, Eq m2, Eq o, StateType m1 ~ [(m2, (o, o))]) => m2 -> m1 [(o, o)]
+rel2 :: (MonadState m1, Eq m2, Eq o, Rels (o, o), StateType m1 ~ CatStore o m2) => m2 -> m1 [(o, o)]
 rel2 morph1 = do 
     c <- get 
     return $ getRel morph1 . unCatStore $ c
 -- inv2 :: (MonadState m1, Eq m2, Eq b, StateType m1 ~ [(m2, (b, b))]) => m2 -> m1 [(b, b)]
-inv2 :: (MonadState m1, Eq m2, Eq b, StateType m1 ~ CatStore b m2) => m2 -> m1 [(b, b)]
+-- inv2 :: (MonadState m1, Eq m2, Eq b, StateType m1 ~ CatStore b m2) => m2 -> m1 [(b, b)]
+inv2 :: (MonadState m1, Eq m2, Eq b, Rels (b, b), StateType m1 ~ CatStore b m2) => m2 -> m1 [(b, b)]
 inv2 morph1 = do 
     c <- get 
     return . map swap $ getRel morph1 . unCatStore $  c
