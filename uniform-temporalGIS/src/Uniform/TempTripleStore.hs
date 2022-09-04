@@ -58,21 +58,24 @@ type Time = UTCTime
 type Tup4 o p t = (t, Tup3 o p)
 
 class (Eq p, Eq o, Eq t) => Rels4 t p o where 
+-- | process one triple relation (cascading the getNrel - replace with lenses)
     get4Rel :: t -> [(t,Tup3 o p)] -> [Tup3 o p]
     -- get the 3 real for a time 
-    doTo4Rel :: t -> p -> ([Tup3 o p] -> [Tup3 o p]) -> [(t,(Tup3 o p))] -> [Tup3 o p]
-    -- get the 3 real for a time and operate on it
-    converse4Rel :: (Rel2s o) => t -> p -> [(t,Tup3 o p)] -> [(o, o)]
-    -- filterRel3 :: (Eq p, Eq o) => p -> [(p, (o, o))] -> [(o, o)]
-    filter4Rel :: (Rel2s o) => t -> p -> ((o, o) -> Bool) -> [(t,Tup3 o p)] -> [(o, o)]
+    -- doTo4Rel :: t -> ([Tup3 o p] -> [Tup3 o p]) -> [(t,(Tup3 o p))] -> [Tup3 o p]
+    -- get the 3 real for a time and operate on it, but how to write back?
+
+    -- converse4Rel :: (BinRels o) => t -> p -> [(t,Tup3 o p)] -> [(o, o)]
+    -- -- filterRel3 :: (Eq p, Eq o) => p -> [(p, (o, o))] -> [(o, o)]
+    -- filter4Rel :: (BinRels o) => t -> p -> ((o, o) -> Bool) -> [(t,Tup3 o p)] -> [(o, o)]
 
 
 instance (Eq p, Eq o, Eq t) => Rels4 t p o where 
     get4Rel t = map snd . filter ((t==).fst) 
-    doTo4Rel t p f = f . get3Rel p . get4Rel t 
-    converse4Rel t p = doTo4Rel t p converse2Rel  
+    -- doTo4Rel t f = f .  get4Rel t 
+    -- should replace!
+    -- converse4Rel t p = doTo4Rel t p converse2Rel  
 -- filterRel3 :: (Eq p, Eq o) => p -> [(p, (o, o))] -> [(o, o)]
-    filter4Rel t p cond = doTo4Rel p (filter2Rel cond)
+    -- filter4Rel t p cond = doTo4Rel p (filter2Rel cond)
 
 class TStores  st o p t where
     tStoreEmpty :: st o p t
@@ -92,7 +95,7 @@ class TStores  st o p t where
 newtype TStore o p t = TStore  [Tup4 o p t] 
                     --  deriving (Show, Read, Eq)
 
-instance (Eq o, Eq p, Eq t,  Rel2s o) => TStores  TStore o p t where
+instance (Eq o, Eq p, Eq t,  BinRels o) => TStores  TStore o p t where
     tStoreEmpty =(TStore []) 
     tStoreInsert e  = wrapTStore  ((:) e)  
     -- tStoreDel t = wrapStore (del2rel t) 
@@ -102,25 +105,25 @@ instance (Eq o, Eq p, Eq t,  Rel2s o) => TStores  TStore o p t where
     -- wrapStore :: ([Tup4 o p t] -> [Tup4 o p t]) -> Store o p-> Store o p
     wrapTStore f = TStore . f . unTStore  
 
--- class Rels3monadic m p o where 
--- -- | monadic operatios to get relations and process
--- -- copied from Rels2monadic
---     rel3 :: p -> m [Tup2 o]
---     -- | get binary relation for a property
---     inv3 :: p -> m [Tup2 o]
---     -- | get inverse relation for a property
+class Rels3monadic m p o where 
+-- | monadic operatios to get relations and process
+-- copied from Rels2monadic
+    rel3 :: p -> m [Tup2 o]
+    -- | get binary relation for a property
+    inv3 :: p -> m [Tup2 o]
+    -- | get inverse relation for a property
 
--- instance (TStores st o p t, MonadState m
---         , Eq p, Eq o, Eq t, Rel2s o
---         , StateType m ~ st o p t) => Rels3monadic m p o where 
+instance (TStores st o p t, MonadState m
+        , Eq p, Eq o, Eq t, Rel2s o
+        , StateType m ~ st o p t) => Rels3monadic m p o where 
  
---     rel3 morph1 = do 
---         c <- get 
---         return $ get4Rel morph1 . unTStore $ c
+    rel3 morph1 = do 
+        c <- get 
+        return $ get4Rel morph1 . unTStore $ c
  
---     inv3 morph1 = do 
---         c <- get 
---         return . map swap $ get4Rel morph1 . unSTtore $  c
+    inv3 morph1 = do 
+        c <- get 
+        return . map swap $ get4Rel morph1 . unSTtore $  c
 
 ---------- old 
 
