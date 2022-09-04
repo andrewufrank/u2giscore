@@ -20,8 +20,9 @@ extra-source-files:
 
 library
   exposed-modules:
+      ExampleData.ExampleTempData
       Uniform.TemporalGIS
-      Uniform.TempTripleStore
+      Uniform.TempStore
   other-modules:
       Paths_uniform_temporalGIS
   hs-source-dirs:

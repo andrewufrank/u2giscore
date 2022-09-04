@@ -50,9 +50,9 @@ import Data.Functor.Identity
 --   Data.Functor.Identity.Identity
 --   [(ObjTessShort, [ObjTessShort])]
 coords2faces = do 
-    f <- inv2 HqFace 
-    n <- rel2 HqNode 
-    xy <- rel2 XY 
+    f <- inv3 HqFace 
+    n <- rel3 HqNode 
+    xy <- rel3 XY 
     let fp3 =  (f .&. n .&. xy)  -- :: [(k, k)]
     return $ groupSort  fp3  
     -- return $ map onef . groupSort $ fp3 

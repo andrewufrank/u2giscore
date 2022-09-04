@@ -44,9 +44,9 @@ import Control.Monad.Identity (Identity)
 -- try groupSort 
 hqTriangles :: State  CatStoreTessShort   [(ObjTessShort, [ObjTessShort])]
 hqTriangles = do 
-    f <- rel2 HqFace 
-    n <- rel2 HqNode 
-    xy <- rel2 XY 
+    f <- rel3 HqFace 
+    n <- rel3 HqNode 
+    xy <- rel3 XY 
     let fp3 =  xy ++ (f .&. xy) ++ (n .&. xy) 
     return $ groupSort  fp3  
     -- return $ map onef . groupSort $ fp3 
@@ -56,32 +56,32 @@ pointsPairsv2 = second (both  (unName . unPointTag))
 
 hqVoro :: StateT  CatStoreTessShort Identity  [(ObjTessShort, (ObjTessShort,ObjTessShort))]
 hqVoro = do 
-    f <- rel2 HqFace 
-    -- n <- rel2 HqNode 
-    xy <- rel2 XY 
+    f <- rel3 HqFace 
+    -- n <- rel3 HqNode 
+    xy <- rel3 XY 
     let fp3 =  rel2pair (f .&. xy) xy 
     return    fp3  
 
 hqDela :: StateT  CatStoreTessShort Identity  [(ObjTessShort, (ObjTessShort,ObjTessShort))]
 hqDela = do 
-    -- f <- rel2 HqFace 
-    n <- rel2 HqNode 
-    xy <- rel2 XY 
+    -- f <- rel3 HqFace 
+    n <- rel3 HqNode 
+    xy <- rel3 XY 
     let fp3 =  rel2pair (n .&. xy) xy 
     return    fp3  
 -- hqTriangles2 :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
 -- hqTriangles2 = do 
---     f <- rel2 HqFace 
---     n <- rel2 HqNode 
---     xy <- rel2 XY 
+--     f <- rel3 HqFace 
+--     n <- rel3 HqNode 
+--     xy <- rel3 XY 
 --     let fp3 =    (f .&. xy) 
 --     return $ groupSort  fp3  
 
 -- hqTriangles3 :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
 -- hqTriangles3 = do 
---     f <- rel2 HqFace 
---     n <- rel2 HqNode 
---     xy <- rel2 XY 
+--     f <- rel3 HqFace 
+--     n <- rel3 HqNode 
+--     xy <- rel3 XY 
 --     let fp3 =    (n .&. xy) 
 --     return $ groupSort  fp3  
 
@@ -91,8 +91,8 @@ hqDela = do
 --   Identity
 --   [(ObjTessShort, (ObjTessShort, ObjTessShort))]
 -- points12 = do 
---     hqn <- rel2 HqNode 
---     xy <- rel2 XY 
---     twin <- rel2 Twin 
+--     hqn <- rel3 HqNode 
+--     xy <- rel3 XY 
+--     twin <- rel3 Twin 
 --     return (compRelZip (hqn .&. xy) (twin .&. hqn .&. xy))
 -- -------------------- helpers 

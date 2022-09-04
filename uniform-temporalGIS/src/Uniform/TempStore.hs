@@ -29,7 +29,7 @@
 {-# OPTIONS_GHC -w #-}
 
 
-module Uniform.TempTripleStore
+module Uniform.TempStore
          where
 
 import Control.Monad.State
@@ -105,25 +105,26 @@ instance (Eq o, Eq p, Eq t,  BinRels o) => TStores  TStore o p t where
     -- wrapStore :: ([Tup4 o p t] -> [Tup4 o p t]) -> Store o p-> Store o p
     wrapTStore f = TStore . f . unTStore  
 
-class Rels3monadic m p o where 
+class BinRels4monadic m p o where 
 -- | monadic operatios to get relations and process
+-- starts with 4 tuple and retrieves binary relation
 -- copied from Rels2monadic
-    rel3 :: p -> m [Tup2 o]
+    rel4 :: t -> p -> m [Tup2 o]
     -- | get binary relation for a property
-    inv3 :: p -> m [Tup2 o]
+    inv4 :: t -> p -> m [Tup2 o]
     -- | get inverse relation for a property
 
 instance (TStores st o p t, MonadState m
-        , Eq p, Eq o, Eq t, Rel2s o
-        , StateType m ~ st o p t) => Rels3monadic m p o where 
+        , Eq p, Eq o, Eq t, BinRels o
+        , StateType m ~ st o p t) => Rels4monadic m p o where 
  
-    rel3 morph1 = do 
+    rel4 tim morph1 = do 
         c <- get 
-        return $ get4Rel morph1 . unTStore $ c
+        return $ get3Rel morph1 . get4Rel tim . unTStore $ c
  
-    inv3 morph1 = do 
+    inv4 tim morph1 = do 
         c <- get 
-        return . map swap $ get4Rel morph1 . unSTtore $  c
+        return . map swap $ get3Rel morph1 . get4Rel tim . unTStore $  c
 
 ---------- old 
 

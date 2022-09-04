@@ -39,6 +39,6 @@ main =
 main2 :: ErrIO () 
 main2 = do 
  
-    pageTemporal2
-    
+    -- pageTemporal2
+    pageExample4
     return ()

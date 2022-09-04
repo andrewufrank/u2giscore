@@ -44,9 +44,9 @@ points12 :: State
   CatStoreTessShort
   [(ObjTessShort, (ObjTessShort, ObjTessShort))]
 points12 = do 
-    hqn <- rel2 HqNode 
-    xy <- rel2 XY 
-    twin <- rel2 Twin 
+    hqn <- rel3 HqNode 
+    xy <- rel3 XY 
+    twin <- rel3 Twin 
     return (rel2pair (hqn .&. xy) (twin .&. hqn .&. xy))
 -------------------- helpers 
 

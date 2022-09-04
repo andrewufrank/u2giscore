@@ -124,20 +124,20 @@ instance (Eq o, Eq p, BinRels o) => Stores CatStore o p where
 -- --- monadic versions -----------------------------
 -- should be class to work for unwrapped and wrapped 
 
-class BinRelsMonadic m p o where 
+class BinRels3Monadic m p o where 
 -- | monadic operatios to get relations and process
-    rel2 :: p -> m [Tup2 o]
+    rel3 :: p -> m [Tup2 o]
     -- | get binary relation for a property
-    inv2 :: p -> m [Tup2 o]
+    inv3 :: p -> m [Tup2 o]
     -- | get inverse relation for a property
 
-instance (Stores st o p, MonadState m, Eq p, Eq o, BinRels o, StateType m ~ st o p) => BinRelsMonadic m p o where 
+instance (Stores st o p, MonadState m, Eq p, Eq o, BinRels o, StateType m ~ st o p) => BinRels3Monadic m p o where 
  
-    rel2 morph1 = do 
+    rel3 morph1 = do 
         c <- get 
         return $ get3Rel morph1 . unStore $ c
  
-    inv2 morph1 = do 
+    inv3 morph1 = do 
         c <- get 
         return . map swap $ get3Rel morph1 . unStore $  c
 
