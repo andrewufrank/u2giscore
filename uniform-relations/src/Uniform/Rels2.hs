@@ -34,7 +34,7 @@ type Tup2 o = (o,o)
 type Rel2 o = [Tup2 o]
 -- | a binary relation
 
-class Eq o =>  Rel2s o where 
+class Eq o =>  BinRels o where 
 -- | relations as list of elements
     data Tup o 
 -- this is just list! and all is automatic
@@ -65,12 +65,9 @@ class Eq o =>  Rel2s o where
     -- make the obj a pair of the the objects of the two relations
     swap2rel :: Tup2 o -> Tup2 o 
 
-data Action a = Ins a | Del a
-        deriving (Show, Read, Ord, Eq)
-wrapIns :: a -> Action a
-wrapIns a =   Ins  a
 
-instance Eq o => Rel2s (o) where
+instance Eq o => BinRels (o) where
+    data Tup o = Tup2 o
     -- emptyRel2 = []
     -- add2rel a = (a :)
     -- del2rel a = filter (a /=) 

@@ -31,6 +31,7 @@ library
     , base >=4.7 && <5
     , extra
     , linear
+    , monads-tf
     , uniform-field
     , uniform-geometry >=0.0.1.8
     , uniform-hqSchema
@@ -51,6 +52,7 @@ executable exec
     , base >=4.7 && <5
     , extra
     , linear
+    , monads-tf
     , uniform-field
     , uniform-geometry >=0.0.1.8
     , uniform-hqSchema
@@ -74,6 +76,7 @@ test-suite test
     , base >=4.7 && <5
     , extra
     , linear
+    , monads-tf
     , quickcheck-text
     , uniform-field
     , uniform-geometry >=0.0.1.8

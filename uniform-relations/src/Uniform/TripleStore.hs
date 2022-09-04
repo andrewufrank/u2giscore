@@ -41,21 +41,19 @@ type Tup3 o p = (p,Tup2 o)
 
 class (Eq p, Eq o) => Rels3 p o where 
     get3Rel :: p -> [(p,Tup2 o)] -> [Tup2 o]
+    -- | get the binary Rel2
     doTo3Rel :: p -> ([Tup2 o] -> [Tup2 o]) -> [(p,Tup2 o)] -> [Tup2 o]
+    -- | get the binary Rel2 and operate on it
+
+    converse3Rel :: (Eq p, Eq o, BinRels o) => p -> [(p, (o, o))] -> [(o, o)]
+    filter3Rel :: (Eq p, Eq o,  BinRels o) => p -> ((o, o) -> Bool) -> [(p, (o, o))] -> [(o, o)]
     
 instance (Eq p, Eq o) => Rels3 p o where 
     get3Rel p = map snd . filter ((p==).fst) 
     doTo3Rel p f = f . get3Rel p 
 
-    -- then compose with all ops from Rels
-
--- instance (Eq p, Eq o) => Rel2s (p,(o,o)) where
-
-converse3Rel :: (Eq p, Eq o, Rel2s o) => p -> [(p, (o, o))] -> [(o, o)]
-converse3Rel p = doTo3Rel p converse2Rel  
--- filterRel3 :: (Eq p, Eq o) => p -> [(p, (o, o))] -> [(o, o)]
-filter3Rel :: (Eq p, Eq o,  Rel2s o) => p -> ((o, o) -> Bool) -> [(p, (o, o))] -> [(o, o)]
-filter3Rel p cond = doTo3Rel p (filter2Rel cond)
+    converse3Rel p = doTo3Rel p converse2Rel  
+    filter3Rel p cond = doTo3Rel p (filter2Rel cond)
 
 
 -- | not wrapped
@@ -69,6 +67,10 @@ newtype CatStore o p = CatStoreK [Tup3 o p]
 instance (Show o, Show p) =>  NiceStrings (CatStore o p) where 
     shownice (CatStoreK oms) = (s2t "\nCatStoreK [\n") <> (showAsLines) oms <> "]\n"
 
+data Action a = Ins a | Del a
+        deriving (Show, Read, Ord, Eq)
+wrapIns :: a -> Action a
+wrapIns a =   Ins  a
 
 
 class Stores  st o p where
@@ -87,7 +89,7 @@ class Stores  st o p where
     -- wrapStore f = StoreK . f . unStore  -- not a functor!"\n\t]"
 
 
-instance (Eq o, Eq p, Rel2s o) => Stores  PlainStore o p  where
+instance (Eq o, Eq p, BinRels o) => Stores  PlainStore o p  where
     storeEmpty =(Store []) 
     storeInsert t  = wrapStore  ((:) t)  
     -- storeDel t = wrapStore (del2rel t) 
@@ -98,7 +100,7 @@ instance (Eq o, Eq p, Rel2s o) => Stores  PlainStore o p  where
     wrapStore f = Store . f . unStore  
 
 
-instance (Eq o, Eq p, Rel2s o) => Stores CatStore o p where
+instance (Eq o, Eq p, BinRels o) => Stores CatStore o p where
     storeEmpty =(CatStoreK [])  
     storeInsert t  = wrapStore  ((:) t)  
     -- storeDel t = wrapStore (del2rel t) 
@@ -119,7 +121,7 @@ class Rels2monadic m p o where
     inv2 :: p -> m [Tup2 o]
     -- | get inverse relation for a property
 
-instance (Stores st o p, MonadState m, Eq p, Eq o, Rel2s o, StateType m ~ st o p) => Rels2monadic m p o where 
+instance (Stores st o p, MonadState m, Eq p, Eq o, BinRels o, StateType m ~ st o p) => Rels2monadic m p o where 
  
     rel2 morph1 = do 
         c <- get 

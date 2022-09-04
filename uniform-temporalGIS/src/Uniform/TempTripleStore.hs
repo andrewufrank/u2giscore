@@ -32,6 +32,7 @@
 module Uniform.TempTripleStore
          where
 
+import Control.Monad.State
 import UniformBase
 import Uniform.Time
 import Uniform.Point2d 
@@ -54,21 +55,75 @@ type Time = UTCTime
 -- type CatStoreTessShort = CatStore ObjTessShort MorphTessShort
 -- type CatStoreState = State  CatStoreTessShort [StoreTessShortElement]
 
-class (Eq t, Ord t) => TimedTripleStore t trp where 
--- | a wrapper around the triples 
--- perhaps I should have created a class triple and one store
-    ttempty :: [(t,trp)]
-    ttinsert :: t -> trp -> [(t,trp)] -> [(t,trp)]
-    -- ttdel 
-    ttfind ::   t -> t -> [(t,trp)] -> [(t,trp)]
-    -- provide lower and upper bound on time 
+type Tup4 o p t = (t, Tup3 o p)
 
-instance (Ord t) => TimedTripleStore t trp where 
-    ttempty = []
-    ttinsert t trp = ((t,trp) :)
-    ttfind t1 t2 = filter (\tt -> ((t1 <=).fst $ tt) && ((t2 >). fst $ tt))
+class (Eq p, Eq o, Eq t) => Rels4 t p o where 
+    get4Rel :: t -> [(t,Tup3 o p)] -> [Tup3 o p]
+    -- get the 3 real for a time 
+    doTo4Rel :: t -> p -> ([Tup3 o p] -> [Tup3 o p]) -> [(t,(Tup3 o p))] -> [Tup3 o p]
+    -- get the 3 real for a time and operate on it
+    converse4Rel :: (Rel2s o) => t -> p -> [(t,Tup3 o p)] -> [(o, o)]
+    -- filterRel3 :: (Eq p, Eq o) => p -> [(p, (o, o))] -> [(o, o)]
+    filter4Rel :: (Rel2s o) => t -> p -> ((o, o) -> Bool) -> [(t,Tup3 o p)] -> [(o, o)]
 
--- a conversion from triple to timed triple would be easy, but not required
+
+instance (Eq p, Eq o, Eq t) => Rels4 t p o where 
+    get4Rel t = map snd . filter ((t==).fst) 
+    doTo4Rel t p f = f . get3Rel p . get4Rel t 
+    converse4Rel t p = doTo4Rel t p converse2Rel  
+-- filterRel3 :: (Eq p, Eq o) => p -> [(p, (o, o))] -> [(o, o)]
+    filter4Rel t p cond = doTo4Rel p (filter2Rel cond)
+
+class TStores  st o p t where
+    tStoreEmpty :: st o p t
+    tStoreInsert :: Tup4 o p t -> st o p t -> st o p t
+    tStoreDel :: Tup4 o p t -> st o p t -> st o p t
+--     tStoreFind :: (Maybe o, Maybe p, Maybe o) -> st o p  -> [Tup4 o p]
+    tStoreBatch :: [Action  (Tup4 o p t)] -> st o p t -> st o p t
+    tStoreBatch [] ts = ts
+    tStoreBatch ((Ins e) : as) es = tStoreInsert e . tStoreBatch as $ es
+    tStoreBatch ((Del e) : as) es = tStoreDel e . tStoreBatch as $ es
+
+    unTStore :: st o p t -> [Tup4 o p t]  
+    -- unStore (StoreK as) = as
+    wrapTStore :: ([Tup4 o p t] -> [Tup4 o p t]) -> st o p t -> st o p t
+    -- wrapStore f = StoreK . f . unStore  -- not a functor!"\n\t]"
+
+newtype TStore o p t = TStore  [Tup4 o p t] 
+                    --  deriving (Show, Read, Eq)
+
+instance (Eq o, Eq p, Eq t,  Rel2s o) => TStores  TStore o p t where
+    tStoreEmpty =(TStore []) 
+    tStoreInsert e  = wrapTStore  ((:) e)  
+    -- tStoreDel t = wrapStore (del2rel t) 
+--     tStoreFind t = tsfind t . unStore
+    -- unStore :: Store o p -> [Tup4 o p t]  
+    unTStore (TStore as) = as
+    -- wrapStore :: ([Tup4 o p t] -> [Tup4 o p t]) -> Store o p-> Store o p
+    wrapTStore f = TStore . f . unTStore  
+
+-- class Rels3monadic m p o where 
+-- -- | monadic operatios to get relations and process
+-- -- copied from Rels2monadic
+--     rel3 :: p -> m [Tup2 o]
+--     -- | get binary relation for a property
+--     inv3 :: p -> m [Tup2 o]
+--     -- | get inverse relation for a property
+
+-- instance (TStores st o p t, MonadState m
+--         , Eq p, Eq o, Eq t, Rel2s o
+--         , StateType m ~ st o p t) => Rels3monadic m p o where 
+ 
+--     rel3 morph1 = do 
+--         c <- get 
+--         return $ get4Rel morph1 . unTStore $ c
+ 
+--     inv3 morph1 = do 
+--         c <- get 
+--         return . map swap $ get4Rel morph1 . unSTtore $  c
+
+---------- old 
+
 
 
 pageTemporal2 :: ErrIO ()
@@ -78,97 +133,3 @@ pageTemporal2 = do
 
     return ()
 
-{-
-
-type Tup3 o p = (p,Tup2 o)
-
-class (Eq p, Eq o) => Rels3 p o where 
-    get3Rel :: p -> [(p,Tup2 o)] -> [Tup2 o]
-    doTo3Rel :: p -> ([Tup2 o] -> [Tup2 o]) -> [(p,Tup2 o)] -> [Tup2 o]
-    
-instance (Eq p, Eq o) => Rels3 p o where 
-    get3Rel p = map snd . filter ((p==).fst) 
-    doTo3Rel p f = f . get3Rel p 
-
-    -- then compose with all ops from Rels
-
--- instance (Eq p, Eq o) => Rel2s (p,(o,o)) where
-
-converse3Rel :: (Eq p, Eq o, Rel2s o) => p -> [(p, (o, o))] -> [(o, o)]
-converse3Rel p = doTo3Rel p converse2Rel  
--- filterRel3 :: (Eq p, Eq o) => p -> [(p, (o, o))] -> [(o, o)]
-filter3Rel :: (Eq p, Eq o,  Rel2s o) => p -> ((o, o) -> Bool) -> [(p, (o, o))] -> [(o, o)]
-filter3Rel p cond = doTo3Rel p (filter2Rel cond)
-
-
--- | not wrapped
-newtype PlainStore o p = Store  [Tup3 o p] 
-                    --  deriving (Show, Read, Eq)
-
--- | wrapped
-newtype CatStore o p = CatStoreK [Tup3 o p] 
-                     deriving (Show, Read, Eq)
-
-instance (Show o, Show p) =>  NiceStrings (CatStore o p) where 
-    shownice (CatStoreK oms) = (s2t "\nCatStoreK [\n") <> (showAsLines) oms <> "]\n"
-
-
-
-class Stores  st o p where
-    storeEmpty :: st o p
-    storeInsert :: Tup3 o p -> st o p  -> st o p
-    storeDel :: Tup3 o p -> st o p  -> st o p 
---     storeFind :: (Maybe o, Maybe p, Maybe o) -> st o p  -> [Tup3 o p]
-    storeBatch :: [Action  (Tup3 o p)] -> st o p  -> st o p 
-    storeBatch [] ts = ts
-    storeBatch ((Ins t) : as) ts = storeInsert t . storeBatch as $ ts
-    storeBatch ((Del t) : as) ts = storeDel t . storeBatch as $ ts
-
-    unStore :: st o p -> [Tup3 o p]  
-    -- unStore (StoreK as) = as
-    wrapStore :: ([Tup3 o p] -> [Tup3 o p]) -> st o p-> st o p
-    -- wrapStore f = StoreK . f . unStore  -- not a functor!"\n\t]"
-
-
-instance (Eq o, Eq p, Rel2s o) => Stores  PlainStore o p  where
-    storeEmpty =(Store []) 
-    storeInsert t  = wrapStore  ((:) t)  
-    -- storeDel t = wrapStore (del2rel t) 
---     storeFind t = tsfind t . unStore
-    -- unStore :: Store o p -> [Tup3 o p]  
-    unStore (Store as) = as
-    -- wrapStore :: ([Tup3 o p] -> [Tup3 o p]) -> Store o p-> Store o p
-    wrapStore f = Store . f . unStore  
-
-
-instance (Eq o, Eq p, Rel2s o) => Stores CatStore o p where
-    storeEmpty =(CatStoreK [])  
-    storeInsert t  = wrapStore  ((:) t)  
-    -- storeDel t = wrapStore (del2rel t) 
---     storeFind t = tsfind t . unStore
-    -- unStore :: Store o p -> [Tup3 o p]  
-    unStore (CatStoreK as) = as
-    -- wrapStore :: ([Tup3 o p] -> [Tup3 o p]) -> Store o p-> Store o p
-    wrapStore f = CatStoreK . f . unStore  -- not a functor!"\n\t]"
-
-
--- --- monadic versions -----------------------------
--- should be class to work for unwrapped and wrapped 
-
-class Rels2monadic m p o where 
--- | monadic operatios to get relations and process
-    rel2 :: p -> m [Tup2 o]
-    -- | get binary relation for a property
-    inv2 :: p -> m [Tup2 o]
-    -- | get inverse relation for a property
-
-instance (Stores st o p, MonadState m, Eq p, Eq o, Rel2s o, StateType m ~ st o p) => Rels2monadic m p o where 
- 
-    rel2 morph1 = do 
-        c <- get 
-        return $ get3Rel morph1 . unStore $ c
- 
-    inv2 morph1 = do 
-        c <- get 
-        return . map swap $ get3Rel morph1 . unStore $  c
--}
