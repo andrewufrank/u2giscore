@@ -85,7 +85,7 @@ r2s = [(SS 0,(SS 19)),((SS 1),(SS 18))]
 test_converse :: IO ()
 test_converse =  assertEqual [(SS 19, SS 0), (SS 18, SS 1)] (converse2Rel r2s)
 
-r1, r2, r3 :: Rel2 Int -- [(Int,Int)]
+r1, r2, r3 :: [Tup2 Int] -- [(Int,Int)]
 r1 = [(0, 10), (1,11), (0,12)]
 r2 = [(20,0), (21,2), (20,1), (24,1)]
 r3 = [(20,10), (21,20), (20,10), (24,10)]

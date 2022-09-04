@@ -24,6 +24,7 @@
 {-# LANGUAGE DeriveAnyClass     #-}
 {-# LANGUAGE DeriveFunctor    #-}
 {-# LANGUAGE DeriveGeneric    #-}
+{-# LANGUAGE TemplateHaskell    #-}
 
 module Uniform.TripleStore
     ( module Uniform.TripleStore
@@ -35,25 +36,32 @@ import Control.Monad.State
 import UniformBase  
     -- ( Generic, fst3, trd3, errorT, putIOwords, showT, Zeros(zero) )
 import Uniform.Rels2
-
+-- import Control.Lens 
+-- import Control.Lens.TH
  
 type Tup3 o p = (p,Tup2 o)
 
+-- makeLenses ''Tup3
+-- does not give more thand fst, first
+ 
+
+
 class (Eq p, Eq o) => Rels3 p o where 
+-- | predicate prefixed to binary relation
     get3Rel :: p -> [(p,Tup2 o)] -> [Tup2 o]
     -- | get the binary Rel2
     doTo3Rel :: p -> ([Tup2 o] -> [Tup2 o]) -> [(p,Tup2 o)] -> [Tup2 o]
     -- | get the binary Rel2 and operate on it
 
-    converse3Rel :: (Eq p, Eq o, BinRels o) => p -> [(p, (o, o))] -> [(o, o)]
-    filter3Rel :: (Eq p, Eq o,  BinRels o) => p -> ((o, o) -> Bool) -> [(p, (o, o))] -> [(o, o)]
+    -- converse3Rel :: (Eq p, Eq o, BinRels o) => p -> [(p, (o, o))] -> [(o, o)]
+    -- filter3Rel :: (Eq p, Eq o,  BinRels o) => p -> ((o, o) -> Bool) -> [(p, (o, o))] -> [(o, o)]
     
 instance (Eq p, Eq o) => Rels3 p o where 
     get3Rel p = map snd . filter ((p==).fst) 
     doTo3Rel p f = f . get3Rel p 
 
-    converse3Rel p = doTo3Rel p converse2Rel  
-    filter3Rel p cond = doTo3Rel p (filter2Rel cond)
+    -- converse3Rel p = doTo3Rel p converse2Rel  
+    -- filter3Rel p cond = doTo3Rel p (filter2Rel cond)
 
 
 -- | not wrapped
@@ -74,6 +82,8 @@ wrapIns a =   Ins  a
 
 
 class Stores  st o p where
+-- | a wrapped form of storing triples 
+    -- could be family with Tup3 and Maybe3
     storeEmpty :: st o p
     storeInsert :: Tup3 o p -> st o p  -> st o p
     storeDel :: Tup3 o p -> st o p  -> st o p 
@@ -114,14 +124,14 @@ instance (Eq o, Eq p, BinRels o) => Stores CatStore o p where
 -- --- monadic versions -----------------------------
 -- should be class to work for unwrapped and wrapped 
 
-class Rels2monadic m p o where 
+class BinRelsMonadic m p o where 
 -- | monadic operatios to get relations and process
     rel2 :: p -> m [Tup2 o]
     -- | get binary relation for a property
     inv2 :: p -> m [Tup2 o]
     -- | get inverse relation for a property
 
-instance (Stores st o p, MonadState m, Eq p, Eq o, BinRels o, StateType m ~ st o p) => Rels2monadic m p o where 
+instance (Stores st o p, MonadState m, Eq p, Eq o, BinRels o, StateType m ~ st o p) => BinRelsMonadic m p o where 
  
     rel2 morph1 = do 
         c <- get 

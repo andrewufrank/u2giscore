@@ -26,7 +26,7 @@ dependencies:
 - HTF
 - uniformBase >=0.1.4.2
 - extra
- 
+- lens
 - monads-tf
  
 

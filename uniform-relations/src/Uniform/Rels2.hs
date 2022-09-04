@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 --
--- Module      :    Relations with two values 
+-- Module      :    Binary Relations with two values 
 
 -- base for queries is the compostion of relations
 
@@ -31,7 +31,7 @@ module Uniform.Rels2
 import UniformBase 
 
 type Tup2 o = (o,o)
-type Rel2 o = [Tup2 o]
+-- type Rel2 o = [Tup2 o]
 -- | a binary relation
 
 class Eq o =>  BinRels o where 
@@ -79,12 +79,5 @@ instance Eq o => BinRels (o) where
     rel2pair r1 r2 = [ (a,(b,d)) |  (a,b) <- r1, (c,d) <- r2, a==c ]
     swap2rel (a,b) = (b,a)
 
--- instance Rels2 CatStores 
 
 
--- class Rel2pair  o where 
---     swaprel :: o -> o 
---     -- fstEq :: 
--- instance Rel2pair (Tup2 o) where
---     swaprel (a,b) = (b,a)
---     -- fstEqual 
