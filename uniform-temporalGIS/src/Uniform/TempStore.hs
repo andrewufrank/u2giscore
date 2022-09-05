@@ -105,7 +105,7 @@ instance (Eq o, Eq p, Eq t,  BinRels o) => TStores  TStore o p t where
     -- wrapStore :: ([Tup4 o p t] -> [Tup4 o p t]) -> Store o p-> Store o p
     wrapTStore f = TStore . f . unTStore  
 
-class BinRels4monadic m p o where 
+class BinRels4monadic m p o t where 
 -- | monadic operatios to get relations and process
 -- starts with 4 tuple and retrieves binary relation
 -- copied from Rels2monadic
@@ -116,7 +116,7 @@ class BinRels4monadic m p o where
 
 instance (TStores st o p t, MonadState m
         , Eq p, Eq o, Eq t, BinRels o
-        , StateType m ~ st o p t) => Rels4monadic m p o where 
+        , StateType m ~ st o p t) => BinRels4monadic m p o t where 
  
     rel4 tim morph1 = do 
         c <- get 

@@ -20,7 +20,7 @@ extra-source-files:
 
 library
   exposed-modules:
-      ExampleData.ExampleTempData
+      ExampleData.TempCountryside
       Uniform.TemporalGIS
       Uniform.TempStore
   other-modules:

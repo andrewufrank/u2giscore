@@ -29,7 +29,7 @@
 {-# OPTIONS_GHC -w #-}
 
 
-module Uniform.TempTripleStore
+module ExampleData.TempCountryside
          where
 
 import Control.Monad.State
@@ -43,7 +43,7 @@ import Uniform.TripleStore
 -- import Data.Complex
  
 -- import ExampleData.TerrainLike
-impoty Uniform.TempStore 
+import Uniform.TempStore 
 -- import Uniform.Fourier 
 -- import Uniform.Raster
 type Time = UTCTime

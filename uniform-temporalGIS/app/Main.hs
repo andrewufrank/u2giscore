@@ -27,7 +27,7 @@ import UniformBase
 -- import ExampleData.TerrainLike
 -- import Uniform.Field
 import Uniform.TemporalGIS
-
+import ExampleData.TempCountryside
 
 main =
   startProg
