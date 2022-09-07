@@ -1,11 +1,7 @@
 -----------------------------------------------------------------------------
 --
--- Module      :  HQschema to test toHq 
--- the schema for handling the geometry of tesselations 
-
--- this is the short schema (with sumtype tag is Obj constructor)
--- using IDtype = Int 
--- other value data types are tagged 
+-- Module      :  The definitions to include to use the 
+--                  Country schema
 --
 -----------------------------------------------------------------------------
 {-# LANGUAGE BangPatterns          #-}
@@ -30,8 +26,9 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module HQschema.HQschemaShort
-    (module HQschema.HQschemaShort
+module Country.Store
+    (module Country.Store
+    , module Country.Schema
     , module Uniform.TripleStore
     , module Uniform.Rels2
     ) where
@@ -42,45 +39,11 @@ import Uniform.Rels2
 -- import Uniform.Point2d
 import UniformBase
 import Control.Monad.State
+import Country.HQtypes  -- data types defined for HQ 
+import Country.Schema  -- data types defined for HQ 
 
 
-type IDtype = Int
 
-data ObjTessShort = 
-  -- objects
-      Node IDtype 
-    | Edge IDtype 
-    | Face IDtype
-    | HalfQuad IDtype             -- HQ is defined in TesselationHQ
-  -- values 
-    | PointTag Pnt2
-    | LengthTag   LengthD  
-    | AreaTag AreaD 
-    -- | CostTag Cost 
-    -- | NameTag Name
-    | ZZpoint
-    deriving (Show, Read, Ord, Eq, Generic)
-
--- | the sum type for the relation names
-data MorphTessShort = 
-    -- Stag S | Ttag T | 
-  -- relations
-      Twin 
-    | HqNode  
-    | HqFace 
-    | NextHq
-  -- properties
-    | XY
-    | Incenter   -- where to place a label - incenter
-    | Quant Int  -- the quantity with dimension n (0 count, 1 length, 2 area, 3 volume etc. )  
-
-    -- | CenterTag Center | SurfacedTag Surfaced   
-
-        -- | SCosttag SC 
-        -- | TCcosttag TC -- probably never used, cost of incoming edge?
-        -- | NamedTag
-    | ZZm 
-    deriving (Show, Read, Ord, Eq, Generic )
     
 instance Zeros ObjTessShort where zero = ZZpoint
 
@@ -118,20 +81,6 @@ unLengthTag x = errorT ["unLengthTag - not a Length", showT x]
 instance Zeros MorphTessShort  where zero = ZZm
 instance NiceStrings MorphTessShort
     -- where shownice = showT  
-
-
-
-data Length a = Length a  
-    deriving (Show, Read, Ord, Eq, Generic, Zeros, Functor)
-instance (Show a) => NiceStrings (Length a) where
---   showNice = showT   
-type LengthD = Length Double 
-
-data Area a = Area a  
-    deriving (Show, Read, Ord, Eq, Generic, Zeros, Functor)
-instance (Show a) => NiceStrings (Area a) where
---   showNice = showT   
-type AreaD = Area Double 
 
 
 data TessShortHQtriples = TessShortHQtriples 
