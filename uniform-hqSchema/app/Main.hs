@@ -28,6 +28,7 @@ import Uniform.Rels2
 -- import HQschema.HQfaces_test
 -- import ExampleData.HQfourteenPoints
 import HQgeneric.FivePoints
+import HQgeneric.FourteenPoints
 
 main =
   startProg
@@ -49,6 +50,7 @@ main2 = do
     -- pageHQfaces_testGraphicsx
     -- mainMakeTessShort  -- from HQschema.HQexampleShort
     mainMake5points
+    mainMakeFourteenPoints
     -- pageHQfaces_test
     -- pageHQforglossFaces
     -- pageHQfourteenPoints

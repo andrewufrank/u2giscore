@@ -82,9 +82,9 @@ fig6voro = map (\p -> figLine (dark green) p) . map snd $ hqV6
 fig6dela :: [Figure V2D]
 fig6dela = map (\p -> figLine (dark red) p) . map snd $ hqD6
 
-pageHQfourteenPoints :: ErrIO ()
-pageHQfourteenPoints = do 
-    putIOwords ["the production of the catStore for fourteen points example"]
+mainMakeFourteenPoints :: ErrIO ()
+mainMakeFourteenPoints = do 
+    putIOwords ["mainMakeFourteenPoints: the production of the catStore for fourteen points example"]
     putIOwords ["the points", showAsLines fourteenPnt2d]
     putIOwords ["the voronoi lines  \n ", showT $ hqV6]
     putIOwords ["the delaunay lines  \n ", showT $ hqD6]
