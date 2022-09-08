@@ -66,14 +66,14 @@ instance (Eq p, Eq o) => Rels3 p o where
 
 -- | the store type for the state monad
 newtype Store o p = Store  [Tup3 o p] 
-                    --  deriving (Show, Read, Eq)
+                     deriving (Show, Read, Eq)
 
 -- -- | wrapped
 -- newtype CatStore o p = CatStoreK [Tup3 o p] 
 --                      deriving (Show, Read, Eq)
 
--- instance (Show o, Show p) =>  NiceStrings (CatStore o p) where 
---     shownice (CatStoreK oms) = (s2t "\nCatStoreK [\n") <> (showAsLines) oms <> "]\n"
+instance (Show o, Show p) =>  NiceStrings (Store o p) where 
+    shownice (Store oms) = (s2t "\nStore [\n") <> (showAsLines) oms <> "]\n"
 
 data Action a = Ins a | Del a
         deriving (Show, Read, Ord, Eq)

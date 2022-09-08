@@ -26,19 +26,12 @@ library
       Country.Schema
       Country.Store
       Country.Types
-      ExampleData.HQexampleShort
-      ExampleData.HQfourteenPoints
       HQgeneric.FivePoints
       HQgeneric.FourteenPoints
       HQgeneric.HQconstructions4graphics
       HQgeneric.HQconstructionsEdges
       HQgeneric.HQconstructionsFaces
       HQgeneric.HQschemaTop
-      HQschema.HQconstructions4graphics
-      HQschema.HQconstructionsEdges
-      HQschema.HQconstructionsFaces
-      HQschema.HQschemaShort
-      HQschema.HQschemaTop
   other-modules:
       Paths_uniform_hqSchema
   hs-source-dirs:
