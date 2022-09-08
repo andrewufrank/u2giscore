@@ -64,8 +64,8 @@ instance (Eq p, Eq o) => Rels3 p o where
     -- filter3Rel p cond = doTo3Rel p (filter2Rel cond)
 
 
--- | not wrapped
-newtype PlainStore o p = Store  [Tup3 o p] 
+-- | the store type for the state monad
+newtype Store o p = Store  [Tup3 o p] 
                     --  deriving (Show, Read, Eq)
 
 -- -- | wrapped
@@ -99,7 +99,7 @@ class Stores  st o p where
     -- wrapStore f = StoreK . f . unStore  -- not a functor!"\n\t]"
 
 
-instance (Eq o, Eq p, BinRels o) => Stores  PlainStore o p  where
+instance (Eq o, Eq p, BinRels o) => Stores  Store o p  where
     storeEmpty =(Store []) 
     storeInsert t  = wrapStore  ((:) t)  
     -- storeDel t = wrapStore (del2rel t) 
