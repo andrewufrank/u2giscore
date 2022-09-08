@@ -28,6 +28,9 @@ library
       Country.Types
       ExampleData.HQexampleShort
       ExampleData.HQfourteenPoints
+      HQgeneric.FivePoints
+      HQgeneric.HQconstructionsEdges
+      HQgeneric.HQconstructionsFaces
       HQschema.HQconstructions4graphics
       HQschema.HQconstructionsEdges
       HQschema.HQconstructionsFaces

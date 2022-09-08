@@ -3,10 +3,8 @@
 -- Module      :  Uniform. 
 --      convert the HQ produced by geometry 
 --      to a list of load instructions 
---
--- | import examples to test with  {-@ HTF_TESTS @-}
+--      requires HQschema (or its components in Country)
 -----------------------------------------------------------------------------
--- {-# OPTIONS_GHC -F -pgmF htfpp #-}
 {-# LANGUAGE BangPatterns          #-}
 {-# LANGUAGE DoAndIfThenElse       #-}
 {-# LANGUAGE FlexibleContexts      #-}
@@ -21,7 +19,6 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Redundant $" #-}
 
--- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
 module ExampleData.HQexampleShort where

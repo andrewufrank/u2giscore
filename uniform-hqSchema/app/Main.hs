@@ -24,10 +24,10 @@ import UniformBase
 import Uniform.TripleStore
 import Uniform.Rels2
 -- import HQschema.HQexampleLong
-import ExampleData.HQexampleShort
+-- import ExampleData.HQexampleShort
 -- import HQschema.HQfaces_test
-import ExampleData.HQfourteenPoints
-
+-- import ExampleData.HQfourteenPoints
+import HQgeneric.FivePoints
 
 main =
   startProg
@@ -48,9 +48,10 @@ main2 = do
     -- mainMakeTessShort
     -- pageHQfaces_testGraphicsx
     -- mainMakeTessShort  -- from HQschema.HQexampleShort
+    mainMake5points
     -- pageHQfaces_test
     -- pageHQforglossFaces
-    pageHQfourteenPoints
+    -- pageHQfourteenPoints
     return () 
     
 -- p1 = Point2d 1 (V2 1 1):: P2
