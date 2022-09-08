@@ -61,14 +61,16 @@ import Control.Monad.RWS (MonadWriter(tell))
 -- -- produce the cat for the delaunay triangulation as extracted from hgeometry
 -- cat60 = catStoreEmpty 
 -- cat61 = catStoreBatch (map wrapIns . getAllTrips $ trip14) cat60
+cat61 :: CatStore ObjCountry MorphCountry
 cat61 = makeCatFrom  600 fourteenPnt2d
 -- add the rest of the hq structure to have the primal (delaunay)
 --  and the dual (voronoi) structure 
 
 -- process to construct the addins in hqfaces  -- need cleaning
-addtoCat :: [(CountryElement)] -> CatCountry -> CatCountry
+addtoCat :: [(StoreElement MorphCountry ObjCountry)] -> CatStore ObjCountry MorphCountry -> CatStore ObjCountry MorphCountry
 addtoCat ts cat0 = storeBatch (map wrapIns ts) cat0
 
+cat62 :: CatStore ObjCountry MorphCountry
 cat62 = addtoCat  (allAddins cat61) cat61
 
 -- the delaunay and voronoi diagram graphics

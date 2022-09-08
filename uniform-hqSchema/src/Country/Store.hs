@@ -83,10 +83,10 @@ instance NiceStrings MorphCountry
     -- where shownice = showT  
 
 
-data HQtriples = HQtriples 
-    { _NodesTrip :: [CountryElement]
-    , _FacesTrip :: [CountryElement]
-    , _HQtrips   :: [CountryElement]
+data HQtriples rel obj = HQtriples 
+    { _NodesTrip :: [StoreElement rel obj]
+    , _FacesTrip :: [StoreElement rel obj]
+    , _HQtrips   :: [StoreElement rel obj]
     }
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
@@ -95,7 +95,9 @@ data HQtriples = HQtriples
 reorg214 :: (a1, a2, b) -> (a2, (a1, b))
 reorg214 (a,b,c) = (b, (a,c))
 
-type CountryElement = (MorphCountry, (ObjCountry,  ObjCountry))
+type StoreElement rel obj = (rel, (obj,  obj))
+-- TODO 
+-- type CountryElement = StoreElement MorphCountry ObjCountry 
 
-type CatCountry = CatStore ObjCountry MorphCountry
-type CatCountryState = State  CatCountry [CountryElement]
+-- type CatCountry = CatStore ObjCountry MorphCountry
+-- type CatCountryState = State  (CatStore ObjCountry MorphCountry)  [StoreElement MorphCountry ObjCountry]

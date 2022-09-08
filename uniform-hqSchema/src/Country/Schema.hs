@@ -96,7 +96,14 @@ data MorphCountry =
     | ZZm 
     deriving (Show, Read, Ord, Eq, Generic )
     
-
+class MorphsHQ a where 
+    hqFace :: a 
+    hqNode :: a 
+    hqXY :: a 
+instance MorphsHQ MorphCountry where 
+    hqFace = HqFace 
+    hqNode = HqNode
+    hqXY = XY 
 
     
 

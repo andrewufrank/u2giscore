@@ -47,11 +47,11 @@ import Data.Functor.Identity
 --   gives list of points, as [V2D] 
 -- coords2faces :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
 -- coords2faces :: m [(k, [k])]
-coords2faces  :: State CatCountry  [(ObjCountry, [ObjCountry])]
+coords2faces  :: (MorphsHQ rel, Eq obj, Eq rel, Ord obj)  => State (CatStore obj rel)  [(obj, [obj])]
 coords2faces = do 
-    f <- inv3 HqFace 
-    n <- rel3 HqNode 
-    xy <- rel3 XY 
+    f <- inv3 hqFace 
+    n <- rel3 hqNode 
+    xy <- rel3 hqXY 
     let fp3 =  (f .&. n .&. xy)  -- :: [(k, k)]
     return $ groupSort  fp3  
     -- return $ map onef . groupSort $ fp3 
@@ -74,6 +74,7 @@ incenter8 vds = Nothing
 -- for triples include the first obj
 
 -- incenter2triple :: (ObjTessShort, [ObjTessShort]) -> Maybe StoreTessShortElement
+incenter2triple :: (ObjCountry, [ObjCountry]) -> Maybe (MorphCountry, (ObjCountry, ObjCountry))
 incenter2triple (i,vds) = case incenter2faces vds of
         Just vd -> Just . reorg214 $ (i, Incenter, (PointTag $ putName (unFace i)  vd))
         Nothing -> Nothing
@@ -96,6 +97,10 @@ circumcenter2triple (i,vds) = case (circumCenter2faces vds) of
 -- for coord2faces 
 
 -- area2facesM :: State  CatStoreTessShort   [(ObjTessShort, Double)]
+-- area2facesM :: StateT
+--   (CatStore ObjCountry ghc-prim-0.7.0:GHC.Types.Any)
+--   Identity
+--   [(ObjCountry, Double)]
 area2facesM  = fmap (map (second area2faces)) coords2faces 
 
 -- circum2facesM ::State  CatStoreTessShort   [ (ObjTessShort, Maybe V2D)]
@@ -113,6 +118,7 @@ incircumCenter2facesTriples = fmap (map  ( circumcenter2triple)) coords2faces
 
 -- | evaluate a transformation to a queryresult against a catStore 
 -- questionalbe shortcut - may be difficult to debug?? 
+evalTrans4query2cat :: (a -> b) -> CatStore ObjCountry MorphCountry   -> [(MorphCountry, (ObjCountry, ObjCountry))] -> [b]
 evalTrans4query2cat trans query cat = evalState ((fmap (map trans )) query) cat 
 
 

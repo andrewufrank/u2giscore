@@ -43,7 +43,7 @@ import Control.Monad.State
 
 -- points12 :: StateT CatStoreTessShort Identity (Rel2 ObjTessShort, Rel2 ObjTessShort)
 points12 :: State 
-  CatCountry
+  (CatStore ObjCountry MorphCountry)
   [(ObjCountry, Tup2 ObjCountry)]
 -- points12 :: ghc-prim-0.7.0:GHC.Types.Any [(ObjCountry, Tup2 ObjCountry)]
 points12 = do 
