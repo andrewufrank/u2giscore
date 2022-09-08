@@ -44,7 +44,7 @@ import Control.Monad.Identity (Identity)
 -- | construct relation with all the edges of the hq triangles  
 -- try groupSort 
 hqTriangles :: State 
-  (CatStore ObjCountry MorphCountry) [(ObjCountry, [ObjCountry])]
+  (Store ObjCountry MorphCountry) [(ObjCountry, [ObjCountry])]
 hqTriangles = do 
     f <- rel3 HqFace 
     n <- rel3 HqNode 
@@ -57,7 +57,7 @@ points2v2 = second (map  (unName . unPointTag))
 pointsPairsv2 = second (both  (unName . unPointTag))  
 
 hqVoro :: State 
-  (CatStore ObjCountry MorphCountry)   [(ObjCountry, (ObjCountry, ObjCountry))]
+  (Store ObjCountry MorphCountry)   [(ObjCountry, (ObjCountry, ObjCountry))]
 hqVoro = do 
     f <- rel3 HqFace 
     -- n <- rel3 HqNode 
@@ -66,7 +66,7 @@ hqVoro = do
     return    fp3  
 
 hqDela :: State 
-  (CatStore ObjCountry MorphCountry)   [(ObjCountry, Tup2 (ObjCountry))]
+  (Store ObjCountry MorphCountry)   [(ObjCountry, Tup2 (ObjCountry))]
 hqDela = do 
     -- f <- rel3 HqFace 
     n <- rel3 HqNode 

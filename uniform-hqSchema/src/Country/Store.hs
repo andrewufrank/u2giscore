@@ -2,6 +2,7 @@
 --
 -- Module      :  The definitions to include to use the 
 --                  Country schema
+--                  the top which exports all schema
 --
 -----------------------------------------------------------------------------
 {-# LANGUAGE BangPatterns          #-}
@@ -29,8 +30,9 @@
 module Country.Store
     (module Country.Store
     , module Country.Schema
-    , module Uniform.TripleStore
-    , module Uniform.Rels2
+    -- , module Country.Types
+    -- , module Uniform.TripleStore
+    -- , module Uniform.Rels2
     ) where
 
 import Uniform.Point2d
@@ -83,10 +85,10 @@ instance NiceStrings MorphCountry
     -- where shownice = showT  
 
 
-data HQtriples rel obj = HQtriples 
-    { _NodesTrip :: [StoreElement rel obj]
-    , _FacesTrip :: [StoreElement rel obj]
-    , _HQtrips   :: [StoreElement rel obj]
+data HQtriples obj rel = HQtriples 
+    { _NodesTrip :: [Tup3 obj rel]
+    , _FacesTrip :: [Tup3 obj rel]
+    , _HQtrips   :: [Tup3 obj rel]
     }
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
@@ -95,9 +97,9 @@ data HQtriples rel obj = HQtriples
 reorg214 :: (a1, a2, b) -> (a2, (a1, b))
 reorg214 (a,b,c) = (b, (a,c))
 
-type StoreElement rel obj = (rel, (obj,  obj))
+-- type Tup3 obj rel = Tup3 obj rel -- (rel, (obj,  obj))
 -- TODO 
 -- type CountryElement = StoreElement MorphCountry ObjCountry 
 
--- type CatCountry = CatStore ObjCountry MorphCountry
--- type CatCountryState = State  (CatStore ObjCountry MorphCountry)  [StoreElement MorphCountry ObjCountry]
+-- type CatCountry = Store ObjCountry MorphCountry
+-- type CatCountryState = State  (Store ObjCountry MorphCountry)  [StoreElement MorphCountry ObjCountry]

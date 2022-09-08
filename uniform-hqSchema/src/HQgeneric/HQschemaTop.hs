@@ -88,7 +88,7 @@ makeTripHq offset i hq = catMaybes [hqnode,  hqface, hqtwin, hqhalflength]
 
 
 -- hqToTrip :: Int -> TesselationHQ ->  TessShortHQtriples
-hqToTrip :: IDtype -> TesselationHQ -> HQtriples rel obj
+hqToTrip :: IDtype -> TesselationHQ -> HQtriples  ObjCountry MorphCountry
 hqToTrip offset teshq  = HQtriples
     { _NodesTrip = zipWith (makeTripNode) [offset ..] (_Nodes teshq) 
     -- , _FacesTrip = zipWith (makeTripFace) [offset ..] (_Faces teshq)
@@ -100,16 +100,18 @@ hqToTrip offset teshq  = HQtriples
 
 -- cat400 :: CatStoreTessShort
 -- cat400 = catStoreEmpty
--- cat401 :: CatStore ObjPoint MorphTessShort
+-- cat401 :: Store ObjPoint MorphTessShort
 -- intoCat :: [(StoreTessShortElement)] -> CatStoreTessShort
-intoCat :: (Eq rel, Eq obj) => [(StoreElement rel obj)] -> CatStore obj rel  -- CatCountry
+intoCat :: (Eq rel, Eq obj) => [(Tup3 obj rel)] -> Store obj rel  -- CatCountry
 intoCat ts = storeBatch (map wrapIns ts) $ storeEmpty -- cat400
 
 
 
 -- makeCat :: 
 
-makeCatFrom :: (Eq rel, Eq obj, ToHPoint2 a) => IDtype -> [a] -> CatStore obj rel
+makeCatFrom :: -- (Eq rel, Eq obj, 
+        (ToHPoint2 a) =>
+    IDtype -> [a] -> Store ObjCountry MorphCountry
 makeCatFrom offset pnts = intoCat . getAllTrips . hqToTrip offset . toHq1 . delaunay2 $ pnts
 
 
@@ -119,10 +121,10 @@ forFaces2 = [area2triples]
 -- forqueries = [points12]
 -- theCats = [tess41short, tess51short]
 -- additinsPoints :: CatStoreTessShort -> [StoreTessShortElement]
-additinsPoints :: CatStore ObjCountry MorphCountry -> [(MorphCountry, (ObjCountry, ObjCountry))]
+additinsPoints :: Store ObjCountry MorphCountry -> [(MorphCountry, (ObjCountry, ObjCountry))]
 additinsPoints cat =  concat [evalTrans4query2cat trans points12 cat | trans <-[lengthHQtriple, midpointHQtriple]  ] -- trans query cat
--- additinsAreas :: (MorphsHQ rel, Eq rel) => CatStore obj rel -> [(rel, (obj, obj))]
+-- additinsAreas :: (MorphsHQ rel, Eq rel) => Store obj rel -> [(rel, (obj, obj))]
 additinsAreas cat  =  concat [evalTrans4query2cat trans coords2faces cat | trans <-[area2triples] ] -- trans query cat
 additinsCenters cat =  catMaybes . concat   $ [evalTrans4query2cat trans coords2faces cat | trans <-[circumcenter2triple, incenter2triple]  ] -- trans query cat
-allAddins :: CatStore ObjCountry MorphCountry -> [(MorphCountry, (ObjCountry, ObjCountry))]
+allAddins :: Store ObjCountry MorphCountry -> [(MorphCountry, (ObjCountry, ObjCountry))]
 allAddins cat = concat [additinsPoints cat, additinsAreas cat, additinsCenters cat]
