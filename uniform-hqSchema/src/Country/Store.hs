@@ -45,31 +45,31 @@ import Country.Schema  -- data types defined for HQ
 
 
     
-instance Zeros ObjTessShort where zero = ZZpoint
+instance Zeros ObjCountry where zero = ZZpoint
 
-instance NiceStrings ObjTessShort
+instance NiceStrings ObjCountry
     -- where shownice = showT
     -- would need a shownice for pointTag to propagate the shownice to the inside data 
 -- instance NiceStrings Pnv2 where 
 --     shownice = showT 
 
-unHalfQuad :: ObjTessShort -> IDtype
+unHalfQuad :: ObjCountry -> IDtype
 unHalfQuad (HalfQuad i) = i
 unHalfQuad x = errorT ["unHalfQuad - not a HalfQuad", showT x]
 
-unFace :: ObjTessShort -> IDtype
+unFace :: ObjCountry -> IDtype
 unFace (Face i) = i
 unFace x = errorT ["unFace - not a Face", showT x]
 
 unTagPoints2V = unName . unPointTag
 
-unPointTag :: ObjTessShort -> Pnt2
+unPointTag :: ObjCountry -> Pnt2
 unPointTag (PointTag t) = t 
 unPointTag x = errorT ["unPointTag - not a Point", showT x]
--- unCostTag :: ObjTessShort -> Cost
+-- unCostTag :: ObjCountry -> Cost
 -- unCostTag (CostTag t) = t 
 -- unCostTag x = errorT ["unCostTag -  not a Cost", showT x]
-unLengthTag :: ObjTessShort -> LengthD
+unLengthTag :: ObjCountry -> LengthD
 unLengthTag (LengthTag t) = t 
 unLengthTag x = errorT ["unLengthTag - not a Length", showT x]
 
@@ -78,15 +78,15 @@ unLengthTag x = errorT ["unLengthTag - not a Length", showT x]
 
 
     
-instance Zeros MorphTessShort  where zero = ZZm
-instance NiceStrings MorphTessShort
+instance Zeros MorphCountry  where zero = ZZm
+instance NiceStrings MorphCountry
     -- where shownice = showT  
 
 
-data TessShortHQtriples = TessShortHQtriples 
-    { _NodesTrip :: [StoreTessShortElement]
-    , _FacesTrip :: [StoreTessShortElement]
-    , _HQtrips   :: [StoreTessShortElement]
+data HQtriples = HQtriples 
+    { _NodesTrip :: [CountryElement]
+    , _FacesTrip :: [CountryElement]
+    , _HQtrips   :: [CountryElement]
     }
     deriving (Show, Read, Ord, Eq, Generic, Zeros)
 
@@ -95,7 +95,7 @@ data TessShortHQtriples = TessShortHQtriples
 reorg214 :: (a1, a2, b) -> (a2, (a1, b))
 reorg214 (a,b,c) = (b, (a,c))
 
-type StoreTessShortElement = (MorphTessShort, (ObjTessShort,  ObjTessShort))
+type CountryElement = (MorphCountry, (ObjCountry,  ObjCountry))
 
-type CatStoreTessShort = CatStore ObjTessShort MorphTessShort
-type CatStoreState = State  CatStoreTessShort [StoreTessShortElement]
+type CatCountry = CatStore ObjCountry MorphCountry
+type CatCountryState = State  CatCountry [CountryElement]

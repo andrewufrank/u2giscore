@@ -57,7 +57,7 @@ import Country.Types  -- data types defined for HQ
 
 type IDtype = Int
 
-data ObjTessShort = 
+data ObjCountry = 
   -- objects
       Node IDtype 
     | Edge IDtype 
@@ -76,7 +76,7 @@ data ObjTessShort =
     deriving (Show, Read, Ord, Eq, Generic)
 
 -- | the sum type for the relation names
-data MorphTessShort = 
+data MorphCountry = 
     -- Stag S | Ttag T | 
   -- relations
       Twin 
