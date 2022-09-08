@@ -68,12 +68,12 @@ instance (Eq p, Eq o) => Rels3 p o where
 newtype PlainStore o p = Store  [Tup3 o p] 
                     --  deriving (Show, Read, Eq)
 
--- | wrapped
-newtype CatStore o p = CatStoreK [Tup3 o p] 
-                     deriving (Show, Read, Eq)
+-- -- | wrapped
+-- newtype CatStore o p = CatStoreK [Tup3 o p] 
+--                      deriving (Show, Read, Eq)
 
-instance (Show o, Show p) =>  NiceStrings (CatStore o p) where 
-    shownice (CatStoreK oms) = (s2t "\nCatStoreK [\n") <> (showAsLines) oms <> "]\n"
+-- instance (Show o, Show p) =>  NiceStrings (CatStore o p) where 
+--     shownice (CatStoreK oms) = (s2t "\nCatStoreK [\n") <> (showAsLines) oms <> "]\n"
 
 data Action a = Ins a | Del a
         deriving (Show, Read, Ord, Eq)
@@ -110,15 +110,15 @@ instance (Eq o, Eq p, BinRels o) => Stores  PlainStore o p  where
     wrapStore f = Store . f . unStore  
 
 
-instance (Eq o, Eq p, BinRels o) => Stores CatStore o p where
-    storeEmpty =(CatStoreK [])  
-    storeInsert t  = wrapStore  ((:) t)  
-    -- storeDel t = wrapStore (del2rel t) 
---     storeFind t = tsfind t . unStore
-    -- unStore :: Store o p -> [Tup3 o p]  
-    unStore (CatStoreK as) = as
-    -- wrapStore :: ([Tup3 o p] -> [Tup3 o p]) -> Store o p-> Store o p
-    wrapStore f = CatStoreK . f . unStore  -- not a functor!"\n\t]"
+-- instance (Eq o, Eq p, BinRels o) => Stores CatStore o p where
+--     storeEmpty =(CatStoreK [])  
+--     storeInsert t  = wrapStore  ((:) t)  
+--     -- storeDel t = wrapStore (del2rel t) 
+-- --     storeFind t = tsfind t . unStore
+--     -- unStore :: Store o p -> [Tup3 o p]  
+--     unStore (CatStoreK as) = as
+--     -- wrapStore :: ([Tup3 o p] -> [Tup3 o p]) -> Store o p-> Store o p
+--     wrapStore f = CatStoreK . f . unStore  -- not a functor!"\n\t]"
 
 
 -- --- monadic versions -----------------------------
