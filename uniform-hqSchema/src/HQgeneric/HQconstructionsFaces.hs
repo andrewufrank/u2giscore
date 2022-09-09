@@ -26,19 +26,21 @@ module HQgeneric.HQconstructionsFaces
     where
 
 import           Test.Framework hiding (scale, (.&.))
-import UniformBase  
-import Uniform.TripleStore
-import Country.Schema
-import Country.Store 
+import UniformBase 
+import Uniform.SchemaFoundation
+
+-- import Uniform.TripleStore
+-- import Country.Schema
+-- import Country.Store 
 -- import HQschema.HQexampleShort
 -- import HQschema.HQschemaShort
 -- import Control.Exception
 import Uniform.GeometryFunctions
-import Uniform.Rels2
+-- import Uniform.Rels2
 import Data.List.Extra
 -- import Uniform.Drawings
 import Control.Monad.State  
-import Data.Functor.Identity
+-- import Data.Functor.Identity
 -- import Control.Monad.Trans.Identity
 
 -- step 1 get the data from the store, leave tags!
@@ -61,7 +63,7 @@ coords2faces = do
 area2faces vs = areaPoly . map unTagPoints2V $ vs 
 
 -- area2triples ::(ObjTessShort, [ObjTessShort]) -> StoreTessShortElement
-area2triples (a,vds) = reorg214 (a, Quant 2, AreaTag . Area . area2faces $ vds )
+area2triples (a,vds) = reorg214 (a, hqQuant 2, areaTag . Area . area2faces $ vds )
  
 -- incenter2faces :: [ObjTessShort] -> Maybe V2D
 incenter2faces = incenter8 . map unTagPoints2V 
@@ -76,10 +78,12 @@ incenter8 vds = Nothing
 -- incenter2triple :: (ObjTessShort, [ObjTessShort]) -> Maybe StoreTessShortElement
 incenter2triple :: (ObjCountry, [ObjCountry]) -> Maybe (MorphCountry, (ObjCountry, ObjCountry))
 incenter2triple (i,vds) = case incenter2faces vds of
-        Just vd -> Just . reorg214 $ (i, Incenter, (PointTag $ putName (unFace i)  vd))
+        Just vd -> Just . reorg214 $ (i, hqIncenter, (pointTag $ putName (unFace i)  vd))
         Nothing -> Nothing
 -- incenter2triple (i,obj) = 
         -- maybe Nothing (\vd -> Just (i, Incenter, (PointTag $ putName (unFace i)  vd))) (incenter2faces obj)
+
+unTagPoints2V = unName . unPointTag
 
 -- circumCenter2faces :: [ObjTessShort] -> Maybe V2D 
 -- checks for triples
@@ -91,7 +95,7 @@ circumCenter8 _ = Nothing
  
 -- circumcenter2triple :: (ObjTessShort, [ObjTessShort]) -> Maybe StoreTessShortElement
 circumcenter2triple (i,vds) = case (circumCenter2faces vds) of
-    Just vd -> Just . reorg214 $ (i, XY, (PointTag $ putName (unFace i) vd ))
+    Just vd -> Just . reorg214 $ (i, hqXY, (pointTag $ putName (unFace i) vd ))
     Nothing -> Nothing
 
 -- for coord2faces 

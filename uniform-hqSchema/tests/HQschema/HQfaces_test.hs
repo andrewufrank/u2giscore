@@ -45,7 +45,7 @@ import Uniform.Drawings
 -- import Data.List.Extra
 -- import Uniform.Drawings
 import Control.Monad.State  
-import Data.Functor.Identity
+import Data.Functor.Identityc
 import HQgeneric.HQconstructionsEdges
 import HQgeneric.HQconstructionsFaces
 import HQgeneric.HQschemaTop

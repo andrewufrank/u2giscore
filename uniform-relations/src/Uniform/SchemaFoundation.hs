@@ -35,10 +35,16 @@ import Uniform.Point2d
 
 type IDtype = Int 
 
+data ObjCountry = O | P 
+data MorphCountry = A | B 
+
 class MorphsHQ a where 
     hqFace :: a 
     hqNode :: a 
     hqXY :: a 
+    hqTwin :: a
+    hqQuant :: Int -> a 
+    hqIncenter :: a 
 
 -- | the object types for HQ construction
 class ObjectsHQ a where 
@@ -50,7 +56,13 @@ class ObjectsHQ a where
     unHalfQuad :: a -> IDtype
     unFace :: a -> IDtype 
     unPointTag :: a -> Pnt2 
+    pointTag :: Pnt2 -> a 
     unLengthTag :: a -> LengthD
+    lengthTag :: LengthD -> a 
+    areaTag :: AreaD -> a
+    unAreaTag :: a -> AreaD 
+    
+
 
 data HQtriples obj rel = HQtriples 
     { _NodesTrip :: [Tup3 obj rel]
@@ -69,6 +81,11 @@ instance (Show a) => NiceStrings (Length a) where
 --   showNice = showT   
 type LengthD = Length Double 
 
+data Area a = Area a  
+    deriving (Show, Read, Ord, Eq, Generic, Zeros, Functor)
+instance (Show a) => NiceStrings (Area a) where
+--   showNice = showT   
+type AreaD = Area Double 
 
 -- unHalfQuad :: ObjCountry -> IDtype
 -- unHalfQuad (HalfQuad i) = i
