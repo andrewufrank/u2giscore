@@ -30,8 +30,11 @@ module Uniform.SchemaFoundation
 import UniformBase  
 import Uniform.TripleStore
 import Uniform.Rels2
-
+import Uniform.Point2d
 -- | the morphism necessary for HQ construction
+
+type IDtype = Int 
+
 class MorphsHQ a where 
     hqFace :: a 
     hqNode :: a 
@@ -44,6 +47,10 @@ class ObjectsHQ a where
     faceObj :: a 
     halfQuadObj :: a 
     pointObj :: a
+    unHalfQuad :: a -> IDtype
+    unFace :: a -> IDtype 
+    unPointTag :: a -> Pnt2 
+    unLengthTag :: a -> LengthD
 
 data HQtriples obj rel = HQtriples 
     { _NodesTrip :: [Tup3 obj rel]
@@ -55,3 +62,30 @@ data HQtriples obj rel = HQtriples
 -- reorganisationm o,p,o -> p, (o,o)  TODO 
 reorg214 :: (a1, a2, b) -> (a2, (a1, b))
 reorg214 (a,b,c) = (b, (a,c))
+
+data Length a = Length a  
+    deriving (Show, Read, Ord, Eq, Generic, Zeros, Functor)
+instance (Show a) => NiceStrings (Length a) where
+--   showNice = showT   
+type LengthD = Length Double 
+
+
+-- unHalfQuad :: ObjCountry -> IDtype
+-- unHalfQuad (HalfQuad i) = i
+-- unHalfQuad x = errorT ["unHalfQuad - not a HalfQuad", showT x]
+
+-- unFace :: ObjCountry -> IDtype
+-- unFace (Face i) = i
+-- unFace x = errorT ["unFace - not a Face", showT x]
+
+-- unTagPoints2V = unName . unPointTag
+
+-- unPointTag :: ObjCountry -> Pnt2
+-- unPointTag (PointTag t) = t 
+-- unPointTag x = errorT ["unPointTag - not a Point", showT x]
+-- -- unCostTag :: ObjCountry -> Cost
+-- -- unCostTag (CostTag t) = t 
+-- -- unCostTag x = errorT ["unCostTag -  not a Cost", showT x]
+-- unLengthTag :: ObjCountry -> LengthD
+-- unLengthTag (LengthTag t) = t 
+-- unLengthTag x = errorT ["unLengthTag - not a Length", showT x]
