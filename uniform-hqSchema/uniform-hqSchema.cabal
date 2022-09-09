@@ -22,7 +22,7 @@ extra-source-files:
 
 library
   exposed-modules:
-      HQgeneric.HQloadTesselation
+      HQgeneric.LoadTesselation
   other-modules:
       Paths_uniform_hqSchema
   hs-source-dirs:
@@ -66,7 +66,7 @@ test-suite testhq
       ExampleHQ.Schema
       ExampleHQ.Store
       ExampleHQ.Types
-      HQschema.HQtesselation_test
+      HQschema.LoadTesselation_test
       Paths_uniform_hqSchema
   hs-source-dirs:
       tests

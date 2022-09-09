@@ -28,8 +28,8 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module HQgeneric.HQloadTesselation
-    (module HQgeneric.HQloadTesselation
+module HQgeneric.LoadTesselation
+    (module HQgeneric.LoadTesselation
     -- , module Uniform.TripleStore
     -- , module  Uniform.TesselationHalfQuads
     -- , StoreTessShortElement (..)

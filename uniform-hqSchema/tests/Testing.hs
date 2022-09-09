@@ -22,7 +22,7 @@ module Main     where
 
 
 import Test.Framework
-import {-@ HTF_TESTS @-} HQschema.HQtesselation_test
+import {-@ HTF_TESTS @-} HQschema.LoadTesselation_test
 import UniformBase
 
 main = do

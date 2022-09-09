@@ -24,7 +24,7 @@
 {-# HLINT ignore "Avoid lambda" #-}
 {-# HLINT ignore "Redundant $" #-}
 
-module HQschema.HQtesselation_test
+module HQschema.LoadTesselation_test
     where
 
 import           Test.Framework hiding (scale, (.&.))
@@ -49,7 +49,7 @@ import ExampleHQ.Store
 -- import Data.Functor.Identityc
 -- import HQgeneric.HQconstructionsEdges
 -- import HQgeneric.HQconstructionsFaces
-import HQgeneric.HQloadTesselation
+import HQgeneric.LoadTesselation
 import Uniform.SchemaFoundation  
 -- import Control.Monad.RWS (MonadWriter(tell))
 import ExampleData.Point2d
