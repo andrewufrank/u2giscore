@@ -22,8 +22,6 @@ module Main     where
 
 
 import Test.Framework
--- import {-@ HTF_TESTS @-} Uniform.NaiveTripleStore_test
--- import {-@ HTF_TESTS @-} Uniform.TripleRels_test
 import {-@ HTF_TESTS @-} HQschema.HQfaces_test
 import UniformBase
 

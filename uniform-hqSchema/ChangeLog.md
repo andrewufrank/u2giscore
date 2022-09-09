@@ -6,3 +6,7 @@ build the primal/dual tesselation schema
 break off from u2to to u2giscore
 ubase 0.1.4.2
 
+## 0.0.1.4 
+create generic schema stuff (moved to relations)
+needs a minimal schema for testing
+but the new country (countryside) schema is separated

@@ -26,15 +26,17 @@ module HQgeneric.HQconstructionsEdges
     where
 
 -- import           Test.Framework hiding (scale, (.&.))
-import UniformBase  
--- import HQschema.HQexampleShort
--- import HQschema.HQschemaShort
--- import Control.Exception
-import Country.Schema
-import Country.Store 
-import Uniform.GeometryFunctions
-import Uniform.Rels2
-import Data.List.Extra
+import UniformBase 
+import Uniform.SchemaFoundation
+
+-- -- import HQschema.HQexampleShort
+-- -- import HQschema.HQschemaShort
+-- -- import Control.Exception
+-- import Country.Schema
+-- import Country.Store 
+-- import Uniform.GeometryFunctions
+-- import Uniform.Rels2
+-- import Data.List.Extra
 import Numeric.Extra
 -- import Uniform.Drawings
 import Control.Monad.State  
