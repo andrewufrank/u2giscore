@@ -19,8 +19,8 @@
 {-# LANGUAGE DeriveGeneric    #-}
 {-# LANGUAGE TemplateHaskell    #-}
 
-module Uniform.SchemaFoundatation
-    ( module Uniform.SchemaFoundatation
+module Uniform.SchemaFoundation
+    ( module Uniform.SchemaFoundation
     , module Uniform.TripleStore
     , module Uniform.Rels2)
 

@@ -23,7 +23,7 @@ extra-source-files:
 library
   exposed-modules:
       Uniform.Rels2
-      Uniform.SchemaFoundatation
+      Uniform.SchemaFoundation
       Uniform.TripleStore
   other-modules:
       Paths_uniform_relations
