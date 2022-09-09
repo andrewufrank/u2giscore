@@ -1,0 +1,21 @@
+packages: 
+    *.cabal
+    ../../uBase/uniformBase
+    ../../uBase/uniform-algebras/*.cabal
+    ../../uBase/uniform-error/*.cabal
+--    ../uniform-fileio/*.cabal
+--    ../uniform-json/*.cabal
+    ../../uBase/uniform-strings/*.cabal
+--    ../uniform-time/*.cabal
+
+    ../uniform-geometry
+    ../uniform-relations
+    ../uniform-graphics
+
+--       ../../fromOthersExperiments/qhull/*.cabal
+--    ../../qhullSplit/qhull/*.cabal 
+
+-- Disregard all upper bounds when dependency solving
+
+-- allow-newer: toysolver:base 
+ 
