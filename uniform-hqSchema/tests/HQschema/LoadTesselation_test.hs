@@ -30,28 +30,12 @@ module HQschema.LoadTesselation_test
 import           Test.Framework hiding (scale, (.&.))
 
 import UniformBase  
--- -- import ExampleData.HQexampleShort
--- -- import HQgeneric.HQschemaShort
--- import HQgeneric.HQconstructions4graphics 
--- -- -- import Control.Exception
--- import Uniform.GeometryFunctions
--- -- import Uniform.Point2d ()
-import ExampleHQ.Schema
-import ExampleHQ.Store
--- import Uniform.TesselationHalfQuads
--- import Uniform.TripleStore (Stores(storeBatch))
--- import Uniform.Drawings
-  
--- -- import Uniform.TripleRels
--- -- import Data.List.Extra
--- -- import Uniform.Drawings
--- import Control.Monad.State  
--- import Data.Functor.Identityc
--- import HQgeneric.HQconstructionsEdges
--- import HQgeneric.HQconstructionsFaces
+ 
+-- import ExampleHQ.Schema
+import ExampleHQ.SchemaInstances
+ 
 import HQgeneric.LoadTesselation
 import Uniform.SchemaFoundation  
--- import Control.Monad.RWS (MonadWriter(tell))
 import ExampleData.Point2d
 
 test_41 = assertEqual res41 $ tess41short

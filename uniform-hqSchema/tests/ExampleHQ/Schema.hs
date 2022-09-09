@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 --
--- Module      :  The schema for the minimal country data set
+-- Module      :  The schema for the minimal test data (HQ)
 -- based on and uses the code for the HQ schema 
 -- for handling the geometry of tesselations 
 
@@ -41,25 +41,12 @@ module ExampleHQ.Schema
     (module ExampleHQ.Schema
     , module Uniform.SchemaFoundation
     , module Uniform.Point2d
-    --     module Country.Schema
-    -- , module Country.HQtypes
-    -- , module Country.Types
-    -- , module Uniform.TripleStore
-    -- , module Uniform.Rels2
-    ) where
+     ) where
 
--- import Uniform.TripleStore
--- import Uniform.Rels2
--- -- import Uniform.Point2d
+ 
 import UniformBase
 import Uniform.Point2d
 import Uniform.SchemaFoundation
--- import Control.Monad.State
--- import Country.HQtypes  -- data types defined for HQ 
--- import Country.Types  -- data types defined for HQ 
-
-
--- type IDtype = Int
 
 data ObjCountry = 
   -- objects
@@ -69,20 +56,15 @@ data ObjCountry =
     | HalfQuad IDtype             -- HQ is defined in TesselationHQ
 
     | PointTag Pnt2
-    -- | PersonTag Person 
-    -- | PlaceTag Place
   -- values 
     | LengthTag   LengthD  
     | AreaTag AreaD 
-    -- | CostTag Cost 
-    -- | NameTag Name
     | ZZpoint
     deriving (Show, Read, Ord, Eq, Generic)
 
 -- | the sum type for the relation names
 data MorphCountry = 
-    -- Stag S | Ttag T | 
-  -- relations
+ -- relations
       Twin 
     | HqNode  
     | HqFace 
@@ -92,22 +74,8 @@ data MorphCountry =
     | Incenter   -- where to place a label - incenter
     | Quant Int  -- the quantity with dimension n (0 count, 1 length, 2 area, 3 volume etc. )  
 
-    -- | CenterTag Center | SurfacedTag Surfaced   
-
-        -- | SCosttag SC 
-        -- | TCcosttag TC -- probably never used, cost of incoming edge?
-        -- | NamedTag
     | ZZm 
     deriving (Show, Read, Ord, Eq, Generic )
     
--- class MorphsHQ a where 
---     hqFace :: a 
---     hqNode :: a 
---     hqXY :: a 
-instance MorphsHQ MorphCountry where 
-    hqFace = HqFace 
-    hqNode = HqNode
-    hqXY = XY
-    hqTwin = Twin  
 
 

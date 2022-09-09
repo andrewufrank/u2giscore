@@ -27,31 +27,20 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module ExampleHQ.Store
-    -- (
-    --     module Country.Store
-    -- , module Country.Schema
-    -- -- , module Country.Types
-    -- -- , module Uniform.TripleStore
-    -- -- , module Uniform.Rels2
-    -- ) 
+module ExampleHQ.SchemaInstances
+    (
+        module ExampleHQ.SchemaInstances
+    , module ExampleHQ.Schema
+    , module Uniform.SchemaFoundation
+    ) 
     where
 
--- import Uniform.Point2d
--- import Uniform.TripleStore
--- import Uniform.Rels2
--- -- import Uniform.Point2d
+ 
 import UniformBase
 import ExampleHQ.Schema
 import Uniform.SchemaFoundation  
 
--- import Control.Monad.State
--- import Country.HQtypes  -- data types defined for HQ 
--- import Country.Schema  -- data types defined for HQ 
-
-
-
-    
+  
 instance Zeros ObjCountry where zero = ZZpoint
 
 instance NiceStrings ObjCountry
@@ -60,6 +49,13 @@ instance NiceStrings ObjCountry
 -- instance NiceStrings Pnv2 where 
 --     shownice = showT 
 
+instance MorphsHQ MorphCountry where 
+    hqFace = HqFace 
+    hqNode = HqNode
+    hqXY = XY
+    hqTwin = Twin  
+
+
 
 instance ObjectsHQ ObjCountry where 
     nodeObj = Node 
@@ -67,6 +63,9 @@ instance ObjectsHQ ObjCountry where
     faceObj = Face
     halfQuadObj = HalfQuad 
     pointTag = PointTag
+    lengthTag = LengthTag
+    areaTag = AreaTag 
+
     -- unHalfQuad :: ObjCountry -> IDtype
     unHalfQuad (HalfQuad i) = i
     unHalfQuad x = errorT ["unHalfQuad - not a HalfQuad", showT x]
@@ -110,23 +109,4 @@ unTagPoints2V = unName . unPointTag
 instance Zeros MorphCountry  where zero = ZZm
 instance NiceStrings MorphCountry
     -- where shownice = showT  
-
-
-data HQtriples obj rel = HQtriples 
-    { _NodesTrip :: [Tup3 obj rel]
-    , _FacesTrip :: [Tup3 obj rel]
-    , _HQtrips   :: [Tup3 obj rel]
-    }
-    deriving (Show, Read, Ord, Eq, Generic, Zeros)
-
--- reorganisationm o,p,o -> p, (o,o)
-
-reorg214 :: (a1, a2, b) -> (a2, (a1, b))
-reorg214 (a,b,c) = (b, (a,c))
-
--- type Tup3 obj rel = Tup3 obj rel -- (rel, (obj,  obj))
--- TODO 
--- type CountryElement = StoreElement MorphCountry ObjCountry 
-
--- type CatCountry = Store ObjCountry MorphCountry
--- type CatCountryState = State  (Store ObjCountry MorphCountry)  [StoreElement MorphCountry ObjCountry]
+ 
