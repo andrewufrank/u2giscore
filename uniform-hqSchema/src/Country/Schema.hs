@@ -105,7 +105,4 @@ instance MorphsHQ MorphCountry where
     hqNode = HqNode
     hqXY = XY 
 
-    
-
-
 

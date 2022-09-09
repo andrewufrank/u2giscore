@@ -47,9 +47,9 @@ import Data.Functor.Identity
 --   gives list of points, as [V2D] 
 -- coords2faces :: StateT CatStoreTessShort Identity [(ObjTessShort, [ObjTessShort])]
 -- coords2faces :: m [(k, [k])]
-coords2faces  :: (Eq obj,   Ord obj)  => State (Store obj MorphCountry)  [(obj, [obj])]
+coords2faces  :: forall rel obj . (MorphsHQ rel, Eq rel, Eq obj,   Ord obj)  => State (Store obj rel)  [(obj, [obj])]
 coords2faces = do 
-    f <- inv3 hqFace 
+    f <- inv3 (hqFace :: rel)
     n <- rel3 hqNode 
     xy <- rel3 hqXY 
     let fp3 =  (f .&. n .&. xy)  -- :: [(k, k)]
@@ -101,17 +101,20 @@ circumcenter2triple (i,vds) = case (circumCenter2faces vds) of
 --   (Store ObjCountry ghc-prim-0.7.0:GHC.Types.Any)
 --   Identity
 --   [(ObjCountry, Double)]
+area2facesM ::forall rel  . (MorphsHQ rel, Eq rel)  => State (Store ObjCountry rel)    [(ObjCountry, Double)]
 area2facesM  = fmap (map (second area2faces)) coords2faces 
 
 -- circum2facesM ::State  CatStoreTessShort   [ (ObjTessShort, Maybe V2D)]
+circum2facesM::forall rel  . (MorphsHQ rel, Eq rel)  => State (Store ObjCountry rel)     [(ObjCountry, Maybe V2D)]
 circum2facesM =  fmap (map (second (circumCenter2faces)))    coords2faces
 
 -- incenter2facesM :: State  CatStoreTessShort   [(ObjTessShort, Maybe V2D)]
+incenter2facesM :: forall rel  . (MorphsHQ rel, Eq rel)  => State (Store ObjCountry rel)    [(ObjCountry, Maybe V2D)]
 incenter2facesM = fmap (map (second ( (incenter2faces  )))) coords2faces
 
--- incenter2facesTriples :: State  CatStoreTessShort  [Maybe StoreTessShortElement]
+incenter2facesTriples  ::forall rel  . (MorphsHQ rel, Eq rel)  => State (Store ObjCountry rel)     [Maybe (MorphCountry, (ObjCountry, ObjCountry))]
 incenter2facesTriples = fmap (map  ( incenter2triple)) coords2faces 
--- incircumCenter2facesTriples :: State  CatStoreTessShort  [Maybe StoreTessShortElement]
+incircumCenter2facesTriples ::forall rel  . (MorphsHQ rel, Eq rel)  => State (Store ObjCountry rel)    [Maybe (Tup3 ObjCountry MorphCountry)]
 incircumCenter2facesTriples = fmap (map  ( circumcenter2triple)) coords2faces 
 
 

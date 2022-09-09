@@ -30,9 +30,9 @@ module HQschema.HQfaces_test
 import           Test.Framework hiding (scale, (.&.))
 
 import UniformBase  
-import ExampleData.HQexampleShort
-import HQschema.HQschemaShort
-import HQschema.HQconstructions4graphics 
+-- import ExampleData.HQexampleShort
+-- import HQgeneric.HQschemaShort
+import HQgeneric.HQconstructions4graphics 
 -- -- import Control.Exception
 import Uniform.GeometryFunctions
 -- import Uniform.Point2d ()
@@ -46,9 +46,9 @@ import Uniform.Drawings
 -- import Uniform.Drawings
 import Control.Monad.State  
 import Data.Functor.Identity
-import HQschema.HQconstructionsEdges
-import HQschema.HQconstructionsFaces
-import HQschema.HQschemaTop
+import HQgeneric.HQconstructionsEdges
+import HQgeneric.HQconstructionsFaces
+import HQgeneric.HQschemaTop
 import Control.Monad.RWS (MonadWriter(tell))
  
 tess41short = makeCatFrom 400 fourPnt2d 
