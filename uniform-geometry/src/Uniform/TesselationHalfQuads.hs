@@ -105,6 +105,7 @@ hqnodes1 tess11 =  zipWith3 (\id' hp  i -> NodeHQ id' (Pnt2d i (V2 (hp ^. xCoord
         vdat11 = map (\e -> snd e  ^. vData) . vertices11
         vertices11 tess11 = Vec.toList . vertices . toPlaneGraph $ tess11
 
+hqfaces2 :: Triangulation v r -> [FaceHQ]
 hqfaces2 tess12 = map FaceHQ (faces1x tess12) -- [0 .. (nf - 1)] 
 -- todo will need circumcenter and incenter
 --  done after the relations are stored 

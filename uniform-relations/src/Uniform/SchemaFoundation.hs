@@ -48,11 +48,11 @@ class MorphsHQ a where
 
 -- | the object types for HQ construction
 class ObjectsHQ a where 
-    nodeObj :: a 
-    edgeObj :: a
-    faceObj :: a 
-    halfQuadObj :: a 
-    pointObj :: a
+    nodeObj :: IDtype -> a 
+    edgeObj :: IDtype -> a
+    faceObj :: IDtype -> a 
+    halfQuadObj :: IDtype -> a 
+    -- pointObj :: a
     unHalfQuad :: a -> IDtype
     unFace :: a -> IDtype 
     unPointTag :: a -> Pnt2 
