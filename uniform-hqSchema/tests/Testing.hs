@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 --
--- Module      :   top tests for layout
+-- Module      :   top tests for hqload
 -----------------------------------------------------------------------------
 {-# OPTIONS_GHC -F -pgmF htfpp #-}
 
@@ -22,11 +22,11 @@ module Main     where
 
 
 import Test.Framework
-import {-@ HTF_TESTS @-} HQschema.HQfaces_test
+import {-@ HTF_TESTS @-} HQschema.HQtesselation_test
 import UniformBase
 
 main = do
-    putIOwords ["HTF Testing uniform-relations test"]
+    putIOwords ["HTF Testing HQload test"]
     r <- htfMainWithArgs ["--quiet"] htf_importedTests
     putIOwords ["HTF end \n", showT r]
     

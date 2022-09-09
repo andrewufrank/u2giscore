@@ -24,36 +24,36 @@
 {-# HLINT ignore "Use map once" #-}
 {-# HLINT ignore "Redundant $" #-}
 
-module HQgeneric.FourteenPoints
+module FourteenPoints
     where
 
 import           Test.Framework hiding (scale, (.&.))
 
 import UniformBase  
--- import HQschema.HQexampleShort
--- import HQschema.HQschemaShort
--- import HQschema.HQfaces_test
--- import HQschema.HQconstructions4graphics 
--- -- import Control.Exception
-import Uniform.GeometryFunctions
-import Uniform.Point2d ()
-import ExampleData.Point2d
-import Uniform.TesselationHalfQuads
-import Uniform.TripleStore  
-import Uniform.Drawings
-  
--- import Uniform.TripleRels
--- import Data.List.Extra
+-- -- import HQschema.HQexampleShort
+-- -- import HQschema.HQschemaShort
+-- -- import HQschema.HQfaces_test
+-- -- import HQschema.HQconstructions4graphics 
+-- -- -- import Control.Exception
+-- import Uniform.GeometryFunctions
+-- import Uniform.Point2d ()
+-- import ExampleData.Point2d
+-- import Uniform.TesselationHalfQuads
+-- import Uniform.TripleStore  
 -- import Uniform.Drawings
-import Control.Monad.State  
-import Data.Functor.Identity
--- import HQschema.HQconstructionsEdges
-import HQgeneric.HQconstructionsFaces
-import HQgeneric.HQconstructions4graphics
-import HQgeneric.HQschemaTop
-import Country.Schema
-import Country.Store 
-import Control.Monad.RWS (MonadWriter(tell))
+  
+-- -- import Uniform.TripleRels
+-- -- import Data.List.Extra
+-- -- import Uniform.Drawings
+-- import Control.Monad.State  
+-- import Data.Functor.Identity
+-- -- import HQschema.HQconstructionsEdges
+-- import HQgeneric.HQconstructionsFaces
+-- import HQgeneric.HQconstructions4graphics
+import HQgeneric.HQloadTesselation
+-- import Country.Schema
+-- import Country.Store 
+-- import Control.Monad.RWS (MonadWriter(tell))
 
 -- tess14 = delaunay2 fourteenPnt2d 
 -- -- extract the data into the half quad structure from the hgeometry processing

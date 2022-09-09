@@ -35,8 +35,8 @@ import Uniform.Point2d
 
 type IDtype = Int 
 
-data ObjCountry = O | P 
-data MorphCountry = A | B 
+-- data ObjCountry = O | P 
+-- data MorphCountry = A | B 
 
 class MorphsHQ a where 
     hqFace :: a 

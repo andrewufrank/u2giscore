@@ -28,10 +28,10 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module HQgeneric.HQschemaTop 
-    (module HQgeneric.HQschemaTop
-    , module Uniform.TripleStore
-    , module  Uniform.TesselationHalfQuads
+module HQgeneric.HQloadTesselation
+    (module HQgeneric.HQloadTesselation
+    -- , module Uniform.TripleStore
+    -- , module  Uniform.TesselationHalfQuads
     -- , StoreTessShortElement (..)
     -- , CatStoreTessShort (..)
     -- , CatStoreState

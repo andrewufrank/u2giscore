@@ -21,13 +21,13 @@
 
 
 
-module HQgeneric.FivePoints where
+module FivePoints where
 
 import UniformBase
 import Uniform.GeometryFunctions
 import ExampleData.Point2d
-import HQgeneric.HQschemaTop
-import Country.Store
+import HQgeneric.HQloadTesselation
+-- import Country.Store
 
 mainMake5points :: ErrIO () 
 mainMake5points = do 

@@ -47,7 +47,7 @@ executables:
     # - uniform-geometry
 
 tests:
-  test:
+  testhq:
     main:                Testing.hs
     source-dirs:         tests
     dependencies:

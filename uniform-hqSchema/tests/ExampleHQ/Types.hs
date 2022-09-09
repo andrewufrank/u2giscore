@@ -37,7 +37,7 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module Country.Types
+module ExampleHQ.Types
     -- (module Country.CountrySchema
     -- , module Uniform.TripleStore
     -- , module Uniform.Rels2

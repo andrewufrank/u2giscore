@@ -37,25 +37,29 @@
 -- {-# OPTIONS_GHC  -fno-warn-warnings-deprecations #-}
 
 
-module Country.Schema
-    (module Country.Schema
-    , module Country.HQtypes
-    , module Country.Types
-    , module Uniform.TripleStore
-    , module Uniform.Rels2
+module ExampleHQ.Schema
+    (module ExampleHQ.Schema
+    , module Uniform.SchemaFoundation
+    , module Uniform.Point2d
+    --     module Country.Schema
+    -- , module Country.HQtypes
+    -- , module Country.Types
+    -- , module Uniform.TripleStore
+    -- , module Uniform.Rels2
     ) where
 
-import Uniform.Point2d
-import Uniform.TripleStore
-import Uniform.Rels2
--- import Uniform.Point2d
+-- import Uniform.TripleStore
+-- import Uniform.Rels2
+-- -- import Uniform.Point2d
 import UniformBase
-import Control.Monad.State
-import Country.HQtypes  -- data types defined for HQ 
-import Country.Types  -- data types defined for HQ 
+import Uniform.Point2d
+import Uniform.SchemaFoundation
+-- import Control.Monad.State
+-- import Country.HQtypes  -- data types defined for HQ 
+-- import Country.Types  -- data types defined for HQ 
 
 
-type IDtype = Int
+-- type IDtype = Int
 
 data ObjCountry = 
   -- objects
@@ -65,8 +69,8 @@ data ObjCountry =
     | HalfQuad IDtype             -- HQ is defined in TesselationHQ
 
     | PointTag Pnt2
-    | PersonTag Person 
-    | PlaceTag Place
+    -- | PersonTag Person 
+    -- | PlaceTag Place
   -- values 
     | LengthTag   LengthD  
     | AreaTag AreaD 
@@ -96,13 +100,14 @@ data MorphCountry =
     | ZZm 
     deriving (Show, Read, Ord, Eq, Generic )
     
-class MorphsHQ a where 
-    hqFace :: a 
-    hqNode :: a 
-    hqXY :: a 
+-- class MorphsHQ a where 
+--     hqFace :: a 
+--     hqNode :: a 
+--     hqXY :: a 
 instance MorphsHQ MorphCountry where 
     hqFace = HqFace 
     hqNode = HqNode
-    hqXY = XY 
+    hqXY = XY
+    hqTwin = Twin  
 
 
