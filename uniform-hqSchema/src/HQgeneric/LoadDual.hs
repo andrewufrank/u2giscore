@@ -52,13 +52,13 @@ import Uniform.SchemaFoundation
 import Uniform.GeometryFunctions
 -- import Uniform.TripleStore
 -- import HQgeneric.HQconstructions4graphics 
--- import HQgeneric.HQconstructionsFaces
+import HQgeneric.ConstructionsFaces
 --     ( coords2faces,
 --       area2triples,
 --       incenter2triple,
 --       circumcenter2triple,
 --       evalTrans4query2cat )
--- import HQgeneric.HQconstructionsEdges
+import HQgeneric.ConstructionsEdges
 
 
 
@@ -69,7 +69,7 @@ forFaces2 = [area2triples]
 -- theCats = [tess41short, tess51short]
 -- additinsPoints :: CatStoreTessShort -> [StoreTessShortElement]
 
-additinsPoints :: Store ObjCountry MorphCountry -> [(MorphCountry, (ObjCountry, ObjCountry))]
+additinsPoints :: Store obj rel -> [(rel, (obj, obj))]
 additinsPoints cat =  concat [evalTrans4query2cat trans points12 cat | trans <-[lengthHQtriple, midpointHQtriple]  ] -- trans query cat
 -- additinsAreas :: (MorphsHQ rel, Eq rel) => Store obj rel -> [(rel, (obj, obj))]
 
@@ -77,5 +77,5 @@ additinsAreas cat  =  concat [evalTrans4query2cat trans coords2faces cat | trans
 
 additinsCenters cat =  catMaybes . concat   $ [evalTrans4query2cat trans coords2faces cat | trans <-[circumcenter2triple, incenter2triple]  ] -- trans query cat
 
-allAddins :: Store ObjCountry MorphCountry -> [(MorphCountry, (ObjCountry, ObjCountry))]
+allAddins :: Store obj rel -> [(rel, (obj, obj))]
 allAddins cat = concat [additinsPoints cat, additinsAreas cat, additinsCenters cat]

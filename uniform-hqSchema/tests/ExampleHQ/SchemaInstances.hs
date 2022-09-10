@@ -86,8 +86,7 @@ instance ObjectsHQ ObjCountry where
     unLengthTag (LengthTag t) = t 
     unLengthTag x = errorT ["unLengthTag - not a Length", showT x]
 
-unTagPoints2V:: (ObjectsHQ obj) => obj -> V2 Double 
-unTagPoints2V = unName . unPointTag
+
 
 -- p2dToV2 :: Point2d -> V2d 
 -- p2dToV2 (Point2d x y) = V2 x y 

@@ -64,10 +64,10 @@ midpoint (p1,p2) = (/2) . (uncurry (+)) . (cross . dup $ (unName . unPointTag)) 
 
 
 -- -- lengthHQtriple :: (a, (obj, obj)) -> (a, rel, obj)
--- lengthHQtriple inp@(a,(p1,p2)) = reorg214  (a, quant 1, lengthTag . Length $ (dist2pts (p1,p2))/2 )
+lengthHQtriple inp@(a,(p1,p2)) = reorg214  (a, hqQuant 1, lengthTag . Length $ (dist2pts (p1,p2))/2 )
 
 -- -- midpointHQtriple :: (ObjTessShort, (ObjTessShort, ObjTessShort)) -> StoreTessShortElement
--- midpointHQtriple (a,(p1,p2)) = reorg214 (a, hqXY, pointTag . putName (unHalfQuad a) $ (midpoint (p1,p2)) )
+midpointHQtriple (a,(p1,p2)) = reorg214 (a, hqXY, pointTag . putName (unHalfQuad a) $ (midpoint (p1,p2)) )
 
 
 -- -- step 3 build the specific function into state monad   xxx M 

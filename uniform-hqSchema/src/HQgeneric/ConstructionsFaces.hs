@@ -28,7 +28,7 @@ module HQgeneric.ConstructionsFaces
 import           Test.Framework hiding (scale, (.&.))
 import UniformBase 
 import Uniform.SchemaFoundation
-import ExampleHQ.SchemaInstances
+-- import ExampleHQ.SchemaInstances
 
 -- import Uniform.TripleStore
 -- import Country.Schema
@@ -59,6 +59,8 @@ coords2faces = do
     return $ groupSort  fp3  
     -- return $ map onef . groupSort $ fp3 
 
+unTagPoints2V:: (ObjectsHQ obj) => obj -> V2 Double 
+unTagPoints2V = unName . unPointTag
 
 -- area2faces :: [ObjTessShort] -> Double
 area2faces vs = areaPoly . map unTagPoints2V $ vs 
