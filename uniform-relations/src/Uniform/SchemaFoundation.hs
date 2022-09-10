@@ -56,7 +56,9 @@ class ObjectsHQ a where
     unHalfQuad :: a -> IDtype
     unFace :: a -> IDtype 
     unPointTag :: a -> Pnt2 
+    -- pointTag :: NamedPoint2 p => p -> a 
     pointTag :: Pnt2 -> a 
+    -- pointName :: NamedPoint2 p => Int -> p -> a 
     unLengthTag :: a -> LengthD
     lengthTag :: LengthD -> a 
     areaTag :: AreaD -> a

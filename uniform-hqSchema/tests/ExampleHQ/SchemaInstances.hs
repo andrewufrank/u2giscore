@@ -63,6 +63,7 @@ instance ObjectsHQ ObjCountry where
     faceObj = Face
     halfQuadObj = HalfQuad 
     pointTag = PointTag
+    -- pointName i p = PointTag $ putName i p
     lengthTag = LengthTag
     areaTag = AreaTag 
 
@@ -85,7 +86,7 @@ instance ObjectsHQ ObjCountry where
     unLengthTag (LengthTag t) = t 
     unLengthTag x = errorT ["unLengthTag - not a Length", showT x]
 
-unTagPoints2V:: ObjCountry -> V2 Double 
+unTagPoints2V:: (ObjectsHQ obj) => obj -> V2 Double 
 unTagPoints2V = unName . unPointTag
 
 -- p2dToV2 :: Point2d -> V2d 

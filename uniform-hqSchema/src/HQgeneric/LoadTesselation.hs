@@ -50,7 +50,7 @@ import Uniform.SchemaFoundation
 -- -- import HQschema.HQschemaShort
 import Uniform.TesselationHalfQuads
 import Uniform.GeometryFunctions
-import Uniform.TripleStore
+-- import Uniform.TripleStore
 -- import HQgeneric.HQconstructions4graphics 
 -- import HQgeneric.HQconstructionsFaces
 --     ( coords2faces,

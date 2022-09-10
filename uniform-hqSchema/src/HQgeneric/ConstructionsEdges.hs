@@ -22,7 +22,7 @@
 {-# OPTIONS_GHC -fno-warn-missing-methods #-}
 {-# OPTIONS_GHC -w #-}
 
-module HQgeneric.HQconstructionsEdges
+module HQgeneric.ConstructionsEdges
     where
 
 -- import           Test.Framework hiding (scale, (.&.))
