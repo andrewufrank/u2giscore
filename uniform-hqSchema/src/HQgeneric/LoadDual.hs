@@ -62,14 +62,14 @@ import HQgeneric.ConstructionsEdges
 
 
 
-forEdges2points = [lengthHQtriple, midpointHQtriple]  
-forFaces = [circumcenter2triple, incenter2triple]
-forFaces2 = [area2triples]
+-- forEdges2points = [lengthHQtriple, midpointHQtriple]  
+-- forFaces = [circumcenter2triple, incenter2triple]
+-- forFaces2 = [area2triples]
 -- forqueries = [points12]
 -- theCats = [tess41short, tess51short]
 -- additinsPoints :: CatStoreTessShort -> [StoreTessShortElement]
 
-additinsPoints :: Store obj rel -> [(rel, (obj, obj))]
+additinsPoints :: forall rel obj . (ObjectsHQ obj, MorphsHQ rel, Ord rel, Ord obj,   Ord obj)  => Store obj rel -> [(rel, (obj, obj))]
 additinsPoints cat =  concat [evalTrans4query2cat trans points12 cat | trans <-[lengthHQtriple, midpointHQtriple]  ] -- trans query cat
 -- additinsAreas :: (MorphsHQ rel, Eq rel) => Store obj rel -> [(rel, (obj, obj))]
 
@@ -77,5 +77,8 @@ additinsAreas cat  =  concat [evalTrans4query2cat trans coords2faces cat | trans
 
 additinsCenters cat =  catMaybes . concat   $ [evalTrans4query2cat trans coords2faces cat | trans <-[circumcenter2triple, incenter2triple]  ] -- trans query cat
 
-allAddins :: Store obj rel -> [(rel, (obj, obj))]
+allAddins :: forall rel obj . (ObjectsHQ obj, MorphsHQ rel, Ord rel, Ord obj,   Ord obj)  => Store obj rel -> [(rel, (obj, obj))]
 allAddins cat = concat [additinsPoints cat, additinsAreas cat, additinsCenters cat]
+
+addDual   cat = storeBatch (map wrapIns (allAddins cat) ) cat
+-- braucht das kein offset?

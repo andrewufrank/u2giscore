@@ -54,6 +54,8 @@ instance MorphsHQ MorphCountry where
     hqNode = HqNode
     hqXY = XY
     hqTwin = Twin  
+    hqQuant = Quant
+    hqIncenter = Incenter
 
 
 

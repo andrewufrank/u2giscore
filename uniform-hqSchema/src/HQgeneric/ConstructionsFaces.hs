@@ -66,6 +66,7 @@ unTagPoints2V = unName . unPointTag
 area2faces vs = areaPoly . map unTagPoints2V $ vs 
 
 -- area2triples ::(ObjTessShort, [ObjTessShort]) -> StoreTessShortElement
+area2triples :: (MorphsHQ a2, ObjectsHQ b, ObjectsHQ obj) => (a1, [obj]) -> (a2, (a1, b))
 area2triples (a,vds) = reorg214 (a, hqQuant 2, areaTag . Area . area2faces $ vds )
  
 -- incenter2faces :: [obj] -> Maybe V2D
